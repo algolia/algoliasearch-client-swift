@@ -8,9 +8,10 @@ import Foundation
 
 public struct SourceCreate: Codable, JSONEncodable {
     public var type: SourceType
+    /// Descriptive name of the source.
     public var name: String
     public var input: SourceInput
-    /// The authentication UUID.
+    /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String?
 
     public init(type: SourceType, name: String, input: SourceInput, authenticationID: String? = nil) {

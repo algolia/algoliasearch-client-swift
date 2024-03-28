@@ -6,10 +6,12 @@ import Foundation
     import Core
 #endif
 
+/// Credentials for authenticating with Algolia.
 public struct AuthAlgolia: Codable, JSONEncodable {
-    /// Algolia Application ID.
+    /// Algolia application ID.
     public var appID: String
-    /// Algolia API Key, with the correct rights to push to an index and change settings.
+    /// Algolia API key with the ACL: `addObject`, `deleteObject`, `settings`, `editSettings`, `listIndexes`,
+    /// `deleteIndex`. This field is `null` in the API response.
     public var apiKey: String
 
     public init(appID: String, apiKey: String) {

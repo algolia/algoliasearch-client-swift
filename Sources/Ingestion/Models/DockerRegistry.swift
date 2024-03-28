@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// The registry where the image is stored.
+/// Container registry name from where to pull the image.
 public enum DockerRegistry: String, Codable, CaseIterable {
     case dockerhub
     case ghcr

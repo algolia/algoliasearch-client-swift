@@ -6,10 +6,10 @@ import Foundation
     import Core
 #endif
 
-/// The payload when creating an authentication.
+/// Request body for creating a new authentication resource.
 public struct AuthenticationCreate: Codable, JSONEncodable {
     public var type: AuthenticationType
-    /// An human readable name describing the object.
+    /// Descriptive name for the resource.
     public var name: String
     public var platform: Platform?
     public var input: AuthInput

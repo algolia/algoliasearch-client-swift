@@ -6,11 +6,11 @@ import Foundation
     import Core
 #endif
 
-/// The response from the API after a task update.
+/// API response for updating a task.
 public struct TaskUpdateResponse: Codable, JSONEncodable {
-    /// The task UUID.
+    /// Universally unique identifier (UUID) of a task.
     public var taskID: String
-    /// Date of last update (RFC3339 format).
+    /// Date of last update in RFC3339 format.
     public var updatedAt: String
 
     public init(taskID: String, updatedAt: String) {

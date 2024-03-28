@@ -6,10 +6,15 @@ import Foundation
     import Core
 #endif
 
+/// Paginated API response.
 public struct Pagination: Codable, JSONEncodable {
+    /// Number of pages in the API response.
     public var nbPages: Int
+    /// Page of the API response to retrieve.
     public var page: Int
+    /// Number of items in the API response.
     public var nbItems: Int
+    /// Number of items per page.
     public var itemsPerPage: Int
 
     public init(nbPages: Int, page: Int, nbItems: Int, itemsPerPage: Int) {

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// The action to perform on the Algolia index.
+/// Action to perform on the Algolia index.
 public enum ActionType: String, Codable, CaseIterable {
     case replace
     case save

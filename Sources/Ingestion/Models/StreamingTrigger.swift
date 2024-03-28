@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// The trigger input for a task of type &#39;streaming&#39;.
+/// Trigger input for continuously running tasks.
 public struct StreamingTrigger: Codable, JSONEncodable {
     public var type: StreamingTriggerType
 

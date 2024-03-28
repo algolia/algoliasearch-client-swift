@@ -7,16 +7,16 @@ import Foundation
 #endif
 
 public struct IngestionSource: Codable, JSONEncodable {
-    /// The source UUID.
+    /// Universally uniqud identifier (UUID) of a source.
     public var sourceID: String
     public var type: SourceType
     public var name: String
     public var input: SourceInput
-    /// The authentication UUID.
+    /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String?
-    /// Date of creation (RFC3339 format).
+    /// Date of creation in RFC3339 format.
     public var createdAt: String
-    /// Date of last update (RFC3339 format).
+    /// Date of last update in RFC3339 format.
     public var updatedAt: String?
 
     public init(

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// A task that runs continuously.
+/// Task runs continuously.
 public enum StreamingTriggerType: String, Codable, CaseIterable {
     case streaming
 }

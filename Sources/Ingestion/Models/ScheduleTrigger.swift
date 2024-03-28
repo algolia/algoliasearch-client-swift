@@ -6,14 +6,14 @@ import Foundation
     import Core
 #endif
 
-/// The trigger information for a task of type &#39;schedule&#39;.
+/// Trigger information for scheduled tasks.
 public struct ScheduleTrigger: Codable, JSONEncodable {
     public var type: ScheduleTriggerType
-    /// A cron expression that represent at which regularity the task should run.
+    /// Cron expression for the task's schedule.
     public var cron: String
-    /// The last time the scheduled task ran (RFC3339 format).
+    /// The last time the scheduled task ran in RFC3339 format.
     public var lastRun: String?
-    /// The next scheduled run of the task (RFC3339 format).
+    /// The next scheduled run of the task in RFC3339 format.
     public var nextRun: String
 
     public init(type: ScheduleTriggerType, cron: String, lastRun: String? = nil, nextRun: String) {

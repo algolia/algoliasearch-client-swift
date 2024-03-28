@@ -6,17 +6,17 @@ import Foundation
     import Core
 #endif
 
-/// The payload for a task creation.
+/// API request body for creating a task.
 public struct TaskCreate: Codable, JSONEncodable {
-    /// The source UUID.
+    /// Universally uniqud identifier (UUID) of a source.
     public var sourceID: String
-    /// The destination UUID.
+    /// Universally unique identifier (UUID) of a destination resource.
     public var destinationID: String
     public var trigger: TaskCreateTrigger
     public var action: ActionType
-    /// Whether the task is enabled or not.
+    /// Whether the task is enabled.
     public var enabled: Bool?
-    /// A percentage representing the accepted failure threshold to determine if a `run` succeeded or not.
+    /// Maximum accepted percentage of failures for a task run to finish successfully.
     public var failureThreshold: Int?
     public var input: TaskInput?
 

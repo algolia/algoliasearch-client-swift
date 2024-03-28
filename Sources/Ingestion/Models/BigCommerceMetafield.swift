@@ -7,9 +7,9 @@ import Foundation
 #endif
 
 public struct BigCommerceMetafield: Codable, JSONEncodable {
-    /// The namespace of the metafield.
+    /// Namespace of the metafield.
     public var namespace: String
-    /// The key identifier of the metafield.
+    /// Key identifier of the metafield.
     public var key: String
 
     public init(namespace: String, key: String) {

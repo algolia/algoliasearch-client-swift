@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Used to sort the Task list endpoint.
+/// Property by which to sort the list of tasks.
 public enum TaskSortKeys: String, Codable, CaseIterable {
     case enabled
     case triggerType

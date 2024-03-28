@@ -6,6 +6,7 @@ import Foundation
     import Core
 #endif
 
+/// Trigger that runs the task.
 public enum Trigger: Codable, JSONEncodable, AbstractEncodable {
     case onDemandTrigger(OnDemandTrigger)
     case scheduleTrigger(ScheduleTrigger)

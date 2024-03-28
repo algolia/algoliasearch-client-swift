@@ -7,25 +7,25 @@ import Foundation
 #endif
 
 public struct Run: Codable, JSONEncodable {
-    /// The run UUID.
+    /// Universally unique identifier (UUID) of a task run.
     public var runID: String
     public var appID: String
-    /// The task UUID.
+    /// Universally unique identifier (UUID) of a task.
     public var taskID: String
     public var status: RunStatus
     public var progress: RunProgress?
     public var outcome: RunOutcome?
-    /// A percentage representing the accepted failure threshold to determine if a `run` succeeded or not.
+    /// Maximum accepted percentage of failures for a task run to finish successfully.
     public var failureThreshold: Int?
-    /// Explains the result of outcome.
+    /// More information about the task run's outcome.
     public var reason: String?
     public var reasonCode: RunReasonCode?
     public var type: RunType
-    /// Date of creation (RFC3339 format).
+    /// Date of creation in RFC3339 format.
     public var createdAt: String
-    /// Date of start (RFC3339 format).
+    /// Date of start in RFC3339 format.
     public var startedAt: String?
-    /// Date of finish (RFC3339 format).
+    /// Date of finish in RFC3339 format.
     public var finishedAt: String?
 
     public init(

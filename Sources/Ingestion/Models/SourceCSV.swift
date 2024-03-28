@@ -7,11 +7,11 @@ import Foundation
 #endif
 
 public struct SourceCSV: Codable, JSONEncodable {
-    /// The URL of the file.
+    /// URL of the file.
     public var url: String
-    /// The name of the column that contains the unique ID, used as `objectID` in Algolia.
+    /// Name of a column that contains a unique ID which will be used as `objectID` in Algolia.
     public var uniqueIDColumn: String?
-    /// Mapping of type for every column. For example {\"myColumn\": \"boolean\", \"myOtherColumn\": \"json\"}.
+    /// Key-value pairs of column names and their expected types.
     public var mapping: [String: MappingTypeCSV]?
     public var method: MethodType?
     /// The character used to split the value on each line, default to a comma (\\r, \\n, 0xFFFD, and space are

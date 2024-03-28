@@ -8,10 +8,12 @@ import Foundation
 
 public enum SourceType: String, Codable, CaseIterable {
     case bigcommerce
-    case commercetools
-    case json
-    case csv
     case bigquery
+    case commercetools
+    case csv
     case docker
     case ga4BigqueryExport
+    case json
+    case shopify
+    case sfcc
 }

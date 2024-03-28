@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Used to sort the Source list endpoint.
+/// Property by which to sort the list of sources.
 public enum SourceSortKeys: String, Codable, CaseIterable {
     case name
     case type

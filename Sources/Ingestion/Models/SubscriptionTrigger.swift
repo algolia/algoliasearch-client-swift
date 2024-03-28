@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// The trigger input for a task of type &#39;subscription&#39;.
+/// Trigger input for subscription tasks.
 public struct SubscriptionTrigger: Codable, JSONEncodable {
     public var type: SubscriptionTriggerType
 

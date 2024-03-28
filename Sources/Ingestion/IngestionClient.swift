@@ -46,7 +46,7 @@ open class IngestionClient {
         return body
     }
 
-    // Create a authentication.
+    // Creates a new authentication resource.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
@@ -94,7 +94,7 @@ open class IngestionClient {
         return body
     }
 
-    // Create a destination.
+    // Creates a new destination.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
@@ -142,7 +142,7 @@ open class IngestionClient {
         return body
     }
 
-    // Create a source.
+    // Creates a new source.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
@@ -171,7 +171,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter taskCreate: (body)
+    /// - parameter taskCreate: (body) Request body for creating a task.
     /// - returns: TaskCreateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func createTask(
@@ -190,10 +190,10 @@ open class IngestionClient {
         return body
     }
 
-    // Create a task.
+    // Creates a new task.
     //
     //
-    // - parameter taskCreate: (body)
+    // - parameter taskCreate: (body) Request body for creating a task.
     // - returns: RequestBuilder<TaskCreateResponse>
 
     open func createTaskWithHTTPInfo(
@@ -476,7 +476,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter authenticationID: (path) The authentication UUID.
+    /// - parameter authenticationID: (path) Unique identifier of an authentication resource.
     /// - returns: DeleteResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteAuthentication(
@@ -495,13 +495,14 @@ open class IngestionClient {
         return body
     }
 
-    // Soft delete the authentication of the given authenticationID.
+    // Deletes an authentication resource. You can't delete authentication resources that are used by a source or a
+    // destination.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter authenticationID: (path) The authentication UUID.
+    // - parameter authenticationID: (path) Unique identifier of an authentication resource.
     // - returns: RequestBuilder<DeleteResponse>
 
     open func deleteAuthenticationWithHTTPInfo(
@@ -537,7 +538,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter destinationID: (path) The destination UUID.
+    /// - parameter destinationID: (path) Unique identifier of a destination.
     /// - returns: DeleteResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteDestination(
@@ -556,13 +557,13 @@ open class IngestionClient {
         return body
     }
 
-    // Soft delete the destination of the given destinationID.
+    // Deletes a destination by its ID. You can't delete destinations that are referenced in tasks.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter destinationID: (path) The destination UUID.
+    // - parameter destinationID: (path) Unique identifier of a destination.
     // - returns: RequestBuilder<DeleteResponse>
 
     open func deleteDestinationWithHTTPInfo(
@@ -598,7 +599,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter sourceID: (path) The source UUID.
+    /// - parameter sourceID: (path) Unique identifier of a source.
     /// - returns: DeleteResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteSource(sourceID: String, requestOptions: RequestOptions? = nil) async throws -> DeleteResponse {
@@ -614,13 +615,13 @@ open class IngestionClient {
         return body
     }
 
-    // Soft delete the source of the given sourceID.
+    // Deletes a source by its ID. You can't delete sources that are referenced in tasks.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter sourceID: (path) The source UUID.
+    // - parameter sourceID: (path) Unique identifier of a source.
     // - returns: RequestBuilder<DeleteResponse>
 
     open func deleteSourceWithHTTPInfo(
@@ -656,7 +657,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter taskID: (path) The task UUID.
+    /// - parameter taskID: (path) Unique identifier of a task.
     /// - returns: DeleteResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteTask(taskID: String, requestOptions: RequestOptions? = nil) async throws -> DeleteResponse {
@@ -672,10 +673,10 @@ open class IngestionClient {
         return body
     }
 
-    // Soft delete the task of the given taskID.
+    // Deletes a task by its ID.
     //
     //
-    // - parameter taskID: (path) The task UUID.
+    // - parameter taskID: (path) Unique identifier of a task.
     // - returns: RequestBuilder<DeleteResponse>
 
     open func deleteTaskWithHTTPInfo(
@@ -711,7 +712,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter taskID: (path) The task UUID.
+    /// - parameter taskID: (path) Unique identifier of a task.
     /// - returns: TaskUpdateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func disableTask(taskID: String, requestOptions: RequestOptions? = nil) async throws -> TaskUpdateResponse {
@@ -727,13 +728,13 @@ open class IngestionClient {
         return body
     }
 
-    // Disable the task of the given taskID.
+    // Disables a task.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter taskID: (path) The task UUID.
+    // - parameter taskID: (path) Unique identifier of a task.
     // - returns: RequestBuilder<TaskUpdateResponse>
 
     open func disableTaskWithHTTPInfo(
@@ -769,7 +770,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter taskID: (path) The task UUID.
+    /// - parameter taskID: (path) Unique identifier of a task.
     /// - returns: TaskUpdateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func enableTask(taskID: String, requestOptions: RequestOptions? = nil) async throws -> TaskUpdateResponse {
@@ -785,13 +786,13 @@ open class IngestionClient {
         return body
     }
 
-    // Enable the task of the given taskID.
+    // Enables a task.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter taskID: (path) The task UUID.
+    // - parameter taskID: (path) Unique identifier of a task.
     // - returns: RequestBuilder<TaskUpdateResponse>
 
     open func enableTaskWithHTTPInfo(
@@ -827,7 +828,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter authenticationID: (path) The authentication UUID.
+    /// - parameter authenticationID: (path) Unique identifier of an authentication resource.
     /// - returns: Authentication
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getAuthentication(
@@ -846,13 +847,13 @@ open class IngestionClient {
         return body
     }
 
-    // Get the authentication of the given authenticationID.
+    // Retrieves an authentication resource by its ID.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter authenticationID: (path) The authentication UUID.
+    // - parameter authenticationID: (path) Unique identifier of an authentication resource.
     // - returns: RequestBuilder<Authentication>
 
     open func getAuthenticationWithHTTPInfo(
@@ -888,12 +889,12 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter itemsPerPage: (query) The number of items per page to return. (optional)
-    /// - parameter page: (query) The page number to fetch, starting at 1. (optional)
-    /// - parameter type: (query) The type of the authentications to retrieve. (optional)
-    /// - parameter platform: (query) The platform of the authentications to retrieve. (optional)
-    /// - parameter sort: (query) The key by which the list should be sorted. (optional)
-    /// - parameter order: (query) The order of the returned list. (optional)
+    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    /// - parameter page: (query) Page number of the paginated API response. (optional)
+    /// - parameter type: (query) Type of authentication resource to retrieve. (optional)
+    /// - parameter platform: (query) Ecommerce platform for which to retrieve authentication resources. (optional)
+    /// - parameter sort: (query) Property by which to sort the list of authentication resources. (optional)
+    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     /// - returns: ListAuthenticationsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getAuthentications(
@@ -922,23 +923,23 @@ open class IngestionClient {
         return body
     }
 
-    // Get a list of authentications for the given query parameters, with pagination details.
+    // Retrieves a list of all authentication resources.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter itemsPerPage: (query) The number of items per page to return. (optional)
+    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
     //
-    // - parameter page: (query) The page number to fetch, starting at 1. (optional)
+    // - parameter page: (query) Page number of the paginated API response. (optional)
     //
-    // - parameter type: (query) The type of the authentications to retrieve. (optional)
+    // - parameter type: (query) Type of authentication resource to retrieve. (optional)
     //
-    // - parameter platform: (query) The platform of the authentications to retrieve. (optional)
+    // - parameter platform: (query) Ecommerce platform for which to retrieve authentication resources. (optional)
     //
-    // - parameter sort: (query) The key by which the list should be sorted. (optional)
+    // - parameter sort: (query) Property by which to sort the list of authentication resources. (optional)
     //
-    // - parameter order: (query) The order of the returned list. (optional)
+    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     // - returns: RequestBuilder<ListAuthenticationsResponse>
 
     open func getAuthenticationsWithHTTPInfo(
@@ -973,7 +974,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter destinationID: (path) The destination UUID.
+    /// - parameter destinationID: (path) Unique identifier of a destination.
     /// - returns: Destination
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getDestination(destinationID: String, requestOptions: RequestOptions? = nil) async throws -> Destination {
@@ -989,13 +990,13 @@ open class IngestionClient {
         return body
     }
 
-    // Get the destination of the given destinationID.
+    // Retrieves a destination by its ID.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter destinationID: (path) The destination UUID.
+    // - parameter destinationID: (path) Unique identifier of a destination.
     // - returns: RequestBuilder<Destination>
 
     open func getDestinationWithHTTPInfo(
@@ -1031,12 +1032,12 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter itemsPerPage: (query) The number of items per page to return. (optional)
-    /// - parameter page: (query) The page number to fetch, starting at 1. (optional)
-    /// - parameter type: (query) The type of the destinations to retrive. (optional)
-    /// - parameter authenticationID: (query) The authenticationIDs of the destinations to retrive. (optional)
-    /// - parameter sort: (query) The key by which the list should be sorted. (optional)
-    /// - parameter order: (query) The order of the returned list. (optional)
+    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    /// - parameter page: (query) Page number of the paginated API response. (optional)
+    /// - parameter type: (query) Destination type. (optional)
+    /// - parameter authenticationID: (query) Authentication ID used by destinations. (optional)
+    /// - parameter sort: (query) Property by which to sort the destinations. (optional)
+    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     /// - returns: ListDestinationsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getDestinations(
@@ -1065,23 +1066,23 @@ open class IngestionClient {
         return body
     }
 
-    // Get a list of destinations for the given query parameters, with pagination details.
+    // Retrieves a list of destinations.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter itemsPerPage: (query) The number of items per page to return. (optional)
+    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
     //
-    // - parameter page: (query) The page number to fetch, starting at 1. (optional)
+    // - parameter page: (query) Page number of the paginated API response. (optional)
     //
-    // - parameter type: (query) The type of the destinations to retrive. (optional)
+    // - parameter type: (query) Destination type. (optional)
     //
-    // - parameter authenticationID: (query) The authenticationIDs of the destinations to retrive. (optional)
+    // - parameter authenticationID: (query) Authentication ID used by destinations. (optional)
     //
-    // - parameter sort: (query) The key by which the list should be sorted. (optional)
+    // - parameter sort: (query) Property by which to sort the destinations. (optional)
     //
-    // - parameter order: (query) The order of the returned list. (optional)
+    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     // - returns: RequestBuilder<ListDestinationsResponse>
 
     open func getDestinationsWithHTTPInfo(
@@ -1116,7 +1117,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter sourceID: (path) The source UUID.
+    /// - parameter sourceID: (path) Unique identifier of a source.
     /// - returns: DockerSourceStreams
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getDockerSourceStreams(
@@ -1135,13 +1136,14 @@ open class IngestionClient {
         return body
     }
 
-    // Retrieve a stream listing for a given Singer specification compatible docker type source ID.
+    // Retrieves a stream listing for a source.  Listing streams only works with sources with `type: docker` and
+    // `imageType: singer`.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter sourceID: (path) The source UUID.
+    // - parameter sourceID: (path) Unique identifier of a source.
     // - returns: RequestBuilder<DockerSourceStreams>
 
     open func getDockerSourceStreamsWithHTTPInfo(
@@ -1177,8 +1179,8 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter runID: (path) The run UUID.
-    /// - parameter eventID: (path) The event UUID.
+    /// - parameter runID: (path) Unique identifier of a task run.
+    /// - parameter eventID: (path) Unique identifier of an event.
     /// - returns: Event
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getEvent(runID: String, eventID: String, requestOptions: RequestOptions? = nil) async throws -> Event {
@@ -1195,15 +1197,15 @@ open class IngestionClient {
         return body
     }
 
-    // Get a single event for a specific runID.
+    // Retrieves a single task run event by its ID.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter runID: (path) The run UUID.
+    // - parameter runID: (path) Unique identifier of a task run.
     //
-    // - parameter eventID: (path) The event UUID.
+    // - parameter eventID: (path) Unique identifier of an event.
     // - returns: RequestBuilder<Event>
 
     open func getEventWithHTTPInfo(
@@ -1252,17 +1254,17 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter runID: (path) The run UUID.
-    /// - parameter itemsPerPage: (query) The number of items per page to return. (optional)
-    /// - parameter page: (query) The page number to fetch, starting at 1. (optional)
-    /// - parameter status: (query) Filter the status of the events. (optional)
-    /// - parameter type: (query) Filter the type of the events. (optional)
-    /// - parameter sort: (query) The key by which the list should be sorted. (optional)
-    /// - parameter order: (query) The order of the returned list. (optional)
-    /// - parameter startDate: (query) The start date (in RFC3339 format) of the events fetching window. Defaults to
-    /// &#39;now&#39;-3 hours if omitted. (optional)
-    /// - parameter endDate: (query) The end date (in RFC3339 format) of the events fetching window. Defaults to
-    /// &#39;now&#39; days if omitted. (optional)
+    /// - parameter runID: (path) Unique identifier of a task run.
+    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    /// - parameter page: (query) Page number of the paginated API response. (optional)
+    /// - parameter status: (query) Event status for filtering the list of task runs. (optional)
+    /// - parameter type: (query) Event type for filtering the list of task runs. (optional)
+    /// - parameter sort: (query) Property by which to sort the list of task run events. (optional)
+    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    /// - parameter startDate: (query) Date and time in RFC3339 format for the earliest events to retrieve. By default,
+    /// the current time minus three hours is used. (optional)
+    /// - parameter endDate: (query) Date and time in RFC3339 format for the latest events to retrieve. By default, the
+    /// current time is used. (optional)
     /// - returns: ListEventsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getEvents(
@@ -1297,31 +1299,31 @@ open class IngestionClient {
         return body
     }
 
-    // Get a list of events associated to the given runID, for the given query parameters.
+    // Retrieves a list of events for a task run, identified by it's ID.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter runID: (path) The run UUID.
+    // - parameter runID: (path) Unique identifier of a task run.
     //
-    // - parameter itemsPerPage: (query) The number of items per page to return. (optional)
+    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
     //
-    // - parameter page: (query) The page number to fetch, starting at 1. (optional)
+    // - parameter page: (query) Page number of the paginated API response. (optional)
     //
-    // - parameter status: (query) Filter the status of the events. (optional)
+    // - parameter status: (query) Event status for filtering the list of task runs. (optional)
     //
-    // - parameter type: (query) Filter the type of the events. (optional)
+    // - parameter type: (query) Event type for filtering the list of task runs. (optional)
     //
-    // - parameter sort: (query) The key by which the list should be sorted. (optional)
+    // - parameter sort: (query) Property by which to sort the list of task run events. (optional)
     //
-    // - parameter order: (query) The order of the returned list. (optional)
+    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     //
-    // - parameter startDate: (query) The start date (in RFC3339 format) of the events fetching window. Defaults to
-    // &#39;now&#39;-3 hours if omitted. (optional)
+    // - parameter startDate: (query) Date and time in RFC3339 format for the earliest events to retrieve. By default,
+    // the current time minus three hours is used. (optional)
     //
-    // - parameter endDate: (query) The end date (in RFC3339 format) of the events fetching window. Defaults to
-    // &#39;now&#39; days if omitted. (optional)
+    // - parameter endDate: (query) Date and time in RFC3339 format for the latest events to retrieve. By default, the
+    // current time is used. (optional)
     // - returns: RequestBuilder<ListEventsResponse>
 
     open func getEventsWithHTTPInfo(
@@ -1373,7 +1375,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter runID: (path) The run UUID.
+    /// - parameter runID: (path) Unique identifier of a task run.
     /// - returns: Run
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getRun(runID: String, requestOptions: RequestOptions? = nil) async throws -> Run {
@@ -1386,13 +1388,13 @@ open class IngestionClient {
         return body
     }
 
-    // Get a single run for the given ID.
+    // Retrieve a single task run by its ID.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter runID: (path) The run UUID.
+    // - parameter runID: (path) Unique identifier of a task run.
     // - returns: RequestBuilder<Run>
 
     open func getRunWithHTTPInfo(
@@ -1427,16 +1429,16 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter itemsPerPage: (query) The number of items per page to return. (optional)
-    /// - parameter page: (query) The page number to fetch, starting at 1. (optional)
-    /// - parameter status: (query) Filter the status of the runs. (optional)
-    /// - parameter taskID: (query) Filter by taskID. (optional)
-    /// - parameter sort: (query) The key by which the list should be sorted. (optional)
-    /// - parameter order: (query) The order of the returned list. (optional)
-    /// - parameter startDate: (query) The start date (in RFC3339 format) of the runs fetching window. Defaults to
-    /// &#39;now&#39;-7 days if omitted. (optional)
-    /// - parameter endDate: (query) The end date (in RFC3339 format) of the runs fetching window. Defaults to
-    /// &#39;now&#39; days if omitted. (optional)
+    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    /// - parameter page: (query) Page number of the paginated API response. (optional)
+    /// - parameter status: (query) Run status for filtering the list of task runs. (optional)
+    /// - parameter taskID: (query) Task ID for filtering the list of task runs. (optional)
+    /// - parameter sort: (query) Property by which to sort the list of task runs. (optional)
+    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    /// - parameter startDate: (query) Date in RFC3339 format for the earliest run to retrieve. By default, the current
+    /// day minus seven days is used. (optional)
+    /// - parameter endDate: (query) Date in RFC3339 format for the latest run to retrieve. By default, the current day
+    /// is used. (optional)
     /// - returns: RunListResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getRuns(
@@ -1469,29 +1471,29 @@ open class IngestionClient {
         return body
     }
 
-    // Get a list of runs for the given query parameters, with pagination details.
+    // Retrieve a list of task runs.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter itemsPerPage: (query) The number of items per page to return. (optional)
+    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
     //
-    // - parameter page: (query) The page number to fetch, starting at 1. (optional)
+    // - parameter page: (query) Page number of the paginated API response. (optional)
     //
-    // - parameter status: (query) Filter the status of the runs. (optional)
+    // - parameter status: (query) Run status for filtering the list of task runs. (optional)
     //
-    // - parameter taskID: (query) Filter by taskID. (optional)
+    // - parameter taskID: (query) Task ID for filtering the list of task runs. (optional)
     //
-    // - parameter sort: (query) The key by which the list should be sorted. (optional)
+    // - parameter sort: (query) Property by which to sort the list of task runs. (optional)
     //
-    // - parameter order: (query) The order of the returned list. (optional)
+    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     //
-    // - parameter startDate: (query) The start date (in RFC3339 format) of the runs fetching window. Defaults to
-    // &#39;now&#39;-7 days if omitted. (optional)
+    // - parameter startDate: (query) Date in RFC3339 format for the earliest run to retrieve. By default, the current
+    // day minus seven days is used. (optional)
     //
-    // - parameter endDate: (query) The end date (in RFC3339 format) of the runs fetching window. Defaults to
-    // &#39;now&#39; days if omitted. (optional)
+    // - parameter endDate: (query) Date in RFC3339 format for the latest run to retrieve. By default, the current day
+    // is used. (optional)
     // - returns: RequestBuilder<RunListResponse>
 
     open func getRunsWithHTTPInfo(
@@ -1530,7 +1532,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter sourceID: (path) The source UUID.
+    /// - parameter sourceID: (path) Unique identifier of a source.
     /// - returns: IngestionSource
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getSource(sourceID: String, requestOptions: RequestOptions? = nil) async throws -> IngestionSource {
@@ -1546,13 +1548,13 @@ open class IngestionClient {
         return body
     }
 
-    // Get the source of the given sourceID.
+    // Retrieve a source by its ID.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter sourceID: (path) The source UUID.
+    // - parameter sourceID: (path) Unique identifier of a source.
     // - returns: RequestBuilder<IngestionSource>
 
     open func getSourceWithHTTPInfo(
@@ -1588,13 +1590,13 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter itemsPerPage: (query) The number of items per page to return. (optional)
-    /// - parameter page: (query) The page number to fetch, starting at 1. (optional)
-    /// - parameter type: (query) The type of the sources to retrieve. (optional)
-    /// - parameter authenticationID: (query) The authenticationIDs of the sources to retrieve. &#39;none&#39; returns
-    /// sources that doesn&#39;t have an authentication.  (optional)
-    /// - parameter sort: (query) The key by which the list should be sorted. (optional)
-    /// - parameter order: (query) The order of the returned list. (optional)
+    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    /// - parameter page: (query) Page number of the paginated API response. (optional)
+    /// - parameter type: (query) Source type. Some sources require authentication. (optional)
+    /// - parameter authenticationID: (query) Authentication IDs of the sources to retrieve. &#39;none&#39; returns
+    /// sources that doesn&#39;t have an authentication resource.  (optional)
+    /// - parameter sort: (query) Property by which to sort the list of sources. (optional)
+    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     /// - returns: ListSourcesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getSources(
@@ -1623,24 +1625,24 @@ open class IngestionClient {
         return body
     }
 
-    // Get a list of sources for the given query parameters, with pagination details.
+    // Retrieves a list of sources.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter itemsPerPage: (query) The number of items per page to return. (optional)
+    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
     //
-    // - parameter page: (query) The page number to fetch, starting at 1. (optional)
+    // - parameter page: (query) Page number of the paginated API response. (optional)
     //
-    // - parameter type: (query) The type of the sources to retrieve. (optional)
+    // - parameter type: (query) Source type. Some sources require authentication. (optional)
     //
-    // - parameter authenticationID: (query) The authenticationIDs of the sources to retrieve. &#39;none&#39; returns
-    // sources that doesn&#39;t have an authentication.  (optional)
+    // - parameter authenticationID: (query) Authentication IDs of the sources to retrieve. &#39;none&#39; returns
+    // sources that doesn&#39;t have an authentication resource.  (optional)
     //
-    // - parameter sort: (query) The key by which the list should be sorted. (optional)
+    // - parameter sort: (query) Property by which to sort the list of sources. (optional)
     //
-    // - parameter order: (query) The order of the returned list. (optional)
+    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     // - returns: RequestBuilder<ListSourcesResponse>
 
     open func getSourcesWithHTTPInfo(
@@ -1675,7 +1677,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter taskID: (path) The task UUID.
+    /// - parameter taskID: (path) Unique identifier of a task.
     /// - returns: Task
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTask(taskID: String, requestOptions: RequestOptions? = nil) async throws -> Task {
@@ -1688,13 +1690,13 @@ open class IngestionClient {
         return body
     }
 
-    // Get the task of the given taskID.
+    // Retrieves a task by its ID.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter taskID: (path) The task UUID.
+    // - parameter taskID: (path) Unique identifier of a task.
     // - returns: RequestBuilder<Task>
 
     open func getTaskWithHTTPInfo(
@@ -1730,15 +1732,15 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter itemsPerPage: (query) The number of items per page to return. (optional)
-    /// - parameter page: (query) The page number to fetch, starting at 1. (optional)
-    /// - parameter action: (query) The action of the tasks to retrieve. (optional)
-    /// - parameter enabled: (query) Whether the task is enabled or not. (optional)
-    /// - parameter sourceID: (query) The sourceIDs of the tasks to retrieve. (optional)
-    /// - parameter destinationID: (query) The destinationIDs of the tasks to retrieve. (optional)
-    /// - parameter triggerType: (query) The trigger type of the task. (optional)
-    /// - parameter sort: (query) The key by which the list should be sorted. (optional)
-    /// - parameter order: (query) The order of the returned list. (optional)
+    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    /// - parameter page: (query) Page number of the paginated API response. (optional)
+    /// - parameter action: (query) Actions for filtering the list of tasks. (optional)
+    /// - parameter enabled: (query) Whether to filter the list of tasks by the &#x60;enabled&#x60; status. (optional)
+    /// - parameter sourceID: (query) Source IDs for filtering the list of tasks. (optional)
+    /// - parameter destinationID: (query) Destination IDs for filtering the list of tasks. (optional)
+    /// - parameter triggerType: (query) Type of task trigger for filtering the list of tasks. (optional)
+    /// - parameter sort: (query) Property by which to sort the list of tasks. (optional)
+    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     /// - returns: ListTasksResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTasks(
@@ -1773,29 +1775,29 @@ open class IngestionClient {
         return body
     }
 
-    // Get a list of tasks for the given query parameters, with pagination details.
+    // Retrieves a list of tasks.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter itemsPerPage: (query) The number of items per page to return. (optional)
+    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
     //
-    // - parameter page: (query) The page number to fetch, starting at 1. (optional)
+    // - parameter page: (query) Page number of the paginated API response. (optional)
     //
-    // - parameter action: (query) The action of the tasks to retrieve. (optional)
+    // - parameter action: (query) Actions for filtering the list of tasks. (optional)
     //
-    // - parameter enabled: (query) Whether the task is enabled or not. (optional)
+    // - parameter enabled: (query) Whether to filter the list of tasks by the &#x60;enabled&#x60; status. (optional)
     //
-    // - parameter sourceID: (query) The sourceIDs of the tasks to retrieve. (optional)
+    // - parameter sourceID: (query) Source IDs for filtering the list of tasks. (optional)
     //
-    // - parameter destinationID: (query) The destinationIDs of the tasks to retrieve. (optional)
+    // - parameter destinationID: (query) Destination IDs for filtering the list of tasks. (optional)
     //
-    // - parameter triggerType: (query) The trigger type of the task. (optional)
+    // - parameter triggerType: (query) Type of task trigger for filtering the list of tasks. (optional)
     //
-    // - parameter sort: (query) The key by which the list should be sorted. (optional)
+    // - parameter sort: (query) Property by which to sort the list of tasks. (optional)
     //
-    // - parameter order: (query) The order of the returned list. (optional)
+    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     // - returns: RequestBuilder<ListTasksResponse>
 
     open func getTasksWithHTTPInfo(
@@ -1836,7 +1838,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter taskID: (path) The task UUID.
+    /// - parameter taskID: (path) Unique identifier of a task.
     /// - returns: RunResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func runTask(taskID: String, requestOptions: RequestOptions? = nil) async throws -> RunResponse {
@@ -1852,13 +1854,13 @@ open class IngestionClient {
         return body
     }
 
-    // Run the task of the given taskID.
+    // Runs a task. You can check the status of task runs with the observability endpoints.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter taskID: (path) The task UUID.
+    // - parameter taskID: (path) Unique identifier of a task.
     // - returns: RequestBuilder<RunResponse>
 
     open func runTaskWithHTTPInfo(
@@ -1913,7 +1915,7 @@ open class IngestionClient {
         return body
     }
 
-    // Search among authentications with a defined set of parameters.
+    // Searches for authentication resources.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
@@ -1961,7 +1963,7 @@ open class IngestionClient {
         return body
     }
 
-    // Search among destinations with a defined set of parameters.
+    // Searches for destinations.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
@@ -2009,7 +2011,7 @@ open class IngestionClient {
         return body
     }
 
-    // Search among sources with a defined set of parameters.
+    // Searches for sources.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
@@ -2054,7 +2056,7 @@ open class IngestionClient {
         return body
     }
 
-    // Search among tasks with a defined set of parameters.
+    // Searches for tasks.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
@@ -2083,7 +2085,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter sourceID: (path) The source UUID.
+    /// - parameter sourceID: (path) Unique identifier of a source.
     /// - returns: DockerSourceDiscover
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func triggerDockerSourceDiscover(
@@ -2102,13 +2104,14 @@ open class IngestionClient {
         return body
     }
 
-    // Trigger a stream listing request for a Singer specification compatible docker type source.
+    // Triggers a stream-listing request for a source. Triggering stream-listing requests only works with sources with
+    // `type: docker` and `imageType: singer`.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter sourceID: (path) The source UUID.
+    // - parameter sourceID: (path) Unique identifier of a source.
     // - returns: RequestBuilder<DockerSourceDiscover>
 
     open func triggerDockerSourceDiscoverWithHTTPInfo(
@@ -2144,7 +2147,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter authenticationID: (path) The authentication UUID.
+    /// - parameter authenticationID: (path) Unique identifier of an authentication resource.
     /// - parameter authenticationUpdate: (body)
     /// - returns: AuthenticationUpdateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -2166,13 +2169,13 @@ open class IngestionClient {
         return body
     }
 
-    // Update the authentication of the given authenticationID.
+    // Updates an authentication resource.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter authenticationID: (path) The authentication UUID.
+    // - parameter authenticationID: (path) Unique identifier of an authentication resource.
     //
     // - parameter authenticationUpdate: (body)
     // - returns: RequestBuilder<AuthenticationUpdateResponse>
@@ -2211,7 +2214,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter destinationID: (path) The destination UUID.
+    /// - parameter destinationID: (path) Unique identifier of a destination.
     /// - parameter destinationUpdate: (body)
     /// - returns: DestinationUpdateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -2233,13 +2236,13 @@ open class IngestionClient {
         return body
     }
 
-    // Update the destination of the given destinationID.
+    // Updates the destination by its ID.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter destinationID: (path) The destination UUID.
+    // - parameter destinationID: (path) Unique identifier of a destination.
     //
     // - parameter destinationUpdate: (body)
     // - returns: RequestBuilder<DestinationUpdateResponse>
@@ -2278,7 +2281,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter sourceID: (path) The source UUID.
+    /// - parameter sourceID: (path) Unique identifier of a source.
     /// - parameter sourceUpdate: (body)
     /// - returns: SourceUpdateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -2300,13 +2303,13 @@ open class IngestionClient {
         return body
     }
 
-    // Update the source of the given sourceID.
+    // Updates a source by its ID.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter sourceID: (path) The source UUID.
+    // - parameter sourceID: (path) Unique identifier of a source.
     //
     // - parameter sourceUpdate: (body)
     // - returns: RequestBuilder<SourceUpdateResponse>
@@ -2345,7 +2348,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter taskID: (path) The task UUID.
+    /// - parameter taskID: (path) Unique identifier of a task.
     /// - parameter taskUpdate: (body)
     /// - returns: TaskUpdateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -2367,10 +2370,10 @@ open class IngestionClient {
         return body
     }
 
-    // Update the task of the given taskID.
+    // Updates a task by its ID.
     //
     //
-    // - parameter taskID: (path) The task UUID.
+    // - parameter taskID: (path) Unique identifier of a task.
     //
     // - parameter taskUpdate: (body)
     // - returns: RequestBuilder<TaskUpdateResponse>

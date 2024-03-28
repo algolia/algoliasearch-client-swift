@@ -6,6 +6,7 @@ import Foundation
     import Core
 #endif
 
+/// HTTP method to be used for retrieving your data.
 public enum MethodType: String, Codable, CaseIterable {
     case `get` = "GET"
     case post = "POST"

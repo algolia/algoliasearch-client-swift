@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Used to order a sorted request.
+/// Ascending or descending sort order.
 public enum OrderKeys: String, Codable, CaseIterable {
     case asc
     case desc

@@ -6,12 +6,11 @@ import Foundation
     import Core
 #endif
 
-/// The window parameter represents the holds the dates used to query the Observability data from the database in a
-/// given window.
+/// Time window by which to filter the observability data.
 public struct Window: Codable, JSONEncodable {
-    /// A date in format RFC3339 representing the oldest possible data in query window.
+    /// Date in RFC3339 format representing the oldest data in the time window.
     public var startDate: String
-    /// A date in format RFC3339 representing the newest possible data in query window.
+    /// Date in RFC3339 format representing the newest data in the time window.
     public var endDate: String
 
     public init(startDate: String, endDate: String) {

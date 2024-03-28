@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Payload to search for multiple authentications, based on the given &#x60;authenticationIDs&#x60;.
+/// Request body for searching for authentication resources.
 public struct AuthenticationSearch: Codable, JSONEncodable {
     public var authenticationIDs: [String]
 

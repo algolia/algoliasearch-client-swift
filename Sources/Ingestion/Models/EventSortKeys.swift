@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Used to sort the Event list endpoint.
+/// Property by which to sort the list of task run events.
 public enum EventSortKeys: String, Codable, CaseIterable {
     case status
     case type

@@ -6,18 +6,18 @@ import Foundation
     import Core
 #endif
 
-/// An authentication is used to login into a Source or a Destination, with obfuscated input.
+/// Resource representing the information required to authenticate with a source or a destination.
 public struct Authentication: Codable, JSONEncodable {
-    /// The authentication UUID.
+    /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String
     public var type: AuthenticationType
-    /// An human readable name describing the object.
+    /// Descriptive name for the resource.
     public var name: String
     public var platform: Platform?
     public var input: AuthInputPartial
-    /// Date of creation (RFC3339 format).
+    /// Date of creation in RFC3339 format.
     public var createdAt: String
-    /// Date of last update (RFC3339 format).
+    /// Date of last update in RFC3339 format.
     public var updatedAt: String?
 
     public init(

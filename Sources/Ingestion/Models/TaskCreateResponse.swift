@@ -6,11 +6,11 @@ import Foundation
     import Core
 #endif
 
-/// The response from the API after a task creation.
+/// API response for creating a task.
 public struct TaskCreateResponse: Codable, JSONEncodable {
-    /// The task UUID.
+    /// Universally unique identifier (UUID) of a task.
     public var taskID: String
-    /// Date of creation (RFC3339 format).
+    /// Date of creation in RFC3339 format.
     public var createdAt: String
 
     public init(taskID: String, createdAt: String) {

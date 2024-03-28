@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct DeleteResponse: Codable, JSONEncodable {
-    /// Date of deletion (RFC3339 format).
+    /// Date of deletion in RFC3339 format.
     public var deletedAt: String
 
     public init(deletedAt: String) {

@@ -7,22 +7,22 @@ import Foundation
 #endif
 
 public struct Task: Codable, JSONEncodable {
-    /// The task UUID.
+    /// Universally unique identifier (UUID) of a task.
     public var taskID: String
-    /// The source UUID.
+    /// Universally uniqud identifier (UUID) of a source.
     public var sourceID: String
-    /// The destination UUID.
+    /// Universally unique identifier (UUID) of a destination resource.
     public var destinationID: String
     public var trigger: Trigger
     public var input: TaskInput?
-    /// Whether the task is enabled or not.
+    /// Whether the task is enabled.
     public var enabled: Bool
-    /// A percentage representing the accepted failure threshold to determine if a `run` succeeded or not.
+    /// Maximum accepted percentage of failures for a task run to finish successfully.
     public var failureThreshold: Int?
     public var action: ActionType
-    /// Date of creation (RFC3339 format).
+    /// Date of creation in RFC3339 format.
     public var createdAt: String
-    /// Date of last update (RFC3339 format).
+    /// Date of last update in RFC3339 format.
     public var updatedAt: String?
 
     public init(

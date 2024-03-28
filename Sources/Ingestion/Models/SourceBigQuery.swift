@@ -7,18 +7,18 @@ import Foundation
 #endif
 
 public struct SourceBigQuery: Codable, JSONEncodable {
-    /// Project ID of the BigQuery Source.
+    /// Project ID of the BigQuery source.
     public var projectID: String
-    /// Dataset ID of the BigQuery Source.
+    /// Dataset ID of the BigQuery source.
     public var datasetID: String
     public var dataType: BigQueryDataType?
-    /// Table name (for default BQ).
+    /// Table name for the BigQuery export.
     public var table: String?
-    /// Table prefix (for Google Analytics).
+    /// Table prefix for a Google Analytics 4 data export to BigQuery.
     public var tablePrefix: String?
     /// Custom SQL request to extract data from the BigQuery table.
     public var customSQLRequest: String?
-    /// The name of the column that contains the unique ID, used as `objectID` in Algolia.
+    /// Name of a column that contains a unique ID which will be used as `objectID` in Algolia.
     public var uniqueIDColumn: String?
 
     public init(

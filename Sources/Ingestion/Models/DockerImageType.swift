@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// The type of the image.
+/// Image type.
 public enum DockerImageType: String, Codable, CaseIterable {
     case singer
     case custom

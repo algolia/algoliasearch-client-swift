@@ -6,13 +6,13 @@ import Foundation
     import Core
 #endif
 
-/// The payload when creating a destination.
+/// API request body for creating a new destination.
 public struct DestinationCreate: Codable, JSONEncodable {
     public var type: DestinationType
-    /// An human readable name describing the object.
+    /// Descriptive name for the resource.
     public var name: String
     public var input: DestinationInput
-    /// The authentication UUID.
+    /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String?
 
     public init(type: DestinationType, name: String, input: DestinationInput, authenticationID: String? = nil) {

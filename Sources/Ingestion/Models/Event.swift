@@ -8,9 +8,9 @@ import Foundation
 
 /// An event describe a step of the task execution flow..
 public struct Event: Codable, JSONEncodable {
-    /// The event UUID.
+    /// Universally unique identifier (UUID) of an event.
     public var eventID: String
-    /// The run UUID.
+    /// Universally unique identifier (UUID) of a task run.
     public var runID: String
     /// The parent event, the cause of this event.
     public var parentID: String?
@@ -19,7 +19,7 @@ public struct Event: Codable, JSONEncodable {
     /// The extracted record batch size.
     public var batchSize: Int
     public var data: [String: AnyCodable]?
-    /// Date of publish (RFC3339 format).
+    /// Date of publish RFC3339 format.
     public var publishedAt: String
 
     public init(

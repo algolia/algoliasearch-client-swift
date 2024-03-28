@@ -6,9 +6,9 @@ import Foundation
     import Core
 #endif
 
-/// The trigger input for a task update.
+/// Trigger for a task update.
 public struct TriggerUpdateInput: Codable, JSONEncodable {
-    /// A cron expression that represent at which regularity the task should run.
+    /// Cron expression for the task's schedule.
     public var cron: String
 
     public init(cron: String) {

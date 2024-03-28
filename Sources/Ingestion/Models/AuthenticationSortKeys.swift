@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Used to sort the Authentication list endpoint.
+/// Property by which to sort the list of authentication resources.
 public enum AuthenticationSortKeys: String, Codable, CaseIterable {
     case name
     case authType = "auth_type"

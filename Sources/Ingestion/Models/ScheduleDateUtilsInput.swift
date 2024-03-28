@@ -6,10 +6,10 @@ import Foundation
     import Core
 #endif
 
-/// The input for a &#x60;schedule&#x60; task whose source is of type &#x60;bigquery&#x60; and for which extracted data
-/// spans a fixed number of days.
+/// Input for scheduled tasks whose source is of type &#x60;bigquery&#x60; and for which extracted data spans a fixed
+/// number of days.
 public struct ScheduleDateUtilsInput: Codable, JSONEncodable {
-    /// The timeframe of the extraction, in number of days from today.
+    /// Number of days in the past until the current day for which to extract Big Query data.
     public var timeframe: Int
     public var mapping: MappingInput?
 

@@ -6,13 +6,13 @@ import Foundation
     import Core
 #endif
 
-/// Payload to partially update a Destination.
+/// API request body for updating a destination.
 public struct DestinationUpdate: Codable, JSONEncodable {
     public var type: DestinationType?
-    /// An human readable name describing the object.
+    /// Descriptive name for the resource.
     public var name: String?
     public var input: DestinationInput?
-    /// The authentication UUID.
+    /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String?
 
     public init(

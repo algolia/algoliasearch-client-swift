@@ -6,8 +6,9 @@ import Foundation
     import Core
 #endif
 
-/// Authentication input used for token credentials.
+/// Credentials for authenticating with an API key.
 public struct AuthAPIKeyPartial: Codable, JSONEncodable {
+    /// API key. This field is `null` in the API response.
     public var key: String?
 
     public init(key: String? = nil) {

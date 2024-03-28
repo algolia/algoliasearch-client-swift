@@ -6,13 +6,13 @@ import Foundation
     import Core
 #endif
 
-/// Response from the API when the Destination is successfully created.
+/// API response for creating a new destination.
 public struct DestinationCreateResponse: Codable, JSONEncodable {
-    /// The destination UUID.
+    /// Universally unique identifier (UUID) of a destination resource.
     public var destinationID: String
-    /// An human readable name describing the object.
+    /// Descriptive name for the resource.
     public var name: String
-    /// Date of creation (RFC3339 format).
+    /// Date of creation in RFC3339 format.
     public var createdAt: String
 
     public init(destinationID: String, name: String, createdAt: String) {

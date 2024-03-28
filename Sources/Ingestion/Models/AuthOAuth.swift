@@ -6,25 +6,29 @@ import Foundation
     import Core
 #endif
 
-/// Authentication input for OAuth login.
+/// Credentials for authenticating with OAuth 2.0.
 public struct AuthOAuth: Codable, JSONEncodable {
-    /// The OAuth endpoint URL.
+    /// URL for the OAuth endpoint.
     public var url: String
-    /// The clientID.
+    /// Client ID.
     public var clientId: String
-    /// The secret.
+    /// Client secret. This field is `null` in the API response.
     public var clientSecret: String
+    /// OAuth scope.
+    public var scope: String?
 
-    public init(url: String, clientId: String, clientSecret: String) {
+    public init(url: String, clientId: String, clientSecret: String, scope: String? = nil) {
         self.url = url
         self.clientId = clientId
         self.clientSecret = clientSecret
+        self.scope = scope
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case url
         case clientId = "client_id"
         case clientSecret = "client_secret"
+        case scope
     }
 
     // Encodable protocol methods
@@ -34,5 +38,6 @@ public struct AuthOAuth: Codable, JSONEncodable {
         try container.encode(self.url, forKey: .url)
         try container.encode(self.clientId, forKey: .clientId)
         try container.encode(self.clientSecret, forKey: .clientSecret)
+        try container.encodeIfPresent(self.scope, forKey: .scope)
     }
 }

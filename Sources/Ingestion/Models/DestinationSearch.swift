@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Payload to search for multiple destinations, based on the given &#x60;destinationIDs&#x60;.
+/// API request body for searching destinations.
 public struct DestinationSearch: Codable, JSONEncodable {
     public var destinationIDs: [String]
 

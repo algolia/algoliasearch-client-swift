@@ -6,10 +6,10 @@ import Foundation
     import Core
 #endif
 
-/// The trigger input for a task of type &#39;schedule&#39;.
+/// Trigger input for scheduled tasks.
 public struct ScheduleTriggerInput: Codable, JSONEncodable {
     public var type: ScheduleTriggerType
-    /// A cron expression that represent at which regularity the task should run.
+    /// Cron expression for the task's schedule.
     public var cron: String
 
     public init(type: ScheduleTriggerType, cron: String) {

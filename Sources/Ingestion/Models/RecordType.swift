@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Determines the indexing strategy to use for a given e-commerce source.
+/// Record type for ecommerce sources.
 public enum RecordType: String, Codable, CaseIterable {
     case product
     case variant

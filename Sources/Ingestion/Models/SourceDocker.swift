@@ -9,11 +9,11 @@ import Foundation
 public struct SourceDocker: Codable, JSONEncodable {
     public var imageType: DockerImageType
     public var registry: DockerRegistry
-    /// The name of the image to pull.
+    /// Docker image name.
     public var image: String
-    /// The version of the image, defaults to `latest`.
+    /// Docker image version.
     public var version: String?
-    /// The configuration of the spec.
+    /// Configuration of the spec.
     public var configuration: AnyCodable
 
     public init(

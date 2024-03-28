@@ -6,11 +6,11 @@ import Foundation
     import Core
 #endif
 
-/// The response from the run task API, containing an Observability Run ID and the time it was created at.
+/// API response for running a task.
 public struct RunResponse: Codable, JSONEncodable {
-    /// The run UUID.
+    /// Universally unique identifier (UUID) of a task run.
     public var runID: String
-    /// Date of creation (RFC3339 format).
+    /// Date of creation in RFC3339 format.
     public var createdAt: String
 
     public init(runID: String, createdAt: String) {

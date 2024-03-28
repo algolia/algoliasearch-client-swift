@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Used to filter Authentication without platform property.
+/// Authentication resource not tied to any ecommerce platform, used for filtering.
 public enum PlatformNone: String, Codable, CaseIterable {
     case `none`
 }

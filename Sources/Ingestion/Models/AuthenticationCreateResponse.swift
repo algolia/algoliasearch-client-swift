@@ -6,13 +6,13 @@ import Foundation
     import Core
 #endif
 
-/// Response from the API when the Authentication is successfully created.
+/// API response for the successful creation of an authentication resource.
 public struct AuthenticationCreateResponse: Codable, JSONEncodable {
-    /// The authentication UUID.
+    /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String
-    /// An human readable name describing the object.
+    /// Descriptive name for the resource.
     public var name: String
-    /// Date of creation (RFC3339 format).
+    /// Date of creation in RFC3339 format.
     public var createdAt: String
 
     public init(authenticationID: String, name: String, createdAt: String) {

@@ -6,8 +6,9 @@ import Foundation
     import Core
 #endif
 
-/// Describe which platform the Authentication is used for.
+/// Name of an ecommerce platform with which to authenticate. This determines which authentication type you can select.
 public enum Platform: String, Codable, CaseIterable {
     case bigcommerce
     case commercetools
+    case shopify
 }

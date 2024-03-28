@@ -6,11 +6,11 @@ import Foundation
     import Core
 #endif
 
-/// Authentication input to connect to a Google service (e.g. BigQuery).
+/// Credentials for authenticating with a Google service account, such as BigQuery.
 public struct AuthGoogleServiceAccountPartial: Codable, JSONEncodable {
-    /// Email address of the Service Account.
+    /// Email address of the Google service account.
     public var clientEmail: String?
-    /// Private key of the Service Account.
+    /// Private key of the Google service account. This field is `null` in the API response.
     public var privateKey: String?
 
     public init(clientEmail: String? = nil, privateKey: String? = nil) {

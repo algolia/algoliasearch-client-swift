@@ -6,12 +6,12 @@ import Foundation
     import Core
 #endif
 
-/// The input for an &#x60;onDemand&#x60; task whose source is of type &#x60;bigquery&#x60; and for which extracted data
-/// spans a given time range.
+/// Input for a manually-triggered task whose source is of type &#x60;bigquery&#x60; and for which extracted data spans
+/// a given time range.
 public struct OnDemandDateUtilsInput: Codable, JSONEncodable {
-    /// The start date of the extraction (RFC3339 format).
+    /// Earliest date in RFC3339 format of the extracted data from Big Query.
     public var startDate: String
-    /// The end date of the extraction (RFC3339 format).
+    /// Latest date in RFC3339 format of the extracted data from Big Query.
     public var endDate: String
     public var mapping: MappingInput?
 

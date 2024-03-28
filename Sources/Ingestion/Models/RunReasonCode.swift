@@ -6,7 +6,8 @@ import Foundation
     import Core
 #endif
 
-/// An identifier that pairs with the outcome reason.
+/// A code for the task run&#39;s outcome. A readable description of the code is included in the &#x60;reason&#x60;
+/// response property.
 public enum RunReasonCode: String, Codable, CaseIterable {
     case `internal`
     case critical

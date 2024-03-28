@@ -6,10 +6,10 @@ import Foundation
     import Core
 #endif
 
-/// Payload to partially update an Authentication.
+/// Request body for updating an authentication resource.
 public struct AuthenticationUpdate: Codable, JSONEncodable {
     public var type: AuthenticationType?
-    /// An human readable name describing the object.
+    /// Descriptive name for the resource.
     public var name: String?
     public var platform: Platform?
     public var input: AuthInputPartial?

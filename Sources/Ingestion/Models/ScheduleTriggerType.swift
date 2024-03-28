@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// A task which is triggered by a schedule (cron expression).
+/// Task runs on a schedule.
 public enum ScheduleTriggerType: String, Codable, CaseIterable {
     case schedule
 }

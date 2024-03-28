@@ -6,11 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Task run status.
-public enum RunStatus: String, Codable, CaseIterable {
-    case created
-    case started
-    case idled
-    case finished
-    case skipped
+/// Mapping format schema.
+public enum MappingFormatSchema: String, Codable, CaseIterable {
+    case mappingkitV1 = "mappingkit/v1"
 }

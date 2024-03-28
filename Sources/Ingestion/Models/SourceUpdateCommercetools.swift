@@ -7,13 +7,11 @@ import Foundation
 #endif
 
 public struct SourceUpdateCommercetools: Codable, JSONEncodable {
-    /// Unique and immutable key of the referenced Store.
     public var storeKeys: [String]?
-    /// Array of locales that must match the following pattern: ^[a-z]{2}(-[A-Z]{2})?$. For example [\"fr-FR\", \"en\"].
+    /// Locales for your commercetools stores.
     public var locales: [String]?
     public var url: String?
-    /// Determines the value that will be stored in the Algolia record if there's no inventory information on the
-    /// product.
+    /// Whether a fallback value is stored in the Algolia record if there's no inventory information about the product.
     public var fallbackIsInStockValue: Bool?
     public var customFields: CommercetoolsCustomFields?
 

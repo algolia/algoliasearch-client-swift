@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// The trigger information of a task of type &#x60;onDemand&#x60;.
+/// Trigger information for manually-triggered tasks.
 public struct OnDemandTriggerInput: Codable, JSONEncodable {
     public var type: OnDemandTriggerType
 

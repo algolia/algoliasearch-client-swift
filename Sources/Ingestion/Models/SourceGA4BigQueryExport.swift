@@ -7,12 +7,11 @@ import Foundation
 #endif
 
 public struct SourceGA4BigQueryExport: Codable, JSONEncodable {
-    /// GCP project ID that the BigQuery Export writes to.
+    /// GCP project ID that the BigQuery export writes to.
     public var projectID: String
-    /// BigQuery dataset ID that the BigQuery Export writes to.
+    /// BigQuery dataset ID that the BigQuery export writes to.
     public var datasetID: String
-    /// Prefix of the tables that the BigQuery Export writes to (i.e. events_intraday_ for streaming, events_ for
-    /// daily).
+    /// Prefix of the tables that the BigQuery Export writes to.
     public var tablePrefix: String
 
     public init(projectID: String, datasetID: String, tablePrefix: String) {

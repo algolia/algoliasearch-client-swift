@@ -6,13 +6,13 @@ import Foundation
     import Core
 #endif
 
-/// Response from the API when the Destination is successfully updated.
+/// API response for updating a destination.
 public struct DestinationUpdateResponse: Codable, JSONEncodable {
-    /// The destination UUID.
+    /// Universally unique identifier (UUID) of a destination resource.
     public var destinationID: String
-    /// An human readable name describing the object.
+    /// Descriptive name for the resource.
     public var name: String
-    /// Date of last update (RFC3339 format).
+    /// Date of last update in RFC3339 format.
     public var updatedAt: String
 
     public init(destinationID: String, name: String, updatedAt: String) {

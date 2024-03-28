@@ -6,15 +6,15 @@ import Foundation
     import Core
 #endif
 
-/// The payload for a task update.
+/// API request body for updating a task.
 public struct TaskUpdate: Codable, JSONEncodable {
-    /// The destination UUID.
+    /// Universally unique identifier (UUID) of a destination resource.
     public var destinationID: String?
     public var trigger: TriggerUpdateInput?
     public var input: TaskInput?
-    /// Whether the task is enabled or not.
+    /// Whether the task is enabled.
     public var enabled: Bool?
-    /// A percentage representing the accepted failure threshold to determine if a `run` succeeded or not.
+    /// Maximum accepted percentage of failures for a task run to finish successfully.
     public var failureThreshold: Int?
 
     public init(

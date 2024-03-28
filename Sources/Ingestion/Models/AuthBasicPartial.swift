@@ -6,9 +6,11 @@ import Foundation
     import Core
 #endif
 
-/// Authentication input for Basic login with username and password.
+/// Credentials for authenticating with user name and password.
 public struct AuthBasicPartial: Codable, JSONEncodable {
+    /// Username.
     public var username: String?
+    /// Password. This field is `null` in the API response.
     public var password: String?
 
     public init(username: String? = nil, password: String? = nil) {

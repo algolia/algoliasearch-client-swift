@@ -7,9 +7,9 @@ import Foundation
 #endif
 
 public struct DockerSourceDiscover: Codable, JSONEncodable {
-    /// The run UUID.
+    /// Universally unique identifier (UUID) of a task run.
     public var runID: String
-    /// Date of creation (RFC3339 format).
+    /// Date of creation in RFC3339 format.
     public var createdAt: String
 
     public init(runID: String, createdAt: String) {

@@ -7,10 +7,9 @@ import Foundation
 #endif
 
 public struct BigCommerceChannel: Codable, JSONEncodable {
-    /// The ID of the bigcommerce channel.
+    /// ID of the BigCommerce channel.
     public var id: Int
-    /// An array of currencies for the given channel `ID`, a currency is a trigram string that represents the currency
-    /// code.
+    /// Currencies for the given channel.
     public var currencies: [String]?
 
     public init(id: Int, currencies: [String]? = nil) {

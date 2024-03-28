@@ -7,9 +7,10 @@ import Foundation
 #endif
 
 public struct SourceUpdate: Codable, JSONEncodable {
+    /// Descriptive name of the source.
     public var name: String?
     public var input: SourceUpdateInput?
-    /// The authentication UUID.
+    /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String?
 
     public init(name: String? = nil, input: SourceUpdateInput? = nil, authenticationID: String? = nil) {

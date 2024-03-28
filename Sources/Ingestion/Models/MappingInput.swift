@@ -6,13 +6,12 @@ import Foundation
     import Core
 #endif
 
-/// Transformations to apply to source, serialized as a JSON string.
+/// Transformations to apply to the source, serialized as a JSON string.
 public struct MappingInput: Codable, JSONEncodable {
-    /// Name of the mapping format schema, `mappingkit/v1` is currently the only supported format.
-    public var format: String
+    public var format: MappingFormatSchema
     public var actions: [MappingKitAction]
 
-    public init(format: String, actions: [MappingKitAction]) {
+    public init(format: MappingFormatSchema, actions: [MappingKitAction]) {
         self.format = format
         self.actions = actions
     }

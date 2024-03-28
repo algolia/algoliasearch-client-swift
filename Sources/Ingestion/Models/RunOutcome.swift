@@ -6,6 +6,7 @@ import Foundation
     import Core
 #endif
 
+/// Task run outcome.
 public enum RunOutcome: String, Codable, CaseIterable {
     case success
     case failure

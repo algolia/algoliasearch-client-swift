@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// A task which is manually executed via the run task endpoint.
+/// Task is run manually, with the &#x60;/run&#x60; endpoint.
 public enum OnDemandTriggerType: String, Codable, CaseIterable {
     case onDemand
 }

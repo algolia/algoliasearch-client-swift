@@ -6,19 +6,19 @@ import Foundation
     import Core
 #endif
 
-/// A destination describe how the data is indexed on the Algolia side.
+/// Destinations are Algolia resources like indices or event streams.
 public struct Destination: Codable, JSONEncodable {
-    /// The destination UUID.
+    /// Universally unique identifier (UUID) of a destination resource.
     public var destinationID: String
     public var type: DestinationType
-    /// An human readable name describing the object.
+    /// Descriptive name for the resource.
     public var name: String
     public var input: DestinationInput
-    /// Date of creation (RFC3339 format).
+    /// Date of creation in RFC3339 format.
     public var createdAt: String
-    /// Date of last update (RFC3339 format).
+    /// Date of last update in RFC3339 format.
     public var updatedAt: String?
-    /// The authentication UUID.
+    /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String?
 
     public init(

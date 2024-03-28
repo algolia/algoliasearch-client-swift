@@ -6,6 +6,7 @@ import Foundation
     import Core
 #endif
 
+/// Task run type.
 public enum RunType: String, Codable, CaseIterable {
     case reindex
     case update

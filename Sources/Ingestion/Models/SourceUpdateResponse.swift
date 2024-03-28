@@ -7,10 +7,11 @@ import Foundation
 #endif
 
 public struct SourceUpdateResponse: Codable, JSONEncodable {
-    /// The source UUID.
+    /// Universally uniqud identifier (UUID) of a source.
     public var sourceID: String
+    /// Descriptive name of the source.
     public var name: String
-    /// Date of last update (RFC3339 format).
+    /// Date of last update in RFC3339 format.
     public var updatedAt: String
 
     public init(sourceID: String, name: String, updatedAt: String) {

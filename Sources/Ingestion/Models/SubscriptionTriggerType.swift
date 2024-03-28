@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// A task which is triggered by an external subscription (e.g. Webhook).
+/// Task runs after receiving subscribed event.
 public enum SubscriptionTriggerType: String, Codable, CaseIterable {
     case subscription
 }

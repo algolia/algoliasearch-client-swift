@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct SourceBigCommerce: Codable, JSONEncodable {
-    /// The store hash identifying the store the shopper is signing in to.
+    /// Store hash identifying your BigCommerce store.
     public var storeHash: String
     public var channel: BigCommerceChannel?
     public var customFields: [String]?
