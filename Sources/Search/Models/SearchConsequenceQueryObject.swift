@@ -30,3 +30,17 @@ public struct SearchConsequenceQueryObject: Codable, JSONEncodable {
         try container.encodeIfPresent(self.edits, forKey: .edits)
     }
 }
+
+extension SearchConsequenceQueryObject: Equatable {
+    public static func ==(lhs: SearchConsequenceQueryObject, rhs: SearchConsequenceQueryObject) -> Bool {
+        lhs.remove == rhs.remove &&
+            lhs.edits == rhs.edits
+    }
+}
+
+extension SearchConsequenceQueryObject: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.remove?.hashValue)
+        hasher.combine(self.edits?.hashValue)
+    }
+}

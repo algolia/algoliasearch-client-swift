@@ -38,3 +38,21 @@ public struct SourceCreate: Codable, JSONEncodable {
         try container.encodeIfPresent(self.authenticationID, forKey: .authenticationID)
     }
 }
+
+extension SourceCreate: Equatable {
+    public static func ==(lhs: SourceCreate, rhs: SourceCreate) -> Bool {
+        lhs.type == rhs.type &&
+            lhs.name == rhs.name &&
+            lhs.input == rhs.input &&
+            lhs.authenticationID == rhs.authenticationID
+    }
+}
+
+extension SourceCreate: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.type.hashValue)
+        hasher.combine(self.name.hashValue)
+        hasher.combine(self.input.hashValue)
+        hasher.combine(self.authenticationID?.hashValue)
+    }
+}

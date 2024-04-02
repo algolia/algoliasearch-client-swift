@@ -27,3 +27,15 @@ public struct SearchFacets: Codable, JSONEncodable {
         try container.encodeIfPresent(self.order, forKey: .order)
     }
 }
+
+extension SearchFacets: Equatable {
+    public static func ==(lhs: SearchFacets, rhs: SearchFacets) -> Bool {
+        lhs.order == rhs.order
+    }
+}
+
+extension SearchFacets: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.order?.hashValue)
+    }
+}

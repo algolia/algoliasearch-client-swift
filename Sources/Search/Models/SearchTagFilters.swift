@@ -47,3 +47,6 @@ public enum SearchTagFilters: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension SearchTagFilters: Equatable {}
+extension SearchTagFilters: Hashable {}

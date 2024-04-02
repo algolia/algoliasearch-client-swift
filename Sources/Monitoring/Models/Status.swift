@@ -13,3 +13,5 @@ public enum Status: String, Codable, CaseIterable {
     case partialOutage = "partial_outage"
     case majorOutage = "major_outage"
 }
+
+extension Status: Hashable {}

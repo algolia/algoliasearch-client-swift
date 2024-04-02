@@ -46,3 +46,6 @@ public enum AttributeToUpdate: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension AttributeToUpdate: Equatable {}
+extension AttributeToUpdate: Hashable {}

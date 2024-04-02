@@ -10,3 +10,5 @@ import Foundation
 public enum RecommendedForYouModel: String, Codable, CaseIterable {
     case recommendedForYou = "recommended-for-you"
 }
+
+extension RecommendedForYouModel: Hashable {}

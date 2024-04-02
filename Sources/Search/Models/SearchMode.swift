@@ -12,3 +12,5 @@ public enum SearchMode: String, Codable, CaseIterable {
     case neuralSearch
     case keywordSearch
 }
+
+extension SearchMode: Hashable {}

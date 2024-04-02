@@ -13,6 +13,7 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target = '7.0'
   s.tvos.deployment_target = '14.0'
   s.swift_version = '5.9'
+  s.resource_bundles = { 'AlgoliaSearchClient' => ['PrivacyInfo.xcprivacy']}
 
   s.subspec 'Core' do |subs|
     subs.source_files = 'Sources/Core/**/*.swift'

@@ -56,3 +56,23 @@ public struct SearchConsequence: Codable, JSONEncodable {
         try container.encodeIfPresent(self.userData, forKey: .userData)
     }
 }
+
+extension SearchConsequence: Equatable {
+    public static func ==(lhs: SearchConsequence, rhs: SearchConsequence) -> Bool {
+        lhs.params == rhs.params &&
+            lhs.promote == rhs.promote &&
+            lhs.filterPromotes == rhs.filterPromotes &&
+            lhs.hide == rhs.hide &&
+            lhs.userData == rhs.userData
+    }
+}
+
+extension SearchConsequence: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.params?.hashValue)
+        hasher.combine(self.promote?.hashValue)
+        hasher.combine(self.filterPromotes?.hashValue)
+        hasher.combine(self.hide?.hashValue)
+        hasher.combine(self.userData?.hashValue)
+    }
+}

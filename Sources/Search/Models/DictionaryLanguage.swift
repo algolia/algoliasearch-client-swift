@@ -26,3 +26,15 @@ public struct DictionaryLanguage: Codable, JSONEncodable {
         try container.encodeIfPresent(self.nbCustomEntries, forKey: .nbCustomEntries)
     }
 }
+
+extension DictionaryLanguage: Equatable {
+    public static func ==(lhs: DictionaryLanguage, rhs: DictionaryLanguage) -> Bool {
+        lhs.nbCustomEntries == rhs.nbCustomEntries
+    }
+}
+
+extension DictionaryLanguage: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.nbCustomEntries?.hashValue)
+    }
+}

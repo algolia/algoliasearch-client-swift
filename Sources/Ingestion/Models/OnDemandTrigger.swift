@@ -30,3 +30,17 @@ public struct OnDemandTrigger: Codable, JSONEncodable {
         try container.encodeIfPresent(self.lastRun, forKey: .lastRun)
     }
 }
+
+extension OnDemandTrigger: Equatable {
+    public static func ==(lhs: OnDemandTrigger, rhs: OnDemandTrigger) -> Bool {
+        lhs.type == rhs.type &&
+            lhs.lastRun == rhs.lastRun
+    }
+}
+
+extension OnDemandTrigger: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.type.hashValue)
+        hasher.combine(self.lastRun?.hashValue)
+    }
+}

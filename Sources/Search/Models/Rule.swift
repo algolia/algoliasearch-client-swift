@@ -59,3 +59,25 @@ public struct Rule: Codable, JSONEncodable {
         try container.encodeIfPresent(self.validity, forKey: .validity)
     }
 }
+
+extension Rule: Equatable {
+    public static func ==(lhs: Rule, rhs: Rule) -> Bool {
+        lhs.objectID == rhs.objectID &&
+            lhs.conditions == rhs.conditions &&
+            lhs.consequence == rhs.consequence &&
+            lhs.description == rhs.description &&
+            lhs.enabled == rhs.enabled &&
+            lhs.validity == rhs.validity
+    }
+}
+
+extension Rule: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.objectID.hashValue)
+        hasher.combine(self.conditions?.hashValue)
+        hasher.combine(self.consequence?.hashValue)
+        hasher.combine(self.description?.hashValue)
+        hasher.combine(self.enabled?.hashValue)
+        hasher.combine(self.validity?.hashValue)
+    }
+}

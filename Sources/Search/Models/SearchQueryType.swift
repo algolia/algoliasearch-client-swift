@@ -15,3 +15,5 @@ public enum SearchQueryType: String, Codable, CaseIterable {
     case prefixAll
     case prefixNone
 }
+
+extension SearchQueryType: Hashable {}

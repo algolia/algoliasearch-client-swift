@@ -24,3 +24,15 @@ public struct InventoryResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.inventory, forKey: .inventory)
     }
 }
+
+extension InventoryResponse: Equatable {
+    public static func ==(lhs: InventoryResponse, rhs: InventoryResponse) -> Bool {
+        lhs.inventory == rhs.inventory
+    }
+}
+
+extension InventoryResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.inventory?.hashValue)
+    }
+}

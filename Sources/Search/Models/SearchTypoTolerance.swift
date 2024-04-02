@@ -50,3 +50,6 @@ public enum SearchTypoTolerance: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension SearchTypoTolerance: Equatable {}
+extension SearchTypoTolerance: Hashable {}

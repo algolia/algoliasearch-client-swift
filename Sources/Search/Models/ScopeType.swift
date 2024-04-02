@@ -11,3 +11,5 @@ public enum ScopeType: String, Codable, CaseIterable {
     case synonyms
     case rules
 }
+
+extension ScopeType: Hashable {}

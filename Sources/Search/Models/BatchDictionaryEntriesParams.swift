@@ -31,3 +31,17 @@ public struct BatchDictionaryEntriesParams: Codable, JSONEncodable {
         try container.encode(self.requests, forKey: .requests)
     }
 }
+
+extension BatchDictionaryEntriesParams: Equatable {
+    public static func ==(lhs: BatchDictionaryEntriesParams, rhs: BatchDictionaryEntriesParams) -> Bool {
+        lhs.clearExistingDictionaryEntries == rhs.clearExistingDictionaryEntries &&
+            lhs.requests == rhs.requests
+    }
+}
+
+extension BatchDictionaryEntriesParams: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.clearExistingDictionaryEntries?.hashValue)
+        hasher.combine(self.requests.hashValue)
+    }
+}

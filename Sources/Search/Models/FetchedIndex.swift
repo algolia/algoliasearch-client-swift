@@ -87,3 +87,35 @@ public struct FetchedIndex: Codable, JSONEncodable {
         try container.encodeIfPresent(self.replicas, forKey: .replicas)
     }
 }
+
+extension FetchedIndex: Equatable {
+    public static func ==(lhs: FetchedIndex, rhs: FetchedIndex) -> Bool {
+        lhs.name == rhs.name &&
+            lhs.createdAt == rhs.createdAt &&
+            lhs.updatedAt == rhs.updatedAt &&
+            lhs.entries == rhs.entries &&
+            lhs.dataSize == rhs.dataSize &&
+            lhs.fileSize == rhs.fileSize &&
+            lhs.lastBuildTimeS == rhs.lastBuildTimeS &&
+            lhs.numberOfPendingTasks == rhs.numberOfPendingTasks &&
+            lhs.pendingTask == rhs.pendingTask &&
+            lhs.primary == rhs.primary &&
+            lhs.replicas == rhs.replicas
+    }
+}
+
+extension FetchedIndex: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.name.hashValue)
+        hasher.combine(self.createdAt.hashValue)
+        hasher.combine(self.updatedAt.hashValue)
+        hasher.combine(self.entries.hashValue)
+        hasher.combine(self.dataSize.hashValue)
+        hasher.combine(self.fileSize.hashValue)
+        hasher.combine(self.lastBuildTimeS.hashValue)
+        hasher.combine(self.numberOfPendingTasks.hashValue)
+        hasher.combine(self.pendingTask.hashValue)
+        hasher.combine(self.primary?.hashValue)
+        hasher.combine(self.replicas?.hashValue)
+    }
+}

@@ -17,3 +17,5 @@ public enum SourceType: String, Codable, CaseIterable {
     case shopify
     case sfcc
 }
+
+extension SourceType: Hashable {}

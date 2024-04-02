@@ -12,3 +12,5 @@ public enum Platform: String, Codable, CaseIterable {
     case commercetools
     case shopify
 }
+
+extension Platform: Hashable {}

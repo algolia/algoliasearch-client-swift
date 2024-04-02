@@ -39,3 +39,21 @@ public struct AbTestsVariantSearchParams: Codable, JSONEncodable {
         try container.encode(self.customSearchParameters, forKey: .customSearchParameters)
     }
 }
+
+extension AbTestsVariantSearchParams: Equatable {
+    public static func ==(lhs: AbTestsVariantSearchParams, rhs: AbTestsVariantSearchParams) -> Bool {
+        lhs.index == rhs.index &&
+            lhs.trafficPercentage == rhs.trafficPercentage &&
+            lhs.description == rhs.description &&
+            lhs.customSearchParameters == rhs.customSearchParameters
+    }
+}
+
+extension AbTestsVariantSearchParams: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.index.hashValue)
+        hasher.combine(self.trafficPercentage.hashValue)
+        hasher.combine(self.description?.hashValue)
+        hasher.combine(self.customSearchParameters.hashValue)
+    }
+}

@@ -58,3 +58,6 @@ public enum Trigger: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension Trigger: Equatable {}
+extension Trigger: Hashable {}

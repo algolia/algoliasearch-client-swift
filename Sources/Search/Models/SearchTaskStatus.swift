@@ -11,3 +11,5 @@ public enum SearchTaskStatus: String, Codable, CaseIterable {
     case published
     case notPublished
 }
+
+extension SearchTaskStatus: Hashable {}

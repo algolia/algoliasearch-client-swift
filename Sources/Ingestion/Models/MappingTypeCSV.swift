@@ -13,3 +13,5 @@ public enum MappingTypeCSV: String, Codable, CaseIterable {
     case boolean
     case json
 }
+
+extension MappingTypeCSV: Hashable {}

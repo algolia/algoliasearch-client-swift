@@ -35,3 +35,19 @@ public struct GetUserTokenResponse: Codable, JSONEncodable {
         try container.encode(self.scores, forKey: .scores)
     }
 }
+
+extension GetUserTokenResponse: Equatable {
+    public static func ==(lhs: GetUserTokenResponse, rhs: GetUserTokenResponse) -> Bool {
+        lhs.userToken == rhs.userToken &&
+            lhs.lastEventAt == rhs.lastEventAt &&
+            lhs.scores == rhs.scores
+    }
+}
+
+extension GetUserTokenResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.userToken.hashValue)
+        hasher.combine(self.lastEventAt.hashValue)
+        hasher.combine(self.scores.hashValue)
+    }
+}

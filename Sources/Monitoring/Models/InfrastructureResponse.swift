@@ -24,3 +24,15 @@ public struct InfrastructureResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.metrics, forKey: .metrics)
     }
 }
+
+extension InfrastructureResponse: Equatable {
+    public static func ==(lhs: InfrastructureResponse, rhs: InfrastructureResponse) -> Bool {
+        lhs.metrics == rhs.metrics
+    }
+}
+
+extension InfrastructureResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.metrics?.hashValue)
+    }
+}

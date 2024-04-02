@@ -25,3 +25,15 @@ public struct InsightsEvents: Codable, JSONEncodable {
         try container.encode(self.events, forKey: .events)
     }
 }
+
+extension InsightsEvents: Equatable {
+    public static func ==(lhs: InsightsEvents, rhs: InsightsEvents) -> Bool {
+        lhs.events == rhs.events
+    }
+}
+
+extension InsightsEvents: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.events.hashValue)
+    }
+}

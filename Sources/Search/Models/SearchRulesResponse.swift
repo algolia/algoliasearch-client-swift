@@ -40,3 +40,21 @@ public struct SearchRulesResponse: Codable, JSONEncodable {
         try container.encode(self.nbPages, forKey: .nbPages)
     }
 }
+
+extension SearchRulesResponse: Equatable {
+    public static func ==(lhs: SearchRulesResponse, rhs: SearchRulesResponse) -> Bool {
+        lhs.hits == rhs.hits &&
+            lhs.nbHits == rhs.nbHits &&
+            lhs.page == rhs.page &&
+            lhs.nbPages == rhs.nbPages
+    }
+}
+
+extension SearchRulesResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.hits.hashValue)
+        hasher.combine(self.nbHits.hashValue)
+        hasher.combine(self.page.hashValue)
+        hasher.combine(self.nbPages.hashValue)
+    }
+}

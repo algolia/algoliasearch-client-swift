@@ -45,3 +45,21 @@ public struct GetLogFile200Response: Codable, JSONEncodable {
         try container.encodeIfPresent(self.contextLevel, forKey: .contextLevel)
     }
 }
+
+extension GetLogFile200Response: Equatable {
+    public static func ==(lhs: GetLogFile200Response, rhs: GetLogFile200Response) -> Bool {
+        lhs.timestamp == rhs.timestamp &&
+            lhs.level == rhs.level &&
+            lhs.message == rhs.message &&
+            lhs.contextLevel == rhs.contextLevel
+    }
+}
+
+extension GetLogFile200Response: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.timestamp?.hashValue)
+        hasher.combine(self.level?.hashValue)
+        hasher.combine(self.message?.hashValue)
+        hasher.combine(self.contextLevel?.hashValue)
+    }
+}

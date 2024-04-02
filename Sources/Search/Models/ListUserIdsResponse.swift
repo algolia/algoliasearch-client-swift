@@ -26,3 +26,15 @@ public struct ListUserIdsResponse: Codable, JSONEncodable {
         try container.encode(self.userIDs, forKey: .userIDs)
     }
 }
+
+extension ListUserIdsResponse: Equatable {
+    public static func ==(lhs: ListUserIdsResponse, rhs: ListUserIdsResponse) -> Bool {
+        lhs.userIDs == rhs.userIDs
+    }
+}
+
+extension ListUserIdsResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.userIDs.hashValue)
+    }
+}

@@ -96,3 +96,33 @@ public struct GetApiKeyResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.validity, forKey: .validity)
     }
 }
+
+extension GetApiKeyResponse: Equatable {
+    public static func ==(lhs: GetApiKeyResponse, rhs: GetApiKeyResponse) -> Bool {
+        lhs.value == rhs.value &&
+            lhs.createdAt == rhs.createdAt &&
+            lhs.acl == rhs.acl &&
+            lhs.description == rhs.description &&
+            lhs.indexes == rhs.indexes &&
+            lhs.maxHitsPerQuery == rhs.maxHitsPerQuery &&
+            lhs.maxQueriesPerIPPerHour == rhs.maxQueriesPerIPPerHour &&
+            lhs.queryParameters == rhs.queryParameters &&
+            lhs.referers == rhs.referers &&
+            lhs.validity == rhs.validity
+    }
+}
+
+extension GetApiKeyResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.value?.hashValue)
+        hasher.combine(self.createdAt.hashValue)
+        hasher.combine(self.acl.hashValue)
+        hasher.combine(self.description?.hashValue)
+        hasher.combine(self.indexes?.hashValue)
+        hasher.combine(self.maxHitsPerQuery?.hashValue)
+        hasher.combine(self.maxQueriesPerIPPerHour?.hashValue)
+        hasher.combine(self.queryParameters?.hashValue)
+        hasher.combine(self.referers?.hashValue)
+        hasher.combine(self.validity?.hashValue)
+    }
+}

@@ -14,3 +14,5 @@ public enum OrderBy: String, Codable, CaseIterable {
     case conversionRate
     case averageClickPosition
 }
+
+extension OrderBy: Hashable {}

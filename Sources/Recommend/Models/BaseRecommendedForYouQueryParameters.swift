@@ -26,3 +26,18 @@ public struct BaseRecommendedForYouQueryParameters: Codable, JSONEncodable {
         try container.encode(self.userToken, forKey: .userToken)
     }
 }
+
+extension BaseRecommendedForYouQueryParameters: Equatable {
+    public static func ==(
+        lhs: BaseRecommendedForYouQueryParameters,
+        rhs: BaseRecommendedForYouQueryParameters
+    ) -> Bool {
+        lhs.userToken == rhs.userToken
+    }
+}
+
+extension BaseRecommendedForYouQueryParameters: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.userToken.hashValue)
+    }
+}

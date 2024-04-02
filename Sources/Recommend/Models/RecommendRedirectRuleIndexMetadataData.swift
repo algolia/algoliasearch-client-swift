@@ -25,3 +25,18 @@ public struct RecommendRedirectRuleIndexMetadataData: Codable, JSONEncodable {
         try container.encode(self.ruleObjectID, forKey: .ruleObjectID)
     }
 }
+
+extension RecommendRedirectRuleIndexMetadataData: Equatable {
+    public static func ==(
+        lhs: RecommendRedirectRuleIndexMetadataData,
+        rhs: RecommendRedirectRuleIndexMetadataData
+    ) -> Bool {
+        lhs.ruleObjectID == rhs.ruleObjectID
+    }
+}
+
+extension RecommendRedirectRuleIndexMetadataData: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.ruleObjectID.hashValue)
+    }
+}

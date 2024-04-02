@@ -24,3 +24,15 @@ public struct IncidentsResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.incidents, forKey: .incidents)
     }
 }
+
+extension IncidentsResponse: Equatable {
+    public static func ==(lhs: IncidentsResponse, rhs: IncidentsResponse) -> Bool {
+        lhs.incidents == rhs.incidents
+    }
+}
+
+extension IncidentsResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.incidents?.hashValue)
+    }
+}

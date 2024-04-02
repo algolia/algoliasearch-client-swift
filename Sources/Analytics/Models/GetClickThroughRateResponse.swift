@@ -41,3 +41,21 @@ public struct GetClickThroughRateResponse: Codable, JSONEncodable {
         try container.encode(self.dates, forKey: .dates)
     }
 }
+
+extension GetClickThroughRateResponse: Equatable {
+    public static func ==(lhs: GetClickThroughRateResponse, rhs: GetClickThroughRateResponse) -> Bool {
+        lhs.rate == rhs.rate &&
+            lhs.clickCount == rhs.clickCount &&
+            lhs.trackedSearchCount == rhs.trackedSearchCount &&
+            lhs.dates == rhs.dates
+    }
+}
+
+extension GetClickThroughRateResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.rate.hashValue)
+        hasher.combine(self.clickCount.hashValue)
+        hasher.combine(self.trackedSearchCount.hashValue)
+        hasher.combine(self.dates.hashValue)
+    }
+}

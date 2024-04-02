@@ -24,3 +24,15 @@ public struct GetLogsResponse: Codable, JSONEncodable {
         try container.encode(self.logs, forKey: .logs)
     }
 }
+
+extension GetLogsResponse: Equatable {
+    public static func ==(lhs: GetLogsResponse, rhs: GetLogsResponse) -> Bool {
+        lhs.logs == rhs.logs
+    }
+}
+
+extension GetLogsResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.logs.hashValue)
+    }
+}

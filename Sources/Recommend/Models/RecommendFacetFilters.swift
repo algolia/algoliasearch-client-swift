@@ -52,3 +52,6 @@ public enum RecommendFacetFilters: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension RecommendFacetFilters: Equatable {}
+extension RecommendFacetFilters: Hashable {}

@@ -20,3 +20,5 @@ public enum RecommendRemoveWordsIfNoResults: String, Codable, CaseIterable {
     case firstWords
     case allOptional
 }
+
+extension RecommendRemoveWordsIfNoResults: Hashable {}

@@ -56,3 +56,25 @@ public struct UserHit: Codable, JSONEncodable {
         try container.encode(self.highlightResult, forKey: .highlightResult)
     }
 }
+
+extension UserHit: Equatable {
+    public static func ==(lhs: UserHit, rhs: UserHit) -> Bool {
+        lhs.userID == rhs.userID &&
+            lhs.clusterName == rhs.clusterName &&
+            lhs.nbRecords == rhs.nbRecords &&
+            lhs.dataSize == rhs.dataSize &&
+            lhs.objectID == rhs.objectID &&
+            lhs.highlightResult == rhs.highlightResult
+    }
+}
+
+extension UserHit: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.userID.hashValue)
+        hasher.combine(self.clusterName.hashValue)
+        hasher.combine(self.nbRecords.hashValue)
+        hasher.combine(self.dataSize.hashValue)
+        hasher.combine(self.objectID.hashValue)
+        hasher.combine(self.highlightResult.hashValue)
+    }
+}

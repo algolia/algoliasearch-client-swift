@@ -27,3 +27,15 @@ public struct ListClustersResponse: Codable, JSONEncodable {
         try container.encode(self.topUsers, forKey: .topUsers)
     }
 }
+
+extension ListClustersResponse: Equatable {
+    public static func ==(lhs: ListClustersResponse, rhs: ListClustersResponse) -> Bool {
+        lhs.topUsers == rhs.topUsers
+    }
+}
+
+extension ListClustersResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.topUsers.hashValue)
+    }
+}

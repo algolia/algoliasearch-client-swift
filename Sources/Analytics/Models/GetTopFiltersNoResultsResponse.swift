@@ -26,3 +26,15 @@ public struct GetTopFiltersNoResultsResponse: Codable, JSONEncodable {
         try container.encode(self.values, forKey: .values)
     }
 }
+
+extension GetTopFiltersNoResultsResponse: Equatable {
+    public static func ==(lhs: GetTopFiltersNoResultsResponse, rhs: GetTopFiltersNoResultsResponse) -> Bool {
+        lhs.values == rhs.values
+    }
+}
+
+extension GetTopFiltersNoResultsResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.values.hashValue)
+    }
+}

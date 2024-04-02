@@ -24,3 +24,15 @@ public struct DockerSourceStreams: Codable, JSONEncodable {
         try container.encode(self.streams, forKey: .streams)
     }
 }
+
+extension DockerSourceStreams: Equatable {
+    public static func ==(lhs: DockerSourceStreams, rhs: DockerSourceStreams) -> Bool {
+        lhs.streams == rhs.streams
+    }
+}
+
+extension DockerSourceStreams: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.streams.hashValue)
+    }
+}

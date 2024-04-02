@@ -35,3 +35,19 @@ public struct EventScoring: Codable, JSONEncodable {
         try container.encode(self.eventType, forKey: .eventType)
     }
 }
+
+extension EventScoring: Equatable {
+    public static func ==(lhs: EventScoring, rhs: EventScoring) -> Bool {
+        lhs.score == rhs.score &&
+            lhs.eventName == rhs.eventName &&
+            lhs.eventType == rhs.eventType
+    }
+}
+
+extension EventScoring: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.score.hashValue)
+        hasher.combine(self.eventName.hashValue)
+        hasher.combine(self.eventType.hashValue)
+    }
+}

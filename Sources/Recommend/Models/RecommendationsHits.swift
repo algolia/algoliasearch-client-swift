@@ -34,3 +34,19 @@ public struct RecommendationsHits: Codable, JSONEncodable {
         try container.encodeIfPresent(self.params, forKey: .params)
     }
 }
+
+extension RecommendationsHits: Equatable {
+    public static func ==(lhs: RecommendationsHits, rhs: RecommendationsHits) -> Bool {
+        lhs.hits == rhs.hits &&
+            lhs.query == rhs.query &&
+            lhs.params == rhs.params
+    }
+}
+
+extension RecommendationsHits: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.hits.hashValue)
+        hasher.combine(self.query?.hashValue)
+        hasher.combine(self.params?.hashValue)
+    }
+}

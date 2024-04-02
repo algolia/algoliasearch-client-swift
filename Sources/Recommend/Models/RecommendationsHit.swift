@@ -46,3 +46,6 @@ public enum RecommendationsHit: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension RecommendationsHit: Equatable {}
+extension RecommendationsHit: Hashable {}

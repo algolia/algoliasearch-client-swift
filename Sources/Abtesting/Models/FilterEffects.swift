@@ -29,3 +29,17 @@ public struct FilterEffects: Codable, JSONEncodable {
         try container.encodeIfPresent(self.emptySearch, forKey: .emptySearch)
     }
 }
+
+extension FilterEffects: Equatable {
+    public static func ==(lhs: FilterEffects, rhs: FilterEffects) -> Bool {
+        lhs.outliers == rhs.outliers &&
+            lhs.emptySearch == rhs.emptySearch
+    }
+}
+
+extension FilterEffects: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.outliers?.hashValue)
+        hasher.combine(self.emptySearch?.hashValue)
+    }
+}

@@ -239,3 +239,78 @@ public struct RecommendBaseSearchParamsWithoutQuery: Codable, JSONEncodable {
         try container.encodeIfPresent(self.enableABTest, forKey: .enableABTest)
     }
 }
+
+extension RecommendBaseSearchParamsWithoutQuery: Equatable {
+    public static func ==(
+        lhs: RecommendBaseSearchParamsWithoutQuery,
+        rhs: RecommendBaseSearchParamsWithoutQuery
+    ) -> Bool {
+        lhs.similarQuery == rhs.similarQuery &&
+            lhs.filters == rhs.filters &&
+            lhs.facetFilters == rhs.facetFilters &&
+            lhs.optionalFilters == rhs.optionalFilters &&
+            lhs.numericFilters == rhs.numericFilters &&
+            lhs.tagFilters == rhs.tagFilters &&
+            lhs.sumOrFiltersScores == rhs.sumOrFiltersScores &&
+            lhs.restrictSearchableAttributes == rhs.restrictSearchableAttributes &&
+            lhs.facets == rhs.facets &&
+            lhs.facetingAfterDistinct == rhs.facetingAfterDistinct &&
+            lhs.page == rhs.page &&
+            lhs.offset == rhs.offset &&
+            lhs.length == rhs.length &&
+            lhs.aroundLatLng == rhs.aroundLatLng &&
+            lhs.aroundLatLngViaIP == rhs.aroundLatLngViaIP &&
+            lhs.aroundRadius == rhs.aroundRadius &&
+            lhs.aroundPrecision == rhs.aroundPrecision &&
+            lhs.minimumAroundRadius == rhs.minimumAroundRadius &&
+            lhs.insideBoundingBox == rhs.insideBoundingBox &&
+            lhs.insidePolygon == rhs.insidePolygon &&
+            lhs.naturalLanguages == rhs.naturalLanguages &&
+            lhs.ruleContexts == rhs.ruleContexts &&
+            lhs.personalizationImpact == rhs.personalizationImpact &&
+            lhs.userToken == rhs.userToken &&
+            lhs.getRankingInfo == rhs.getRankingInfo &&
+            lhs.synonyms == rhs.synonyms &&
+            lhs.clickAnalytics == rhs.clickAnalytics &&
+            lhs.analytics == rhs.analytics &&
+            lhs.analyticsTags == rhs.analyticsTags &&
+            lhs.percentileComputation == rhs.percentileComputation &&
+            lhs.enableABTest == rhs.enableABTest
+    }
+}
+
+extension RecommendBaseSearchParamsWithoutQuery: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.similarQuery?.hashValue)
+        hasher.combine(self.filters?.hashValue)
+        hasher.combine(self.facetFilters?.hashValue)
+        hasher.combine(self.optionalFilters?.hashValue)
+        hasher.combine(self.numericFilters?.hashValue)
+        hasher.combine(self.tagFilters?.hashValue)
+        hasher.combine(self.sumOrFiltersScores?.hashValue)
+        hasher.combine(self.restrictSearchableAttributes?.hashValue)
+        hasher.combine(self.facets?.hashValue)
+        hasher.combine(self.facetingAfterDistinct?.hashValue)
+        hasher.combine(self.page?.hashValue)
+        hasher.combine(self.offset?.hashValue)
+        hasher.combine(self.length?.hashValue)
+        hasher.combine(self.aroundLatLng?.hashValue)
+        hasher.combine(self.aroundLatLngViaIP?.hashValue)
+        hasher.combine(self.aroundRadius?.hashValue)
+        hasher.combine(self.aroundPrecision?.hashValue)
+        hasher.combine(self.minimumAroundRadius?.hashValue)
+        hasher.combine(self.insideBoundingBox?.hashValue)
+        hasher.combine(self.insidePolygon?.hashValue)
+        hasher.combine(self.naturalLanguages?.hashValue)
+        hasher.combine(self.ruleContexts?.hashValue)
+        hasher.combine(self.personalizationImpact?.hashValue)
+        hasher.combine(self.userToken?.hashValue)
+        hasher.combine(self.getRankingInfo?.hashValue)
+        hasher.combine(self.synonyms?.hashValue)
+        hasher.combine(self.clickAnalytics?.hashValue)
+        hasher.combine(self.analytics?.hashValue)
+        hasher.combine(self.analyticsTags?.hashValue)
+        hasher.combine(self.percentileComputation?.hashValue)
+        hasher.combine(self.enableABTest?.hashValue)
+    }
+}

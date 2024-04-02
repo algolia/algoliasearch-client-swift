@@ -34,3 +34,19 @@ public struct RecommendEdit: Codable, JSONEncodable {
         try container.encodeIfPresent(self.insert, forKey: .insert)
     }
 }
+
+extension RecommendEdit: Equatable {
+    public static func ==(lhs: RecommendEdit, rhs: RecommendEdit) -> Bool {
+        lhs.type == rhs.type &&
+            lhs.delete == rhs.delete &&
+            lhs.insert == rhs.insert
+    }
+}
+
+extension RecommendEdit: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.type?.hashValue)
+        hasher.combine(self.delete?.hashValue)
+        hasher.combine(self.insert?.hashValue)
+    }
+}

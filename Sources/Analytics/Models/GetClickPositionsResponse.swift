@@ -25,3 +25,15 @@ public struct GetClickPositionsResponse: Codable, JSONEncodable {
         try container.encode(self.positions, forKey: .positions)
     }
 }
+
+extension GetClickPositionsResponse: Equatable {
+    public static func ==(lhs: GetClickPositionsResponse, rhs: GetClickPositionsResponse) -> Bool {
+        lhs.positions == rhs.positions
+    }
+}
+
+extension GetClickPositionsResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.positions.hashValue)
+    }
+}

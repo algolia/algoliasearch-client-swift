@@ -35,3 +35,19 @@ public struct TopSearch: Codable, JSONEncodable {
         try container.encode(self.nbHits, forKey: .nbHits)
     }
 }
+
+extension TopSearch: Equatable {
+    public static func ==(lhs: TopSearch, rhs: TopSearch) -> Bool {
+        lhs.search == rhs.search &&
+            lhs.count == rhs.count &&
+            lhs.nbHits == rhs.nbHits
+    }
+}
+
+extension TopSearch: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.search.hashValue)
+        hasher.combine(self.count.hashValue)
+        hasher.combine(self.nbHits.hashValue)
+    }
+}

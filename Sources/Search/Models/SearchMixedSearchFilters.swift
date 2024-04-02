@@ -46,3 +46,6 @@ public enum SearchMixedSearchFilters: Codable, JSONEncodable, AbstractEncodable 
         }
     }
 }
+
+extension SearchMixedSearchFilters: Equatable {}
+extension SearchMixedSearchFilters: Hashable {}

@@ -70,3 +70,29 @@ public struct SynonymHit: Codable, JSONEncodable {
         try container.encodeIfPresent(self.replacements, forKey: .replacements)
     }
 }
+
+extension SynonymHit: Equatable {
+    public static func ==(lhs: SynonymHit, rhs: SynonymHit) -> Bool {
+        lhs.objectID == rhs.objectID &&
+            lhs.type == rhs.type &&
+            lhs.synonyms == rhs.synonyms &&
+            lhs.input == rhs.input &&
+            lhs.word == rhs.word &&
+            lhs.corrections == rhs.corrections &&
+            lhs.placeholder == rhs.placeholder &&
+            lhs.replacements == rhs.replacements
+    }
+}
+
+extension SynonymHit: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.objectID.hashValue)
+        hasher.combine(self.type.hashValue)
+        hasher.combine(self.synonyms?.hashValue)
+        hasher.combine(self.input?.hashValue)
+        hasher.combine(self.word?.hashValue)
+        hasher.combine(self.corrections?.hashValue)
+        hasher.combine(self.placeholder?.hashValue)
+        hasher.combine(self.replacements?.hashValue)
+    }
+}

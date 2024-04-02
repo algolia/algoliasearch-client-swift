@@ -14,3 +14,5 @@ public enum SynonymType: String, Codable, CaseIterable {
     case altcorrection2
     case placeholder
 }
+
+extension SynonymType: Hashable {}

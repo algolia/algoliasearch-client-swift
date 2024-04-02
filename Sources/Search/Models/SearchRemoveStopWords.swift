@@ -49,3 +49,6 @@ public enum SearchRemoveStopWords: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension SearchRemoveStopWords: Equatable {}
+extension SearchRemoveStopWords: Hashable {}

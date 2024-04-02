@@ -28,3 +28,17 @@ public struct RunProgress: Codable, JSONEncodable {
         try container.encodeIfPresent(self.receivedNbOfEvents, forKey: .receivedNbOfEvents)
     }
 }
+
+extension RunProgress: Equatable {
+    public static func ==(lhs: RunProgress, rhs: RunProgress) -> Bool {
+        lhs.expectedNbOfEvents == rhs.expectedNbOfEvents &&
+            lhs.receivedNbOfEvents == rhs.receivedNbOfEvents
+    }
+}
+
+extension RunProgress: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.expectedNbOfEvents?.hashValue)
+        hasher.combine(self.receivedNbOfEvents?.hashValue)
+    }
+}

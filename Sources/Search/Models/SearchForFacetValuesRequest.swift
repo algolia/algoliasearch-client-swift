@@ -36,3 +36,19 @@ public struct SearchForFacetValuesRequest: Codable, JSONEncodable {
         try container.encodeIfPresent(self.maxFacetHits, forKey: .maxFacetHits)
     }
 }
+
+extension SearchForFacetValuesRequest: Equatable {
+    public static func ==(lhs: SearchForFacetValuesRequest, rhs: SearchForFacetValuesRequest) -> Bool {
+        lhs.params == rhs.params &&
+            lhs.facetQuery == rhs.facetQuery &&
+            lhs.maxFacetHits == rhs.maxFacetHits
+    }
+}
+
+extension SearchForFacetValuesRequest: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.params?.hashValue)
+        hasher.combine(self.facetQuery?.hashValue)
+        hasher.combine(self.maxFacetHits?.hashValue)
+    }
+}

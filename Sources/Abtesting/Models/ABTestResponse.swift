@@ -37,3 +37,19 @@ public struct ABTestResponse: Codable, JSONEncodable {
         try container.encode(self.taskID, forKey: .taskID)
     }
 }
+
+extension ABTestResponse: Equatable {
+    public static func ==(lhs: ABTestResponse, rhs: ABTestResponse) -> Bool {
+        lhs.index == rhs.index &&
+            lhs.abTestID == rhs.abTestID &&
+            lhs.taskID == rhs.taskID
+    }
+}
+
+extension ABTestResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.index.hashValue)
+        hasher.combine(self.abTestID.hashValue)
+        hasher.combine(self.taskID.hashValue)
+    }
+}

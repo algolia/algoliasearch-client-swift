@@ -56,3 +56,23 @@ public struct RecommendConsequence: Codable, JSONEncodable {
         try container.encodeIfPresent(self.userData, forKey: .userData)
     }
 }
+
+extension RecommendConsequence: Equatable {
+    public static func ==(lhs: RecommendConsequence, rhs: RecommendConsequence) -> Bool {
+        lhs.params == rhs.params &&
+            lhs.promote == rhs.promote &&
+            lhs.filterPromotes == rhs.filterPromotes &&
+            lhs.hide == rhs.hide &&
+            lhs.userData == rhs.userData
+    }
+}
+
+extension RecommendConsequence: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.params?.hashValue)
+        hasher.combine(self.promote?.hashValue)
+        hasher.combine(self.filterPromotes?.hashValue)
+        hasher.combine(self.hide?.hashValue)
+        hasher.combine(self.userData?.hashValue)
+    }
+}

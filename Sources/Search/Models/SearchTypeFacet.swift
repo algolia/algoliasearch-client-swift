@@ -11,3 +11,5 @@ import Foundation
 public enum SearchTypeFacet: String, Codable, CaseIterable {
     case facet
 }
+
+extension SearchTypeFacet: Hashable {}

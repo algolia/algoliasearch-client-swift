@@ -48,3 +48,6 @@ public enum RecommendConsequenceQuery: Codable, JSONEncodable, AbstractEncodable
         }
     }
 }
+
+extension RecommendConsequenceQuery: Equatable {}
+extension RecommendConsequenceQuery: Hashable {}

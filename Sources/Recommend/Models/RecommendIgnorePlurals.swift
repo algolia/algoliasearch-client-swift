@@ -48,3 +48,6 @@ public enum RecommendIgnorePlurals: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension RecommendIgnorePlurals: Equatable {}
+extension RecommendIgnorePlurals: Hashable {}

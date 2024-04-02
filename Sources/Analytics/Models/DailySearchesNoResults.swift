@@ -35,3 +35,19 @@ public struct DailySearchesNoResults: Codable, JSONEncodable {
         try container.encode(self.withFilterCount, forKey: .withFilterCount)
     }
 }
+
+extension DailySearchesNoResults: Equatable {
+    public static func ==(lhs: DailySearchesNoResults, rhs: DailySearchesNoResults) -> Bool {
+        lhs.search == rhs.search &&
+            lhs.count == rhs.count &&
+            lhs.withFilterCount == rhs.withFilterCount
+    }
+}
+
+extension DailySearchesNoResults: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.search.hashValue)
+        hasher.combine(self.count.hashValue)
+        hasher.combine(self.withFilterCount.hashValue)
+    }
+}

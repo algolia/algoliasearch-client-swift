@@ -29,3 +29,17 @@ public struct BatchRequest: Codable, JSONEncodable {
         try container.encode(self.body, forKey: .body)
     }
 }
+
+extension BatchRequest: Equatable {
+    public static func ==(lhs: BatchRequest, rhs: BatchRequest) -> Bool {
+        lhs.action == rhs.action &&
+            lhs.body == rhs.body
+    }
+}
+
+extension BatchRequest: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.action.hashValue)
+        hasher.combine(self.body.hashValue)
+    }
+}

@@ -48,3 +48,6 @@ public enum SearchConsequenceQuery: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension SearchConsequenceQuery: Equatable {}
+extension SearchConsequenceQuery: Hashable {}

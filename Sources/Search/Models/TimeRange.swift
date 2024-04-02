@@ -30,3 +30,17 @@ public struct TimeRange: Codable, JSONEncodable {
         try container.encode(self.until, forKey: .until)
     }
 }
+
+extension TimeRange: Equatable {
+    public static func ==(lhs: TimeRange, rhs: TimeRange) -> Bool {
+        lhs.from == rhs.from &&
+            lhs.until == rhs.until
+    }
+}
+
+extension TimeRange: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.from.hashValue)
+        hasher.combine(self.until.hashValue)
+    }
+}

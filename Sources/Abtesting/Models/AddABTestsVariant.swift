@@ -46,3 +46,6 @@ public enum AddABTestsVariant: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension AddABTestsVariant: Equatable {}
+extension AddABTestsVariant: Hashable {}

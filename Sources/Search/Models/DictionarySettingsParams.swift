@@ -25,3 +25,15 @@ public struct DictionarySettingsParams: Codable, JSONEncodable {
         try container.encode(self.disableStandardEntries, forKey: .disableStandardEntries)
     }
 }
+
+extension DictionarySettingsParams: Equatable {
+    public static func ==(lhs: DictionarySettingsParams, rhs: DictionarySettingsParams) -> Bool {
+        lhs.disableStandardEntries == rhs.disableStandardEntries
+    }
+}
+
+extension DictionarySettingsParams: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.disableStandardEntries.hashValue)
+    }
+}

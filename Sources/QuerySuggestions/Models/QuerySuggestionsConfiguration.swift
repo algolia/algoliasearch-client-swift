@@ -50,3 +50,23 @@ public struct QuerySuggestionsConfiguration: Codable, JSONEncodable {
         try container.encodeIfPresent(self.allowSpecialCharacters, forKey: .allowSpecialCharacters)
     }
 }
+
+extension QuerySuggestionsConfiguration: Equatable {
+    public static func ==(lhs: QuerySuggestionsConfiguration, rhs: QuerySuggestionsConfiguration) -> Bool {
+        lhs.sourceIndices == rhs.sourceIndices &&
+            lhs.languages == rhs.languages &&
+            lhs.exclude == rhs.exclude &&
+            lhs.enablePersonalization == rhs.enablePersonalization &&
+            lhs.allowSpecialCharacters == rhs.allowSpecialCharacters
+    }
+}
+
+extension QuerySuggestionsConfiguration: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.sourceIndices.hashValue)
+        hasher.combine(self.languages?.hashValue)
+        hasher.combine(self.exclude?.hashValue)
+        hasher.combine(self.enablePersonalization?.hashValue)
+        hasher.combine(self.allowSpecialCharacters?.hashValue)
+    }
+}

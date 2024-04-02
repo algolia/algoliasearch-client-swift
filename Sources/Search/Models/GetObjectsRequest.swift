@@ -36,3 +36,19 @@ public struct GetObjectsRequest: Codable, JSONEncodable {
         try container.encode(self.indexName, forKey: .indexName)
     }
 }
+
+extension GetObjectsRequest: Equatable {
+    public static func ==(lhs: GetObjectsRequest, rhs: GetObjectsRequest) -> Bool {
+        lhs.attributesToRetrieve == rhs.attributesToRetrieve &&
+            lhs.objectID == rhs.objectID &&
+            lhs.indexName == rhs.indexName
+    }
+}
+
+extension GetObjectsRequest: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.attributesToRetrieve?.hashValue)
+        hasher.combine(self.objectID.hashValue)
+        hasher.combine(self.indexName.hashValue)
+    }
+}

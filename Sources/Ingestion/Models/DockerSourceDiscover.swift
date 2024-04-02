@@ -30,3 +30,17 @@ public struct DockerSourceDiscover: Codable, JSONEncodable {
         try container.encode(self.createdAt, forKey: .createdAt)
     }
 }
+
+extension DockerSourceDiscover: Equatable {
+    public static func ==(lhs: DockerSourceDiscover, rhs: DockerSourceDiscover) -> Bool {
+        lhs.runID == rhs.runID &&
+            lhs.createdAt == rhs.createdAt
+    }
+}
+
+extension DockerSourceDiscover: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.runID.hashValue)
+        hasher.combine(self.createdAt.hashValue)
+    }
+}

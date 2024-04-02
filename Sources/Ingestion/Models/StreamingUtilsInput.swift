@@ -26,3 +26,15 @@ public struct StreamingUtilsInput: Codable, JSONEncodable {
         try container.encode(self.mapping, forKey: .mapping)
     }
 }
+
+extension StreamingUtilsInput: Equatable {
+    public static func ==(lhs: StreamingUtilsInput, rhs: StreamingUtilsInput) -> Bool {
+        lhs.mapping == rhs.mapping
+    }
+}
+
+extension StreamingUtilsInput: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.mapping.hashValue)
+    }
+}

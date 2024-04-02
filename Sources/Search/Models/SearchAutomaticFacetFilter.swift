@@ -39,3 +39,19 @@ public struct SearchAutomaticFacetFilter: Codable, JSONEncodable {
         try container.encodeIfPresent(self.disjunctive, forKey: .disjunctive)
     }
 }
+
+extension SearchAutomaticFacetFilter: Equatable {
+    public static func ==(lhs: SearchAutomaticFacetFilter, rhs: SearchAutomaticFacetFilter) -> Bool {
+        lhs.facet == rhs.facet &&
+            lhs.score == rhs.score &&
+            lhs.disjunctive == rhs.disjunctive
+    }
+}
+
+extension SearchAutomaticFacetFilter: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.facet.hashValue)
+        hasher.combine(self.score?.hashValue)
+        hasher.combine(self.disjunctive?.hashValue)
+    }
+}

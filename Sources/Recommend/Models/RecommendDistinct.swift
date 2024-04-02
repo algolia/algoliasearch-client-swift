@@ -50,3 +50,6 @@ public enum RecommendDistinct: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension RecommendDistinct: Equatable {}
+extension RecommendDistinct: Hashable {}

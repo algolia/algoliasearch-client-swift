@@ -24,3 +24,15 @@ public struct TaskSearch: Codable, JSONEncodable {
         try container.encode(self.taskIDs, forKey: .taskIDs)
     }
 }
+
+extension TaskSearch: Equatable {
+    public static func ==(lhs: TaskSearch, rhs: TaskSearch) -> Bool {
+        lhs.taskIDs == rhs.taskIDs
+    }
+}
+
+extension TaskSearch: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.taskIDs.hashValue)
+    }
+}

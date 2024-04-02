@@ -19,3 +19,5 @@ public enum TriggerType: String, Codable, CaseIterable {
     case subscription
     case streaming
 }
+
+extension TriggerType: Hashable {}

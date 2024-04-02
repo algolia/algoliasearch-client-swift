@@ -47,3 +47,6 @@ public enum SearchDistinct: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension SearchDistinct: Equatable {}
+extension SearchDistinct: Hashable {}

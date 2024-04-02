@@ -33,3 +33,17 @@ public struct SearchAroundPrecisionFromValueInner: Codable, JSONEncodable {
         try container.encodeIfPresent(self.value, forKey: .value)
     }
 }
+
+extension SearchAroundPrecisionFromValueInner: Equatable {
+    public static func ==(lhs: SearchAroundPrecisionFromValueInner, rhs: SearchAroundPrecisionFromValueInner) -> Bool {
+        lhs.from == rhs.from &&
+            lhs.value == rhs.value
+    }
+}
+
+extension SearchAroundPrecisionFromValueInner: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.from?.hashValue)
+        hasher.combine(self.value?.hashValue)
+    }
+}

@@ -25,3 +25,15 @@ public struct SetPersonalizationStrategyResponse: Codable, JSONEncodable {
         try container.encode(self.message, forKey: .message)
     }
 }
+
+extension SetPersonalizationStrategyResponse: Equatable {
+    public static func ==(lhs: SetPersonalizationStrategyResponse, rhs: SetPersonalizationStrategyResponse) -> Bool {
+        lhs.message == rhs.message
+    }
+}
+
+extension SetPersonalizationStrategyResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.message.hashValue)
+    }
+}

@@ -26,3 +26,15 @@ public struct SearchRedirect: Codable, JSONEncodable {
         try container.encodeIfPresent(self.index, forKey: .index)
     }
 }
+
+extension SearchRedirect: Equatable {
+    public static func ==(lhs: SearchRedirect, rhs: SearchRedirect) -> Bool {
+        lhs.index == rhs.index
+    }
+}
+
+extension SearchRedirect: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.index?.hashValue)
+    }
+}

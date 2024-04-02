@@ -85,3 +85,29 @@ public struct DeleteByParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.insidePolygon, forKey: .insidePolygon)
     }
 }
+
+extension DeleteByParams: Equatable {
+    public static func ==(lhs: DeleteByParams, rhs: DeleteByParams) -> Bool {
+        lhs.facetFilters == rhs.facetFilters &&
+            lhs.filters == rhs.filters &&
+            lhs.numericFilters == rhs.numericFilters &&
+            lhs.tagFilters == rhs.tagFilters &&
+            lhs.aroundLatLng == rhs.aroundLatLng &&
+            lhs.aroundRadius == rhs.aroundRadius &&
+            lhs.insideBoundingBox == rhs.insideBoundingBox &&
+            lhs.insidePolygon == rhs.insidePolygon
+    }
+}
+
+extension DeleteByParams: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.facetFilters?.hashValue)
+        hasher.combine(self.filters?.hashValue)
+        hasher.combine(self.numericFilters?.hashValue)
+        hasher.combine(self.tagFilters?.hashValue)
+        hasher.combine(self.aroundLatLng?.hashValue)
+        hasher.combine(self.aroundRadius?.hashValue)
+        hasher.combine(self.insideBoundingBox?.hashValue)
+        hasher.combine(self.insidePolygon?.hashValue)
+    }
+}

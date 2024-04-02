@@ -31,3 +31,17 @@ public struct DeleteUserProfileResponse: Codable, JSONEncodable {
         try container.encode(self.deletedUntil, forKey: .deletedUntil)
     }
 }
+
+extension DeleteUserProfileResponse: Equatable {
+    public static func ==(lhs: DeleteUserProfileResponse, rhs: DeleteUserProfileResponse) -> Bool {
+        lhs.userToken == rhs.userToken &&
+            lhs.deletedUntil == rhs.deletedUntil
+    }
+}
+
+extension DeleteUserProfileResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.userToken.hashValue)
+        hasher.combine(self.deletedUntil.hashValue)
+    }
+}

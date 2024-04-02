@@ -14,3 +14,5 @@ public enum SearchTypoToleranceEnum: String, Codable, CaseIterable {
     case min
     case strict
 }
+
+extension SearchTypoToleranceEnum: Hashable {}

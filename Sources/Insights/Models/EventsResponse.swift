@@ -31,3 +31,17 @@ public struct EventsResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.status, forKey: .status)
     }
 }
+
+extension EventsResponse: Equatable {
+    public static func ==(lhs: EventsResponse, rhs: EventsResponse) -> Bool {
+        lhs.message == rhs.message &&
+            lhs.status == rhs.status
+    }
+}
+
+extension EventsResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.message?.hashValue)
+        hasher.combine(self.status?.hashValue)
+    }
+}

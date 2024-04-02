@@ -16,3 +16,5 @@ public enum BuiltInOperationType: String, Codable, CaseIterable {
     case incrementFrom = "IncrementFrom"
     case incrementSet = "IncrementSet"
 }
+
+extension BuiltInOperationType: Hashable {}

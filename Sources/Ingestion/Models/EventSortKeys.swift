@@ -12,3 +12,5 @@ public enum EventSortKeys: String, Codable, CaseIterable {
     case type
     case publishedAt
 }
+
+extension EventSortKeys: Hashable {}

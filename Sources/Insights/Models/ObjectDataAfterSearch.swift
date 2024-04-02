@@ -40,3 +40,21 @@ public struct ObjectDataAfterSearch: Codable, JSONEncodable {
         try container.encodeIfPresent(self.discount, forKey: .discount)
     }
 }
+
+extension ObjectDataAfterSearch: Equatable {
+    public static func ==(lhs: ObjectDataAfterSearch, rhs: ObjectDataAfterSearch) -> Bool {
+        lhs.queryID == rhs.queryID &&
+            lhs.price == rhs.price &&
+            lhs.quantity == rhs.quantity &&
+            lhs.discount == rhs.discount
+    }
+}
+
+extension ObjectDataAfterSearch: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.queryID?.hashValue)
+        hasher.combine(self.price?.hashValue)
+        hasher.combine(self.quantity?.hashValue)
+        hasher.combine(self.discount?.hashValue)
+    }
+}

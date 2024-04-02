@@ -99,3 +99,37 @@ public struct TopHitWithRevenueAnalytics: Codable, JSONEncodable {
         try container.encode(self.currencies, forKey: .currencies)
     }
 }
+
+extension TopHitWithRevenueAnalytics: Equatable {
+    public static func ==(lhs: TopHitWithRevenueAnalytics, rhs: TopHitWithRevenueAnalytics) -> Bool {
+        lhs.hit == rhs.hit &&
+            lhs.count == rhs.count &&
+            lhs.clickThroughRate == rhs.clickThroughRate &&
+            lhs.conversionRate == rhs.conversionRate &&
+            lhs.trackedHitCount == rhs.trackedHitCount &&
+            lhs.clickCount == rhs.clickCount &&
+            lhs.conversionCount == rhs.conversionCount &&
+            lhs.addToCartRate == rhs.addToCartRate &&
+            lhs.addToCartCount == rhs.addToCartCount &&
+            lhs.purchaseRate == rhs.purchaseRate &&
+            lhs.purchaseCount == rhs.purchaseCount &&
+            lhs.currencies == rhs.currencies
+    }
+}
+
+extension TopHitWithRevenueAnalytics: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.hit.hashValue)
+        hasher.combine(self.count.hashValue)
+        hasher.combine(self.clickThroughRate.hashValue)
+        hasher.combine(self.conversionRate.hashValue)
+        hasher.combine(self.trackedHitCount.hashValue)
+        hasher.combine(self.clickCount.hashValue)
+        hasher.combine(self.conversionCount.hashValue)
+        hasher.combine(self.addToCartRate.hashValue)
+        hasher.combine(self.addToCartCount.hashValue)
+        hasher.combine(self.purchaseRate.hashValue)
+        hasher.combine(self.purchaseCount.hashValue)
+        hasher.combine(self.currencies.hashValue)
+    }
+}

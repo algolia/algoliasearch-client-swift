@@ -25,3 +25,15 @@ public struct StreamingTrigger: Codable, JSONEncodable {
         try container.encode(self.type, forKey: .type)
     }
 }
+
+extension StreamingTrigger: Equatable {
+    public static func ==(lhs: StreamingTrigger, rhs: StreamingTrigger) -> Bool {
+        lhs.type == rhs.type
+    }
+}
+
+extension StreamingTrigger: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.type.hashValue)
+    }
+}

@@ -25,3 +25,15 @@ public struct SearchParamsString: Codable, JSONEncodable {
         try container.encodeIfPresent(self.params, forKey: .params)
     }
 }
+
+extension SearchParamsString: Equatable {
+    public static func ==(lhs: SearchParamsString, rhs: SearchParamsString) -> Bool {
+        lhs.params == rhs.params
+    }
+}
+
+extension SearchParamsString: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.params?.hashValue)
+    }
+}

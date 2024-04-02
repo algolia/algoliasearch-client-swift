@@ -25,3 +25,15 @@ public struct RemoveUserIdResponse: Codable, JSONEncodable {
         try container.encode(self.deletedAt, forKey: .deletedAt)
     }
 }
+
+extension RemoveUserIdResponse: Equatable {
+    public static func ==(lhs: RemoveUserIdResponse, rhs: RemoveUserIdResponse) -> Bool {
+        lhs.deletedAt == rhs.deletedAt
+    }
+}
+
+extension RemoveUserIdResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.deletedAt.hashValue)
+    }
+}

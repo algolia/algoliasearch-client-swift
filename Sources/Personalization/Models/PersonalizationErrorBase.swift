@@ -70,3 +70,17 @@ public struct PersonalizationErrorBase: Codable, JSONEncodable {
         )
     }
 }
+
+extension PersonalizationErrorBase: Equatable {
+    public static func ==(lhs: PersonalizationErrorBase, rhs: PersonalizationErrorBase) -> Bool {
+        lhs.message == rhs.message
+            && lhs.additionalProperties == rhs.additionalProperties
+    }
+}
+
+extension PersonalizationErrorBase: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.message?.hashValue)
+        hasher.combine(self.additionalProperties.hashValue)
+    }
+}

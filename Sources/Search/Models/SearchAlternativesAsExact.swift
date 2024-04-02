@@ -11,3 +11,5 @@ public enum SearchAlternativesAsExact: String, Codable, CaseIterable {
     case singleWordSynonym
     case multiWordsSynonym
 }
+
+extension SearchAlternativesAsExact: Hashable {}

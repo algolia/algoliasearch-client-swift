@@ -31,3 +31,17 @@ public struct Facet: Codable, JSONEncodable {
         try container.encodeIfPresent(self.amount, forKey: .amount)
     }
 }
+
+extension Facet: Equatable {
+    public static func ==(lhs: Facet, rhs: Facet) -> Bool {
+        lhs.attribute == rhs.attribute &&
+            lhs.amount == rhs.amount
+    }
+}
+
+extension Facet: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.attribute?.hashValue)
+        hasher.combine(self.amount?.hashValue)
+    }
+}

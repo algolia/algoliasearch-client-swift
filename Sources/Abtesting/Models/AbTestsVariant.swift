@@ -35,3 +35,19 @@ public struct AbTestsVariant: Codable, JSONEncodable {
         try container.encodeIfPresent(self.description, forKey: .description)
     }
 }
+
+extension AbTestsVariant: Equatable {
+    public static func ==(lhs: AbTestsVariant, rhs: AbTestsVariant) -> Bool {
+        lhs.index == rhs.index &&
+            lhs.trafficPercentage == rhs.trafficPercentage &&
+            lhs.description == rhs.description
+    }
+}
+
+extension AbTestsVariant: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.index.hashValue)
+        hasher.combine(self.trafficPercentage.hashValue)
+        hasher.combine(self.description?.hashValue)
+    }
+}

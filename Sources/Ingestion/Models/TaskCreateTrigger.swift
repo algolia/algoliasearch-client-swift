@@ -60,3 +60,6 @@ public enum TaskCreateTrigger: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension TaskCreateTrigger: Equatable {}
+extension TaskCreateTrigger: Hashable {}

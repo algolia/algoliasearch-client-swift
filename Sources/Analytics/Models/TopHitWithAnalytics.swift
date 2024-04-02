@@ -66,3 +66,27 @@ public struct TopHitWithAnalytics: Codable, JSONEncodable {
         try container.encode(self.conversionCount, forKey: .conversionCount)
     }
 }
+
+extension TopHitWithAnalytics: Equatable {
+    public static func ==(lhs: TopHitWithAnalytics, rhs: TopHitWithAnalytics) -> Bool {
+        lhs.hit == rhs.hit &&
+            lhs.count == rhs.count &&
+            lhs.clickThroughRate == rhs.clickThroughRate &&
+            lhs.conversionRate == rhs.conversionRate &&
+            lhs.trackedHitCount == rhs.trackedHitCount &&
+            lhs.clickCount == rhs.clickCount &&
+            lhs.conversionCount == rhs.conversionCount
+    }
+}
+
+extension TopHitWithAnalytics: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.hit.hashValue)
+        hasher.combine(self.count.hashValue)
+        hasher.combine(self.clickThroughRate.hashValue)
+        hasher.combine(self.conversionRate.hashValue)
+        hasher.combine(self.trackedHitCount.hashValue)
+        hasher.combine(self.clickCount.hashValue)
+        hasher.combine(self.conversionCount.hashValue)
+    }
+}

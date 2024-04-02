@@ -32,3 +32,17 @@ public struct RecommendPromoteObjectIDs: Codable, JSONEncodable {
         try container.encode(self.position, forKey: .position)
     }
 }
+
+extension RecommendPromoteObjectIDs: Equatable {
+    public static func ==(lhs: RecommendPromoteObjectIDs, rhs: RecommendPromoteObjectIDs) -> Bool {
+        lhs.objectIDs == rhs.objectIDs &&
+            lhs.position == rhs.position
+    }
+}
+
+extension RecommendPromoteObjectIDs: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.objectIDs.hashValue)
+        hasher.combine(self.position.hashValue)
+    }
+}

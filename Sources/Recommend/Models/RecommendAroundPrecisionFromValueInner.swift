@@ -33,3 +33,20 @@ public struct RecommendAroundPrecisionFromValueInner: Codable, JSONEncodable {
         try container.encodeIfPresent(self.value, forKey: .value)
     }
 }
+
+extension RecommendAroundPrecisionFromValueInner: Equatable {
+    public static func ==(
+        lhs: RecommendAroundPrecisionFromValueInner,
+        rhs: RecommendAroundPrecisionFromValueInner
+    ) -> Bool {
+        lhs.from == rhs.from &&
+            lhs.value == rhs.value
+    }
+}
+
+extension RecommendAroundPrecisionFromValueInner: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.from?.hashValue)
+        hasher.combine(self.value?.hashValue)
+    }
+}

@@ -10,3 +10,5 @@ import Foundation
 public enum StreamingTriggerType: String, Codable, CaseIterable {
     case streaming
 }
+
+extension StreamingTriggerType: Hashable {}

@@ -35,3 +35,19 @@ public struct LogQuery: Codable, JSONEncodable {
         try container.encodeIfPresent(self.queryId, forKey: .queryId)
     }
 }
+
+extension LogQuery: Equatable {
+    public static func ==(lhs: LogQuery, rhs: LogQuery) -> Bool {
+        lhs.indexName == rhs.indexName &&
+            lhs.userToken == rhs.userToken &&
+            lhs.queryId == rhs.queryId
+    }
+}
+
+extension LogQuery: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.indexName?.hashValue)
+        hasher.combine(self.userToken?.hashValue)
+        hasher.combine(self.queryId?.hashValue)
+    }
+}

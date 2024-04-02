@@ -11,3 +11,5 @@ import Foundation
 public enum SearchTypeDefault: String, Codable, CaseIterable {
     case `default`
 }
+
+extension SearchTypeDefault: Hashable {}

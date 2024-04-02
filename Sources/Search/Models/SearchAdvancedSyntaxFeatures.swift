@@ -10,3 +10,5 @@ public enum SearchAdvancedSyntaxFeatures: String, Codable, CaseIterable {
     case exactPhrase
     case excludeWords
 }
+
+extension SearchAdvancedSyntaxFeatures: Hashable {}

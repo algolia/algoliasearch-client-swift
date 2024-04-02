@@ -25,3 +25,15 @@ public struct GetSearchesNoClicksResponse: Codable, JSONEncodable {
         try container.encode(self.searches, forKey: .searches)
     }
 }
+
+extension GetSearchesNoClicksResponse: Equatable {
+    public static func ==(lhs: GetSearchesNoClicksResponse, rhs: GetSearchesNoClicksResponse) -> Bool {
+        lhs.searches == rhs.searches
+    }
+}
+
+extension GetSearchesNoClicksResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.searches.hashValue)
+    }
+}

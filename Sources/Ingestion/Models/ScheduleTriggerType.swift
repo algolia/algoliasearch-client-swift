@@ -10,3 +10,5 @@ import Foundation
 public enum ScheduleTriggerType: String, Codable, CaseIterable {
     case schedule
 }
+
+extension ScheduleTriggerType: Hashable {}

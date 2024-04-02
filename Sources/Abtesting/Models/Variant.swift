@@ -147,3 +147,53 @@ public struct Variant: Codable, JSONEncodable {
         try container.encode(self.trackedUserCount, forKey: .trackedUserCount)
     }
 }
+
+extension Variant: Equatable {
+    public static func ==(lhs: Variant, rhs: Variant) -> Bool {
+        lhs.addToCartCount == rhs.addToCartCount &&
+            lhs.addToCartRate == rhs.addToCartRate &&
+            lhs.averageClickPosition == rhs.averageClickPosition &&
+            lhs.clickCount == rhs.clickCount &&
+            lhs.clickThroughRate == rhs.clickThroughRate &&
+            lhs.conversionCount == rhs.conversionCount &&
+            lhs.conversionRate == rhs.conversionRate &&
+            lhs.currencies == rhs.currencies &&
+            lhs.description == rhs.description &&
+            lhs.estimatedSampleSize == rhs.estimatedSampleSize &&
+            lhs.filterEffects == rhs.filterEffects &&
+            lhs.index == rhs.index &&
+            lhs.noResultCount == rhs.noResultCount &&
+            lhs.purchaseCount == rhs.purchaseCount &&
+            lhs.purchaseRate == rhs.purchaseRate &&
+            lhs.searchCount == rhs.searchCount &&
+            lhs.trackedSearchCount == rhs.trackedSearchCount &&
+            lhs.trafficPercentage == rhs.trafficPercentage &&
+            lhs.userCount == rhs.userCount &&
+            lhs.trackedUserCount == rhs.trackedUserCount
+    }
+}
+
+extension Variant: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.addToCartCount.hashValue)
+        hasher.combine(self.addToCartRate.hashValue)
+        hasher.combine(self.averageClickPosition.hashValue)
+        hasher.combine(self.clickCount.hashValue)
+        hasher.combine(self.clickThroughRate.hashValue)
+        hasher.combine(self.conversionCount.hashValue)
+        hasher.combine(self.conversionRate.hashValue)
+        hasher.combine(self.currencies?.hashValue)
+        hasher.combine(self.description.hashValue)
+        hasher.combine(self.estimatedSampleSize?.hashValue)
+        hasher.combine(self.filterEffects?.hashValue)
+        hasher.combine(self.index.hashValue)
+        hasher.combine(self.noResultCount.hashValue)
+        hasher.combine(self.purchaseCount.hashValue)
+        hasher.combine(self.purchaseRate.hashValue)
+        hasher.combine(self.searchCount.hashValue)
+        hasher.combine(self.trackedSearchCount?.hashValue)
+        hasher.combine(self.trafficPercentage.hashValue)
+        hasher.combine(self.userCount.hashValue)
+        hasher.combine(self.trackedUserCount.hashValue)
+    }
+}

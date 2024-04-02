@@ -46,3 +46,6 @@ public enum RecommendMixedSearchFilters: Codable, JSONEncodable, AbstractEncodab
         }
     }
 }
+
+extension RecommendMixedSearchFilters: Equatable {}
+extension RecommendMixedSearchFilters: Hashable {}

@@ -37,3 +37,19 @@ public struct UpdatedRuleResponse: Codable, JSONEncodable {
         try container.encode(self.taskID, forKey: .taskID)
     }
 }
+
+extension UpdatedRuleResponse: Equatable {
+    public static func ==(lhs: UpdatedRuleResponse, rhs: UpdatedRuleResponse) -> Bool {
+        lhs.objectID == rhs.objectID &&
+            lhs.updatedAt == rhs.updatedAt &&
+            lhs.taskID == rhs.taskID
+    }
+}
+
+extension UpdatedRuleResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.objectID.hashValue)
+        hasher.combine(self.updatedAt.hashValue)
+        hasher.combine(self.taskID.hashValue)
+    }
+}

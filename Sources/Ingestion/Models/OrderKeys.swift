@@ -11,3 +11,5 @@ public enum OrderKeys: String, Codable, CaseIterable {
     case asc
     case desc
 }
+
+extension OrderKeys: Hashable {}

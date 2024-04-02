@@ -35,3 +35,19 @@ public struct SearchPersonalization: Codable, JSONEncodable {
         try container.encodeIfPresent(self.score, forKey: .score)
     }
 }
+
+extension SearchPersonalization: Equatable {
+    public static func ==(lhs: SearchPersonalization, rhs: SearchPersonalization) -> Bool {
+        lhs.filtersScore == rhs.filtersScore &&
+            lhs.rankingScore == rhs.rankingScore &&
+            lhs.score == rhs.score
+    }
+}
+
+extension SearchPersonalization: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.filtersScore?.hashValue)
+        hasher.combine(self.rankingScore?.hashValue)
+        hasher.combine(self.score?.hashValue)
+    }
+}

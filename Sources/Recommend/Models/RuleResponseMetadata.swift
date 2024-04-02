@@ -25,3 +25,15 @@ public struct RuleResponseMetadata: Codable, JSONEncodable {
         try container.encodeIfPresent(self.lastUpdate, forKey: .lastUpdate)
     }
 }
+
+extension RuleResponseMetadata: Equatable {
+    public static func ==(lhs: RuleResponseMetadata, rhs: RuleResponseMetadata) -> Bool {
+        lhs.lastUpdate == rhs.lastUpdate
+    }
+}
+
+extension RuleResponseMetadata: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.lastUpdate?.hashValue)
+    }
+}

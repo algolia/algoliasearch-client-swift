@@ -12,3 +12,5 @@ public enum RunOutcome: String, Codable, CaseIterable {
     case failure
     case processing
 }
+
+extension RunOutcome: Hashable {}

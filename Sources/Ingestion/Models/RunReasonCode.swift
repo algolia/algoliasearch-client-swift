@@ -17,3 +17,5 @@ public enum RunReasonCode: String, Codable, CaseIterable {
     case discarded
     case blocking
 }
+
+extension RunReasonCode: Hashable {}

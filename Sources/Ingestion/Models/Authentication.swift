@@ -61,3 +61,27 @@ public struct Authentication: Codable, JSONEncodable {
         try container.encodeIfPresent(self.updatedAt, forKey: .updatedAt)
     }
 }
+
+extension Authentication: Equatable {
+    public static func ==(lhs: Authentication, rhs: Authentication) -> Bool {
+        lhs.authenticationID == rhs.authenticationID &&
+            lhs.type == rhs.type &&
+            lhs.name == rhs.name &&
+            lhs.platform == rhs.platform &&
+            lhs.input == rhs.input &&
+            lhs.createdAt == rhs.createdAt &&
+            lhs.updatedAt == rhs.updatedAt
+    }
+}
+
+extension Authentication: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.authenticationID.hashValue)
+        hasher.combine(self.type.hashValue)
+        hasher.combine(self.name.hashValue)
+        hasher.combine(self.platform?.hashValue)
+        hasher.combine(self.input.hashValue)
+        hasher.combine(self.createdAt.hashValue)
+        hasher.combine(self.updatedAt?.hashValue)
+    }
+}

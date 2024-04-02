@@ -50,3 +50,6 @@ public enum SearchAroundRadius: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension SearchAroundRadius: Equatable {}
+extension SearchAroundRadius: Hashable {}

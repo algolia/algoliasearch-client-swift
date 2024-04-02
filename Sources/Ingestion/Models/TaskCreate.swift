@@ -61,3 +61,27 @@ public struct TaskCreate: Codable, JSONEncodable {
         try container.encodeIfPresent(self.input, forKey: .input)
     }
 }
+
+extension TaskCreate: Equatable {
+    public static func ==(lhs: TaskCreate, rhs: TaskCreate) -> Bool {
+        lhs.sourceID == rhs.sourceID &&
+            lhs.destinationID == rhs.destinationID &&
+            lhs.trigger == rhs.trigger &&
+            lhs.action == rhs.action &&
+            lhs.enabled == rhs.enabled &&
+            lhs.failureThreshold == rhs.failureThreshold &&
+            lhs.input == rhs.input
+    }
+}
+
+extension TaskCreate: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.sourceID.hashValue)
+        hasher.combine(self.destinationID.hashValue)
+        hasher.combine(self.trigger.hashValue)
+        hasher.combine(self.action.hashValue)
+        hasher.combine(self.enabled?.hashValue)
+        hasher.combine(self.failureThreshold?.hashValue)
+        hasher.combine(self.input?.hashValue)
+    }
+}

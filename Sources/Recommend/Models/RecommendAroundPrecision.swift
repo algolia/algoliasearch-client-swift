@@ -48,3 +48,6 @@ public enum RecommendAroundPrecision: Codable, JSONEncodable, AbstractEncodable 
         }
     }
 }
+
+extension RecommendAroundPrecision: Equatable {}
+extension RecommendAroundPrecision: Hashable {}

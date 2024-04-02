@@ -64,3 +64,25 @@ public struct SecuredAPIKeyRestrictions: Codable, JSONEncodable {
         try container.encodeIfPresent(self.userToken, forKey: .userToken)
     }
 }
+
+extension SecuredAPIKeyRestrictions: Equatable {
+    public static func ==(lhs: SecuredAPIKeyRestrictions, rhs: SecuredAPIKeyRestrictions) -> Bool {
+        lhs.searchParams == rhs.searchParams &&
+            lhs.filters == rhs.filters &&
+            lhs.validUntil == rhs.validUntil &&
+            lhs.restrictIndices == rhs.restrictIndices &&
+            lhs.restrictSources == rhs.restrictSources &&
+            lhs.userToken == rhs.userToken
+    }
+}
+
+extension SecuredAPIKeyRestrictions: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.searchParams?.hashValue)
+        hasher.combine(self.filters?.hashValue)
+        hasher.combine(self.validUntil?.hashValue)
+        hasher.combine(self.restrictIndices?.hashValue)
+        hasher.combine(self.restrictSources?.hashValue)
+        hasher.combine(self.userToken?.hashValue)
+    }
+}

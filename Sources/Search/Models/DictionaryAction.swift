@@ -11,3 +11,5 @@ public enum DictionaryAction: String, Codable, CaseIterable {
     case addEntry
     case deleteEntry
 }
+
+extension DictionaryAction: Hashable {}

@@ -25,3 +25,15 @@ public struct AuthenticationSearch: Codable, JSONEncodable {
         try container.encode(self.authenticationIDs, forKey: .authenticationIDs)
     }
 }
+
+extension AuthenticationSearch: Equatable {
+    public static func ==(lhs: AuthenticationSearch, rhs: AuthenticationSearch) -> Bool {
+        lhs.authenticationIDs == rhs.authenticationIDs
+    }
+}
+
+extension AuthenticationSearch: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.authenticationIDs.hashValue)
+    }
+}

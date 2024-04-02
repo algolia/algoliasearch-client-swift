@@ -36,3 +36,19 @@ public struct SearchForFacetValuesResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.processingTimeMS, forKey: .processingTimeMS)
     }
 }
+
+extension SearchForFacetValuesResponse: Equatable {
+    public static func ==(lhs: SearchForFacetValuesResponse, rhs: SearchForFacetValuesResponse) -> Bool {
+        lhs.facetHits == rhs.facetHits &&
+            lhs.exhaustiveFacetsCount == rhs.exhaustiveFacetsCount &&
+            lhs.processingTimeMS == rhs.processingTimeMS
+    }
+}
+
+extension SearchForFacetValuesResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.facetHits.hashValue)
+        hasher.combine(self.exhaustiveFacetsCount.hashValue)
+        hasher.combine(self.processingTimeMS?.hashValue)
+    }
+}

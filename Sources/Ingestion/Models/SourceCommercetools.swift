@@ -53,3 +53,25 @@ public struct SourceCommercetools: Codable, JSONEncodable {
         try container.encodeIfPresent(self.customFields, forKey: .customFields)
     }
 }
+
+extension SourceCommercetools: Equatable {
+    public static func ==(lhs: SourceCommercetools, rhs: SourceCommercetools) -> Bool {
+        lhs.storeKeys == rhs.storeKeys &&
+            lhs.locales == rhs.locales &&
+            lhs.url == rhs.url &&
+            lhs.projectKey == rhs.projectKey &&
+            lhs.fallbackIsInStockValue == rhs.fallbackIsInStockValue &&
+            lhs.customFields == rhs.customFields
+    }
+}
+
+extension SourceCommercetools: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.storeKeys?.hashValue)
+        hasher.combine(self.locales?.hashValue)
+        hasher.combine(self.url.hashValue)
+        hasher.combine(self.projectKey.hashValue)
+        hasher.combine(self.fallbackIsInStockValue?.hashValue)
+        hasher.combine(self.customFields?.hashValue)
+    }
+}

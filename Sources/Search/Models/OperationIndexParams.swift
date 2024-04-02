@@ -36,3 +36,19 @@ public struct OperationIndexParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.scope, forKey: .scope)
     }
 }
+
+extension OperationIndexParams: Equatable {
+    public static func ==(lhs: OperationIndexParams, rhs: OperationIndexParams) -> Bool {
+        lhs.operation == rhs.operation &&
+            lhs.destination == rhs.destination &&
+            lhs.scope == rhs.scope
+    }
+}
+
+extension OperationIndexParams: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.operation.hashValue)
+        hasher.combine(self.destination.hashValue)
+        hasher.combine(self.scope?.hashValue)
+    }
+}

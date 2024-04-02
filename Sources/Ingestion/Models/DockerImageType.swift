@@ -12,3 +12,5 @@ public enum DockerImageType: String, Codable, CaseIterable {
     case custom
     case airbyte
 }
+
+extension DockerImageType: Hashable {}

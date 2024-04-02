@@ -36,3 +36,19 @@ public struct TrendingFacetHit: Codable, JSONEncodable {
         try container.encode(self.facetValue, forKey: .facetValue)
     }
 }
+
+extension TrendingFacetHit: Equatable {
+    public static func ==(lhs: TrendingFacetHit, rhs: TrendingFacetHit) -> Bool {
+        lhs.score == rhs.score &&
+            lhs.facetName == rhs.facetName &&
+            lhs.facetValue == rhs.facetValue
+    }
+}
+
+extension TrendingFacetHit: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.score.hashValue)
+        hasher.combine(self.facetName.hashValue)
+        hasher.combine(self.facetValue.hashValue)
+    }
+}

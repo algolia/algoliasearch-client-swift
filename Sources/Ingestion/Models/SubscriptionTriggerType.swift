@@ -10,3 +10,5 @@ import Foundation
 public enum SubscriptionTriggerType: String, Codable, CaseIterable {
     case subscription
 }
+
+extension SubscriptionTriggerType: Hashable {}

@@ -11,3 +11,5 @@ public enum DictionaryType: String, Codable, CaseIterable {
     case stopwords
     case compounds
 }
+
+extension DictionaryType: Hashable {}

@@ -27,3 +27,15 @@ public struct SearchSemanticSearch: Codable, JSONEncodable {
         try container.encodeIfPresent(self.eventSources, forKey: .eventSources)
     }
 }
+
+extension SearchSemanticSearch: Equatable {
+    public static func ==(lhs: SearchSemanticSearch, rhs: SearchSemanticSearch) -> Bool {
+        lhs.eventSources == rhs.eventSources
+    }
+}
+
+extension SearchSemanticSearch: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.eventSources?.hashValue)
+    }
+}

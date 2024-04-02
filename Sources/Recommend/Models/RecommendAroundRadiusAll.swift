@@ -10,3 +10,5 @@ import Foundation
 public enum RecommendAroundRadiusAll: String, Codable, CaseIterable {
     case all
 }
+
+extension RecommendAroundRadiusAll: Hashable {}

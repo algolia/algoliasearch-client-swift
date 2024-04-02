@@ -9,3 +9,5 @@ import Foundation
 public enum ViewEvent: String, Codable, CaseIterable {
     case view
 }
+
+extension ViewEvent: Hashable {}

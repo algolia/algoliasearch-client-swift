@@ -37,3 +37,19 @@ public struct SaveObjectResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.objectID, forKey: .objectID)
     }
 }
+
+extension SaveObjectResponse: Equatable {
+    public static func ==(lhs: SaveObjectResponse, rhs: SaveObjectResponse) -> Bool {
+        lhs.createdAt == rhs.createdAt &&
+            lhs.taskID == rhs.taskID &&
+            lhs.objectID == rhs.objectID
+    }
+}
+
+extension SaveObjectResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.createdAt.hashValue)
+        hasher.combine(self.taskID.hashValue)
+        hasher.combine(self.objectID?.hashValue)
+    }
+}

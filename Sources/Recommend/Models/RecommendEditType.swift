@@ -11,3 +11,5 @@ public enum RecommendEditType: String, Codable, CaseIterable {
     case remove
     case replace
 }
+
+extension RecommendEditType: Hashable {}

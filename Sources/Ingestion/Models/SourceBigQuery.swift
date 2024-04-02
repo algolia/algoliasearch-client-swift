@@ -62,3 +62,27 @@ public struct SourceBigQuery: Codable, JSONEncodable {
         try container.encodeIfPresent(self.uniqueIDColumn, forKey: .uniqueIDColumn)
     }
 }
+
+extension SourceBigQuery: Equatable {
+    public static func ==(lhs: SourceBigQuery, rhs: SourceBigQuery) -> Bool {
+        lhs.projectID == rhs.projectID &&
+            lhs.datasetID == rhs.datasetID &&
+            lhs.dataType == rhs.dataType &&
+            lhs.table == rhs.table &&
+            lhs.tablePrefix == rhs.tablePrefix &&
+            lhs.customSQLRequest == rhs.customSQLRequest &&
+            lhs.uniqueIDColumn == rhs.uniqueIDColumn
+    }
+}
+
+extension SourceBigQuery: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.projectID.hashValue)
+        hasher.combine(self.datasetID.hashValue)
+        hasher.combine(self.dataType?.hashValue)
+        hasher.combine(self.table?.hashValue)
+        hasher.combine(self.tablePrefix?.hashValue)
+        hasher.combine(self.customSQLRequest?.hashValue)
+        hasher.combine(self.uniqueIDColumn?.hashValue)
+    }
+}

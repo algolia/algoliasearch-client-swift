@@ -25,3 +25,15 @@ public struct GetObjectsParams: Codable, JSONEncodable {
         try container.encode(self.requests, forKey: .requests)
     }
 }
+
+extension GetObjectsParams: Equatable {
+    public static func ==(lhs: GetObjectsParams, rhs: GetObjectsParams) -> Bool {
+        lhs.requests == rhs.requests
+    }
+}
+
+extension GetObjectsParams: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.requests.hashValue)
+    }
+}

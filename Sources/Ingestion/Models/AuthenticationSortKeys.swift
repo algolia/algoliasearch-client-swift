@@ -14,3 +14,5 @@ public enum AuthenticationSortKeys: String, Codable, CaseIterable {
     case updatedAt
     case createdAt
 }
+
+extension AuthenticationSortKeys: Hashable {}

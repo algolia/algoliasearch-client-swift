@@ -99,3 +99,39 @@ public struct SearchRankingInfo: Codable, JSONEncodable {
         try container.encodeIfPresent(self.promotedByReRanking, forKey: .promotedByReRanking)
     }
 }
+
+extension SearchRankingInfo: Equatable {
+    public static func ==(lhs: SearchRankingInfo, rhs: SearchRankingInfo) -> Bool {
+        lhs.filters == rhs.filters &&
+            lhs.firstMatchedWord == rhs.firstMatchedWord &&
+            lhs.geoDistance == rhs.geoDistance &&
+            lhs.geoPrecision == rhs.geoPrecision &&
+            lhs.matchedGeoLocation == rhs.matchedGeoLocation &&
+            lhs.personalization == rhs.personalization &&
+            lhs.nbExactWords == rhs.nbExactWords &&
+            lhs.nbTypos == rhs.nbTypos &&
+            lhs.promoted == rhs.promoted &&
+            lhs.proximityDistance == rhs.proximityDistance &&
+            lhs.userScore == rhs.userScore &&
+            lhs.words == rhs.words &&
+            lhs.promotedByReRanking == rhs.promotedByReRanking
+    }
+}
+
+extension SearchRankingInfo: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.filters.hashValue)
+        hasher.combine(self.firstMatchedWord.hashValue)
+        hasher.combine(self.geoDistance.hashValue)
+        hasher.combine(self.geoPrecision?.hashValue)
+        hasher.combine(self.matchedGeoLocation?.hashValue)
+        hasher.combine(self.personalization?.hashValue)
+        hasher.combine(self.nbExactWords.hashValue)
+        hasher.combine(self.nbTypos.hashValue)
+        hasher.combine(self.promoted.hashValue)
+        hasher.combine(self.proximityDistance?.hashValue)
+        hasher.combine(self.userScore.hashValue)
+        hasher.combine(self.words.hashValue)
+        hasher.combine(self.promotedByReRanking?.hashValue)
+    }
+}

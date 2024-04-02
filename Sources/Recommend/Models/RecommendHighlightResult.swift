@@ -53,3 +53,6 @@ public enum RecommendHighlightResult: Codable, JSONEncodable, AbstractEncodable 
         }
     }
 }
+
+extension RecommendHighlightResult: Equatable {}
+extension RecommendHighlightResult: Hashable {}

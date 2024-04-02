@@ -14,16 +14,6 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable {
     case sourceCSV(SourceCSV)
     case sourceUpdateDocker(SourceUpdateDocker)
 
-    enum SourceBigQueryDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
-        case projectID
-    }
-
-    enum SourceGA4BigQueryExportDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
-        case projectID
-        case datasetID
-        case tablePrefix
-    }
-
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
@@ -43,28 +33,6 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable {
     }
 
     public init(from decoder: Decoder) throws {
-        if let sourceBigQueryDiscriminatorContainer = try? decoder
-            .container(keyedBy: SourceBigQueryDiscriminatorCodingKeys.self) {
-            if sourceBigQueryDiscriminatorContainer.contains(.projectID) {
-                if let value = try? SourceUpdateInput.sourceBigQuery(SourceBigQuery(from: decoder)) {
-                    self = value
-                    return
-                }
-            }
-        }
-
-        if let sourceGA4BigQueryExportDiscriminatorContainer = try? decoder
-            .container(keyedBy: SourceGA4BigQueryExportDiscriminatorCodingKeys.self) {
-            if sourceGA4BigQueryExportDiscriminatorContainer.contains(.projectID),
-               sourceGA4BigQueryExportDiscriminatorContainer.contains(.datasetID),
-               sourceGA4BigQueryExportDiscriminatorContainer.contains(.tablePrefix) {
-                if let value = try? SourceUpdateInput.sourceGA4BigQueryExport(SourceGA4BigQueryExport(from: decoder)) {
-                    self = value
-                    return
-                }
-            }
-        }
-
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(SourceBigQuery.self) {
             self = .sourceBigQuery(value)
@@ -106,3 +74,6 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension SourceUpdateInput: Equatable {}
+extension SourceUpdateInput: Hashable {}

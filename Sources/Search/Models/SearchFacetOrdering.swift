@@ -30,3 +30,17 @@ public struct SearchFacetOrdering: Codable, JSONEncodable {
         try container.encodeIfPresent(self.values, forKey: .values)
     }
 }
+
+extension SearchFacetOrdering: Equatable {
+    public static func ==(lhs: SearchFacetOrdering, rhs: SearchFacetOrdering) -> Bool {
+        lhs.facets == rhs.facets &&
+            lhs.values == rhs.values
+    }
+}
+
+extension SearchFacetOrdering: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.facets?.hashValue)
+        hasher.combine(self.values?.hashValue)
+    }
+}

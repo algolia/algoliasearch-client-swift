@@ -26,3 +26,15 @@ public struct TriggerUpdateInput: Codable, JSONEncodable {
         try container.encode(self.cron, forKey: .cron)
     }
 }
+
+extension TriggerUpdateInput: Equatable {
+    public static func ==(lhs: TriggerUpdateInput, rhs: TriggerUpdateInput) -> Bool {
+        lhs.cron == rhs.cron
+    }
+}
+
+extension TriggerUpdateInput: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.cron.hashValue)
+    }
+}

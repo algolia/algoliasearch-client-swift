@@ -30,3 +30,17 @@ public struct BaseResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.message, forKey: .message)
     }
 }
+
+extension BaseResponse: Equatable {
+    public static func ==(lhs: BaseResponse, rhs: BaseResponse) -> Bool {
+        lhs.status == rhs.status &&
+            lhs.message == rhs.message
+    }
+}
+
+extension BaseResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.status?.hashValue)
+        hasher.combine(self.message?.hashValue)
+    }
+}

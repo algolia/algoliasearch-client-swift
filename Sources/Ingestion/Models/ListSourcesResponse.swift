@@ -28,3 +28,17 @@ public struct ListSourcesResponse: Codable, JSONEncodable {
         try container.encode(self.pagination, forKey: .pagination)
     }
 }
+
+extension ListSourcesResponse: Equatable {
+    public static func ==(lhs: ListSourcesResponse, rhs: ListSourcesResponse) -> Bool {
+        lhs.sources == rhs.sources &&
+            lhs.pagination == rhs.pagination
+    }
+}
+
+extension ListSourcesResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.sources.hashValue)
+        hasher.combine(self.pagination.hashValue)
+    }
+}

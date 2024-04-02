@@ -11,3 +11,5 @@ public enum RecordType: String, Codable, CaseIterable {
     case product
     case variant
 }
+
+extension RecordType: Hashable {}

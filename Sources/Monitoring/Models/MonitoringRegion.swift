@@ -24,3 +24,5 @@ public enum MonitoringRegion: String, Codable, CaseIterable {
     case usw
     case za
 }
+
+extension MonitoringRegion: Hashable {}

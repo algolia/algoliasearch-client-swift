@@ -11,3 +11,5 @@ public enum ApiKeyOperation: String, Codable, CaseIterable {
     case delete
     case update
 }
+
+extension ApiKeyOperation: Hashable {}

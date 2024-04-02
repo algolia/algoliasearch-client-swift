@@ -30,3 +30,17 @@ public struct FacetScoring: Codable, JSONEncodable {
         try container.encode(self.facetName, forKey: .facetName)
     }
 }
+
+extension FacetScoring: Equatable {
+    public static func ==(lhs: FacetScoring, rhs: FacetScoring) -> Bool {
+        lhs.score == rhs.score &&
+            lhs.facetName == rhs.facetName
+    }
+}
+
+extension FacetScoring: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.score.hashValue)
+        hasher.combine(self.facetName.hashValue)
+    }
+}

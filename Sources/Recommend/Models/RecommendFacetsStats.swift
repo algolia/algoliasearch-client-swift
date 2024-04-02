@@ -40,3 +40,21 @@ public struct RecommendFacetsStats: Codable, JSONEncodable {
         try container.encodeIfPresent(self.sum, forKey: .sum)
     }
 }
+
+extension RecommendFacetsStats: Equatable {
+    public static func ==(lhs: RecommendFacetsStats, rhs: RecommendFacetsStats) -> Bool {
+        lhs.min == rhs.min &&
+            lhs.max == rhs.max &&
+            lhs.avg == rhs.avg &&
+            lhs.sum == rhs.sum
+    }
+}
+
+extension RecommendFacetsStats: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.min?.hashValue)
+        hasher.combine(self.max?.hashValue)
+        hasher.combine(self.avg?.hashValue)
+        hasher.combine(self.sum?.hashValue)
+    }
+}

@@ -9,3 +9,5 @@ import Foundation
 public enum ServerStatus: String, Codable, CaseIterable {
     case production = "PRODUCTION"
 }
+
+extension ServerStatus: Hashable {}

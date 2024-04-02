@@ -78,3 +78,33 @@ public struct Task: Codable, JSONEncodable {
         try container.encodeIfPresent(self.updatedAt, forKey: .updatedAt)
     }
 }
+
+extension Task: Equatable {
+    public static func ==(lhs: Task, rhs: Task) -> Bool {
+        lhs.taskID == rhs.taskID &&
+            lhs.sourceID == rhs.sourceID &&
+            lhs.destinationID == rhs.destinationID &&
+            lhs.trigger == rhs.trigger &&
+            lhs.input == rhs.input &&
+            lhs.enabled == rhs.enabled &&
+            lhs.failureThreshold == rhs.failureThreshold &&
+            lhs.action == rhs.action &&
+            lhs.createdAt == rhs.createdAt &&
+            lhs.updatedAt == rhs.updatedAt
+    }
+}
+
+extension Task: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.taskID.hashValue)
+        hasher.combine(self.sourceID.hashValue)
+        hasher.combine(self.destinationID.hashValue)
+        hasher.combine(self.trigger.hashValue)
+        hasher.combine(self.input?.hashValue)
+        hasher.combine(self.enabled.hashValue)
+        hasher.combine(self.failureThreshold?.hashValue)
+        hasher.combine(self.action.hashValue)
+        hasher.combine(self.createdAt.hashValue)
+        hasher.combine(self.updatedAt?.hashValue)
+    }
+}

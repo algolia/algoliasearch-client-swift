@@ -43,3 +43,6 @@ public enum DestinationInput: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension DestinationInput: Equatable {}
+extension DestinationInput: Hashable {}

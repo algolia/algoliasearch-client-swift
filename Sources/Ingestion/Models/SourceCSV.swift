@@ -51,3 +51,23 @@ public struct SourceCSV: Codable, JSONEncodable {
         try container.encodeIfPresent(self.delimiter, forKey: .delimiter)
     }
 }
+
+extension SourceCSV: Equatable {
+    public static func ==(lhs: SourceCSV, rhs: SourceCSV) -> Bool {
+        lhs.url == rhs.url &&
+            lhs.uniqueIDColumn == rhs.uniqueIDColumn &&
+            lhs.mapping == rhs.mapping &&
+            lhs.method == rhs.method &&
+            lhs.delimiter == rhs.delimiter
+    }
+}
+
+extension SourceCSV: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.url.hashValue)
+        hasher.combine(self.uniqueIDColumn?.hashValue)
+        hasher.combine(self.mapping?.hashValue)
+        hasher.combine(self.method?.hashValue)
+        hasher.combine(self.delimiter?.hashValue)
+    }
+}

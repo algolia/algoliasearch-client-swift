@@ -29,3 +29,17 @@ public struct BaseTrendingFacetsQuery: Codable, JSONEncodable {
         try container.encodeIfPresent(self.model, forKey: .model)
     }
 }
+
+extension BaseTrendingFacetsQuery: Equatable {
+    public static func ==(lhs: BaseTrendingFacetsQuery, rhs: BaseTrendingFacetsQuery) -> Bool {
+        lhs.facetName == rhs.facetName &&
+            lhs.model == rhs.model
+    }
+}
+
+extension BaseTrendingFacetsQuery: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.facetName.hashValue)
+        hasher.combine(self.model?.hashValue)
+    }
+}

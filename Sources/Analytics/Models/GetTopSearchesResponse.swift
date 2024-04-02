@@ -53,3 +53,6 @@ public enum GetTopSearchesResponse: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension GetTopSearchesResponse: Equatable {}
+extension GetTopSearchesResponse: Hashable {}

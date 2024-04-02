@@ -48,3 +48,6 @@ public enum SearchIgnorePlurals: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension SearchIgnorePlurals: Equatable {}
+extension SearchIgnorePlurals: Hashable {}

@@ -43,3 +43,6 @@ public enum SearchPromote: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension SearchPromote: Equatable {}
+extension SearchPromote: Hashable {}

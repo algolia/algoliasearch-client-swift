@@ -26,3 +26,15 @@ public struct AssignUserIdParams: Codable, JSONEncodable {
         try container.encode(self.cluster, forKey: .cluster)
     }
 }
+
+extension AssignUserIdParams: Equatable {
+    public static func ==(lhs: AssignUserIdParams, rhs: AssignUserIdParams) -> Bool {
+        lhs.cluster == rhs.cluster
+    }
+}
+
+extension AssignUserIdParams: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.cluster.hashValue)
+    }
+}

@@ -14,3 +14,5 @@ public enum TaskSortKeys: String, Codable, CaseIterable {
     case updatedAt
     case createdAt
 }
+
+extension TaskSortKeys: Hashable {}

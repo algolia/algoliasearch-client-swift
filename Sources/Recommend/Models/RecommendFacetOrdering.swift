@@ -30,3 +30,17 @@ public struct RecommendFacetOrdering: Codable, JSONEncodable {
         try container.encodeIfPresent(self.values, forKey: .values)
     }
 }
+
+extension RecommendFacetOrdering: Equatable {
+    public static func ==(lhs: RecommendFacetOrdering, rhs: RecommendFacetOrdering) -> Bool {
+        lhs.facets == rhs.facets &&
+            lhs.values == rhs.values
+    }
+}
+
+extension RecommendFacetOrdering: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.facets?.hashValue)
+        hasher.combine(self.values?.hashValue)
+    }
+}

@@ -13,3 +13,5 @@ public enum SourceSortKeys: String, Codable, CaseIterable {
     case updatedAt
     case createdAt
 }
+
+extension SourceSortKeys: Hashable {}

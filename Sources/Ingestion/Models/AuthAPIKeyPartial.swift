@@ -26,3 +26,15 @@ public struct AuthAPIKeyPartial: Codable, JSONEncodable {
         try container.encodeIfPresent(self.key, forKey: .key)
     }
 }
+
+extension AuthAPIKeyPartial: Equatable {
+    public static func ==(lhs: AuthAPIKeyPartial, rhs: AuthAPIKeyPartial) -> Bool {
+        lhs.key == rhs.key
+    }
+}
+
+extension AuthAPIKeyPartial: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.key?.hashValue)
+    }
+}

@@ -43,3 +43,21 @@ public struct SearchParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.renderingContent, forKey: .renderingContent)
     }
 }
+
+extension SearchParams: Equatable {
+    public static func ==(lhs: SearchParams, rhs: SearchParams) -> Bool {
+        lhs.query == rhs.query &&
+            lhs.automaticFacetFilters == rhs.automaticFacetFilters &&
+            lhs.automaticOptionalFacetFilters == rhs.automaticOptionalFacetFilters &&
+            lhs.renderingContent == rhs.renderingContent
+    }
+}
+
+extension SearchParams: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.query?.hashValue)
+        hasher.combine(self.automaticFacetFilters?.hashValue)
+        hasher.combine(self.automaticOptionalFacetFilters?.hashValue)
+        hasher.combine(self.renderingContent?.hashValue)
+    }
+}

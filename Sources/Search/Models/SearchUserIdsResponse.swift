@@ -46,3 +46,23 @@ public struct SearchUserIdsResponse: Codable, JSONEncodable {
         try container.encode(self.updatedAt, forKey: .updatedAt)
     }
 }
+
+extension SearchUserIdsResponse: Equatable {
+    public static func ==(lhs: SearchUserIdsResponse, rhs: SearchUserIdsResponse) -> Bool {
+        lhs.hits == rhs.hits &&
+            lhs.nbHits == rhs.nbHits &&
+            lhs.page == rhs.page &&
+            lhs.hitsPerPage == rhs.hitsPerPage &&
+            lhs.updatedAt == rhs.updatedAt
+    }
+}
+
+extension SearchUserIdsResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.hits.hashValue)
+        hasher.combine(self.nbHits.hashValue)
+        hasher.combine(self.page.hashValue)
+        hasher.combine(self.hitsPerPage.hashValue)
+        hasher.combine(self.updatedAt.hashValue)
+    }
+}

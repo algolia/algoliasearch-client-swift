@@ -51,3 +51,6 @@ public enum TaskInput: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension TaskInput: Equatable {}
+extension TaskInput: Hashable {}

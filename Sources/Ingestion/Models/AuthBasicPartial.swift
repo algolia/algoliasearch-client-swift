@@ -31,3 +31,17 @@ public struct AuthBasicPartial: Codable, JSONEncodable {
         try container.encodeIfPresent(self.password, forKey: .password)
     }
 }
+
+extension AuthBasicPartial: Equatable {
+    public static func ==(lhs: AuthBasicPartial, rhs: AuthBasicPartial) -> Bool {
+        lhs.username == rhs.username &&
+            lhs.password == rhs.password
+    }
+}
+
+extension AuthBasicPartial: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.username?.hashValue)
+        hasher.combine(self.password?.hashValue)
+    }
+}

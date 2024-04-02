@@ -35,3 +35,19 @@ public struct DailySearchesNoClicks: Codable, JSONEncodable {
         try container.encode(self.nbHits, forKey: .nbHits)
     }
 }
+
+extension DailySearchesNoClicks: Equatable {
+    public static func ==(lhs: DailySearchesNoClicks, rhs: DailySearchesNoClicks) -> Bool {
+        lhs.search == rhs.search &&
+            lhs.count == rhs.count &&
+            lhs.nbHits == rhs.nbHits
+    }
+}
+
+extension DailySearchesNoClicks: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.search.hashValue)
+        hasher.combine(self.count.hashValue)
+        hasher.combine(self.nbHits.hashValue)
+    }
+}

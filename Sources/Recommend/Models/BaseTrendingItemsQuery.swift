@@ -48,3 +48,23 @@ public struct BaseTrendingItemsQuery: Codable, JSONEncodable {
         try container.encodeIfPresent(self.fallbackParameters, forKey: .fallbackParameters)
     }
 }
+
+extension BaseTrendingItemsQuery: Equatable {
+    public static func ==(lhs: BaseTrendingItemsQuery, rhs: BaseTrendingItemsQuery) -> Bool {
+        lhs.facetName == rhs.facetName &&
+            lhs.facetValue == rhs.facetValue &&
+            lhs.model == rhs.model &&
+            lhs.queryParameters == rhs.queryParameters &&
+            lhs.fallbackParameters == rhs.fallbackParameters
+    }
+}
+
+extension BaseTrendingItemsQuery: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.facetName?.hashValue)
+        hasher.combine(self.facetValue?.hashValue)
+        hasher.combine(self.model?.hashValue)
+        hasher.combine(self.queryParameters?.hashValue)
+        hasher.combine(self.fallbackParameters?.hashValue)
+    }
+}

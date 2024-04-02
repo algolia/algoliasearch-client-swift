@@ -47,3 +47,6 @@ public enum QuerySuggestionsLanguages: Codable, JSONEncodable, AbstractEncodable
         }
     }
 }
+
+extension QuerySuggestionsLanguages: Equatable {}
+extension QuerySuggestionsLanguages: Hashable {}

@@ -77,3 +77,5 @@ public enum RecommendSupportedLanguage: String, Codable, CaseIterable {
     case uz
     case zh
 }
+
+extension RecommendSupportedLanguage: Hashable {}

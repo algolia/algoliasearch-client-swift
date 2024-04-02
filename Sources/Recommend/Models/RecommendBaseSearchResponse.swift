@@ -359,3 +359,71 @@ public struct RecommendBaseSearchResponse: Codable, JSONEncodable {
         )
     }
 }
+
+extension RecommendBaseSearchResponse: Equatable {
+    public static func ==(lhs: RecommendBaseSearchResponse, rhs: RecommendBaseSearchResponse) -> Bool {
+        lhs.abTestID == rhs.abTestID &&
+            lhs.abTestVariantID == rhs.abTestVariantID &&
+            lhs.aroundLatLng == rhs.aroundLatLng &&
+            lhs.automaticRadius == rhs.automaticRadius &&
+            lhs.exhaustive == rhs.exhaustive &&
+            lhs.exhaustiveFacetsCount == rhs.exhaustiveFacetsCount &&
+            lhs.exhaustiveNbHits == rhs.exhaustiveNbHits &&
+            lhs.exhaustiveTypo == rhs.exhaustiveTypo &&
+            lhs.facets == rhs.facets &&
+            lhs.facetsStats == rhs.facetsStats &&
+            lhs.hitsPerPage == rhs.hitsPerPage &&
+            lhs.index == rhs.index &&
+            lhs.indexUsed == rhs.indexUsed &&
+            lhs.message == rhs.message &&
+            lhs.nbHits == rhs.nbHits &&
+            lhs.nbPages == rhs.nbPages &&
+            lhs.nbSortedHits == rhs.nbSortedHits &&
+            lhs.page == rhs.page &&
+            lhs.parsedQuery == rhs.parsedQuery &&
+            lhs.processingTimeMS == rhs.processingTimeMS &&
+            lhs.processingTimingsMS == rhs.processingTimingsMS &&
+            lhs.queryAfterRemoval == rhs.queryAfterRemoval &&
+            lhs.redirect == rhs.redirect &&
+            lhs.renderingContent == rhs.renderingContent &&
+            lhs.serverTimeMS == rhs.serverTimeMS &&
+            lhs.serverUsed == rhs.serverUsed &&
+            lhs.userData == rhs.userData &&
+            lhs.queryID == rhs.queryID
+            && lhs.additionalProperties == rhs.additionalProperties
+    }
+}
+
+extension RecommendBaseSearchResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.abTestID?.hashValue)
+        hasher.combine(self.abTestVariantID?.hashValue)
+        hasher.combine(self.aroundLatLng?.hashValue)
+        hasher.combine(self.automaticRadius?.hashValue)
+        hasher.combine(self.exhaustive?.hashValue)
+        hasher.combine(self.exhaustiveFacetsCount?.hashValue)
+        hasher.combine(self.exhaustiveNbHits?.hashValue)
+        hasher.combine(self.exhaustiveTypo?.hashValue)
+        hasher.combine(self.facets?.hashValue)
+        hasher.combine(self.facetsStats?.hashValue)
+        hasher.combine(self.hitsPerPage.hashValue)
+        hasher.combine(self.index?.hashValue)
+        hasher.combine(self.indexUsed?.hashValue)
+        hasher.combine(self.message?.hashValue)
+        hasher.combine(self.nbHits.hashValue)
+        hasher.combine(self.nbPages.hashValue)
+        hasher.combine(self.nbSortedHits?.hashValue)
+        hasher.combine(self.page.hashValue)
+        hasher.combine(self.parsedQuery?.hashValue)
+        hasher.combine(self.processingTimeMS.hashValue)
+        hasher.combine(self.processingTimingsMS?.hashValue)
+        hasher.combine(self.queryAfterRemoval?.hashValue)
+        hasher.combine(self.redirect?.hashValue)
+        hasher.combine(self.renderingContent?.hashValue)
+        hasher.combine(self.serverTimeMS?.hashValue)
+        hasher.combine(self.serverUsed?.hashValue)
+        hasher.combine(self.userData?.hashValue)
+        hasher.combine(self.queryID?.hashValue)
+        hasher.combine(self.additionalProperties.hashValue)
+    }
+}

@@ -35,3 +35,19 @@ public struct RecommendPersonalization: Codable, JSONEncodable {
         try container.encodeIfPresent(self.score, forKey: .score)
     }
 }
+
+extension RecommendPersonalization: Equatable {
+    public static func ==(lhs: RecommendPersonalization, rhs: RecommendPersonalization) -> Bool {
+        lhs.filtersScore == rhs.filtersScore &&
+            lhs.rankingScore == rhs.rankingScore &&
+            lhs.score == rhs.score
+    }
+}
+
+extension RecommendPersonalization: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.filtersScore?.hashValue)
+        hasher.combine(self.rankingScore?.hashValue)
+        hasher.combine(self.score?.hashValue)
+    }
+}

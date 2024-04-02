@@ -31,3 +31,17 @@ public struct CurrenciesValue: Codable, JSONEncodable {
         try container.encodeIfPresent(self.revenue, forKey: .revenue)
     }
 }
+
+extension CurrenciesValue: Equatable {
+    public static func ==(lhs: CurrenciesValue, rhs: CurrenciesValue) -> Bool {
+        lhs.currency == rhs.currency &&
+            lhs.revenue == rhs.revenue
+    }
+}
+
+extension CurrenciesValue: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.currency?.hashValue)
+        hasher.combine(self.revenue?.hashValue)
+    }
+}

@@ -9,3 +9,5 @@ import Foundation
 public enum AddToCartEvent: String, Codable, CaseIterable {
     case addToCart
 }
+
+extension AddToCartEvent: Hashable {}

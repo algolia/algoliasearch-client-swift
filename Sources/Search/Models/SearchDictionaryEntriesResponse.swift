@@ -40,3 +40,21 @@ public struct SearchDictionaryEntriesResponse: Codable, JSONEncodable {
         try container.encode(self.nbPages, forKey: .nbPages)
     }
 }
+
+extension SearchDictionaryEntriesResponse: Equatable {
+    public static func ==(lhs: SearchDictionaryEntriesResponse, rhs: SearchDictionaryEntriesResponse) -> Bool {
+        lhs.hits == rhs.hits &&
+            lhs.page == rhs.page &&
+            lhs.nbHits == rhs.nbHits &&
+            lhs.nbPages == rhs.nbPages
+    }
+}
+
+extension SearchDictionaryEntriesResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.hits.hashValue)
+        hasher.combine(self.page.hashValue)
+        hasher.combine(self.nbHits.hashValue)
+        hasher.combine(self.nbPages.hashValue)
+    }
+}

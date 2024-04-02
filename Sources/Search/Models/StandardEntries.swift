@@ -37,3 +37,19 @@ public struct StandardEntries: Codable, JSONEncodable {
         try container.encodeIfPresent(self.compounds, forKey: .compounds)
     }
 }
+
+extension StandardEntries: Equatable {
+    public static func ==(lhs: StandardEntries, rhs: StandardEntries) -> Bool {
+        lhs.plurals == rhs.plurals &&
+            lhs.stopwords == rhs.stopwords &&
+            lhs.compounds == rhs.compounds
+    }
+}
+
+extension StandardEntries: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.plurals?.hashValue)
+        hasher.combine(self.stopwords?.hashValue)
+        hasher.combine(self.compounds?.hashValue)
+    }
+}

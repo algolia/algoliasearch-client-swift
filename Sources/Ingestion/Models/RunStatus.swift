@@ -14,3 +14,5 @@ public enum RunStatus: String, Codable, CaseIterable {
     case finished
     case skipped
 }
+
+extension RunStatus: Hashable {}

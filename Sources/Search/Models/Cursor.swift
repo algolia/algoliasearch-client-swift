@@ -26,3 +26,15 @@ public struct Cursor: Codable, JSONEncodable {
         try container.encodeIfPresent(self.cursor, forKey: .cursor)
     }
 }
+
+extension Cursor: Equatable {
+    public static func ==(lhs: Cursor, rhs: Cursor) -> Bool {
+        lhs.cursor == rhs.cursor
+    }
+}
+
+extension Cursor: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.cursor?.hashValue)
+    }
+}

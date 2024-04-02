@@ -41,3 +41,21 @@ public struct AuthOAuth: Codable, JSONEncodable {
         try container.encodeIfPresent(self.scope, forKey: .scope)
     }
 }
+
+extension AuthOAuth: Equatable {
+    public static func ==(lhs: AuthOAuth, rhs: AuthOAuth) -> Bool {
+        lhs.url == rhs.url &&
+            lhs.clientId == rhs.clientId &&
+            lhs.clientSecret == rhs.clientSecret &&
+            lhs.scope == rhs.scope
+    }
+}
+
+extension AuthOAuth: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.url.hashValue)
+        hasher.combine(self.clientId.hashValue)
+        hasher.combine(self.clientSecret.hashValue)
+        hasher.combine(self.scope?.hashValue)
+    }
+}

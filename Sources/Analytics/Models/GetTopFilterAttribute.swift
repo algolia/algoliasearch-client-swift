@@ -30,3 +30,17 @@ public struct GetTopFilterAttribute: Codable, JSONEncodable {
         try container.encode(self.count, forKey: .count)
     }
 }
+
+extension GetTopFilterAttribute: Equatable {
+    public static func ==(lhs: GetTopFilterAttribute, rhs: GetTopFilterAttribute) -> Bool {
+        lhs.attribute == rhs.attribute &&
+            lhs.count == rhs.count
+    }
+}
+
+extension GetTopFilterAttribute: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.attribute.hashValue)
+        hasher.combine(self.count.hashValue)
+    }
+}

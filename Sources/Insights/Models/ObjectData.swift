@@ -34,3 +34,19 @@ public struct ObjectData: Codable, JSONEncodable {
         try container.encodeIfPresent(self.discount, forKey: .discount)
     }
 }
+
+extension ObjectData: Equatable {
+    public static func ==(lhs: ObjectData, rhs: ObjectData) -> Bool {
+        lhs.price == rhs.price &&
+            lhs.quantity == rhs.quantity &&
+            lhs.discount == rhs.discount
+    }
+}
+
+extension ObjectData: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.price?.hashValue)
+        hasher.combine(self.quantity?.hashValue)
+        hasher.combine(self.discount?.hashValue)
+    }
+}

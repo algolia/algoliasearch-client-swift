@@ -50,3 +50,23 @@ public struct RecommendRedirectRuleIndexMetadata: Codable, JSONEncodable {
         try container.encode(self.data, forKey: .data)
     }
 }
+
+extension RecommendRedirectRuleIndexMetadata: Equatable {
+    public static func ==(lhs: RecommendRedirectRuleIndexMetadata, rhs: RecommendRedirectRuleIndexMetadata) -> Bool {
+        lhs.source == rhs.source &&
+            lhs.dest == rhs.dest &&
+            lhs.reason == rhs.reason &&
+            lhs.succeed == rhs.succeed &&
+            lhs.data == rhs.data
+    }
+}
+
+extension RecommendRedirectRuleIndexMetadata: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.source.hashValue)
+        hasher.combine(self.dest.hashValue)
+        hasher.combine(self.reason.hashValue)
+        hasher.combine(self.succeed.hashValue)
+        hasher.combine(self.data.hashValue)
+    }
+}

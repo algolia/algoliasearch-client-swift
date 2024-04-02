@@ -43,3 +43,6 @@ public enum PlatformWithNone: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension PlatformWithNone: Equatable {}
+extension PlatformWithNone: Hashable {}

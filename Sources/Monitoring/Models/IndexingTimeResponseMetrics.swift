@@ -24,3 +24,15 @@ public struct IndexingTimeResponseMetrics: Codable, JSONEncodable {
         try container.encodeIfPresent(self.indexing, forKey: .indexing)
     }
 }
+
+extension IndexingTimeResponseMetrics: Equatable {
+    public static func ==(lhs: IndexingTimeResponseMetrics, rhs: IndexingTimeResponseMetrics) -> Bool {
+        lhs.indexing == rhs.indexing
+    }
+}
+
+extension IndexingTimeResponseMetrics: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.indexing?.hashValue)
+    }
+}

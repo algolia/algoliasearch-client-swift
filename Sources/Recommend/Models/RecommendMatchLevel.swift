@@ -12,3 +12,5 @@ public enum RecommendMatchLevel: String, Codable, CaseIterable {
     case partial
     case full
 }
+
+extension RecommendMatchLevel: Hashable {}

@@ -45,3 +45,21 @@ public struct Currency: Codable, JSONEncodable {
         try container.encodeIfPresent(self.standardDeviation, forKey: .standardDeviation)
     }
 }
+
+extension Currency: Equatable {
+    public static func ==(lhs: Currency, rhs: Currency) -> Bool {
+        lhs.currency == rhs.currency &&
+            lhs.revenue == rhs.revenue &&
+            lhs.mean == rhs.mean &&
+            lhs.standardDeviation == rhs.standardDeviation
+    }
+}
+
+extension Currency: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.currency?.hashValue)
+        hasher.combine(self.revenue?.hashValue)
+        hasher.combine(self.mean?.hashValue)
+        hasher.combine(self.standardDeviation?.hashValue)
+    }
+}

@@ -53,3 +53,6 @@ public enum GetTopHitsResponse: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension GetTopHitsResponse: Equatable {}
+extension GetTopHitsResponse: Hashable {}

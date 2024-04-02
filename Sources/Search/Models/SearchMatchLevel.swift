@@ -12,3 +12,5 @@ public enum SearchMatchLevel: String, Codable, CaseIterable {
     case partial
     case full
 }
+
+extension SearchMatchLevel: Hashable {}

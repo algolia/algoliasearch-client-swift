@@ -30,3 +30,17 @@ public struct BigCommerceMetafield: Codable, JSONEncodable {
         try container.encode(self.key, forKey: .key)
     }
 }
+
+extension BigCommerceMetafield: Equatable {
+    public static func ==(lhs: BigCommerceMetafield, rhs: BigCommerceMetafield) -> Bool {
+        lhs.namespace == rhs.namespace &&
+            lhs.key == rhs.key
+    }
+}
+
+extension BigCommerceMetafield: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.namespace.hashValue)
+        hasher.combine(self.key.hashValue)
+    }
+}

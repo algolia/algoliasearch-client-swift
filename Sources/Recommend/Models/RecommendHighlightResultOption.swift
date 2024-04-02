@@ -40,3 +40,21 @@ public struct RecommendHighlightResultOption: Codable, JSONEncodable {
         try container.encodeIfPresent(self.fullyHighlighted, forKey: .fullyHighlighted)
     }
 }
+
+extension RecommendHighlightResultOption: Equatable {
+    public static func ==(lhs: RecommendHighlightResultOption, rhs: RecommendHighlightResultOption) -> Bool {
+        lhs.value == rhs.value &&
+            lhs.matchLevel == rhs.matchLevel &&
+            lhs.matchedWords == rhs.matchedWords &&
+            lhs.fullyHighlighted == rhs.fullyHighlighted
+    }
+}
+
+extension RecommendHighlightResultOption: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.value.hashValue)
+        hasher.combine(self.matchLevel.hashValue)
+        hasher.combine(self.matchedWords.hashValue)
+        hasher.combine(self.fullyHighlighted?.hashValue)
+    }
+}

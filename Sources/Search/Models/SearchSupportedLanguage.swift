@@ -77,3 +77,5 @@ public enum SearchSupportedLanguage: String, Codable, CaseIterable {
     case uz
     case zh
 }
+
+extension SearchSupportedLanguage: Hashable {}

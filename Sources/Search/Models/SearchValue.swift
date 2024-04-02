@@ -30,3 +30,17 @@ public struct SearchValue: Codable, JSONEncodable {
         try container.encodeIfPresent(self.sortRemainingBy, forKey: .sortRemainingBy)
     }
 }
+
+extension SearchValue: Equatable {
+    public static func ==(lhs: SearchValue, rhs: SearchValue) -> Bool {
+        lhs.order == rhs.order &&
+            lhs.sortRemainingBy == rhs.sortRemainingBy
+    }
+}
+
+extension SearchValue: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.order?.hashValue)
+        hasher.combine(self.sortRemainingBy?.hashValue)
+    }
+}

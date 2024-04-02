@@ -85,3 +85,29 @@ public struct ApiKey: Codable, JSONEncodable {
         try container.encodeIfPresent(self.validity, forKey: .validity)
     }
 }
+
+extension ApiKey: Equatable {
+    public static func ==(lhs: ApiKey, rhs: ApiKey) -> Bool {
+        lhs.acl == rhs.acl &&
+            lhs.description == rhs.description &&
+            lhs.indexes == rhs.indexes &&
+            lhs.maxHitsPerQuery == rhs.maxHitsPerQuery &&
+            lhs.maxQueriesPerIPPerHour == rhs.maxQueriesPerIPPerHour &&
+            lhs.queryParameters == rhs.queryParameters &&
+            lhs.referers == rhs.referers &&
+            lhs.validity == rhs.validity
+    }
+}
+
+extension ApiKey: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.acl.hashValue)
+        hasher.combine(self.description?.hashValue)
+        hasher.combine(self.indexes?.hashValue)
+        hasher.combine(self.maxHitsPerQuery?.hashValue)
+        hasher.combine(self.maxQueriesPerIPPerHour?.hashValue)
+        hasher.combine(self.queryParameters?.hashValue)
+        hasher.combine(self.referers?.hashValue)
+        hasher.combine(self.validity?.hashValue)
+    }
+}

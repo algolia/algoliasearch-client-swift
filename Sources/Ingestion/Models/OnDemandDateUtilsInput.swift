@@ -36,3 +36,19 @@ public struct OnDemandDateUtilsInput: Codable, JSONEncodable {
         try container.encodeIfPresent(self.mapping, forKey: .mapping)
     }
 }
+
+extension OnDemandDateUtilsInput: Equatable {
+    public static func ==(lhs: OnDemandDateUtilsInput, rhs: OnDemandDateUtilsInput) -> Bool {
+        lhs.startDate == rhs.startDate &&
+            lhs.endDate == rhs.endDate &&
+            lhs.mapping == rhs.mapping
+    }
+}
+
+extension OnDemandDateUtilsInput: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.startDate.hashValue)
+        hasher.combine(self.endDate.hashValue)
+        hasher.combine(self.mapping?.hashValue)
+    }
+}

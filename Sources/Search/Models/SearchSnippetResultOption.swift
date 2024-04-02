@@ -30,3 +30,17 @@ public struct SearchSnippetResultOption: Codable, JSONEncodable {
         try container.encode(self.matchLevel, forKey: .matchLevel)
     }
 }
+
+extension SearchSnippetResultOption: Equatable {
+    public static func ==(lhs: SearchSnippetResultOption, rhs: SearchSnippetResultOption) -> Bool {
+        lhs.value == rhs.value &&
+            lhs.matchLevel == rhs.matchLevel
+    }
+}
+
+extension SearchSnippetResultOption: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.value.hashValue)
+        hasher.combine(self.matchLevel.hashValue)
+    }
+}

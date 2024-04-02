@@ -14,3 +14,5 @@ public enum Metric: String, Codable, CaseIterable {
     case cpuUsage = "cpu_usage"
     case star = "*"
 }
+
+extension Metric: Hashable {}

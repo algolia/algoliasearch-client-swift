@@ -24,3 +24,15 @@ public struct LatencyResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.metrics, forKey: .metrics)
     }
 }
+
+extension LatencyResponse: Equatable {
+    public static func ==(lhs: LatencyResponse, rhs: LatencyResponse) -> Bool {
+        lhs.metrics == rhs.metrics
+    }
+}
+
+extension LatencyResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.metrics?.hashValue)
+    }
+}

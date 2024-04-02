@@ -40,3 +40,21 @@ public struct GetNoResultsRateResponse: Codable, JSONEncodable {
         try container.encode(self.dates, forKey: .dates)
     }
 }
+
+extension GetNoResultsRateResponse: Equatable {
+    public static func ==(lhs: GetNoResultsRateResponse, rhs: GetNoResultsRateResponse) -> Bool {
+        lhs.rate == rhs.rate &&
+            lhs.count == rhs.count &&
+            lhs.noResultCount == rhs.noResultCount &&
+            lhs.dates == rhs.dates
+    }
+}
+
+extension GetNoResultsRateResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.rate.hashValue)
+        hasher.combine(self.count.hashValue)
+        hasher.combine(self.noResultCount.hashValue)
+        hasher.combine(self.dates.hashValue)
+    }
+}

@@ -15,3 +15,5 @@ public enum RecommendQueryType: String, Codable, CaseIterable {
     case prefixAll
     case prefixNone
 }
+
+extension RecommendQueryType: Hashable {}

@@ -24,3 +24,5 @@ public enum Acl: String, Codable, CaseIterable {
     case settings
     case usage
 }
+
+extension Acl: Hashable {}

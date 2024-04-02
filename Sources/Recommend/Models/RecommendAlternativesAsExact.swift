@@ -11,3 +11,5 @@ public enum RecommendAlternativesAsExact: String, Codable, CaseIterable {
     case singleWordSynonym
     case multiWordsSynonym
 }
+
+extension RecommendAlternativesAsExact: Hashable {}

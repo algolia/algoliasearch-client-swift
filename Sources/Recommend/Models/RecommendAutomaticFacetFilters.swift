@@ -49,3 +49,6 @@ public enum RecommendAutomaticFacetFilters: Codable, JSONEncodable, AbstractEnco
         }
     }
 }
+
+extension RecommendAutomaticFacetFilters: Equatable {}
+extension RecommendAutomaticFacetFilters: Hashable {}

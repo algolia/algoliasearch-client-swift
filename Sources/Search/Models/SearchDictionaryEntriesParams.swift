@@ -40,3 +40,21 @@ public struct SearchDictionaryEntriesParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.language, forKey: .language)
     }
 }
+
+extension SearchDictionaryEntriesParams: Equatable {
+    public static func ==(lhs: SearchDictionaryEntriesParams, rhs: SearchDictionaryEntriesParams) -> Bool {
+        lhs.query == rhs.query &&
+            lhs.page == rhs.page &&
+            lhs.hitsPerPage == rhs.hitsPerPage &&
+            lhs.language == rhs.language
+    }
+}
+
+extension SearchDictionaryEntriesParams: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.query.hashValue)
+        hasher.combine(self.page?.hashValue)
+        hasher.combine(self.hitsPerPage?.hashValue)
+        hasher.combine(self.language?.hashValue)
+    }
+}

@@ -42,3 +42,21 @@ public struct DailyAddToCartRates: Codable, JSONEncodable {
         try container.encode(self.date, forKey: .date)
     }
 }
+
+extension DailyAddToCartRates: Equatable {
+    public static func ==(lhs: DailyAddToCartRates, rhs: DailyAddToCartRates) -> Bool {
+        lhs.rate == rhs.rate &&
+            lhs.trackedSearchCount == rhs.trackedSearchCount &&
+            lhs.addToCartCount == rhs.addToCartCount &&
+            lhs.date == rhs.date
+    }
+}
+
+extension DailyAddToCartRates: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.rate.hashValue)
+        hasher.combine(self.trackedSearchCount.hashValue)
+        hasher.combine(self.addToCartCount.hashValue)
+        hasher.combine(self.date.hashValue)
+    }
+}

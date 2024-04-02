@@ -26,3 +26,15 @@ public struct GetStatusResponse: Codable, JSONEncodable {
         try container.encode(self.updatedAt, forKey: .updatedAt)
     }
 }
+
+extension GetStatusResponse: Equatable {
+    public static func ==(lhs: GetStatusResponse, rhs: GetStatusResponse) -> Bool {
+        lhs.updatedAt == rhs.updatedAt
+    }
+}
+
+extension GetStatusResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.updatedAt.hashValue)
+    }
+}

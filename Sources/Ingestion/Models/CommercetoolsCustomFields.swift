@@ -37,3 +37,19 @@ public struct CommercetoolsCustomFields: Codable, JSONEncodable {
         try container.encodeIfPresent(self.category, forKey: .category)
     }
 }
+
+extension CommercetoolsCustomFields: Equatable {
+    public static func ==(lhs: CommercetoolsCustomFields, rhs: CommercetoolsCustomFields) -> Bool {
+        lhs.inventory == rhs.inventory &&
+            lhs.price == rhs.price &&
+            lhs.category == rhs.category
+    }
+}
+
+extension CommercetoolsCustomFields: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.inventory?.hashValue)
+        hasher.combine(self.price?.hashValue)
+        hasher.combine(self.category?.hashValue)
+    }
+}

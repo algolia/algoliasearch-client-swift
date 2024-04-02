@@ -31,3 +31,17 @@ public struct ScheduleDateUtilsInput: Codable, JSONEncodable {
         try container.encodeIfPresent(self.mapping, forKey: .mapping)
     }
 }
+
+extension ScheduleDateUtilsInput: Equatable {
+    public static func ==(lhs: ScheduleDateUtilsInput, rhs: ScheduleDateUtilsInput) -> Bool {
+        lhs.timeframe == rhs.timeframe &&
+            lhs.mapping == rhs.mapping
+    }
+}
+
+extension ScheduleDateUtilsInput: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.timeframe.hashValue)
+        hasher.combine(self.mapping?.hashValue)
+    }
+}

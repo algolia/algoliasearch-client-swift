@@ -20,3 +20,5 @@ public enum SearchRemoveWordsIfNoResults: String, Codable, CaseIterable {
     case firstWords
     case allOptional
 }
+
+extension SearchRemoveWordsIfNoResults: Hashable {}

@@ -31,3 +31,17 @@ public struct SearchSource: Codable, JSONEncodable {
         try container.encodeIfPresent(self.description, forKey: .description)
     }
 }
+
+extension SearchSource: Equatable {
+    public static func ==(lhs: SearchSource, rhs: SearchSource) -> Bool {
+        lhs.source == rhs.source &&
+            lhs.description == rhs.description
+    }
+}
+
+extension SearchSource: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.source.hashValue)
+        hasher.combine(self.description?.hashValue)
+    }
+}

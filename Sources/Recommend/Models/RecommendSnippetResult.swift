@@ -53,3 +53,6 @@ public enum RecommendSnippetResult: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension RecommendSnippetResult: Equatable {}
+extension RecommendSnippetResult: Hashable {}

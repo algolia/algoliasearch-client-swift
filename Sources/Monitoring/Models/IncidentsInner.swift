@@ -29,3 +29,17 @@ public struct IncidentsInner: Codable, JSONEncodable {
         try container.encodeIfPresent(self.v, forKey: .v)
     }
 }
+
+extension IncidentsInner: Equatable {
+    public static func ==(lhs: IncidentsInner, rhs: IncidentsInner) -> Bool {
+        lhs.t == rhs.t &&
+            lhs.v == rhs.v
+    }
+}
+
+extension IncidentsInner: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.t?.hashValue)
+        hasher.combine(self.v?.hashValue)
+    }
+}

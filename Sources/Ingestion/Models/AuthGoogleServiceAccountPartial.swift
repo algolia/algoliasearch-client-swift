@@ -31,3 +31,17 @@ public struct AuthGoogleServiceAccountPartial: Codable, JSONEncodable {
         try container.encodeIfPresent(self.privateKey, forKey: .privateKey)
     }
 }
+
+extension AuthGoogleServiceAccountPartial: Equatable {
+    public static func ==(lhs: AuthGoogleServiceAccountPartial, rhs: AuthGoogleServiceAccountPartial) -> Bool {
+        lhs.clientEmail == rhs.clientEmail &&
+            lhs.privateKey == rhs.privateKey
+    }
+}
+
+extension AuthGoogleServiceAccountPartial: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.clientEmail?.hashValue)
+        hasher.combine(self.privateKey?.hashValue)
+    }
+}

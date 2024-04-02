@@ -31,3 +31,17 @@ public struct BuiltInOperation: Codable, JSONEncodable {
         try container.encode(self.value, forKey: .value)
     }
 }
+
+extension BuiltInOperation: Equatable {
+    public static func ==(lhs: BuiltInOperation, rhs: BuiltInOperation) -> Bool {
+        lhs.operation == rhs.operation &&
+            lhs.value == rhs.value
+    }
+}
+
+extension BuiltInOperation: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.operation.hashValue)
+        hasher.combine(self.value.hashValue)
+    }
+}

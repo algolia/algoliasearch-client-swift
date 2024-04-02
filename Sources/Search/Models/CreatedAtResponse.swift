@@ -26,3 +26,15 @@ public struct CreatedAtResponse: Codable, JSONEncodable {
         try container.encode(self.createdAt, forKey: .createdAt)
     }
 }
+
+extension CreatedAtResponse: Equatable {
+    public static func ==(lhs: CreatedAtResponse, rhs: CreatedAtResponse) -> Bool {
+        lhs.createdAt == rhs.createdAt
+    }
+}
+
+extension CreatedAtResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.createdAt.hashValue)
+    }
+}

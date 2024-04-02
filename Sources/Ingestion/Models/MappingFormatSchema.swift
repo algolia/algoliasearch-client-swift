@@ -10,3 +10,5 @@ import Foundation
 public enum MappingFormatSchema: String, Codable, CaseIterable {
     case mappingkitV1 = "mappingkit/v1"
 }
+
+extension MappingFormatSchema: Hashable {}

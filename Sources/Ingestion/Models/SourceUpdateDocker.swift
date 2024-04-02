@@ -44,3 +44,21 @@ public struct SourceUpdateDocker: Codable, JSONEncodable {
         try container.encode(self.configuration, forKey: .configuration)
     }
 }
+
+extension SourceUpdateDocker: Equatable {
+    public static func ==(lhs: SourceUpdateDocker, rhs: SourceUpdateDocker) -> Bool {
+        lhs.registry == rhs.registry &&
+            lhs.image == rhs.image &&
+            lhs.version == rhs.version &&
+            lhs.configuration == rhs.configuration
+    }
+}
+
+extension SourceUpdateDocker: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.registry?.hashValue)
+        hasher.combine(self.image?.hashValue)
+        hasher.combine(self.version?.hashValue)
+        hasher.combine(self.configuration.hashValue)
+    }
+}

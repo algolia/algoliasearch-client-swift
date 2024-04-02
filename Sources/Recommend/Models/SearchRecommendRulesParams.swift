@@ -52,3 +52,23 @@ public struct SearchRecommendRulesParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.enabled, forKey: .enabled)
     }
 }
+
+extension SearchRecommendRulesParams: Equatable {
+    public static func ==(lhs: SearchRecommendRulesParams, rhs: SearchRecommendRulesParams) -> Bool {
+        lhs.query == rhs.query &&
+            lhs.context == rhs.context &&
+            lhs.page == rhs.page &&
+            lhs.hitsPerPage == rhs.hitsPerPage &&
+            lhs.enabled == rhs.enabled
+    }
+}
+
+extension SearchRecommendRulesParams: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.query?.hashValue)
+        hasher.combine(self.context?.hashValue)
+        hasher.combine(self.page?.hashValue)
+        hasher.combine(self.hitsPerPage?.hashValue)
+        hasher.combine(self.enabled?.hashValue)
+    }
+}

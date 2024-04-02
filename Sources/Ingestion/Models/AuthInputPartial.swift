@@ -64,3 +64,6 @@ public enum AuthInputPartial: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension AuthInputPartial: Equatable {}
+extension AuthInputPartial: Hashable {}

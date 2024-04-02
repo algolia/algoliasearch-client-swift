@@ -69,3 +69,29 @@ public struct SourceIndex: Codable, JSONEncodable {
         try container.encodeIfPresent(self.external, forKey: .external)
     }
 }
+
+extension SourceIndex: Equatable {
+    public static func ==(lhs: SourceIndex, rhs: SourceIndex) -> Bool {
+        lhs.indexName == rhs.indexName &&
+            lhs.replicas == rhs.replicas &&
+            lhs.analyticsTags == rhs.analyticsTags &&
+            lhs.facets == rhs.facets &&
+            lhs.minHits == rhs.minHits &&
+            lhs.minLetters == rhs.minLetters &&
+            lhs.generate == rhs.generate &&
+            lhs.external == rhs.external
+    }
+}
+
+extension SourceIndex: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.indexName.hashValue)
+        hasher.combine(self.replicas?.hashValue)
+        hasher.combine(self.analyticsTags?.hashValue)
+        hasher.combine(self.facets?.hashValue)
+        hasher.combine(self.minHits?.hashValue)
+        hasher.combine(self.minLetters?.hashValue)
+        hasher.combine(self.generate?.hashValue)
+        hasher.combine(self.external?.hashValue)
+    }
+}

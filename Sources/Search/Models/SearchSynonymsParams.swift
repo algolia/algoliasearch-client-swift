@@ -39,3 +39,21 @@ public struct SearchSynonymsParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.hitsPerPage, forKey: .hitsPerPage)
     }
 }
+
+extension SearchSynonymsParams: Equatable {
+    public static func ==(lhs: SearchSynonymsParams, rhs: SearchSynonymsParams) -> Bool {
+        lhs.query == rhs.query &&
+            lhs.type == rhs.type &&
+            lhs.page == rhs.page &&
+            lhs.hitsPerPage == rhs.hitsPerPage
+    }
+}
+
+extension SearchSynonymsParams: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.query?.hashValue)
+        hasher.combine(self.type?.hashValue)
+        hasher.combine(self.page?.hashValue)
+        hasher.combine(self.hitsPerPage?.hashValue)
+    }
+}

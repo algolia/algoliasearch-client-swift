@@ -25,3 +25,15 @@ public struct DeleteApiKeyResponse: Codable, JSONEncodable {
         try container.encode(self.deletedAt, forKey: .deletedAt)
     }
 }
+
+extension DeleteApiKeyResponse: Equatable {
+    public static func ==(lhs: DeleteApiKeyResponse, rhs: DeleteApiKeyResponse) -> Bool {
+        lhs.deletedAt == rhs.deletedAt
+    }
+}
+
+extension DeleteApiKeyResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.deletedAt.hashValue)
+    }
+}

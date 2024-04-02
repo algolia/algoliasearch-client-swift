@@ -50,3 +50,6 @@ public enum RecommendTypoTolerance: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension RecommendTypoTolerance: Equatable {}
+extension RecommendTypoTolerance: Hashable {}

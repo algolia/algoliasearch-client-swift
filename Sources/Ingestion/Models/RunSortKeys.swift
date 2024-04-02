@@ -12,3 +12,5 @@ public enum RunSortKeys: String, Codable, CaseIterable {
     case updatedAt
     case createdAt
 }
+
+extension RunSortKeys: Hashable {}

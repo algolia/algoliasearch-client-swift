@@ -50,3 +50,23 @@ public struct TaskUpdate: Codable, JSONEncodable {
         try container.encodeIfPresent(self.failureThreshold, forKey: .failureThreshold)
     }
 }
+
+extension TaskUpdate: Equatable {
+    public static func ==(lhs: TaskUpdate, rhs: TaskUpdate) -> Bool {
+        lhs.destinationID == rhs.destinationID &&
+            lhs.trigger == rhs.trigger &&
+            lhs.input == rhs.input &&
+            lhs.enabled == rhs.enabled &&
+            lhs.failureThreshold == rhs.failureThreshold
+    }
+}
+
+extension TaskUpdate: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.destinationID?.hashValue)
+        hasher.combine(self.trigger?.hashValue)
+        hasher.combine(self.input?.hashValue)
+        hasher.combine(self.enabled?.hashValue)
+        hasher.combine(self.failureThreshold?.hashValue)
+    }
+}

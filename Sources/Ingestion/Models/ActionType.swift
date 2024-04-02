@@ -13,3 +13,5 @@ public enum ActionType: String, Codable, CaseIterable {
     case partial
     case append
 }
+
+extension ActionType: Hashable {}

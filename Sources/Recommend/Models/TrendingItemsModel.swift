@@ -10,3 +10,5 @@ import Foundation
 public enum TrendingItemsModel: String, Codable, CaseIterable {
     case trendingItems = "trending-items"
 }
+
+extension TrendingItemsModel: Hashable {}

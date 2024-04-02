@@ -34,3 +34,19 @@ public struct SourceJSON: Codable, JSONEncodable {
         try container.encodeIfPresent(self.method, forKey: .method)
     }
 }
+
+extension SourceJSON: Equatable {
+    public static func ==(lhs: SourceJSON, rhs: SourceJSON) -> Bool {
+        lhs.url == rhs.url &&
+            lhs.uniqueIDColumn == rhs.uniqueIDColumn &&
+            lhs.method == rhs.method
+    }
+}
+
+extension SourceJSON: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.url.hashValue)
+        hasher.combine(self.uniqueIDColumn?.hashValue)
+        hasher.combine(self.method?.hashValue)
+    }
+}

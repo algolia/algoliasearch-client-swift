@@ -52,3 +52,23 @@ public struct InfrastructureResponseMetrics: Codable, JSONEncodable {
         try container.encodeIfPresent(self.avgBuildTime, forKey: .avgBuildTime)
     }
 }
+
+extension InfrastructureResponseMetrics: Equatable {
+    public static func ==(lhs: InfrastructureResponseMetrics, rhs: InfrastructureResponseMetrics) -> Bool {
+        lhs.cpuUsage == rhs.cpuUsage &&
+            lhs.ramIndexingUsage == rhs.ramIndexingUsage &&
+            lhs.ramSearchUsage == rhs.ramSearchUsage &&
+            lhs.ssdUsage == rhs.ssdUsage &&
+            lhs.avgBuildTime == rhs.avgBuildTime
+    }
+}
+
+extension InfrastructureResponseMetrics: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.cpuUsage?.hashValue)
+        hasher.combine(self.ramIndexingUsage?.hashValue)
+        hasher.combine(self.ramSearchUsage?.hashValue)
+        hasher.combine(self.ssdUsage?.hashValue)
+        hasher.combine(self.avgBuildTime?.hashValue)
+    }
+}

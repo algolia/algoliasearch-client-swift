@@ -11,3 +11,5 @@ public enum RecommendTaskStatus: String, Codable, CaseIterable {
     case published
     case notPublished
 }
+
+extension RecommendTaskStatus: Hashable {}

@@ -17,3 +17,5 @@ public enum RecommendSortRemainingBy: String, Codable, CaseIterable {
     case alpha
     case hidden
 }
+
+extension RecommendSortRemainingBy: Hashable {}

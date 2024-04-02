@@ -10,3 +10,5 @@ import Foundation
 public enum PlatformNone: String, Codable, CaseIterable {
     case `none`
 }
+
+extension PlatformNone: Hashable {}

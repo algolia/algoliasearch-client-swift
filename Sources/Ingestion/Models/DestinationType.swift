@@ -13,3 +13,5 @@ public enum DestinationType: String, Codable, CaseIterable {
     case search
     case insights
 }
+
+extension DestinationType: Hashable {}

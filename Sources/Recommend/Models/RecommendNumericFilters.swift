@@ -52,3 +52,6 @@ public enum RecommendNumericFilters: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension RecommendNumericFilters: Equatable {}
+extension RecommendNumericFilters: Hashable {}

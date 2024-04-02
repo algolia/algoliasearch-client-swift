@@ -30,3 +30,17 @@ public struct TimeInner: Codable, JSONEncodable {
         try container.encodeIfPresent(self.v, forKey: .v)
     }
 }
+
+extension TimeInner: Equatable {
+    public static func ==(lhs: TimeInner, rhs: TimeInner) -> Bool {
+        lhs.t == rhs.t &&
+            lhs.v == rhs.v
+    }
+}
+
+extension TimeInner: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.t?.hashValue)
+        hasher.combine(self.v?.hashValue)
+    }
+}

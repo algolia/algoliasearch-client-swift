@@ -47,3 +47,23 @@ public struct SourceBigCommerce: Codable, JSONEncodable {
         try container.encodeIfPresent(self.variantMetafields, forKey: .variantMetafields)
     }
 }
+
+extension SourceBigCommerce: Equatable {
+    public static func ==(lhs: SourceBigCommerce, rhs: SourceBigCommerce) -> Bool {
+        lhs.storeHash == rhs.storeHash &&
+            lhs.channel == rhs.channel &&
+            lhs.customFields == rhs.customFields &&
+            lhs.productMetafields == rhs.productMetafields &&
+            lhs.variantMetafields == rhs.variantMetafields
+    }
+}
+
+extension SourceBigCommerce: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.storeHash.hashValue)
+        hasher.combine(self.channel?.hashValue)
+        hasher.combine(self.customFields?.hashValue)
+        hasher.combine(self.productMetafields?.hashValue)
+        hasher.combine(self.variantMetafields?.hashValue)
+    }
+}

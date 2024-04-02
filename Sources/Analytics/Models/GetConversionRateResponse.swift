@@ -42,3 +42,21 @@ public struct GetConversionRateResponse: Codable, JSONEncodable {
         try container.encode(self.dates, forKey: .dates)
     }
 }
+
+extension GetConversionRateResponse: Equatable {
+    public static func ==(lhs: GetConversionRateResponse, rhs: GetConversionRateResponse) -> Bool {
+        lhs.rate == rhs.rate &&
+            lhs.trackedSearchCount == rhs.trackedSearchCount &&
+            lhs.conversionCount == rhs.conversionCount &&
+            lhs.dates == rhs.dates
+    }
+}
+
+extension GetConversionRateResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.rate.hashValue)
+        hasher.combine(self.trackedSearchCount.hashValue)
+        hasher.combine(self.conversionCount.hashValue)
+        hasher.combine(self.dates.hashValue)
+    }
+}

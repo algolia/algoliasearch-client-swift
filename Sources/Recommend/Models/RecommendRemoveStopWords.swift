@@ -49,3 +49,6 @@ public enum RecommendRemoveStopWords: Codable, JSONEncodable, AbstractEncodable 
         }
     }
 }
+
+extension RecommendRemoveStopWords: Equatable {}
+extension RecommendRemoveStopWords: Hashable {}

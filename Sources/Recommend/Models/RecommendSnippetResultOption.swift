@@ -30,3 +30,17 @@ public struct RecommendSnippetResultOption: Codable, JSONEncodable {
         try container.encode(self.matchLevel, forKey: .matchLevel)
     }
 }
+
+extension RecommendSnippetResultOption: Equatable {
+    public static func ==(lhs: RecommendSnippetResultOption, rhs: RecommendSnippetResultOption) -> Bool {
+        lhs.value == rhs.value &&
+            lhs.matchLevel == rhs.matchLevel
+    }
+}
+
+extension RecommendSnippetResultOption: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.value.hashValue)
+        hasher.combine(self.matchLevel.hashValue)
+    }
+}

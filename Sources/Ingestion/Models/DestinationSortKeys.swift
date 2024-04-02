@@ -13,3 +13,5 @@ public enum DestinationSortKeys: String, Codable, CaseIterable {
     case updatedAt
     case createdAt
 }
+
+extension DestinationSortKeys: Hashable {}

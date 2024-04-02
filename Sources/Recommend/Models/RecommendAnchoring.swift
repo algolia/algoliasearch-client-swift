@@ -16,3 +16,5 @@ public enum RecommendAnchoring: String, Codable, CaseIterable {
     case endsWith
     case contains
 }
+
+extension RecommendAnchoring: Hashable {}

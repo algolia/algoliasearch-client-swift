@@ -37,3 +37,19 @@ public struct SaveSynonymResponse: Codable, JSONEncodable {
         try container.encode(self.id, forKey: .id)
     }
 }
+
+extension SaveSynonymResponse: Equatable {
+    public static func ==(lhs: SaveSynonymResponse, rhs: SaveSynonymResponse) -> Bool {
+        lhs.taskID == rhs.taskID &&
+            lhs.updatedAt == rhs.updatedAt &&
+            lhs.id == rhs.id
+    }
+}
+
+extension SaveSynonymResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.taskID.hashValue)
+        hasher.combine(self.updatedAt.hashValue)
+        hasher.combine(self.id.hashValue)
+    }
+}

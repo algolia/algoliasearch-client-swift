@@ -53,3 +53,6 @@ public enum SearchSnippetResult: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension SearchSnippetResult: Equatable {}
+extension SearchSnippetResult: Hashable {}

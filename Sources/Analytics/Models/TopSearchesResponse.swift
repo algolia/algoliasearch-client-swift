@@ -25,3 +25,15 @@ public struct TopSearchesResponse: Codable, JSONEncodable {
         try container.encode(self.searches, forKey: .searches)
     }
 }
+
+extension TopSearchesResponse: Equatable {
+    public static func ==(lhs: TopSearchesResponse, rhs: TopSearchesResponse) -> Bool {
+        lhs.searches == rhs.searches
+    }
+}
+
+extension TopSearchesResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.searches.hashValue)
+    }
+}

@@ -95,3 +95,21 @@ public struct SearchHits<T: Codable>: Codable, JSONEncodable {
         )
     }
 }
+
+extension SearchHits: Equatable where T: Equatable {
+    public static func ==(lhs: SearchHits<T>, rhs: SearchHits<T>) -> Bool {
+        lhs.hits == rhs.hits &&
+            lhs.query == rhs.query &&
+            lhs.params == rhs.params
+            && lhs.additionalProperties == rhs.additionalProperties
+    }
+}
+
+extension SearchHits: Hashable where T: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.hits.hashValue)
+        hasher.combine(self.query.hashValue)
+        hasher.combine(self.params.hashValue)
+        hasher.combine(self.additionalProperties.hashValue)
+    }
+}

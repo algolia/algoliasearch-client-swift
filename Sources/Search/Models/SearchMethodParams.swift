@@ -28,3 +28,17 @@ public struct SearchMethodParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.strategy, forKey: .strategy)
     }
 }
+
+extension SearchMethodParams: Equatable {
+    public static func ==(lhs: SearchMethodParams, rhs: SearchMethodParams) -> Bool {
+        lhs.requests == rhs.requests &&
+            lhs.strategy == rhs.strategy
+    }
+}
+
+extension SearchMethodParams: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.requests.hashValue)
+        hasher.combine(self.strategy?.hashValue)
+    }
+}

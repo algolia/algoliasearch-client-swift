@@ -12,3 +12,5 @@ public enum RunType: String, Codable, CaseIterable {
     case update
     case discover
 }
+
+extension RunType: Hashable {}

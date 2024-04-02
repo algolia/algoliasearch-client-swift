@@ -40,3 +40,19 @@ public struct DestinationIndexName: Codable, JSONEncodable {
         try container.encodeIfPresent(self.attributesToExclude, forKey: .attributesToExclude)
     }
 }
+
+extension DestinationIndexName: Equatable {
+    public static func ==(lhs: DestinationIndexName, rhs: DestinationIndexName) -> Bool {
+        lhs.indexName == rhs.indexName &&
+            lhs.recordType == rhs.recordType &&
+            lhs.attributesToExclude == rhs.attributesToExclude
+    }
+}
+
+extension DestinationIndexName: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.indexName.hashValue)
+        hasher.combine(self.recordType?.hashValue)
+        hasher.combine(self.attributesToExclude?.hashValue)
+    }
+}

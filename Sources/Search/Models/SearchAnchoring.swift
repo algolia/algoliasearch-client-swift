@@ -16,3 +16,5 @@ public enum SearchAnchoring: String, Codable, CaseIterable {
     case endsWith
     case contains
 }
+
+extension SearchAnchoring: Hashable {}

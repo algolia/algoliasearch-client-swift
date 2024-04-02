@@ -25,3 +25,15 @@ public struct AppID: Codable, JSONEncodable {
         try container.encodeIfPresent(self.appID, forKey: .appID)
     }
 }
+
+extension AppID: Equatable {
+    public static func ==(lhs: AppID, rhs: AppID) -> Bool {
+        lhs.appID == rhs.appID
+    }
+}
+
+extension AppID: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.appID?.hashValue)
+    }
+}

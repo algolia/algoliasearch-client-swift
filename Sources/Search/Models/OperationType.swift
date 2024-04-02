@@ -11,3 +11,5 @@ public enum OperationType: String, Codable, CaseIterable {
     case move
     case copy
 }
+
+extension OperationType: Hashable {}

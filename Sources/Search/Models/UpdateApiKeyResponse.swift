@@ -30,3 +30,17 @@ public struct UpdateApiKeyResponse: Codable, JSONEncodable {
         try container.encode(self.updatedAt, forKey: .updatedAt)
     }
 }
+
+extension UpdateApiKeyResponse: Equatable {
+    public static func ==(lhs: UpdateApiKeyResponse, rhs: UpdateApiKeyResponse) -> Bool {
+        lhs.key == rhs.key &&
+            lhs.updatedAt == rhs.updatedAt
+    }
+}
+
+extension UpdateApiKeyResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.key.hashValue)
+        hasher.combine(self.updatedAt.hashValue)
+    }
+}

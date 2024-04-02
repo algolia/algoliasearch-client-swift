@@ -48,3 +48,6 @@ public enum SearchReRankingApplyFilter: Codable, JSONEncodable, AbstractEncodabl
         }
     }
 }
+
+extension SearchReRankingApplyFilter: Equatable {}
+extension SearchReRankingApplyFilter: Hashable {}

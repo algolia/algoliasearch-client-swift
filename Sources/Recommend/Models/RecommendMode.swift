@@ -12,3 +12,5 @@ public enum RecommendMode: String, Codable, CaseIterable {
     case neuralSearch
     case keywordSearch
 }
+
+extension RecommendMode: Hashable {}

@@ -25,3 +25,15 @@ public struct SearchRedirectRuleIndexMetadataData: Codable, JSONEncodable {
         try container.encode(self.ruleObjectID, forKey: .ruleObjectID)
     }
 }
+
+extension SearchRedirectRuleIndexMetadataData: Equatable {
+    public static func ==(lhs: SearchRedirectRuleIndexMetadataData, rhs: SearchRedirectRuleIndexMetadataData) -> Bool {
+        lhs.ruleObjectID == rhs.ruleObjectID
+    }
+}
+
+extension SearchRedirectRuleIndexMetadataData: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.ruleObjectID.hashValue)
+    }
+}

@@ -10,3 +10,5 @@ import Foundation
 public enum OnDemandTriggerType: String, Codable, CaseIterable {
     case onDemand
 }
+
+extension OnDemandTriggerType: Hashable {}

@@ -52,3 +52,6 @@ public enum SearchFacetFilters: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension SearchFacetFilters: Equatable {}
+extension SearchFacetFilters: Hashable {}

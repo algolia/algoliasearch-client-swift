@@ -36,3 +36,19 @@ public struct PersonalizationStrategyParams: Codable, JSONEncodable {
         try container.encode(self.personalizationImpact, forKey: .personalizationImpact)
     }
 }
+
+extension PersonalizationStrategyParams: Equatable {
+    public static func ==(lhs: PersonalizationStrategyParams, rhs: PersonalizationStrategyParams) -> Bool {
+        lhs.eventScoring == rhs.eventScoring &&
+            lhs.facetScoring == rhs.facetScoring &&
+            lhs.personalizationImpact == rhs.personalizationImpact
+    }
+}
+
+extension PersonalizationStrategyParams: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.eventScoring.hashValue)
+        hasher.combine(self.facetScoring.hashValue)
+        hasher.combine(self.personalizationImpact.hashValue)
+    }
+}

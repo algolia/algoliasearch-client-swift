@@ -26,3 +26,15 @@ public struct RecommendRenderingContent: Codable, JSONEncodable {
         try container.encodeIfPresent(self.facetOrdering, forKey: .facetOrdering)
     }
 }
+
+extension RecommendRenderingContent: Equatable {
+    public static func ==(lhs: RecommendRenderingContent, rhs: RecommendRenderingContent) -> Bool {
+        lhs.facetOrdering == rhs.facetOrdering
+    }
+}
+
+extension RecommendRenderingContent: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.facetOrdering?.hashValue)
+    }
+}

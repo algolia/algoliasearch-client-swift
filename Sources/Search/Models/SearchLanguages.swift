@@ -33,3 +33,19 @@ public struct SearchLanguages: Codable, JSONEncodable {
         try container.encode(self.compounds, forKey: .compounds)
     }
 }
+
+extension SearchLanguages: Equatable {
+    public static func ==(lhs: SearchLanguages, rhs: SearchLanguages) -> Bool {
+        lhs.plurals == rhs.plurals &&
+            lhs.stopwords == rhs.stopwords &&
+            lhs.compounds == rhs.compounds
+    }
+}
+
+extension SearchLanguages: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.plurals.hashValue)
+        hasher.combine(self.stopwords.hashValue)
+        hasher.combine(self.compounds.hashValue)
+    }
+}

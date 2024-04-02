@@ -30,3 +30,17 @@ public struct DailyUsers: Codable, JSONEncodable {
         try container.encode(self.count, forKey: .count)
     }
 }
+
+extension DailyUsers: Equatable {
+    public static func ==(lhs: DailyUsers, rhs: DailyUsers) -> Bool {
+        lhs.date == rhs.date &&
+            lhs.count == rhs.count
+    }
+}
+
+extension DailyUsers: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.date.hashValue)
+        hasher.combine(self.count.hashValue)
+    }
+}

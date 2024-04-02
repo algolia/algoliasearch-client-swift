@@ -41,3 +41,21 @@ public struct MappingKitAction: Codable, JSONEncodable {
         try container.encode(self.fieldDirectives, forKey: .fieldDirectives)
     }
 }
+
+extension MappingKitAction: Equatable {
+    public static func ==(lhs: MappingKitAction, rhs: MappingKitAction) -> Bool {
+        lhs.id == rhs.id &&
+            lhs.enabled == rhs.enabled &&
+            lhs.trigger == rhs.trigger &&
+            lhs.fieldDirectives == rhs.fieldDirectives
+    }
+}
+
+extension MappingKitAction: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id?.hashValue)
+        hasher.combine(self.enabled.hashValue)
+        hasher.combine(self.trigger.hashValue)
+        hasher.combine(self.fieldDirectives.hashValue)
+    }
+}

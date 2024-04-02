@@ -13,3 +13,5 @@ public enum Period: String, Codable, CaseIterable {
     case week
     case month
 }
+
+extension Period: Hashable {}

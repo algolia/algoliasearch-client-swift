@@ -50,3 +50,6 @@ public enum RecommendAroundRadius: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension RecommendAroundRadius: Equatable {}
+extension RecommendAroundRadius: Hashable {}

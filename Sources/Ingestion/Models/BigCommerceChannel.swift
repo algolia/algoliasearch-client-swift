@@ -30,3 +30,17 @@ public struct BigCommerceChannel: Codable, JSONEncodable {
         try container.encodeIfPresent(self.currencies, forKey: .currencies)
     }
 }
+
+extension BigCommerceChannel: Equatable {
+    public static func ==(lhs: BigCommerceChannel, rhs: BigCommerceChannel) -> Bool {
+        lhs.id == rhs.id &&
+            lhs.currencies == rhs.currencies
+    }
+}
+
+extension BigCommerceChannel: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id.hashValue)
+        hasher.combine(self.currencies?.hashValue)
+    }
+}

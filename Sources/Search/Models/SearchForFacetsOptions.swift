@@ -51,3 +51,23 @@ public struct SearchForFacetsOptions: Codable, JSONEncodable {
         try container.encode(self.type, forKey: .type)
     }
 }
+
+extension SearchForFacetsOptions: Equatable {
+    public static func ==(lhs: SearchForFacetsOptions, rhs: SearchForFacetsOptions) -> Bool {
+        lhs.facet == rhs.facet &&
+            lhs.indexName == rhs.indexName &&
+            lhs.facetQuery == rhs.facetQuery &&
+            lhs.maxFacetHits == rhs.maxFacetHits &&
+            lhs.type == rhs.type
+    }
+}
+
+extension SearchForFacetsOptions: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.facet.hashValue)
+        hasher.combine(self.indexName.hashValue)
+        hasher.combine(self.facetQuery?.hashValue)
+        hasher.combine(self.maxFacetHits?.hashValue)
+        hasher.combine(self.type.hashValue)
+    }
+}

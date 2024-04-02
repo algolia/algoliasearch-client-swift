@@ -36,3 +36,19 @@ public struct DailyAverageClicks: Codable, JSONEncodable {
         try container.encode(self.date, forKey: .date)
     }
 }
+
+extension DailyAverageClicks: Equatable {
+    public static func ==(lhs: DailyAverageClicks, rhs: DailyAverageClicks) -> Bool {
+        lhs.average == rhs.average &&
+            lhs.clickCount == rhs.clickCount &&
+            lhs.date == rhs.date
+    }
+}
+
+extension DailyAverageClicks: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.average.hashValue)
+        hasher.combine(self.clickCount.hashValue)
+        hasher.combine(self.date.hashValue)
+    }
+}

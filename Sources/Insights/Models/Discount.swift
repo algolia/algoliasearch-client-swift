@@ -44,3 +44,6 @@ public enum Discount: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension Discount: Equatable {}
+extension Discount: Hashable {}

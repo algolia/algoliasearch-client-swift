@@ -32,3 +32,19 @@ public struct RunListResponse: Codable, JSONEncodable {
         try container.encode(self.window, forKey: .window)
     }
 }
+
+extension RunListResponse: Equatable {
+    public static func ==(lhs: RunListResponse, rhs: RunListResponse) -> Bool {
+        lhs.runs == rhs.runs &&
+            lhs.pagination == rhs.pagination &&
+            lhs.window == rhs.window
+    }
+}
+
+extension RunListResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.runs.hashValue)
+        hasher.combine(self.pagination.hashValue)
+        hasher.combine(self.window.hashValue)
+    }
+}

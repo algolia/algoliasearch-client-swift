@@ -32,3 +32,17 @@ public struct SearchPromoteObjectIDs: Codable, JSONEncodable {
         try container.encode(self.position, forKey: .position)
     }
 }
+
+extension SearchPromoteObjectIDs: Equatable {
+    public static func ==(lhs: SearchPromoteObjectIDs, rhs: SearchPromoteObjectIDs) -> Bool {
+        lhs.objectIDs == rhs.objectIDs &&
+            lhs.position == rhs.position
+    }
+}
+
+extension SearchPromoteObjectIDs: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.objectIDs.hashValue)
+        hasher.combine(self.position.hashValue)
+    }
+}

@@ -36,3 +36,19 @@ public struct BaseRecommendedForYouQuery: Codable, JSONEncodable {
         try container.encodeIfPresent(self.fallbackParameters, forKey: .fallbackParameters)
     }
 }
+
+extension BaseRecommendedForYouQuery: Equatable {
+    public static func ==(lhs: BaseRecommendedForYouQuery, rhs: BaseRecommendedForYouQuery) -> Bool {
+        lhs.model == rhs.model &&
+            lhs.queryParameters == rhs.queryParameters &&
+            lhs.fallbackParameters == rhs.fallbackParameters
+    }
+}
+
+extension BaseRecommendedForYouQuery: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.model.hashValue)
+        hasher.combine(self.queryParameters?.hashValue)
+        hasher.combine(self.fallbackParameters?.hashValue)
+    }
+}

@@ -35,3 +35,19 @@ public struct SourceGA4BigQueryExport: Codable, JSONEncodable {
         try container.encode(self.tablePrefix, forKey: .tablePrefix)
     }
 }
+
+extension SourceGA4BigQueryExport: Equatable {
+    public static func ==(lhs: SourceGA4BigQueryExport, rhs: SourceGA4BigQueryExport) -> Bool {
+        lhs.projectID == rhs.projectID &&
+            lhs.datasetID == rhs.datasetID &&
+            lhs.tablePrefix == rhs.tablePrefix
+    }
+}
+
+extension SourceGA4BigQueryExport: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.projectID.hashValue)
+        hasher.combine(self.datasetID.hashValue)
+        hasher.combine(self.tablePrefix.hashValue)
+    }
+}

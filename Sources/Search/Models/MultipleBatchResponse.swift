@@ -30,3 +30,17 @@ public struct MultipleBatchResponse: Codable, JSONEncodable {
         try container.encode(self.objectIDs, forKey: .objectIDs)
     }
 }
+
+extension MultipleBatchResponse: Equatable {
+    public static func ==(lhs: MultipleBatchResponse, rhs: MultipleBatchResponse) -> Bool {
+        lhs.taskID == rhs.taskID &&
+            lhs.objectIDs == rhs.objectIDs
+    }
+}
+
+extension MultipleBatchResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.taskID.hashValue)
+        hasher.combine(self.objectIDs.hashValue)
+    }
+}

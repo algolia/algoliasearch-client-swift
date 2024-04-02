@@ -10,3 +10,5 @@ import Foundation
 public enum SearchAroundRadiusAll: String, Codable, CaseIterable {
     case all
 }
+
+extension SearchAroundRadiusAll: Hashable {}

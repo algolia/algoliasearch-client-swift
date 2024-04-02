@@ -118,3 +118,43 @@ public struct TopSearchWithRevenueAnalytics: Codable, JSONEncodable {
         try container.encode(self.purchaseCount, forKey: .purchaseCount)
     }
 }
+
+extension TopSearchWithRevenueAnalytics: Equatable {
+    public static func ==(lhs: TopSearchWithRevenueAnalytics, rhs: TopSearchWithRevenueAnalytics) -> Bool {
+        lhs.search == rhs.search &&
+            lhs.count == rhs.count &&
+            lhs.clickThroughRate == rhs.clickThroughRate &&
+            lhs.averageClickPosition == rhs.averageClickPosition &&
+            lhs.clickPositions == rhs.clickPositions &&
+            lhs.conversionRate == rhs.conversionRate &&
+            lhs.trackedSearchCount == rhs.trackedSearchCount &&
+            lhs.clickCount == rhs.clickCount &&
+            lhs.conversionCount == rhs.conversionCount &&
+            lhs.nbHits == rhs.nbHits &&
+            lhs.currencies == rhs.currencies &&
+            lhs.addToCartRate == rhs.addToCartRate &&
+            lhs.addToCartCount == rhs.addToCartCount &&
+            lhs.purchaseRate == rhs.purchaseRate &&
+            lhs.purchaseCount == rhs.purchaseCount
+    }
+}
+
+extension TopSearchWithRevenueAnalytics: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.search.hashValue)
+        hasher.combine(self.count.hashValue)
+        hasher.combine(self.clickThroughRate.hashValue)
+        hasher.combine(self.averageClickPosition.hashValue)
+        hasher.combine(self.clickPositions.hashValue)
+        hasher.combine(self.conversionRate.hashValue)
+        hasher.combine(self.trackedSearchCount.hashValue)
+        hasher.combine(self.clickCount.hashValue)
+        hasher.combine(self.conversionCount.hashValue)
+        hasher.combine(self.nbHits.hashValue)
+        hasher.combine(self.currencies.hashValue)
+        hasher.combine(self.addToCartRate.hashValue)
+        hasher.combine(self.addToCartCount.hashValue)
+        hasher.combine(self.purchaseRate.hashValue)
+        hasher.combine(self.purchaseCount.hashValue)
+    }
+}

@@ -33,3 +33,17 @@ public struct SearchDeletedAtResponse: Codable, JSONEncodable {
         try container.encode(self.deletedAt, forKey: .deletedAt)
     }
 }
+
+extension SearchDeletedAtResponse: Equatable {
+    public static func ==(lhs: SearchDeletedAtResponse, rhs: SearchDeletedAtResponse) -> Bool {
+        lhs.taskID == rhs.taskID &&
+            lhs.deletedAt == rhs.deletedAt
+    }
+}
+
+extension SearchDeletedAtResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.taskID.hashValue)
+        hasher.combine(self.deletedAt.hashValue)
+    }
+}

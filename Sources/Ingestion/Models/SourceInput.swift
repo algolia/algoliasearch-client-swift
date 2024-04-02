@@ -15,24 +15,6 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable {
     case sourceCSV(SourceCSV)
     case sourceDocker(SourceDocker)
 
-    enum SourceCommercetoolsDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
-        case projectKey
-    }
-
-    enum SourceBigCommerceDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
-        case storeHash
-    }
-
-    enum SourceBigQueryDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
-        case projectID
-    }
-
-    enum SourceGA4BigQueryExportDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
-        case projectID
-        case datasetID
-        case tablePrefix
-    }
-
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
@@ -54,48 +36,6 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable {
     }
 
     public init(from decoder: Decoder) throws {
-        if let sourceCommercetoolsDiscriminatorContainer = try? decoder
-            .container(keyedBy: SourceCommercetoolsDiscriminatorCodingKeys.self) {
-            if sourceCommercetoolsDiscriminatorContainer.contains(.projectKey) {
-                if let value = try? SourceInput.sourceCommercetools(SourceCommercetools(from: decoder)) {
-                    self = value
-                    return
-                }
-            }
-        }
-
-        if let sourceBigCommerceDiscriminatorContainer = try? decoder
-            .container(keyedBy: SourceBigCommerceDiscriminatorCodingKeys.self) {
-            if sourceBigCommerceDiscriminatorContainer.contains(.storeHash) {
-                if let value = try? SourceInput.sourceBigCommerce(SourceBigCommerce(from: decoder)) {
-                    self = value
-                    return
-                }
-            }
-        }
-
-        if let sourceBigQueryDiscriminatorContainer = try? decoder
-            .container(keyedBy: SourceBigQueryDiscriminatorCodingKeys.self) {
-            if sourceBigQueryDiscriminatorContainer.contains(.projectID) {
-                if let value = try? SourceInput.sourceBigQuery(SourceBigQuery(from: decoder)) {
-                    self = value
-                    return
-                }
-            }
-        }
-
-        if let sourceGA4BigQueryExportDiscriminatorContainer = try? decoder
-            .container(keyedBy: SourceGA4BigQueryExportDiscriminatorCodingKeys.self) {
-            if sourceGA4BigQueryExportDiscriminatorContainer.contains(.projectID),
-               sourceGA4BigQueryExportDiscriminatorContainer.contains(.datasetID),
-               sourceGA4BigQueryExportDiscriminatorContainer.contains(.tablePrefix) {
-                if let value = try? SourceInput.sourceGA4BigQueryExport(SourceGA4BigQueryExport(from: decoder)) {
-                    self = value
-                    return
-                }
-            }
-        }
-
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(SourceCommercetools.self) {
             self = .sourceCommercetools(value)
@@ -138,3 +78,6 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension SourceInput: Equatable {}
+extension SourceInput: Hashable {}

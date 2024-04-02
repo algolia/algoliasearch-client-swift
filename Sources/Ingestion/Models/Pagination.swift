@@ -41,3 +41,21 @@ public struct Pagination: Codable, JSONEncodable {
         try container.encode(self.itemsPerPage, forKey: .itemsPerPage)
     }
 }
+
+extension Pagination: Equatable {
+    public static func ==(lhs: Pagination, rhs: Pagination) -> Bool {
+        lhs.nbPages == rhs.nbPages &&
+            lhs.page == rhs.page &&
+            lhs.nbItems == rhs.nbItems &&
+            lhs.itemsPerPage == rhs.itemsPerPage
+    }
+}
+
+extension Pagination: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.nbPages.hashValue)
+        hasher.combine(self.page.hashValue)
+        hasher.combine(self.nbItems.hashValue)
+        hasher.combine(self.itemsPerPage.hashValue)
+    }
+}

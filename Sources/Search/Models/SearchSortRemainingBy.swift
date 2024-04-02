@@ -17,3 +17,5 @@ public enum SearchSortRemainingBy: String, Codable, CaseIterable {
     case alpha
     case hidden
 }
+
+extension SearchSortRemainingBy: Hashable {}

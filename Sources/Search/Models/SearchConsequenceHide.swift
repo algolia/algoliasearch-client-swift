@@ -26,3 +26,15 @@ public struct SearchConsequenceHide: Codable, JSONEncodable {
         try container.encode(self.objectID, forKey: .objectID)
     }
 }
+
+extension SearchConsequenceHide: Equatable {
+    public static func ==(lhs: SearchConsequenceHide, rhs: SearchConsequenceHide) -> Bool {
+        lhs.objectID == rhs.objectID
+    }
+}
+
+extension SearchConsequenceHide: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.objectID.hashValue)
+    }
+}

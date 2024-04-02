@@ -29,3 +29,17 @@ public struct MappingInput: Codable, JSONEncodable {
         try container.encode(self.actions, forKey: .actions)
     }
 }
+
+extension MappingInput: Equatable {
+    public static func ==(lhs: MappingInput, rhs: MappingInput) -> Bool {
+        lhs.format == rhs.format &&
+            lhs.actions == rhs.actions
+    }
+}
+
+extension MappingInput: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.format.hashValue)
+        hasher.combine(self.actions.hashValue)
+    }
+}

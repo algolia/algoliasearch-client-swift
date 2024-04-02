@@ -52,3 +52,6 @@ public enum SearchNumericFilters: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension SearchNumericFilters: Equatable {}
+extension SearchNumericFilters: Hashable {}

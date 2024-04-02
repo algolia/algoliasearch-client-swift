@@ -43,3 +43,6 @@ public enum RecommendPromote: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension RecommendPromote: Equatable {}
+extension RecommendPromote: Hashable {}

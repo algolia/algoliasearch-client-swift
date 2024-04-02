@@ -12,3 +12,5 @@ public enum SearchStrategy: String, Codable, CaseIterable {
     case `none`
     case stopIfEnoughMatches
 }
+
+extension SearchStrategy: Hashable {}

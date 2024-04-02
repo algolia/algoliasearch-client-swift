@@ -30,3 +30,17 @@ public struct RecommendValue: Codable, JSONEncodable {
         try container.encodeIfPresent(self.sortRemainingBy, forKey: .sortRemainingBy)
     }
 }
+
+extension RecommendValue: Equatable {
+    public static func ==(lhs: RecommendValue, rhs: RecommendValue) -> Bool {
+        lhs.order == rhs.order &&
+            lhs.sortRemainingBy == rhs.sortRemainingBy
+    }
+}
+
+extension RecommendValue: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.order?.hashValue)
+        hasher.combine(self.sortRemainingBy?.hashValue)
+    }
+}

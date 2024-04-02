@@ -12,3 +12,5 @@ public enum RecommendModels: String, Codable, CaseIterable {
     case trendingFacets = "trending-facets"
     case trendingItems = "trending-items"
 }
+
+extension RecommendModels: Hashable {}

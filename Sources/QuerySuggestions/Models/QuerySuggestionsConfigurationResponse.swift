@@ -62,3 +62,30 @@ public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable {
         try container.encode(self.allowSpecialCharacters, forKey: .allowSpecialCharacters)
     }
 }
+
+extension QuerySuggestionsConfigurationResponse: Equatable {
+    public static func ==(
+        lhs: QuerySuggestionsConfigurationResponse,
+        rhs: QuerySuggestionsConfigurationResponse
+    ) -> Bool {
+        lhs.appID == rhs.appID &&
+            lhs.indexName == rhs.indexName &&
+            lhs.sourceIndices == rhs.sourceIndices &&
+            lhs.languages == rhs.languages &&
+            lhs.exclude == rhs.exclude &&
+            lhs.enablePersonalization == rhs.enablePersonalization &&
+            lhs.allowSpecialCharacters == rhs.allowSpecialCharacters
+    }
+}
+
+extension QuerySuggestionsConfigurationResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.appID.hashValue)
+        hasher.combine(self.indexName.hashValue)
+        hasher.combine(self.sourceIndices.hashValue)
+        hasher.combine(self.languages.hashValue)
+        hasher.combine(self.exclude.hashValue)
+        hasher.combine(self.enablePersonalization.hashValue)
+        hasher.combine(self.allowSpecialCharacters.hashValue)
+    }
+}

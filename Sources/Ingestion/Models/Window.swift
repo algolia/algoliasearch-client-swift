@@ -31,3 +31,17 @@ public struct Window: Codable, JSONEncodable {
         try container.encode(self.endDate, forKey: .endDate)
     }
 }
+
+extension Window: Equatable {
+    public static func ==(lhs: Window, rhs: Window) -> Bool {
+        lhs.startDate == rhs.startDate &&
+            lhs.endDate == rhs.endDate
+    }
+}
+
+extension Window: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.startDate.hashValue)
+        hasher.combine(self.endDate.hashValue)
+    }
+}

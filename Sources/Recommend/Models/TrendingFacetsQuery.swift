@@ -52,3 +52,23 @@ public struct TrendingFacetsQuery: Codable, JSONEncodable {
         try container.encodeIfPresent(self.model, forKey: .model)
     }
 }
+
+extension TrendingFacetsQuery: Equatable {
+    public static func ==(lhs: TrendingFacetsQuery, rhs: TrendingFacetsQuery) -> Bool {
+        lhs.indexName == rhs.indexName &&
+            lhs.threshold == rhs.threshold &&
+            lhs.maxRecommendations == rhs.maxRecommendations &&
+            lhs.facetName == rhs.facetName &&
+            lhs.model == rhs.model
+    }
+}
+
+extension TrendingFacetsQuery: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.indexName.hashValue)
+        hasher.combine(self.threshold?.hashValue)
+        hasher.combine(self.maxRecommendations?.hashValue)
+        hasher.combine(self.facetName.hashValue)
+        hasher.combine(self.model?.hashValue)
+    }
+}

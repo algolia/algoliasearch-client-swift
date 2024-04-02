@@ -24,3 +24,15 @@ public struct GetRecommendationsResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.results, forKey: .results)
     }
 }
+
+extension GetRecommendationsResponse: Equatable {
+    public static func ==(lhs: GetRecommendationsResponse, rhs: GetRecommendationsResponse) -> Bool {
+        lhs.results == rhs.results
+    }
+}
+
+extension GetRecommendationsResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.results?.hashValue)
+    }
+}

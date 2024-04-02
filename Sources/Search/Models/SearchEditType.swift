@@ -11,3 +11,5 @@ public enum SearchEditType: String, Codable, CaseIterable {
     case remove
     case replace
 }
+
+extension SearchEditType: Hashable {}

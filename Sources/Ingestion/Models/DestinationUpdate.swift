@@ -44,3 +44,21 @@ public struct DestinationUpdate: Codable, JSONEncodable {
         try container.encodeIfPresent(self.authenticationID, forKey: .authenticationID)
     }
 }
+
+extension DestinationUpdate: Equatable {
+    public static func ==(lhs: DestinationUpdate, rhs: DestinationUpdate) -> Bool {
+        lhs.type == rhs.type &&
+            lhs.name == rhs.name &&
+            lhs.input == rhs.input &&
+            lhs.authenticationID == rhs.authenticationID
+    }
+}
+
+extension DestinationUpdate: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.type?.hashValue)
+        hasher.combine(self.name?.hashValue)
+        hasher.combine(self.input?.hashValue)
+        hasher.combine(self.authenticationID?.hashValue)
+    }
+}

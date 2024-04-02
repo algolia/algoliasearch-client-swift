@@ -16,3 +16,5 @@ public enum Action: String, Codable, CaseIterable {
     case delete
     case clear
 }
+
+extension Action: Hashable {}

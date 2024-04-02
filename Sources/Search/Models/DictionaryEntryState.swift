@@ -11,3 +11,5 @@ public enum DictionaryEntryState: String, Codable, CaseIterable {
     case enabled
     case disabled
 }
+
+extension DictionaryEntryState: Hashable {}

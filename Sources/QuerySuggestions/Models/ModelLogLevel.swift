@@ -14,3 +14,5 @@ public enum ModelLogLevel: String, Codable, CaseIterable {
     case info = "INFO"
     case error = "ERROR"
 }
+
+extension ModelLogLevel: Hashable {}

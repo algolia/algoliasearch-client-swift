@@ -30,3 +30,17 @@ public struct ListIndicesResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.nbPages, forKey: .nbPages)
     }
 }
+
+extension ListIndicesResponse: Equatable {
+    public static func ==(lhs: ListIndicesResponse, rhs: ListIndicesResponse) -> Bool {
+        lhs.items == rhs.items &&
+            lhs.nbPages == rhs.nbPages
+    }
+}
+
+extension ListIndicesResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.items.hashValue)
+        hasher.combine(self.nbPages?.hashValue)
+    }
+}

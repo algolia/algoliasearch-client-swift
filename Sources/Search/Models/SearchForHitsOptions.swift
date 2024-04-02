@@ -29,3 +29,17 @@ public struct SearchForHitsOptions: Codable, JSONEncodable {
         try container.encodeIfPresent(self.type, forKey: .type)
     }
 }
+
+extension SearchForHitsOptions: Equatable {
+    public static func ==(lhs: SearchForHitsOptions, rhs: SearchForHitsOptions) -> Bool {
+        lhs.indexName == rhs.indexName &&
+            lhs.type == rhs.type
+    }
+}
+
+extension SearchForHitsOptions: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.indexName.hashValue)
+        hasher.combine(self.type?.hashValue)
+    }
+}

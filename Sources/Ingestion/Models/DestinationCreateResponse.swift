@@ -36,3 +36,19 @@ public struct DestinationCreateResponse: Codable, JSONEncodable {
         try container.encode(self.createdAt, forKey: .createdAt)
     }
 }
+
+extension DestinationCreateResponse: Equatable {
+    public static func ==(lhs: DestinationCreateResponse, rhs: DestinationCreateResponse) -> Bool {
+        lhs.destinationID == rhs.destinationID &&
+            lhs.name == rhs.name &&
+            lhs.createdAt == rhs.createdAt
+    }
+}
+
+extension DestinationCreateResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.destinationID.hashValue)
+        hasher.combine(self.name.hashValue)
+        hasher.combine(self.createdAt.hashValue)
+    }
+}

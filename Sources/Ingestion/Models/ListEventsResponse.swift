@@ -32,3 +32,19 @@ public struct ListEventsResponse: Codable, JSONEncodable {
         try container.encode(self.window, forKey: .window)
     }
 }
+
+extension ListEventsResponse: Equatable {
+    public static func ==(lhs: ListEventsResponse, rhs: ListEventsResponse) -> Bool {
+        lhs.events == rhs.events &&
+            lhs.pagination == rhs.pagination &&
+            lhs.window == rhs.window
+    }
+}
+
+extension ListEventsResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.events.hashValue)
+        hasher.combine(self.pagination.hashValue)
+        hasher.combine(self.window.hashValue)
+    }
+}

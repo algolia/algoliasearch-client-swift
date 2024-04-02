@@ -27,3 +27,15 @@ public struct CustomSearchParams: Codable, JSONEncodable {
         try container.encode(self.customSearchParameters, forKey: .customSearchParameters)
     }
 }
+
+extension CustomSearchParams: Equatable {
+    public static func ==(lhs: CustomSearchParams, rhs: CustomSearchParams) -> Bool {
+        lhs.customSearchParameters == rhs.customSearchParameters
+    }
+}
+
+extension CustomSearchParams: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.customSearchParameters.hashValue)
+    }
+}

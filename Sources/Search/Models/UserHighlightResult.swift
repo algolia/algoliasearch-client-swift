@@ -28,3 +28,17 @@ public struct UserHighlightResult: Codable, JSONEncodable {
         try container.encode(self.clusterName, forKey: .clusterName)
     }
 }
+
+extension UserHighlightResult: Equatable {
+    public static func ==(lhs: UserHighlightResult, rhs: UserHighlightResult) -> Bool {
+        lhs.userID == rhs.userID &&
+            lhs.clusterName == rhs.clusterName
+    }
+}
+
+extension UserHighlightResult: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.userID.hashValue)
+        hasher.combine(self.clusterName.hashValue)
+    }
+}

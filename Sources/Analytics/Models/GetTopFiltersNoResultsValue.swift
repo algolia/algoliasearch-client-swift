@@ -34,3 +34,19 @@ public struct GetTopFiltersNoResultsValue: Codable, JSONEncodable {
         try container.encode(self.value, forKey: .value)
     }
 }
+
+extension GetTopFiltersNoResultsValue: Equatable {
+    public static func ==(lhs: GetTopFiltersNoResultsValue, rhs: GetTopFiltersNoResultsValue) -> Bool {
+        lhs.attribute == rhs.attribute &&
+            lhs.`operator` == rhs.`operator` &&
+            lhs.value == rhs.value
+    }
+}
+
+extension GetTopFiltersNoResultsValue: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.attribute.hashValue)
+        hasher.combine(self.`operator`.hashValue)
+        hasher.combine(self.value.hashValue)
+    }
+}

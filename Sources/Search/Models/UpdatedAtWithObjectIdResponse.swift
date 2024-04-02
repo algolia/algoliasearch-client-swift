@@ -38,3 +38,19 @@ public struct UpdatedAtWithObjectIdResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.objectID, forKey: .objectID)
     }
 }
+
+extension UpdatedAtWithObjectIdResponse: Equatable {
+    public static func ==(lhs: UpdatedAtWithObjectIdResponse, rhs: UpdatedAtWithObjectIdResponse) -> Bool {
+        lhs.taskID == rhs.taskID &&
+            lhs.updatedAt == rhs.updatedAt &&
+            lhs.objectID == rhs.objectID
+    }
+}
+
+extension UpdatedAtWithObjectIdResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.taskID?.hashValue)
+        hasher.combine(self.updatedAt?.hashValue)
+        hasher.combine(self.objectID?.hashValue)
+    }
+}

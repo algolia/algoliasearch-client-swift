@@ -12,3 +12,5 @@ public enum EventType: String, Codable, CaseIterable {
     case log
     case transform
 }
+
+extension EventType: Hashable {}

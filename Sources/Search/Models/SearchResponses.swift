@@ -24,3 +24,15 @@ public struct SearchResponses<T: Codable>: Codable, JSONEncodable {
         try container.encode(self.results, forKey: .results)
     }
 }
+
+extension SearchResponses: Equatable where T: Equatable {
+    public static func ==(lhs: SearchResponses<T>, rhs: SearchResponses<T>) -> Bool {
+        lhs.results == rhs.results
+    }
+}
+
+extension SearchResponses: Hashable where T: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.results.hashValue)
+    }
+}

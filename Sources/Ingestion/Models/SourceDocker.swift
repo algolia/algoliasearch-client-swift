@@ -49,3 +49,23 @@ public struct SourceDocker: Codable, JSONEncodable {
         try container.encode(self.configuration, forKey: .configuration)
     }
 }
+
+extension SourceDocker: Equatable {
+    public static func ==(lhs: SourceDocker, rhs: SourceDocker) -> Bool {
+        lhs.imageType == rhs.imageType &&
+            lhs.registry == rhs.registry &&
+            lhs.image == rhs.image &&
+            lhs.version == rhs.version &&
+            lhs.configuration == rhs.configuration
+    }
+}
+
+extension SourceDocker: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.imageType.hashValue)
+        hasher.combine(self.registry.hashValue)
+        hasher.combine(self.image.hashValue)
+        hasher.combine(self.version?.hashValue)
+        hasher.combine(self.configuration.hashValue)
+    }
+}

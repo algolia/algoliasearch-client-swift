@@ -26,3 +26,15 @@ public struct SearchRenderingContent: Codable, JSONEncodable {
         try container.encodeIfPresent(self.facetOrdering, forKey: .facetOrdering)
     }
 }
+
+extension SearchRenderingContent: Equatable {
+    public static func ==(lhs: SearchRenderingContent, rhs: SearchRenderingContent) -> Bool {
+        lhs.facetOrdering == rhs.facetOrdering
+    }
+}
+
+extension SearchRenderingContent: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.facetOrdering?.hashValue)
+    }
+}

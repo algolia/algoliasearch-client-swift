@@ -35,3 +35,19 @@ public struct RecommendMatchedGeoLocation: Codable, JSONEncodable {
         try container.encodeIfPresent(self.distance, forKey: .distance)
     }
 }
+
+extension RecommendMatchedGeoLocation: Equatable {
+    public static func ==(lhs: RecommendMatchedGeoLocation, rhs: RecommendMatchedGeoLocation) -> Bool {
+        lhs.lat == rhs.lat &&
+            lhs.lng == rhs.lng &&
+            lhs.distance == rhs.distance
+    }
+}
+
+extension RecommendMatchedGeoLocation: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.lat?.hashValue)
+        hasher.combine(self.lng?.hashValue)
+        hasher.combine(self.distance?.hashValue)
+    }
+}

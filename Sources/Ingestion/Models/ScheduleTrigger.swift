@@ -40,3 +40,21 @@ public struct ScheduleTrigger: Codable, JSONEncodable {
         try container.encode(self.nextRun, forKey: .nextRun)
     }
 }
+
+extension ScheduleTrigger: Equatable {
+    public static func ==(lhs: ScheduleTrigger, rhs: ScheduleTrigger) -> Bool {
+        lhs.type == rhs.type &&
+            lhs.cron == rhs.cron &&
+            lhs.lastRun == rhs.lastRun &&
+            lhs.nextRun == rhs.nextRun
+    }
+}
+
+extension ScheduleTrigger: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.type.hashValue)
+        hasher.combine(self.cron.hashValue)
+        hasher.combine(self.lastRun?.hashValue)
+        hasher.combine(self.nextRun.hashValue)
+    }
+}

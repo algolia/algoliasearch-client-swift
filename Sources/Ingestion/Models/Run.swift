@@ -93,3 +93,39 @@ public struct Run: Codable, JSONEncodable {
         try container.encodeIfPresent(self.finishedAt, forKey: .finishedAt)
     }
 }
+
+extension Run: Equatable {
+    public static func ==(lhs: Run, rhs: Run) -> Bool {
+        lhs.runID == rhs.runID &&
+            lhs.appID == rhs.appID &&
+            lhs.taskID == rhs.taskID &&
+            lhs.status == rhs.status &&
+            lhs.progress == rhs.progress &&
+            lhs.outcome == rhs.outcome &&
+            lhs.failureThreshold == rhs.failureThreshold &&
+            lhs.reason == rhs.reason &&
+            lhs.reasonCode == rhs.reasonCode &&
+            lhs.type == rhs.type &&
+            lhs.createdAt == rhs.createdAt &&
+            lhs.startedAt == rhs.startedAt &&
+            lhs.finishedAt == rhs.finishedAt
+    }
+}
+
+extension Run: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.runID.hashValue)
+        hasher.combine(self.appID.hashValue)
+        hasher.combine(self.taskID.hashValue)
+        hasher.combine(self.status.hashValue)
+        hasher.combine(self.progress?.hashValue)
+        hasher.combine(self.outcome?.hashValue)
+        hasher.combine(self.failureThreshold?.hashValue)
+        hasher.combine(self.reason?.hashValue)
+        hasher.combine(self.reasonCode?.hashValue)
+        hasher.combine(self.type.hashValue)
+        hasher.combine(self.createdAt.hashValue)
+        hasher.combine(self.startedAt?.hashValue)
+        hasher.combine(self.finishedAt?.hashValue)
+    }
+}

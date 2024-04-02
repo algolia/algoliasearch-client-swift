@@ -25,3 +25,15 @@ public struct GetTopCountriesResponse: Codable, JSONEncodable {
         try container.encode(self.countries, forKey: .countries)
     }
 }
+
+extension GetTopCountriesResponse: Equatable {
+    public static func ==(lhs: GetTopCountriesResponse, rhs: GetTopCountriesResponse) -> Bool {
+        lhs.countries == rhs.countries
+    }
+}
+
+extension GetTopCountriesResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.countries.hashValue)
+    }
+}

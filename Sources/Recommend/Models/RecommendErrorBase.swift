@@ -70,3 +70,17 @@ public struct RecommendErrorBase: Codable, JSONEncodable {
         )
     }
 }
+
+extension RecommendErrorBase: Equatable {
+    public static func ==(lhs: RecommendErrorBase, rhs: RecommendErrorBase) -> Bool {
+        lhs.message == rhs.message
+            && lhs.additionalProperties == rhs.additionalProperties
+    }
+}
+
+extension RecommendErrorBase: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.message?.hashValue)
+        hasher.combine(self.additionalProperties.hashValue)
+    }
+}

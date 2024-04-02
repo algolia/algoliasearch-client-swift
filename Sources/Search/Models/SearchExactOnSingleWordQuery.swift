@@ -21,3 +21,5 @@ public enum SearchExactOnSingleWordQuery: String, Codable, CaseIterable {
     case `none`
     case word
 }
+
+extension SearchExactOnSingleWordQuery: Hashable {}

@@ -48,3 +48,6 @@ public enum SearchAroundPrecision: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension SearchAroundPrecision: Equatable {}
+extension SearchAroundPrecision: Hashable {}

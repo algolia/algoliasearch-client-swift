@@ -30,3 +30,17 @@ public struct HasPendingMappingsResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.clusters, forKey: .clusters)
     }
 }
+
+extension HasPendingMappingsResponse: Equatable {
+    public static func ==(lhs: HasPendingMappingsResponse, rhs: HasPendingMappingsResponse) -> Bool {
+        lhs.pending == rhs.pending &&
+            lhs.clusters == rhs.clusters
+    }
+}
+
+extension HasPendingMappingsResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.pending.hashValue)
+        hasher.combine(self.clusters?.hashValue)
+    }
+}

@@ -26,3 +26,15 @@ public struct RecommendConsequenceHide: Codable, JSONEncodable {
         try container.encode(self.objectID, forKey: .objectID)
     }
 }
+
+extension RecommendConsequenceHide: Equatable {
+    public static func ==(lhs: RecommendConsequenceHide, rhs: RecommendConsequenceHide) -> Bool {
+        lhs.objectID == rhs.objectID
+    }
+}
+
+extension RecommendConsequenceHide: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.objectID.hashValue)
+    }
+}

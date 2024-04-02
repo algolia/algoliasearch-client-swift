@@ -35,3 +35,19 @@ public struct ListABTestsResponse: Codable, JSONEncodable {
         try container.encode(self.total, forKey: .total)
     }
 }
+
+extension ListABTestsResponse: Equatable {
+    public static func ==(lhs: ListABTestsResponse, rhs: ListABTestsResponse) -> Bool {
+        lhs.abtests == rhs.abtests &&
+            lhs.count == rhs.count &&
+            lhs.total == rhs.total
+    }
+}
+
+extension ListABTestsResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.abtests.hashValue)
+        hasher.combine(self.count.hashValue)
+        hasher.combine(self.total.hashValue)
+    }
+}

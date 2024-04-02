@@ -41,3 +41,21 @@ public struct UserId: Codable, JSONEncodable {
         try container.encode(self.dataSize, forKey: .dataSize)
     }
 }
+
+extension UserId: Equatable {
+    public static func ==(lhs: UserId, rhs: UserId) -> Bool {
+        lhs.userID == rhs.userID &&
+            lhs.clusterName == rhs.clusterName &&
+            lhs.nbRecords == rhs.nbRecords &&
+            lhs.dataSize == rhs.dataSize
+    }
+}
+
+extension UserId: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.userID.hashValue)
+        hasher.combine(self.clusterName.hashValue)
+        hasher.combine(self.nbRecords.hashValue)
+        hasher.combine(self.dataSize.hashValue)
+    }
+}

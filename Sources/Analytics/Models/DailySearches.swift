@@ -30,3 +30,17 @@ public struct DailySearches: Codable, JSONEncodable {
         try container.encode(self.count, forKey: .count)
     }
 }
+
+extension DailySearches: Equatable {
+    public static func ==(lhs: DailySearches, rhs: DailySearches) -> Bool {
+        lhs.date == rhs.date &&
+            lhs.count == rhs.count
+    }
+}
+
+extension DailySearches: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.date.hashValue)
+        hasher.combine(self.count.hashValue)
+    }
+}

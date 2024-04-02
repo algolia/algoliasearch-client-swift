@@ -44,3 +44,6 @@ public enum InsightsValue: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension InsightsValue: Equatable {}
+extension InsightsValue: Hashable {}

@@ -31,3 +31,17 @@ public struct FilterEffectsEmptySearch: Codable, JSONEncodable {
         try container.encodeIfPresent(self.trackedSearchesCount, forKey: .trackedSearchesCount)
     }
 }
+
+extension FilterEffectsEmptySearch: Equatable {
+    public static func ==(lhs: FilterEffectsEmptySearch, rhs: FilterEffectsEmptySearch) -> Bool {
+        lhs.usersCount == rhs.usersCount &&
+            lhs.trackedSearchesCount == rhs.trackedSearchesCount
+    }
+}
+
+extension FilterEffectsEmptySearch: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.usersCount?.hashValue)
+        hasher.combine(self.trackedSearchesCount?.hashValue)
+    }
+}

@@ -70,3 +70,17 @@ public struct InsightsErrorBase: Codable, JSONEncodable {
         )
     }
 }
+
+extension InsightsErrorBase: Equatable {
+    public static func ==(lhs: InsightsErrorBase, rhs: InsightsErrorBase) -> Bool {
+        lhs.message == rhs.message
+            && lhs.additionalProperties == rhs.additionalProperties
+    }
+}
+
+extension InsightsErrorBase: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.message?.hashValue)
+        hasher.combine(self.additionalProperties.hashValue)
+    }
+}

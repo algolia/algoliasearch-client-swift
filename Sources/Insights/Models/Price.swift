@@ -44,3 +44,6 @@ public enum Price: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension Price: Equatable {}
+extension Price: Hashable {}

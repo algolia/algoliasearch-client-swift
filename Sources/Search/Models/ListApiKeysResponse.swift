@@ -25,3 +25,15 @@ public struct ListApiKeysResponse: Codable, JSONEncodable {
         try container.encode(self.keys, forKey: .keys)
     }
 }
+
+extension ListApiKeysResponse: Equatable {
+    public static func ==(lhs: ListApiKeysResponse, rhs: ListApiKeysResponse) -> Bool {
+        lhs.keys == rhs.keys
+    }
+}
+
+extension ListApiKeysResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.keys.hashValue)
+    }
+}

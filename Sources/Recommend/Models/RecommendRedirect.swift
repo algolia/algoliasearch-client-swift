@@ -26,3 +26,15 @@ public struct RecommendRedirect: Codable, JSONEncodable {
         try container.encodeIfPresent(self.index, forKey: .index)
     }
 }
+
+extension RecommendRedirect: Equatable {
+    public static func ==(lhs: RecommendRedirect, rhs: RecommendRedirect) -> Bool {
+        lhs.index == rhs.index
+    }
+}
+
+extension RecommendRedirect: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.index?.hashValue)
+    }
+}

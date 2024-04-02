@@ -31,3 +31,17 @@ public struct MappingFieldDirective: Codable, JSONEncodable {
         try container.encode(self.value, forKey: .value)
     }
 }
+
+extension MappingFieldDirective: Equatable {
+    public static func ==(lhs: MappingFieldDirective, rhs: MappingFieldDirective) -> Bool {
+        lhs.fieldKey == rhs.fieldKey &&
+            lhs.value == rhs.value
+    }
+}
+
+extension MappingFieldDirective: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.fieldKey.hashValue)
+        hasher.combine(self.value.hashValue)
+    }
+}

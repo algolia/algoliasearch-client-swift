@@ -60,3 +60,6 @@ public enum RecommendationsRequest: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension RecommendationsRequest: Equatable {}
+extension RecommendationsRequest: Hashable {}

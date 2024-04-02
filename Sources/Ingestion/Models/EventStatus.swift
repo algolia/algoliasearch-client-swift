@@ -14,3 +14,5 @@ public enum EventStatus: String, Codable, CaseIterable {
     case succeeded
     case critical
 }
+
+extension EventStatus: Hashable {}

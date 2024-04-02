@@ -57,3 +57,23 @@ public struct RecommendCondition: Codable, JSONEncodable {
         try container.encodeIfPresent(self.filters, forKey: .filters)
     }
 }
+
+extension RecommendCondition: Equatable {
+    public static func ==(lhs: RecommendCondition, rhs: RecommendCondition) -> Bool {
+        lhs.pattern == rhs.pattern &&
+            lhs.anchoring == rhs.anchoring &&
+            lhs.alternatives == rhs.alternatives &&
+            lhs.context == rhs.context &&
+            lhs.filters == rhs.filters
+    }
+}
+
+extension RecommendCondition: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.pattern?.hashValue)
+        hasher.combine(self.anchoring?.hashValue)
+        hasher.combine(self.alternatives?.hashValue)
+        hasher.combine(self.context?.hashValue)
+        hasher.combine(self.filters?.hashValue)
+    }
+}

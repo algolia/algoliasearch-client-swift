@@ -11,3 +11,5 @@ public enum RecommendationModels: String, Codable, CaseIterable {
     case relatedProducts = "related-products"
     case boughtTogether = "bought-together"
 }
+
+extension RecommendationModels: Hashable {}

@@ -35,3 +35,19 @@ public struct SourceUpdateResponse: Codable, JSONEncodable {
         try container.encode(self.updatedAt, forKey: .updatedAt)
     }
 }
+
+extension SourceUpdateResponse: Equatable {
+    public static func ==(lhs: SourceUpdateResponse, rhs: SourceUpdateResponse) -> Bool {
+        lhs.sourceID == rhs.sourceID &&
+            lhs.name == rhs.name &&
+            lhs.updatedAt == rhs.updatedAt
+    }
+}
+
+extension SourceUpdateResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.sourceID.hashValue)
+        hasher.combine(self.name.hashValue)
+        hasher.combine(self.updatedAt.hashValue)
+    }
+}

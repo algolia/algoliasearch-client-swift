@@ -12,3 +12,5 @@ public enum LogType: String, Codable, CaseIterable {
     case build
     case error
 }
+
+extension LogType: Hashable {}

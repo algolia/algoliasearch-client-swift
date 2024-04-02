@@ -9,3 +9,5 @@ import Foundation
 public enum ConversionEvent: String, Codable, CaseIterable {
     case conversion
 }
+
+extension ConversionEvent: Hashable {}

@@ -528,3 +528,135 @@ public struct IndexSettings: Codable, JSONEncodable {
         try container.encodeIfPresent(self.reRankingApplyFilter, forKey: .reRankingApplyFilter)
     }
 }
+
+extension IndexSettings: Equatable {
+    public static func ==(lhs: IndexSettings, rhs: IndexSettings) -> Bool {
+        lhs.attributesForFaceting == rhs.attributesForFaceting &&
+            lhs.replicas == rhs.replicas &&
+            lhs.paginationLimitedTo == rhs.paginationLimitedTo &&
+            lhs.unretrievableAttributes == rhs.unretrievableAttributes &&
+            lhs.disableTypoToleranceOnWords == rhs.disableTypoToleranceOnWords &&
+            lhs.attributesToTransliterate == rhs.attributesToTransliterate &&
+            lhs.camelCaseAttributes == rhs.camelCaseAttributes &&
+            lhs.decompoundedAttributes == rhs.decompoundedAttributes &&
+            lhs.indexLanguages == rhs.indexLanguages &&
+            lhs.disablePrefixOnAttributes == rhs.disablePrefixOnAttributes &&
+            lhs.allowCompressionOfIntegerArray == rhs.allowCompressionOfIntegerArray &&
+            lhs.numericAttributesForFiltering == rhs.numericAttributesForFiltering &&
+            lhs.separatorsToIndex == rhs.separatorsToIndex &&
+            lhs.searchableAttributes == rhs.searchableAttributes &&
+            lhs.userData == rhs.userData &&
+            lhs.customNormalization == rhs.customNormalization &&
+            lhs.attributeForDistinct == rhs.attributeForDistinct &&
+            lhs.attributesToRetrieve == rhs.attributesToRetrieve &&
+            lhs.ranking == rhs.ranking &&
+            lhs.customRanking == rhs.customRanking &&
+            lhs.relevancyStrictness == rhs.relevancyStrictness &&
+            lhs.attributesToHighlight == rhs.attributesToHighlight &&
+            lhs.attributesToSnippet == rhs.attributesToSnippet &&
+            lhs.highlightPreTag == rhs.highlightPreTag &&
+            lhs.highlightPostTag == rhs.highlightPostTag &&
+            lhs.snippetEllipsisText == rhs.snippetEllipsisText &&
+            lhs.restrictHighlightAndSnippetArrays == rhs.restrictHighlightAndSnippetArrays &&
+            lhs.hitsPerPage == rhs.hitsPerPage &&
+            lhs.minWordSizefor1Typo == rhs.minWordSizefor1Typo &&
+            lhs.minWordSizefor2Typos == rhs.minWordSizefor2Typos &&
+            lhs.typoTolerance == rhs.typoTolerance &&
+            lhs.allowTyposOnNumericTokens == rhs.allowTyposOnNumericTokens &&
+            lhs.disableTypoToleranceOnAttributes == rhs.disableTypoToleranceOnAttributes &&
+            lhs.ignorePlurals == rhs.ignorePlurals &&
+            lhs.removeStopWords == rhs.removeStopWords &&
+            lhs.keepDiacriticsOnCharacters == rhs.keepDiacriticsOnCharacters &&
+            lhs.queryLanguages == rhs.queryLanguages &&
+            lhs.decompoundQuery == rhs.decompoundQuery &&
+            lhs.enableRules == rhs.enableRules &&
+            lhs.enablePersonalization == rhs.enablePersonalization &&
+            lhs.queryType == rhs.queryType &&
+            lhs.removeWordsIfNoResults == rhs.removeWordsIfNoResults &&
+            lhs.mode == rhs.mode &&
+            lhs.semanticSearch == rhs.semanticSearch &&
+            lhs.advancedSyntax == rhs.advancedSyntax &&
+            lhs.optionalWords == rhs.optionalWords &&
+            lhs.disableExactOnAttributes == rhs.disableExactOnAttributes &&
+            lhs.exactOnSingleWordQuery == rhs.exactOnSingleWordQuery &&
+            lhs.alternativesAsExact == rhs.alternativesAsExact &&
+            lhs.advancedSyntaxFeatures == rhs.advancedSyntaxFeatures &&
+            lhs.distinct == rhs.distinct &&
+            lhs.replaceSynonymsInHighlight == rhs.replaceSynonymsInHighlight &&
+            lhs.minProximity == rhs.minProximity &&
+            lhs.responseFields == rhs.responseFields &&
+            lhs.maxFacetHits == rhs.maxFacetHits &&
+            lhs.maxValuesPerFacet == rhs.maxValuesPerFacet &&
+            lhs.sortFacetValuesBy == rhs.sortFacetValuesBy &&
+            lhs.attributeCriteriaComputedByMinProximity == rhs.attributeCriteriaComputedByMinProximity &&
+            lhs.renderingContent == rhs.renderingContent &&
+            lhs.enableReRanking == rhs.enableReRanking &&
+            lhs.reRankingApplyFilter == rhs.reRankingApplyFilter
+    }
+}
+
+extension IndexSettings: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.attributesForFaceting?.hashValue)
+        hasher.combine(self.replicas?.hashValue)
+        hasher.combine(self.paginationLimitedTo?.hashValue)
+        hasher.combine(self.unretrievableAttributes?.hashValue)
+        hasher.combine(self.disableTypoToleranceOnWords?.hashValue)
+        hasher.combine(self.attributesToTransliterate?.hashValue)
+        hasher.combine(self.camelCaseAttributes?.hashValue)
+        hasher.combine(self.decompoundedAttributes?.hashValue)
+        hasher.combine(self.indexLanguages?.hashValue)
+        hasher.combine(self.disablePrefixOnAttributes?.hashValue)
+        hasher.combine(self.allowCompressionOfIntegerArray?.hashValue)
+        hasher.combine(self.numericAttributesForFiltering?.hashValue)
+        hasher.combine(self.separatorsToIndex?.hashValue)
+        hasher.combine(self.searchableAttributes?.hashValue)
+        hasher.combine(self.userData?.hashValue)
+        hasher.combine(self.customNormalization?.hashValue)
+        hasher.combine(self.attributeForDistinct?.hashValue)
+        hasher.combine(self.attributesToRetrieve?.hashValue)
+        hasher.combine(self.ranking?.hashValue)
+        hasher.combine(self.customRanking?.hashValue)
+        hasher.combine(self.relevancyStrictness?.hashValue)
+        hasher.combine(self.attributesToHighlight?.hashValue)
+        hasher.combine(self.attributesToSnippet?.hashValue)
+        hasher.combine(self.highlightPreTag?.hashValue)
+        hasher.combine(self.highlightPostTag?.hashValue)
+        hasher.combine(self.snippetEllipsisText?.hashValue)
+        hasher.combine(self.restrictHighlightAndSnippetArrays?.hashValue)
+        hasher.combine(self.hitsPerPage?.hashValue)
+        hasher.combine(self.minWordSizefor1Typo?.hashValue)
+        hasher.combine(self.minWordSizefor2Typos?.hashValue)
+        hasher.combine(self.typoTolerance?.hashValue)
+        hasher.combine(self.allowTyposOnNumericTokens?.hashValue)
+        hasher.combine(self.disableTypoToleranceOnAttributes?.hashValue)
+        hasher.combine(self.ignorePlurals?.hashValue)
+        hasher.combine(self.removeStopWords?.hashValue)
+        hasher.combine(self.keepDiacriticsOnCharacters?.hashValue)
+        hasher.combine(self.queryLanguages?.hashValue)
+        hasher.combine(self.decompoundQuery?.hashValue)
+        hasher.combine(self.enableRules?.hashValue)
+        hasher.combine(self.enablePersonalization?.hashValue)
+        hasher.combine(self.queryType?.hashValue)
+        hasher.combine(self.removeWordsIfNoResults?.hashValue)
+        hasher.combine(self.mode?.hashValue)
+        hasher.combine(self.semanticSearch?.hashValue)
+        hasher.combine(self.advancedSyntax?.hashValue)
+        hasher.combine(self.optionalWords?.hashValue)
+        hasher.combine(self.disableExactOnAttributes?.hashValue)
+        hasher.combine(self.exactOnSingleWordQuery?.hashValue)
+        hasher.combine(self.alternativesAsExact?.hashValue)
+        hasher.combine(self.advancedSyntaxFeatures?.hashValue)
+        hasher.combine(self.distinct?.hashValue)
+        hasher.combine(self.replaceSynonymsInHighlight?.hashValue)
+        hasher.combine(self.minProximity?.hashValue)
+        hasher.combine(self.responseFields?.hashValue)
+        hasher.combine(self.maxFacetHits?.hashValue)
+        hasher.combine(self.maxValuesPerFacet?.hashValue)
+        hasher.combine(self.sortFacetValuesBy?.hashValue)
+        hasher.combine(self.attributeCriteriaComputedByMinProximity?.hashValue)
+        hasher.combine(self.renderingContent?.hashValue)
+        hasher.combine(self.enableReRanking?.hashValue)
+        hasher.combine(self.reRankingApplyFilter?.hashValue)
+    }
+}

@@ -30,3 +30,17 @@ public struct TopHit: Codable, JSONEncodable {
         try container.encode(self.count, forKey: .count)
     }
 }
+
+extension TopHit: Equatable {
+    public static func ==(lhs: TopHit, rhs: TopHit) -> Bool {
+        lhs.hit == rhs.hit &&
+            lhs.count == rhs.count
+    }
+}
+
+extension TopHit: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.hit.hashValue)
+        hasher.combine(self.count.hashValue)
+    }
+}

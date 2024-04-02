@@ -41,3 +41,21 @@ public struct DailyNoClickRates: Codable, JSONEncodable {
         try container.encode(self.date, forKey: .date)
     }
 }
+
+extension DailyNoClickRates: Equatable {
+    public static func ==(lhs: DailyNoClickRates, rhs: DailyNoClickRates) -> Bool {
+        lhs.rate == rhs.rate &&
+            lhs.count == rhs.count &&
+            lhs.noClickCount == rhs.noClickCount &&
+            lhs.date == rhs.date
+    }
+}
+
+extension DailyNoClickRates: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.rate.hashValue)
+        hasher.combine(self.count.hashValue)
+        hasher.combine(self.noClickCount.hashValue)
+        hasher.combine(self.date.hashValue)
+    }
+}

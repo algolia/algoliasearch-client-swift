@@ -11,3 +11,5 @@ public enum MethodType: String, Codable, CaseIterable {
     case `get` = "GET"
     case post = "POST"
 }
+
+extension MethodType: Hashable {}

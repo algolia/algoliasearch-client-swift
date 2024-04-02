@@ -126,10 +126,6 @@ open class SearchClient {
             throw AlgoliaError.invalidArgument("objectID", "addOrUpdateObject")
         }
 
-        guard body != nil, let bodyDictionary = body as? [String: Codable], !bodyDictionary.isEmpty else {
-            throw AlgoliaError.invalidArgument("body", "addOrUpdateObject")
-        }
-
         var resourcePath = "/1/indexes/{indexName}/{objectID}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape
@@ -2889,10 +2885,6 @@ open class SearchClient {
     ) async throws -> Response<SaveObjectResponse> {
         guard !indexName.isEmpty else {
             throw AlgoliaError.invalidArgument("indexName", "saveObject")
-        }
-
-        guard body != nil, let bodyDictionary = body as? [String: Codable], !bodyDictionary.isEmpty else {
-            throw AlgoliaError.invalidArgument("body", "saveObject")
         }
 
         var resourcePath = "/1/indexes/{indexName}"

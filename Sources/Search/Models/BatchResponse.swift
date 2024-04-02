@@ -32,3 +32,17 @@ public struct BatchResponse: Codable, JSONEncodable {
         try container.encode(self.objectIDs, forKey: .objectIDs)
     }
 }
+
+extension BatchResponse: Equatable {
+    public static func ==(lhs: BatchResponse, rhs: BatchResponse) -> Bool {
+        lhs.taskID == rhs.taskID &&
+            lhs.objectIDs == rhs.objectIDs
+    }
+}
+
+extension BatchResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.taskID.hashValue)
+        hasher.combine(self.objectIDs.hashValue)
+    }
+}

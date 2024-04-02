@@ -67,3 +67,29 @@ public struct Event: Codable, JSONEncodable {
         try container.encode(self.publishedAt, forKey: .publishedAt)
     }
 }
+
+extension Event: Equatable {
+    public static func ==(lhs: Event, rhs: Event) -> Bool {
+        lhs.eventID == rhs.eventID &&
+            lhs.runID == rhs.runID &&
+            lhs.parentID == rhs.parentID &&
+            lhs.status == rhs.status &&
+            lhs.type == rhs.type &&
+            lhs.batchSize == rhs.batchSize &&
+            lhs.data == rhs.data &&
+            lhs.publishedAt == rhs.publishedAt
+    }
+}
+
+extension Event: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.eventID.hashValue)
+        hasher.combine(self.runID.hashValue)
+        hasher.combine(self.parentID?.hashValue)
+        hasher.combine(self.status.hashValue)
+        hasher.combine(self.type.hashValue)
+        hasher.combine(self.batchSize.hashValue)
+        hasher.combine(self.data?.hashValue)
+        hasher.combine(self.publishedAt.hashValue)
+    }
+}

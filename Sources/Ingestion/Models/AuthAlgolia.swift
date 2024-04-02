@@ -32,3 +32,17 @@ public struct AuthAlgolia: Codable, JSONEncodable {
         try container.encode(self.apiKey, forKey: .apiKey)
     }
 }
+
+extension AuthAlgolia: Equatable {
+    public static func ==(lhs: AuthAlgolia, rhs: AuthAlgolia) -> Bool {
+        lhs.appID == rhs.appID &&
+            lhs.apiKey == rhs.apiKey
+    }
+}
+
+extension AuthAlgolia: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.appID.hashValue)
+        hasher.combine(self.apiKey.hashValue)
+    }
+}

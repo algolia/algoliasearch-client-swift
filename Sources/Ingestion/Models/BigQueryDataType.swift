@@ -10,3 +10,5 @@ public enum BigQueryDataType: String, Codable, CaseIterable {
     case ga4
     case ga360
 }
+
+extension BigQueryDataType: Hashable {}

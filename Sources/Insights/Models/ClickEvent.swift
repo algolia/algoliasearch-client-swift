@@ -9,3 +9,5 @@ import Foundation
 public enum ClickEvent: String, Codable, CaseIterable {
     case click
 }
+
+extension ClickEvent: Hashable {}

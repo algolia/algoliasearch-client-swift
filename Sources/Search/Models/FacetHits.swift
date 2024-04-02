@@ -35,3 +35,19 @@ public struct FacetHits: Codable, JSONEncodable {
         try container.encode(self.count, forKey: .count)
     }
 }
+
+extension FacetHits: Equatable {
+    public static func ==(lhs: FacetHits, rhs: FacetHits) -> Bool {
+        lhs.value == rhs.value &&
+            lhs.highlighted == rhs.highlighted &&
+            lhs.count == rhs.count
+    }
+}
+
+extension FacetHits: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.value.hashValue)
+        hasher.combine(self.highlighted.hashValue)
+        hasher.combine(self.count.hashValue)
+    }
+}

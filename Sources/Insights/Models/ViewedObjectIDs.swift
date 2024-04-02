@@ -70,3 +70,27 @@ public struct ViewedObjectIDs: Codable, JSONEncodable {
         try container.encodeIfPresent(self.timestamp, forKey: .timestamp)
     }
 }
+
+extension ViewedObjectIDs: Equatable {
+    public static func ==(lhs: ViewedObjectIDs, rhs: ViewedObjectIDs) -> Bool {
+        lhs.eventName == rhs.eventName &&
+            lhs.eventType == rhs.eventType &&
+            lhs.index == rhs.index &&
+            lhs.objectIDs == rhs.objectIDs &&
+            lhs.userToken == rhs.userToken &&
+            lhs.authenticatedUserToken == rhs.authenticatedUserToken &&
+            lhs.timestamp == rhs.timestamp
+    }
+}
+
+extension ViewedObjectIDs: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.eventName.hashValue)
+        hasher.combine(self.eventType.hashValue)
+        hasher.combine(self.index.hashValue)
+        hasher.combine(self.objectIDs.hashValue)
+        hasher.combine(self.userToken.hashValue)
+        hasher.combine(self.authenticatedUserToken?.hashValue)
+        hasher.combine(self.timestamp?.hashValue)
+    }
+}

@@ -72,3 +72,27 @@ public struct ViewedFilters: Codable, JSONEncodable {
         try container.encodeIfPresent(self.timestamp, forKey: .timestamp)
     }
 }
+
+extension ViewedFilters: Equatable {
+    public static func ==(lhs: ViewedFilters, rhs: ViewedFilters) -> Bool {
+        lhs.eventName == rhs.eventName &&
+            lhs.eventType == rhs.eventType &&
+            lhs.index == rhs.index &&
+            lhs.filters == rhs.filters &&
+            lhs.userToken == rhs.userToken &&
+            lhs.authenticatedUserToken == rhs.authenticatedUserToken &&
+            lhs.timestamp == rhs.timestamp
+    }
+}
+
+extension ViewedFilters: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.eventName.hashValue)
+        hasher.combine(self.eventType.hashValue)
+        hasher.combine(self.index.hashValue)
+        hasher.combine(self.filters.hashValue)
+        hasher.combine(self.userToken.hashValue)
+        hasher.combine(self.authenticatedUserToken?.hashValue)
+        hasher.combine(self.timestamp?.hashValue)
+    }
+}

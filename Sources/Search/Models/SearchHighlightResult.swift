@@ -53,3 +53,6 @@ public enum SearchHighlightResult: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension SearchHighlightResult: Equatable {}
+extension SearchHighlightResult: Hashable {}

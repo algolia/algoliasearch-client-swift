@@ -37,3 +37,19 @@ public struct BaseRecommendRequest: Codable, JSONEncodable {
         try container.encodeIfPresent(self.maxRecommendations, forKey: .maxRecommendations)
     }
 }
+
+extension BaseRecommendRequest: Equatable {
+    public static func ==(lhs: BaseRecommendRequest, rhs: BaseRecommendRequest) -> Bool {
+        lhs.indexName == rhs.indexName &&
+            lhs.threshold == rhs.threshold &&
+            lhs.maxRecommendations == rhs.maxRecommendations
+    }
+}
+
+extension BaseRecommendRequest: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.indexName.hashValue)
+        hasher.combine(self.threshold?.hashValue)
+        hasher.combine(self.maxRecommendations?.hashValue)
+    }
+}

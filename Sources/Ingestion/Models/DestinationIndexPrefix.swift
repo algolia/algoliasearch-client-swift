@@ -25,3 +25,15 @@ public struct DestinationIndexPrefix: Codable, JSONEncodable {
         try container.encode(self.indexPrefix, forKey: .indexPrefix)
     }
 }
+
+extension DestinationIndexPrefix: Equatable {
+    public static func ==(lhs: DestinationIndexPrefix, rhs: DestinationIndexPrefix) -> Bool {
+        lhs.indexPrefix == rhs.indexPrefix
+    }
+}
+
+extension DestinationIndexPrefix: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.indexPrefix.hashValue)
+    }
+}

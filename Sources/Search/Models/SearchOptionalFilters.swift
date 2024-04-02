@@ -51,3 +51,6 @@ public enum SearchOptionalFilters: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension SearchOptionalFilters: Equatable {}
+extension SearchOptionalFilters: Hashable {}

@@ -27,3 +27,15 @@ public struct GetTopUserIdsResponse: Codable, JSONEncodable {
         try container.encode(self.topUsers, forKey: .topUsers)
     }
 }
+
+extension GetTopUserIdsResponse: Equatable {
+    public static func ==(lhs: GetTopUserIdsResponse, rhs: GetTopUserIdsResponse) -> Bool {
+        lhs.topUsers == rhs.topUsers
+    }
+}
+
+extension GetTopUserIdsResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.topUsers.hashValue)
+    }
+}

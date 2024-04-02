@@ -35,3 +35,19 @@ public struct AddABTestsRequest: Codable, JSONEncodable {
         try container.encode(self.endAt, forKey: .endAt)
     }
 }
+
+extension AddABTestsRequest: Equatable {
+    public static func ==(lhs: AddABTestsRequest, rhs: AddABTestsRequest) -> Bool {
+        lhs.name == rhs.name &&
+            lhs.variants == rhs.variants &&
+            lhs.endAt == rhs.endAt
+    }
+}
+
+extension AddABTestsRequest: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.name.hashValue)
+        hasher.combine(self.variants.hashValue)
+        hasher.combine(self.endAt.hashValue)
+    }
+}

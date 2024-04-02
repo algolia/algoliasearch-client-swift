@@ -9,3 +9,5 @@ import Foundation
 public enum ModelType: String, Codable, CaseIterable {
     case cluster
 }
+
+extension ModelType: Hashable {}

@@ -31,3 +31,17 @@ public struct RunResponse: Codable, JSONEncodable {
         try container.encode(self.createdAt, forKey: .createdAt)
     }
 }
+
+extension RunResponse: Equatable {
+    public static func ==(lhs: RunResponse, rhs: RunResponse) -> Bool {
+        lhs.runID == rhs.runID &&
+            lhs.createdAt == rhs.createdAt
+    }
+}
+
+extension RunResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.runID.hashValue)
+        hasher.combine(self.createdAt.hashValue)
+    }
+}

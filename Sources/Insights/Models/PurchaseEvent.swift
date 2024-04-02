@@ -9,3 +9,5 @@ import Foundation
 public enum PurchaseEvent: String, Codable, CaseIterable {
     case purchase
 }
+
+extension PurchaseEvent: Hashable {}

@@ -61,3 +61,23 @@ public struct RecommendExhaustive: Codable, JSONEncodable {
         try container.encodeIfPresent(self.typo, forKey: .typo)
     }
 }
+
+extension RecommendExhaustive: Equatable {
+    public static func ==(lhs: RecommendExhaustive, rhs: RecommendExhaustive) -> Bool {
+        lhs.facetsCount == rhs.facetsCount &&
+            lhs.facetValues == rhs.facetValues &&
+            lhs.nbHits == rhs.nbHits &&
+            lhs.rulesMatch == rhs.rulesMatch &&
+            lhs.typo == rhs.typo
+    }
+}
+
+extension RecommendExhaustive: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.facetsCount?.hashValue)
+        hasher.combine(self.facetValues?.hashValue)
+        hasher.combine(self.nbHits?.hashValue)
+        hasher.combine(self.rulesMatch?.hashValue)
+        hasher.combine(self.typo?.hashValue)
+    }
+}

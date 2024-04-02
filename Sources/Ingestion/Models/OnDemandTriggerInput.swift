@@ -25,3 +25,15 @@ public struct OnDemandTriggerInput: Codable, JSONEncodable {
         try container.encode(self.type, forKey: .type)
     }
 }
+
+extension OnDemandTriggerInput: Equatable {
+    public static func ==(lhs: OnDemandTriggerInput, rhs: OnDemandTriggerInput) -> Bool {
+        lhs.type == rhs.type
+    }
+}
+
+extension OnDemandTriggerInput: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.type.hashValue)
+    }
+}

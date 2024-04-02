@@ -21,3 +21,5 @@ public enum RecommendExactOnSingleWordQuery: String, Codable, CaseIterable {
     case `none`
     case word
 }
+
+extension RecommendExactOnSingleWordQuery: Hashable {}

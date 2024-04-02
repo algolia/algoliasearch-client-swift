@@ -50,3 +50,6 @@ public enum RecommendTagFilters: Codable, JSONEncodable, AbstractEncodable {
         }
     }
 }
+
+extension RecommendTagFilters: Equatable {}
+extension RecommendTagFilters: Hashable {}

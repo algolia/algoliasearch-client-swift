@@ -25,3 +25,15 @@ public struct ReplaceSourceResponse: Codable, JSONEncodable {
         try container.encode(self.updatedAt, forKey: .updatedAt)
     }
 }
+
+extension ReplaceSourceResponse: Equatable {
+    public static func ==(lhs: ReplaceSourceResponse, rhs: ReplaceSourceResponse) -> Bool {
+        lhs.updatedAt == rhs.updatedAt
+    }
+}
+
+extension ReplaceSourceResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.updatedAt.hashValue)
+    }
+}

@@ -14,3 +14,5 @@ public enum RecommendTypoToleranceEnum: String, Codable, CaseIterable {
     case min
     case strict
 }
+
+extension RecommendTypoToleranceEnum: Hashable {}

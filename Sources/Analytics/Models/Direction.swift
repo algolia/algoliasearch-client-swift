@@ -10,3 +10,5 @@ public enum Direction: String, Codable, CaseIterable {
     case asc
     case desc
 }
+
+extension Direction: Hashable {}

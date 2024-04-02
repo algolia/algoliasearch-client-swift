@@ -30,3 +30,17 @@ public struct ScheduleTriggerInput: Codable, JSONEncodable {
         try container.encode(self.cron, forKey: .cron)
     }
 }
+
+extension ScheduleTriggerInput: Equatable {
+    public static func ==(lhs: ScheduleTriggerInput, rhs: ScheduleTriggerInput) -> Bool {
+        lhs.type == rhs.type &&
+            lhs.cron == rhs.cron
+    }
+}
+
+extension ScheduleTriggerInput: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.type.hashValue)
+        hasher.combine(self.cron.hashValue)
+    }
+}

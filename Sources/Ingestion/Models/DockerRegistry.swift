@@ -11,3 +11,5 @@ public enum DockerRegistry: String, Codable, CaseIterable {
     case dockerhub
     case ghcr
 }
+
+extension DockerRegistry: Hashable {}

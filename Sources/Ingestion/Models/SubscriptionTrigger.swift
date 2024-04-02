@@ -25,3 +25,15 @@ public struct SubscriptionTrigger: Codable, JSONEncodable {
         try container.encode(self.type, forKey: .type)
     }
 }
+
+extension SubscriptionTrigger: Equatable {
+    public static func ==(lhs: SubscriptionTrigger, rhs: SubscriptionTrigger) -> Bool {
+        lhs.type == rhs.type
+    }
+}
+
+extension SubscriptionTrigger: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.type.hashValue)
+    }
+}

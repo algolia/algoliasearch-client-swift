@@ -17,3 +17,5 @@ public enum Operator: String, Codable, CaseIterable {
     case greaterThan = ">"
     case greaterThanOrEqualTo = ">="
 }
+
+extension Operator: Hashable {}

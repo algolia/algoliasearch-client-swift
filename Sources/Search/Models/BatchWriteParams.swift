@@ -25,3 +25,15 @@ public struct BatchWriteParams: Codable, JSONEncodable {
         try container.encode(self.requests, forKey: .requests)
     }
 }
+
+extension BatchWriteParams: Equatable {
+    public static func ==(lhs: BatchWriteParams, rhs: BatchWriteParams) -> Bool {
+        lhs.requests == rhs.requests
+    }
+}
+
+extension BatchWriteParams: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.requests.hashValue)
+    }
+}

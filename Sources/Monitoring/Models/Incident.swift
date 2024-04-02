@@ -30,3 +30,17 @@ public struct Incident: Codable, JSONEncodable {
         try container.encodeIfPresent(self.status, forKey: .status)
     }
 }
+
+extension Incident: Equatable {
+    public static func ==(lhs: Incident, rhs: Incident) -> Bool {
+        lhs.title == rhs.title &&
+            lhs.status == rhs.status
+    }
+}
+
+extension Incident: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.title?.hashValue)
+        hasher.combine(self.status?.hashValue)
+    }
+}

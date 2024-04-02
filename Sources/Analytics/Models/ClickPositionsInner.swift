@@ -32,3 +32,17 @@ public struct ClickPositionsInner: Codable, JSONEncodable {
         try container.encodeIfPresent(self.clickCount, forKey: .clickCount)
     }
 }
+
+extension ClickPositionsInner: Equatable {
+    public static func ==(lhs: ClickPositionsInner, rhs: ClickPositionsInner) -> Bool {
+        lhs.position == rhs.position &&
+            lhs.clickCount == rhs.clickCount
+    }
+}
+
+extension ClickPositionsInner: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.position?.hashValue)
+        hasher.combine(self.clickCount?.hashValue)
+    }
+}

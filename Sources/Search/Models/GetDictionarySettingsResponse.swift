@@ -24,3 +24,15 @@ public struct GetDictionarySettingsResponse: Codable, JSONEncodable {
         try container.encode(self.disableStandardEntries, forKey: .disableStandardEntries)
     }
 }
+
+extension GetDictionarySettingsResponse: Equatable {
+    public static func ==(lhs: GetDictionarySettingsResponse, rhs: GetDictionarySettingsResponse) -> Bool {
+        lhs.disableStandardEntries == rhs.disableStandardEntries
+    }
+}
+
+extension GetDictionarySettingsResponse: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.disableStandardEntries.hashValue)
+    }
+}

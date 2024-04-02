@@ -53,3 +53,23 @@ public struct GetConfigStatus200Response: Codable, JSONEncodable {
         try container.encodeIfPresent(self.lastSuccessfulBuildDuration, forKey: .lastSuccessfulBuildDuration)
     }
 }
+
+extension GetConfigStatus200Response: Equatable {
+    public static func ==(lhs: GetConfigStatus200Response, rhs: GetConfigStatus200Response) -> Bool {
+        lhs.indexName == rhs.indexName &&
+            lhs.isRunning == rhs.isRunning &&
+            lhs.lastBuiltAt == rhs.lastBuiltAt &&
+            lhs.lastSuccessfulBuiltAt == rhs.lastSuccessfulBuiltAt &&
+            lhs.lastSuccessfulBuildDuration == rhs.lastSuccessfulBuildDuration
+    }
+}
+
+extension GetConfigStatus200Response: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.indexName?.hashValue)
+        hasher.combine(self.isRunning?.hashValue)
+        hasher.combine(self.lastBuiltAt?.hashValue)
+        hasher.combine(self.lastSuccessfulBuiltAt?.hashValue)
+        hasher.combine(self.lastSuccessfulBuildDuration?.hashValue)
+    }
+}

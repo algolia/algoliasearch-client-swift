@@ -61,3 +61,27 @@ public struct Server: Codable, JSONEncodable {
         try container.encodeIfPresent(self.type, forKey: .type)
     }
 }
+
+extension Server: Equatable {
+    public static func ==(lhs: Server, rhs: Server) -> Bool {
+        lhs.name == rhs.name &&
+            lhs.region == rhs.region &&
+            lhs.isSlave == rhs.isSlave &&
+            lhs.isReplica == rhs.isReplica &&
+            lhs.cluster == rhs.cluster &&
+            lhs.status == rhs.status &&
+            lhs.type == rhs.type
+    }
+}
+
+extension Server: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.name?.hashValue)
+        hasher.combine(self.region?.hashValue)
+        hasher.combine(self.isSlave?.hashValue)
+        hasher.combine(self.isReplica?.hashValue)
+        hasher.combine(self.cluster?.hashValue)
+        hasher.combine(self.status?.hashValue)
+        hasher.combine(self.type?.hashValue)
+    }
+}

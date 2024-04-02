@@ -31,3 +31,17 @@ public struct FilterEffectsOutliers: Codable, JSONEncodable {
         try container.encodeIfPresent(self.trackedSearchesCount, forKey: .trackedSearchesCount)
     }
 }
+
+extension FilterEffectsOutliers: Equatable {
+    public static func ==(lhs: FilterEffectsOutliers, rhs: FilterEffectsOutliers) -> Bool {
+        lhs.usersCount == rhs.usersCount &&
+            lhs.trackedSearchesCount == rhs.trackedSearchesCount
+    }
+}
+
+extension FilterEffectsOutliers: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.usersCount?.hashValue)
+        hasher.combine(self.trackedSearchesCount?.hashValue)
+    }
+}
