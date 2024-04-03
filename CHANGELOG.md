@@ -1,3 +1,7 @@
+## [9.0.0-alpha.3](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-alpha.2...9.0.0-alpha.3)
+
+- [86a5b4ef8](https://github.com/algolia/api-clients-automation/commit/86a5b4ef8) fix(swift): include privacy file in spm ([#2950](https://github.com/algolia/api-clients-automation/pull/2950)) by [@Fluf22](https://github.com/Fluf22/)
+
 ## [9.0.0-alpha.2](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-alpha.1...9.0.0-alpha.2)
 
 - [deb4e8cde](https://github.com/algolia/api-clients-automation/commit/deb4e8cde) fix(swift): update CI workflow to a previous working state ([#2947](https://github.com/algolia/api-clients-automation/pull/2947)) by [@Fluf22](https://github.com/Fluf22/)
