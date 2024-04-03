@@ -30,16 +30,16 @@ jobs:
       - name: Install CocoaPods
         run: gem install cocoapods
 
-      - name: Publish on CocoaPods
-        run: |
-          set -eo pipefail
-          pod trunk push --allow-warnings --verbose AlgoliaSearchClient.podspec
-        env:
-          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
-
       - name: Publish release on Github
         run: |
           set -eo pipefail
           gh release create ${{ steps.versions.outputs.RELEASE_VERSION }} --title ${{ steps.versions.outputs.RELEASE_VERSION }} -F CHANGELOG.md --target ${{ github.sha }}
         env:
           GH_TOKEN: ${{ github.token }}
+
+      - name: Publish on CocoaPods
+        run: |
+          set -eo pipefail
+          pod trunk push --allow-warnings --verbose AlgoliaSearchClient.podspec
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}

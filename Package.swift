@@ -71,7 +71,10 @@ products.append(
             dependencies: [
                 .target(name: "Core"),
             ] + extraTargetDependencies,
-            path: "Sources/\(library)"
+            path: "Sources/\(library)",
+            resources: [
+                .copy("../../PrivacyInfo.xcprivacy"),
+            ]
         )
     )
 
