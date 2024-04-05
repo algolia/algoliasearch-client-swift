@@ -54,4 +54,8 @@ Pod::Spec.new do |s|
     subs.source_files = 'Sources/Search/**/*.swift'
     subs.dependency 'AlgoliaSearchClient/Core'
   end
+  s.subspec 'Usage' do |subs|
+    subs.source_files = 'Sources/Usage/**/*.swift'
+    subs.dependency 'AlgoliaSearchClient/Core'
+  end
 end
