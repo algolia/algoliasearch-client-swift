@@ -19,7 +19,7 @@ public struct SearchBaseSearchParamsWithoutQuery: Codable, JSONEncodable {
     /// the range (inclusive). - **Facet filters.** `<facet>:<value>` where `<facet>` is a facet attribute
     /// (case-sensitive) and `<value>` a facet value. - **Tag filters.** `_tags:<value>` or just `<value>`
     /// (case-sensitive). - **Boolean filters.** `<facet>: true | false`.  You can combine filters with `AND`, `OR`, and
-    /// `NOT` operators with the following restrictions:  - You can only combine filters of the same type with `OR`.  
+    /// `NOT` operators with the following restrictions:  - You can only combine filters of the same type with `OR`.
     /// **Not supported:** `facet:value OR num > 3`. - You can't use `NOT` with combinations of filters.   **Not
     /// supported:** `NOT(facet:value OR facet:value)` - You can't combine conjunctions (`AND`) with `OR`.   **Not
     /// supported:** `facet:value OR (facet:value AND facet:value)`  Use quotes around your filters, if the facet

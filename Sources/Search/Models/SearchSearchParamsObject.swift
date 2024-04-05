@@ -21,7 +21,7 @@ public struct SearchSearchParamsObject: Codable, JSONEncodable {
     /// the range (inclusive). - **Facet filters.** `<facet>:<value>` where `<facet>` is a facet attribute
     /// (case-sensitive) and `<value>` a facet value. - **Tag filters.** `_tags:<value>` or just `<value>`
     /// (case-sensitive). - **Boolean filters.** `<facet>: true | false`.  You can combine filters with `AND`, `OR`, and
-    /// `NOT` operators with the following restrictions:  - You can only combine filters of the same type with `OR`.  
+    /// `NOT` operators with the following restrictions:  - You can only combine filters of the same type with `OR`.
     /// **Not supported:** `facet:value OR num > 3`. - You can't use `NOT` with combinations of filters.   **Not
     /// supported:** `NOT(facet:value OR facet:value)` - You can't combine conjunctions (`AND`) with `OR`.   **Not
     /// supported:** `facet:value OR (facet:value AND facet:value)`  Use quotes around your filters, if the facet
@@ -163,7 +163,7 @@ public struct SearchSearchParamsObject: Codable, JSONEncodable {
     /// matches when searching in large sets of similar numbers.
     public var allowTyposOnNumericTokens: Bool?
     /// Attributes for which you want to turn off [typo
-    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/). 
+    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/).
     /// Returning only exact matches can help when:  - [Searching in hyphenated attributes](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/how-to/how-to-search-in-hyphenated-attributes/).
     /// - Reducing the number of matches when you have too many.   This can happen with attributes that are long blocks
     /// of text, such as product descriptions.  Consider alternatives such as `disableTypoToleranceOnWords` or adding
@@ -225,7 +225,7 @@ public struct SearchSearchParamsObject: Codable, JSONEncodable {
     /// Advanced search syntax features you want to support.  <dl> <dt><code>exactPhrase</code></dt> <dd>  Phrases in
     /// quotes must match exactly. For example, `sparkly blue \"iPhone case\"` only returns records with the exact
     /// string \"iPhone case\".  </dd> <dt><code>excludeWords</code></dt> <dd>  Query words prefixed with a `-` must not
-    /// occur in a record. For example, `search -engine` matches records that contain \"search\" but not \"engine\". 
+    /// occur in a record. For example, `search -engine` matches records that contain \"search\" but not \"engine\".
     /// </dd> </dl>  This setting only has an effect if `advancedSyntax` is true.
     public var advancedSyntaxFeatures: [SearchAdvancedSyntaxFeatures]?
     public var distinct: SearchDistinct?
@@ -262,7 +262,7 @@ public struct SearchSearchParamsObject: Codable, JSONEncodable {
     /// attribute is determined by the order in the `searchableAttributes` setting.
     public var attributeCriteriaComputedByMinProximity: Bool?
     public var renderingContent: SearchRenderingContent?
-    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/). 
+    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/).
     /// This setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
     public var reRankingApplyFilter: SearchReRankingApplyFilter?

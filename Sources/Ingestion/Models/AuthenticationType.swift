@@ -13,6 +13,7 @@ public enum AuthenticationType: String, Codable, CaseIterable {
     case apiKey
     case oauth
     case algolia
+    case algoliaInsights
 }
 
 extension AuthenticationType: Hashable {}

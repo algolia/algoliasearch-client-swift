@@ -8,7 +8,7 @@ import Foundation
 
 /// Index settings.
 public struct IndexSettings: Codable, JSONEncodable {
-    /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/). 
+    /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/).
     /// Facets are ways to categorize search results based on attributes. Facets can be used to let user filter search
     /// results. By default, no attribute is used for faceting.  **Modifiers**  <dl>
     /// <dt><code>filterOnly(\"ATTRIBUTE\")</code></dt> <dd>Allows using this attribute as a filter, but doesn't evalue
@@ -19,7 +19,7 @@ public struct IndexSettings: Codable, JSONEncodable {
     /// regular facet.
     public var attributesForFaceting: [String]?
     /// Creates [replica
-    /// indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/). 
+    /// indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/).
     /// Replicas are copies of a primary index with the same records but different settings, synonyms, or rules. If you
     /// want to offer a different ranking or sorting of your search results, you'll use replica indices. All index
     /// operations on a primary index are automatically forwarded to its replicas. To add a replica index, you must
@@ -27,7 +27,7 @@ public struct IndexSettings: Codable, JSONEncodable {
     /// into a regular, standalone index that will no longer by synced with the primary index.  **Modifier**  <dl>
     /// <dt><code>virtual(\"REPLICA\")</code></dt> <dd>  Create a virtual replica, Virtual replicas don't increase the
     /// number of records and are optimized for [Relevant
-    /// sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/relevant-sort/). 
+    /// sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/relevant-sort/).
     /// </dd> </dl>  Without modifier, a standard replica is created, which duplicates your record count and is used for
     /// strict, or [exhaustive
     /// sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/exhaustive-sort/).
@@ -161,7 +161,7 @@ public struct IndexSettings: Codable, JSONEncodable {
     /// matches when searching in large sets of similar numbers.
     public var allowTyposOnNumericTokens: Bool?
     /// Attributes for which you want to turn off [typo
-    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/). 
+    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/).
     /// Returning only exact matches can help when:  - [Searching in hyphenated attributes](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/how-to/how-to-search-in-hyphenated-attributes/).
     /// - Reducing the number of matches when you have too many.   This can happen with attributes that are long blocks
     /// of text, such as product descriptions.  Consider alternatives such as `disableTypoToleranceOnWords` or adding
@@ -223,7 +223,7 @@ public struct IndexSettings: Codable, JSONEncodable {
     /// Advanced search syntax features you want to support.  <dl> <dt><code>exactPhrase</code></dt> <dd>  Phrases in
     /// quotes must match exactly. For example, `sparkly blue \"iPhone case\"` only returns records with the exact
     /// string \"iPhone case\".  </dd> <dt><code>excludeWords</code></dt> <dd>  Query words prefixed with a `-` must not
-    /// occur in a record. For example, `search -engine` matches records that contain \"search\" but not \"engine\". 
+    /// occur in a record. For example, `search -engine` matches records that contain \"search\" but not \"engine\".
     /// </dd> </dl>  This setting only has an effect if `advancedSyntax` is true.
     public var advancedSyntaxFeatures: [SearchAdvancedSyntaxFeatures]?
     public var distinct: SearchDistinct?
@@ -260,7 +260,7 @@ public struct IndexSettings: Codable, JSONEncodable {
     /// attribute is determined by the order in the `searchableAttributes` setting.
     public var attributeCriteriaComputedByMinProximity: Bool?
     public var renderingContent: SearchRenderingContent?
-    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/). 
+    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/).
     /// This setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
     public var reRankingApplyFilter: SearchReRankingApplyFilter?

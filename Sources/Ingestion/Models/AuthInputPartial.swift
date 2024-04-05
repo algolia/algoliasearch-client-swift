@@ -12,6 +12,7 @@ public enum AuthInputPartial: Codable, JSONEncodable, AbstractEncodable {
     case authAPIKeyPartial(AuthAPIKeyPartial)
     case authOAuthPartial(AuthOAuthPartial)
     case authAlgoliaPartial(AuthAlgoliaPartial)
+    case authAlgoliaInsightsPartial(AuthAlgoliaInsightsPartial)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -25,6 +26,8 @@ public enum AuthInputPartial: Codable, JSONEncodable, AbstractEncodable {
         case let .authOAuthPartial(value):
             try container.encode(value)
         case let .authAlgoliaPartial(value):
+            try container.encode(value)
+        case let .authAlgoliaInsightsPartial(value):
             try container.encode(value)
         }
     }
@@ -41,6 +44,8 @@ public enum AuthInputPartial: Codable, JSONEncodable, AbstractEncodable {
             self = .authOAuthPartial(value)
         } else if let value = try? container.decode(AuthAlgoliaPartial.self) {
             self = .authAlgoliaPartial(value)
+        } else if let value = try? container.decode(AuthAlgoliaInsightsPartial.self) {
+            self = .authAlgoliaInsightsPartial(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -61,6 +66,8 @@ public enum AuthInputPartial: Codable, JSONEncodable, AbstractEncodable {
             value as AuthOAuthPartial
         case let .authAlgoliaPartial(value):
             value as AuthAlgoliaPartial
+        case let .authAlgoliaInsightsPartial(value):
+            value as AuthAlgoliaInsightsPartial
         }
     }
 }
