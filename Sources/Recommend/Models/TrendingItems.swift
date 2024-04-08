@@ -6,16 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct TrendingItemsQuery: Codable, JSONEncodable {
-    /// Index name.
-    public var indexName: String
-    /// Minimum score a recommendation must have to be included in the response.
-    public var threshold: Double
-    /// Maximum number of recommendations to retrieve. By default, all recommendations are returned and no fallback
-    /// request is made. Depending on the available recommendations and the other request parameters, the actual number
-    /// of recommendations may be lower than this value.
-    public var maxRecommendations: Int?
-    public var queryParameters: RecommendSearchParams?
+public struct TrendingItems: Codable, JSONEncodable {
     /// Facet attribute. To be used in combination with `facetValue`. If specified, only recommendations matching the
     /// facet filter will be returned.
     public var facetName: String
@@ -26,19 +17,11 @@ public struct TrendingItemsQuery: Codable, JSONEncodable {
     public var fallbackParameters: RecommendSearchParamsObject?
 
     public init(
-        indexName: String,
-        threshold: Double,
-        maxRecommendations: Int? = nil,
-        queryParameters: RecommendSearchParams? = nil,
         facetName: String,
         facetValue: String,
         model: TrendingItemsModel,
         fallbackParameters: RecommendSearchParamsObject? = nil
     ) {
-        self.indexName = indexName
-        self.threshold = threshold
-        self.maxRecommendations = maxRecommendations
-        self.queryParameters = queryParameters
         self.facetName = facetName
         self.facetValue = facetValue
         self.model = model
@@ -46,10 +29,6 @@ public struct TrendingItemsQuery: Codable, JSONEncodable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case indexName
-        case threshold
-        case maxRecommendations
-        case queryParameters
         case facetName
         case facetValue
         case model
@@ -60,10 +39,6 @@ public struct TrendingItemsQuery: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.indexName, forKey: .indexName)
-        try container.encode(self.threshold, forKey: .threshold)
-        try container.encodeIfPresent(self.maxRecommendations, forKey: .maxRecommendations)
-        try container.encodeIfPresent(self.queryParameters, forKey: .queryParameters)
         try container.encode(self.facetName, forKey: .facetName)
         try container.encode(self.facetValue, forKey: .facetValue)
         try container.encode(self.model, forKey: .model)
@@ -71,25 +46,17 @@ public struct TrendingItemsQuery: Codable, JSONEncodable {
     }
 }
 
-extension TrendingItemsQuery: Equatable {
-    public static func ==(lhs: TrendingItemsQuery, rhs: TrendingItemsQuery) -> Bool {
-        lhs.indexName == rhs.indexName &&
-            lhs.threshold == rhs.threshold &&
-            lhs.maxRecommendations == rhs.maxRecommendations &&
-            lhs.queryParameters == rhs.queryParameters &&
-            lhs.facetName == rhs.facetName &&
+extension TrendingItems: Equatable {
+    public static func ==(lhs: TrendingItems, rhs: TrendingItems) -> Bool {
+        lhs.facetName == rhs.facetName &&
             lhs.facetValue == rhs.facetValue &&
             lhs.model == rhs.model &&
             lhs.fallbackParameters == rhs.fallbackParameters
     }
 }
 
-extension TrendingItemsQuery: Hashable {
+extension TrendingItems: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.indexName.hashValue)
-        hasher.combine(self.threshold.hashValue)
-        hasher.combine(self.maxRecommendations?.hashValue)
-        hasher.combine(self.queryParameters?.hashValue)
         hasher.combine(self.facetName.hashValue)
         hasher.combine(self.facetValue.hashValue)
         hasher.combine(self.model.hashValue)

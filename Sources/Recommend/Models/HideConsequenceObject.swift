@@ -6,12 +6,12 @@ import Foundation
     import Core
 #endif
 
-/// Object ID of the record to hide.
-public struct RecommendConsequenceHide: Codable, JSONEncodable {
+/// Object ID of the recommendation you want to exclude.
+public struct HideConsequenceObject: Codable, JSONEncodable {
     /// Unique record identifier.
-    public var objectID: String
+    public var objectID: String?
 
-    public init(objectID: String) {
+    public init(objectID: String? = nil) {
         self.objectID = objectID
     }
 
@@ -23,18 +23,18 @@ public struct RecommendConsequenceHide: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.objectID, forKey: .objectID)
+        try container.encodeIfPresent(self.objectID, forKey: .objectID)
     }
 }
 
-extension RecommendConsequenceHide: Equatable {
-    public static func ==(lhs: RecommendConsequenceHide, rhs: RecommendConsequenceHide) -> Bool {
+extension HideConsequenceObject: Equatable {
+    public static func ==(lhs: HideConsequenceObject, rhs: HideConsequenceObject) -> Bool {
         lhs.objectID == rhs.objectID
     }
 }
 
-extension RecommendConsequenceHide: Hashable {
+extension HideConsequenceObject: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.objectID.hashValue)
+        hasher.combine(self.objectID?.hashValue)
     }
 }

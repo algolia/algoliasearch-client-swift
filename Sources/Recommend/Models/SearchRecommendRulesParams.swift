@@ -6,31 +6,44 @@ import Foundation
     import Core
 #endif
 
-/// Recommend rules search parameters.
+/// Recommend rules parameters.
 public struct SearchRecommendRulesParams: Codable, JSONEncodable {
     /// Search query.
     public var query: String?
-    /// Restricts responses to the specified [contextual rule](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#creating-contextual-rules).
+    /// Only search for rules with matching context.
     public var context: String?
     /// Requested page of the API response.
     public var page: Int?
     /// Maximum number of hits per page.
     public var hitsPerPage: Int?
-    /// Restricts responses to enabled rules. When absent (default), _all_ rules are retrieved.
+    /// Whether to only show rules where the value of their `enabled` property matches this parameter. If absent, show
+    /// all rules, regardless of their `enabled` property.
     public var enabled: Bool?
+    /// Filter expression. This only searches for rules matching the filter expression.
+    public var filters: String?
+    /// Include facets and facet values in the response. Use `['*']` to include all facets.
+    public var facets: [String]?
+    /// Maximum number of values to return for each facet.
+    public var maxValuesPerFacet: Int?
 
     public init(
         query: String? = nil,
         context: String? = nil,
         page: Int? = nil,
         hitsPerPage: Int? = nil,
-        enabled: Bool? = nil
+        enabled: Bool? = nil,
+        filters: String? = nil,
+        facets: [String]? = nil,
+        maxValuesPerFacet: Int? = nil
     ) {
         self.query = query
         self.context = context
         self.page = page
         self.hitsPerPage = hitsPerPage
         self.enabled = enabled
+        self.filters = filters
+        self.facets = facets
+        self.maxValuesPerFacet = maxValuesPerFacet
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -39,6 +52,9 @@ public struct SearchRecommendRulesParams: Codable, JSONEncodable {
         case page
         case hitsPerPage
         case enabled
+        case filters
+        case facets
+        case maxValuesPerFacet
     }
 
     // Encodable protocol methods
@@ -50,6 +66,9 @@ public struct SearchRecommendRulesParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.page, forKey: .page)
         try container.encodeIfPresent(self.hitsPerPage, forKey: .hitsPerPage)
         try container.encodeIfPresent(self.enabled, forKey: .enabled)
+        try container.encodeIfPresent(self.filters, forKey: .filters)
+        try container.encodeIfPresent(self.facets, forKey: .facets)
+        try container.encodeIfPresent(self.maxValuesPerFacet, forKey: .maxValuesPerFacet)
     }
 }
 
@@ -59,7 +78,10 @@ extension SearchRecommendRulesParams: Equatable {
             lhs.context == rhs.context &&
             lhs.page == rhs.page &&
             lhs.hitsPerPage == rhs.hitsPerPage &&
-            lhs.enabled == rhs.enabled
+            lhs.enabled == rhs.enabled &&
+            lhs.filters == rhs.filters &&
+            lhs.facets == rhs.facets &&
+            lhs.maxValuesPerFacet == rhs.maxValuesPerFacet
     }
 }
 
@@ -70,5 +92,8 @@ extension SearchRecommendRulesParams: Hashable {
         hasher.combine(self.page?.hashValue)
         hasher.combine(self.hitsPerPage?.hashValue)
         hasher.combine(self.enabled?.hashValue)
+        hasher.combine(self.filters?.hashValue)
+        hasher.combine(self.facets?.hashValue)
+        hasher.combine(self.maxValuesPerFacet?.hashValue)
     }
 }

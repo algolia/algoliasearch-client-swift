@@ -6,29 +6,21 @@ import Foundation
     import Core
 #endif
 
-public struct BaseRecommendationsQuery: Codable, JSONEncodable {
-    public var model: RecommendationModels
+public struct RelatedProducts: Codable, JSONEncodable {
+    public var model: RelatedModel
     /// Unique record identifier.
     public var objectID: String
-    public var queryParameters: RecommendSearchParamsObject?
-    public var fallbackParameters: RecommendSearchParamsObject?
+    public var fallbackParameters: FallbackParams?
 
-    public init(
-        model: RecommendationModels,
-        objectID: String,
-        queryParameters: RecommendSearchParamsObject? = nil,
-        fallbackParameters: RecommendSearchParamsObject? = nil
-    ) {
+    public init(model: RelatedModel, objectID: String, fallbackParameters: FallbackParams? = nil) {
         self.model = model
         self.objectID = objectID
-        self.queryParameters = queryParameters
         self.fallbackParameters = fallbackParameters
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case model
         case objectID
-        case queryParameters
         case fallbackParameters
     }
 
@@ -38,25 +30,22 @@ public struct BaseRecommendationsQuery: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.model, forKey: .model)
         try container.encode(self.objectID, forKey: .objectID)
-        try container.encodeIfPresent(self.queryParameters, forKey: .queryParameters)
         try container.encodeIfPresent(self.fallbackParameters, forKey: .fallbackParameters)
     }
 }
 
-extension BaseRecommendationsQuery: Equatable {
-    public static func ==(lhs: BaseRecommendationsQuery, rhs: BaseRecommendationsQuery) -> Bool {
+extension RelatedProducts: Equatable {
+    public static func ==(lhs: RelatedProducts, rhs: RelatedProducts) -> Bool {
         lhs.model == rhs.model &&
             lhs.objectID == rhs.objectID &&
-            lhs.queryParameters == rhs.queryParameters &&
             lhs.fallbackParameters == rhs.fallbackParameters
     }
 }
 
-extension BaseRecommendationsQuery: Hashable {
+extension RelatedProducts: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.model.hashValue)
         hasher.combine(self.objectID.hashValue)
-        hasher.combine(self.queryParameters?.hashValue)
         hasher.combine(self.fallbackParameters?.hashValue)
     }
 }

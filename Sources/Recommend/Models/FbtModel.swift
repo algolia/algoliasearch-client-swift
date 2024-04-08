@@ -6,10 +6,10 @@ import Foundation
     import Core
 #endif
 
-/// Recommendation model.
-public enum RecommendationModels: String, Codable, CaseIterable {
-    case relatedProducts = "related-products"
+/// Frequently bought together model.  This model recommends items that have been purchased within 1 day with the item
+/// with the ID &#x60;objectID&#x60;.
+public enum FbtModel: String, Codable, CaseIterable {
     case boughtTogether = "bought-together"
 }
 
-extension RecommendationModels: Hashable {}
+extension FbtModel: Hashable {}

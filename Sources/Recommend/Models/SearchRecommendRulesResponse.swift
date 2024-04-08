@@ -7,8 +7,8 @@ import Foundation
 #endif
 
 public struct SearchRecommendRulesResponse: Codable, JSONEncodable {
-    /// Fetched rules.
-    public var hits: [RuleResponse]
+    /// Recommend rules that match the search criteria.
+    public var hits: [RecommendRule]
     /// Number of results (hits).
     public var nbHits: Int
     /// Page of search results to retrieve.
@@ -16,7 +16,7 @@ public struct SearchRecommendRulesResponse: Codable, JSONEncodable {
     /// Number of pages of results.
     public var nbPages: Int
 
-    public init(hits: [RuleResponse], nbHits: Int, page: Int, nbPages: Int) {
+    public init(hits: [RecommendRule], nbHits: Int, page: Int, nbPages: Int) {
         self.hits = hits
         self.nbHits = nbHits
         self.page = page

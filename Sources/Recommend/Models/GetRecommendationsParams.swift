@@ -6,9 +6,9 @@ import Foundation
     import Core
 #endif
 
-/// Recommend parameters.
+/// Recommend request body.
 public struct GetRecommendationsParams: Codable, JSONEncodable {
-    /// Request parameters depend on the model (recommendations or trending).
+    /// Recommendation request with parameters depending on the requested model.
     public var requests: [RecommendationsRequest]
 
     public init(requests: [RecommendationsRequest]) {

@@ -10,9 +10,11 @@ import Foundation
 public struct TrendingFacetHit: Codable, JSONEncodable {
     /// Recommendation score.
     public var score: Double
-    /// Facet name for trending models.
+    /// Facet attribute. To be used in combination with `facetValue`. If specified, only recommendations matching the
+    /// facet filter will be returned.
     public var facetName: String
-    /// Facet value for trending models.
+    /// Facet value. To be used in combination with `facetName`. If specified, only recommendations matching the facet
+    /// filter will be returned.
     public var facetValue: String
 
     public init(score: Double, facetName: String, facetValue: String) {

@@ -6,7 +6,8 @@ import Foundation
     import Core
 #endif
 
-public struct RuleResponseMetadata: Codable, JSONEncodable {
+/// Rule metadata.
+public struct RecommendRuleMetadata: Codable, JSONEncodable {
     /// Date and time when the object was updated, in RFC 3339 format.
     public var lastUpdate: String?
 
@@ -26,13 +27,13 @@ public struct RuleResponseMetadata: Codable, JSONEncodable {
     }
 }
 
-extension RuleResponseMetadata: Equatable {
-    public static func ==(lhs: RuleResponseMetadata, rhs: RuleResponseMetadata) -> Bool {
+extension RecommendRuleMetadata: Equatable {
+    public static func ==(lhs: RecommendRuleMetadata, rhs: RecommendRuleMetadata) -> Bool {
         lhs.lastUpdate == rhs.lastUpdate
     }
 }
 
-extension RuleResponseMetadata: Hashable {
+extension RecommendRuleMetadata: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.lastUpdate?.hashValue)
     }

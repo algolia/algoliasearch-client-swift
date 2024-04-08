@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Trending items model.
+/// Trending items model.  Trending items are determined from the number of conversion events collected on them.
 public enum TrendingItemsModel: String, Codable, CaseIterable {
     case trendingItems = "trending-items"
 }

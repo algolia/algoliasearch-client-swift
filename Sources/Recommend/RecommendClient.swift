@@ -289,7 +289,7 @@ open class RecommendClient {
 
     /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter model: (path) [Recommend
-    /// models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
+    /// model](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
     /// - parameter objectID: (path) Unique record identifier.
     /// - returns: RecommendDeletedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -313,14 +313,14 @@ open class RecommendClient {
         return body
     }
 
-    // Delete a [Recommend rule](https://www.algolia.com/doc/guides/algolia-recommend/how-to/rules/).
+    // Deletes a Recommend rule from a recommendation scenario.
     // Required API Key ACLs:
     //  - editSettings
     //
     // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter model: (path) [Recommend
-    // models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
+    // model](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
     //
     // - parameter objectID: (path) Unique record identifier.
     // - returns: RequestBuilder<RecommendDeletedAtResponse>
@@ -383,17 +383,17 @@ open class RecommendClient {
 
     /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter model: (path) [Recommend
-    /// models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
+    /// model](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
     /// - parameter objectID: (path) Unique record identifier.
-    /// - returns: RuleResponse
+    /// - returns: RecommendRule
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getRecommendRule(
         indexName: String,
         model: RecommendModels,
         objectID: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> RuleResponse {
-        let response: Response<RuleResponse> = try await getRecommendRuleWithHTTPInfo(
+    ) async throws -> RecommendRule {
+        let response: Response<RecommendRule> = try await getRecommendRuleWithHTTPInfo(
             indexName: indexName,
             model: model,
             objectID: objectID,
@@ -407,24 +407,24 @@ open class RecommendClient {
         return body
     }
 
-    // Return a [Recommend rule](https://www.algolia.com/doc/guides/algolia-recommend/how-to/rules/).
+    // Retrieves a Recommend rule that you previously created in the Algolia dashboard.
     // Required API Key ACLs:
     //  - settings
     //
     // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter model: (path) [Recommend
-    // models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
+    // model](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
     //
     // - parameter objectID: (path) Unique record identifier.
-    // - returns: RequestBuilder<RuleResponse>
+    // - returns: RequestBuilder<RecommendRule>
 
     open func getRecommendRuleWithHTTPInfo(
         indexName: String,
         model: RecommendModels,
         objectID: String,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<RuleResponse> {
+    ) async throws -> Response<RecommendRule> {
         guard !indexName.isEmpty else {
             throw AlgoliaError.invalidArgument("indexName", "getRecommendRule")
         }
@@ -477,8 +477,8 @@ open class RecommendClient {
 
     /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter model: (path) [Recommend
-    /// models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
-    /// - parameter taskID: (path) Unique identifier of a task. Numeric value (up to 64bits).
+    /// model](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
+    /// - parameter taskID: (path) Unique task identifier.
     /// - returns: GetRecommendTaskResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getRecommendStatus(
@@ -501,17 +501,19 @@ open class RecommendClient {
         return body
     }
 
-    // Some operations, such as deleting a Recommend rule, will respond with a `taskID` value. Use this value here to
-    // check the status of that task.
+    // Checks the status of a given task.  Deleting a Recommend rule is asynchronous. When you delete a rule, a task is
+    // created on a queue and completed depending on the load on the server. The API response includes a task ID that
+    // you
+    // can use to check the status.
     // Required API Key ACLs:
     //  - editSettings
     //
     // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter model: (path) [Recommend
-    // models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
+    // model](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
     //
-    // - parameter taskID: (path) Unique identifier of a task. Numeric value (up to 64bits).
+    // - parameter taskID: (path) Unique task identifier.
     // - returns: RequestBuilder<GetRecommendTaskResponse>
 
     open func getRecommendStatusWithHTTPInfo(
@@ -585,14 +587,7 @@ open class RecommendClient {
         return body
     }
 
-    // Returns results from either recommendation or trending models:    - **Recommendations** are provided by the
-    // [Related
-    // Products](https://www.algolia.com/doc/guides/algolia-recommend/overview/#related-products-and-related-content)
-    // and
-    // [Frequently Bought
-    // Together](https://www.algolia.com/doc/guides/algolia-recommend/overview/#frequently-bought-together) models   -
-    // **Trending** models are [Trending Items and Trending Facet
-    // Values](https://www.algolia.com/doc/guides/algolia-recommend/overview/#trending-items-and-trending-facet-values).
+    // Retrieves recommendations from selected AI models.
     // Required API Key ACLs:
     //  - search
     //
@@ -622,7 +617,7 @@ open class RecommendClient {
 
     /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter model: (path) [Recommend
-    /// models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
+    /// model](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
     /// - parameter searchRecommendRulesParams: (body)  (optional)
     /// - returns: SearchRecommendRulesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -646,14 +641,14 @@ open class RecommendClient {
         return body
     }
 
-    // List [Recommend rules](https://www.algolia.com/doc/guides/algolia-recommend/how-to/rules/).
+    // Searches for Recommend rules.  Use an empty query to list all rules for this recommendation scenario.
     // Required API Key ACLs:
     //  - settings
     //
     // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter model: (path) [Recommend
-    // models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
+    // model](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
     //
     // - parameter searchRecommendRulesParams: (body)  (optional)
     // - returns: RequestBuilder<SearchRecommendRulesResponse>

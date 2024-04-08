@@ -15,11 +15,11 @@ public struct SearchBaseSearchParams: Codable, JSONEncodable {
     /// `similarQuery` is supposed to do a broad search, they usually return many results. Combine it with `filters` to
     /// narrow down the list of results.
     public var similarQuery: String?
-    /// Filter the search so that only records with matching values are included in the results.  These filters are
-    /// supported:  - **Numeric filters.** `<facet> <op> <number>`, where `<op>` is one of `<`, `<=`, `=`, `!=`, `>`,
-    /// `>=`. - **Ranges.** `<facet>:<lower> TO <upper>` where `<lower>` and `<upper>` are the lower and upper limits of
-    /// the range (inclusive). - **Facet filters.** `<facet>:<value>` where `<facet>` is a facet attribute
-    /// (case-sensitive) and `<value>` a facet value. - **Tag filters.** `_tags:<value>` or just `<value>`
+    /// Filter expression to only include items that match the filter criteria in the response.  You can use these
+    /// filter expressions:  - **Numeric filters.** `<facet> <op> <number>`, where `<op>` is one of `<`, `<=`, `=`,
+    /// `!=`, `>`, `>=`. - **Ranges.** `<facet>:<lower> TO <upper>` where `<lower>` and `<upper>` are the lower and
+    /// upper limits of the range (inclusive). - **Facet filters.** `<facet>:<value>` where `<facet>` is a facet
+    /// attribute (case-sensitive) and `<value>` a facet value. - **Tag filters.** `_tags:<value>` or just `<value>`
     /// (case-sensitive). - **Boolean filters.** `<facet>: true | false`.  You can combine filters with `AND`, `OR`, and
     /// `NOT` operators with the following restrictions:  - You can only combine filters of the same type with `OR`.  
     /// **Not supported:** `facet:value OR num > 3`. - You can't use `NOT` with combinations of filters.   **Not

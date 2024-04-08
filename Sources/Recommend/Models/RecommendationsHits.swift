@@ -8,21 +8,13 @@ import Foundation
 
 public struct RecommendationsHits: Codable, JSONEncodable {
     public var hits: [RecommendationsHit]
-    /// Search query.
-    public var query: String?
-    /// URL-encoded string of all search parameters.
-    public var params: String?
 
-    public init(hits: [RecommendationsHit], query: String? = nil, params: String? = nil) {
+    public init(hits: [RecommendationsHit]) {
         self.hits = hits
-        self.query = query
-        self.params = params
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case hits
-        case query
-        case params
     }
 
     // Encodable protocol methods
@@ -30,23 +22,17 @@ public struct RecommendationsHits: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.hits, forKey: .hits)
-        try container.encodeIfPresent(self.query, forKey: .query)
-        try container.encodeIfPresent(self.params, forKey: .params)
     }
 }
 
 extension RecommendationsHits: Equatable {
     public static func ==(lhs: RecommendationsHits, rhs: RecommendationsHits) -> Bool {
-        lhs.hits == rhs.hits &&
-            lhs.query == rhs.query &&
-            lhs.params == rhs.params
+        lhs.hits == rhs.hits
     }
 }
 
 extension RecommendationsHits: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.hits.hashValue)
-        hasher.combine(self.query?.hashValue)
-        hasher.combine(self.params?.hashValue)
     }
 }

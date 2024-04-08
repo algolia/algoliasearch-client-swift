@@ -6,14 +6,12 @@ import Foundation
     import Core
 #endif
 
-/// Rule object.
-public struct RuleResponse: Codable, JSONEncodable {
-    public var metadata: RuleResponseMetadata?
-    /// Unique identifier for a rule object.
-    public var objectID: String
-    /// [Conditions](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/#conditions) required to
-    /// activate a rule. You can use up to 25 conditions per rule.
-    public var conditions: [RecommendCondition]?
+/// Recommend rule.
+public struct RecommendRule: Codable, JSONEncodable {
+    public var metadata: RecommendRuleMetadata?
+    /// Unique identifier of a rule object.
+    public var objectID: String?
+    public var condition: RecommendCondition?
     public var consequence: RecommendConsequence?
     /// Description of the rule's purpose. This can be helpful for display in the Algolia dashboard.
     public var description: String?
@@ -21,16 +19,16 @@ public struct RuleResponse: Codable, JSONEncodable {
     public var enabled: Bool?
 
     public init(
-        metadata: RuleResponseMetadata? = nil,
-        objectID: String,
-        conditions: [RecommendCondition]? = nil,
+        metadata: RecommendRuleMetadata? = nil,
+        objectID: String? = nil,
+        condition: RecommendCondition? = nil,
         consequence: RecommendConsequence? = nil,
         description: String? = nil,
         enabled: Bool? = nil
     ) {
         self.metadata = metadata
         self.objectID = objectID
-        self.conditions = conditions
+        self.condition = condition
         self.consequence = consequence
         self.description = description
         self.enabled = enabled
@@ -39,7 +37,7 @@ public struct RuleResponse: Codable, JSONEncodable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case metadata = "_metadata"
         case objectID
-        case conditions
+        case condition
         case consequence
         case description
         case enabled
@@ -50,30 +48,30 @@ public struct RuleResponse: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.metadata, forKey: .metadata)
-        try container.encode(self.objectID, forKey: .objectID)
-        try container.encodeIfPresent(self.conditions, forKey: .conditions)
+        try container.encodeIfPresent(self.objectID, forKey: .objectID)
+        try container.encodeIfPresent(self.condition, forKey: .condition)
         try container.encodeIfPresent(self.consequence, forKey: .consequence)
         try container.encodeIfPresent(self.description, forKey: .description)
         try container.encodeIfPresent(self.enabled, forKey: .enabled)
     }
 }
 
-extension RuleResponse: Equatable {
-    public static func ==(lhs: RuleResponse, rhs: RuleResponse) -> Bool {
+extension RecommendRule: Equatable {
+    public static func ==(lhs: RecommendRule, rhs: RecommendRule) -> Bool {
         lhs.metadata == rhs.metadata &&
             lhs.objectID == rhs.objectID &&
-            lhs.conditions == rhs.conditions &&
+            lhs.condition == rhs.condition &&
             lhs.consequence == rhs.consequence &&
             lhs.description == rhs.description &&
             lhs.enabled == rhs.enabled
     }
 }
 
-extension RuleResponse: Hashable {
+extension RecommendRule: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.metadata?.hashValue)
-        hasher.combine(self.objectID.hashValue)
-        hasher.combine(self.conditions?.hashValue)
+        hasher.combine(self.objectID?.hashValue)
+        hasher.combine(self.condition?.hashValue)
         hasher.combine(self.consequence?.hashValue)
         hasher.combine(self.description?.hashValue)
         hasher.combine(self.enabled?.hashValue)

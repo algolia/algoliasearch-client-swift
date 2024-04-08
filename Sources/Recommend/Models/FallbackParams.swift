@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct RecommendedForYouQueryParameters: Codable, JSONEncodable {
+public struct FallbackParams: Codable, JSONEncodable {
     /// Search query.
     public var query: String?
     /// Keywords to be used instead of the search query to conduct a more broader search.  Using the `similarQuery`
@@ -15,11 +15,11 @@ public struct RecommendedForYouQueryParameters: Codable, JSONEncodable {
     /// `similarQuery` is supposed to do a broad search, they usually return many results. Combine it with `filters` to
     /// narrow down the list of results.
     public var similarQuery: String?
-    /// Filter the search so that only records with matching values are included in the results.  These filters are
-    /// supported:  - **Numeric filters.** `<facet> <op> <number>`, where `<op>` is one of `<`, `<=`, `=`, `!=`, `>`,
-    /// `>=`. - **Ranges.** `<facet>:<lower> TO <upper>` where `<lower>` and `<upper>` are the lower and upper limits of
-    /// the range (inclusive). - **Facet filters.** `<facet>:<value>` where `<facet>` is a facet attribute
-    /// (case-sensitive) and `<value>` a facet value. - **Tag filters.** `_tags:<value>` or just `<value>`
+    /// Filter expression to only include items that match the filter criteria in the response.  You can use these
+    /// filter expressions:  - **Numeric filters.** `<facet> <op> <number>`, where `<op>` is one of `<`, `<=`, `=`,
+    /// `!=`, `>`, `>=`. - **Ranges.** `<facet>:<lower> TO <upper>` where `<lower>` and `<upper>` are the lower and
+    /// upper limits of the range (inclusive). - **Facet filters.** `<facet>:<value>` where `<facet>` is a facet
+    /// attribute (case-sensitive) and `<value>` a facet value. - **Tag filters.** `_tags:<value>` or just `<value>`
     /// (case-sensitive). - **Boolean filters.** `<facet>: true | false`.  You can combine filters with `AND`, `OR`, and
     /// `NOT` operators with the following restrictions:  - You can only combine filters of the same type with `OR`.  
     /// **Not supported:** `facet:value OR num > 3`. - You can't use `NOT` with combinations of filters.   **Not
@@ -85,7 +85,7 @@ public struct RecommendedForYouQueryParameters: Codable, JSONEncodable {
     public var personalizationImpact: Int?
     /// Unique pseudonymous or anonymous user identifier.  This helps with analytics and click and conversion events.
     /// For more information, see [user token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/).
-    public var userToken: String
+    public var userToken: String?
     /// Whether the search response should include detailed ranking information.
     public var getRankingInfo: Bool?
     /// Whether to take into account an index's synonyms for this search.
@@ -289,7 +289,7 @@ public struct RecommendedForYouQueryParameters: Codable, JSONEncodable {
         naturalLanguages: [String]? = nil,
         ruleContexts: [String]? = nil,
         personalizationImpact: Int? = nil,
-        userToken: String,
+        userToken: String? = nil,
         getRankingInfo: Bool? = nil,
         synonyms: Bool? = nil,
         clickAnalytics: Bool? = nil,
@@ -527,7 +527,7 @@ public struct RecommendedForYouQueryParameters: Codable, JSONEncodable {
         try container.encodeIfPresent(self.naturalLanguages, forKey: .naturalLanguages)
         try container.encodeIfPresent(self.ruleContexts, forKey: .ruleContexts)
         try container.encodeIfPresent(self.personalizationImpact, forKey: .personalizationImpact)
-        try container.encode(self.userToken, forKey: .userToken)
+        try container.encodeIfPresent(self.userToken, forKey: .userToken)
         try container.encodeIfPresent(self.getRankingInfo, forKey: .getRankingInfo)
         try container.encodeIfPresent(self.synonyms, forKey: .synonyms)
         try container.encodeIfPresent(self.clickAnalytics, forKey: .clickAnalytics)
@@ -588,8 +588,8 @@ public struct RecommendedForYouQueryParameters: Codable, JSONEncodable {
     }
 }
 
-extension RecommendedForYouQueryParameters: Equatable {
-    public static func ==(lhs: RecommendedForYouQueryParameters, rhs: RecommendedForYouQueryParameters) -> Bool {
+extension FallbackParams: Equatable {
+    public static func ==(lhs: FallbackParams, rhs: FallbackParams) -> Bool {
         lhs.query == rhs.query &&
             lhs.similarQuery == rhs.similarQuery &&
             lhs.filters == rhs.filters &&
@@ -669,7 +669,7 @@ extension RecommendedForYouQueryParameters: Equatable {
     }
 }
 
-extension RecommendedForYouQueryParameters: Hashable {
+extension FallbackParams: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.query?.hashValue)
         hasher.combine(self.similarQuery?.hashValue)
@@ -695,7 +695,7 @@ extension RecommendedForYouQueryParameters: Hashable {
         hasher.combine(self.naturalLanguages?.hashValue)
         hasher.combine(self.ruleContexts?.hashValue)
         hasher.combine(self.personalizationImpact?.hashValue)
-        hasher.combine(self.userToken.hashValue)
+        hasher.combine(self.userToken?.hashValue)
         hasher.combine(self.getRankingInfo?.hashValue)
         hasher.combine(self.synonyms?.hashValue)
         hasher.combine(self.clickAnalytics?.hashValue)

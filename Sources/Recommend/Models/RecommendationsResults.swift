@@ -67,10 +67,6 @@ public struct RecommendationsResults: Codable, JSONEncodable {
     /// analytics](https://www.algolia.com/doc/guides/analytics/click-analytics/).
     public var queryID: String?
     public var hits: [RecommendationsHit]
-    /// Search query.
-    public var query: String?
-    /// URL-encoded string of all search parameters.
-    public var params: String?
 
     public init(
         abTestID: Int? = nil,
@@ -101,9 +97,7 @@ public struct RecommendationsResults: Codable, JSONEncodable {
         serverUsed: String? = nil,
         userData: AnyCodable? = nil,
         queryID: String? = nil,
-        hits: [RecommendationsHit],
-        query: String? = nil,
-        params: String? = nil
+        hits: [RecommendationsHit]
     ) {
         self.abTestID = abTestID
         self.abTestVariantID = abTestVariantID
@@ -134,8 +128,6 @@ public struct RecommendationsResults: Codable, JSONEncodable {
         self.userData = userData
         self.queryID = queryID
         self.hits = hits
-        self.query = query
-        self.params = params
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -168,8 +160,6 @@ public struct RecommendationsResults: Codable, JSONEncodable {
         case userData
         case queryID
         case hits
-        case query
-        case params
     }
 
     // Encodable protocol methods
@@ -205,8 +195,6 @@ public struct RecommendationsResults: Codable, JSONEncodable {
         try container.encodeIfPresent(self.userData, forKey: .userData)
         try container.encodeIfPresent(self.queryID, forKey: .queryID)
         try container.encode(self.hits, forKey: .hits)
-        try container.encodeIfPresent(self.query, forKey: .query)
-        try container.encodeIfPresent(self.params, forKey: .params)
     }
 }
 
@@ -240,9 +228,7 @@ extension RecommendationsResults: Equatable {
             lhs.serverUsed == rhs.serverUsed &&
             lhs.userData == rhs.userData &&
             lhs.queryID == rhs.queryID &&
-            lhs.hits == rhs.hits &&
-            lhs.query == rhs.query &&
-            lhs.params == rhs.params
+            lhs.hits == rhs.hits
     }
 }
 
@@ -277,7 +263,5 @@ extension RecommendationsResults: Hashable {
         hasher.combine(self.userData?.hashValue)
         hasher.combine(self.queryID?.hashValue)
         hasher.combine(self.hits.hashValue)
-        hasher.combine(self.query?.hashValue)
-        hasher.combine(self.params?.hashValue)
     }
 }

@@ -6,73 +6,52 @@ import Foundation
     import Core
 #endif
 
-/// Effect of the rule.  For more information, see
-/// [Consequences](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/#consequences).
+/// Effect of the rule.
 public struct RecommendConsequence: Codable, JSONEncodable {
-    public var params: RecommendConsequenceParams?
-    /// Records you want to pin to a specific position in the search results.  You can promote up to 300 records, either
-    /// individually, or as groups of up to 100 records each.
-    public var promote: [RecommendPromote]?
-    /// Whether promoted records must match an active filter for the consequence to be applied.  This ensures that user
-    /// actions (filtering the search) are given a higher precendence. For example, if you promote a record with the
-    /// `color: red` attribute, and the user filters the search for `color: blue`, the \"red\" record won't be shown.
-    public var filterPromotes: Bool?
-    /// Records you want to hide from the search results.
-    public var hide: [RecommendConsequenceHide]?
-    /// A JSON object with custom data that will be appended to the `userData` array in the response. This object isn't
-    /// interpreted by the API and is limited to 1&nbsp;kB of minified JSON.
-    public var userData: AnyCodable?
+    /// Exclude items from recommendations.
+    public var hide: [HideConsequenceObject]?
+    /// Place items at specific positions in the list of recommendations.
+    public var promote: [PromoteConsequenceObject]?
+    public var params: ParamsConsequence?
 
     public init(
-        params: RecommendConsequenceParams? = nil,
-        promote: [RecommendPromote]? = nil,
-        filterPromotes: Bool? = nil,
-        hide: [RecommendConsequenceHide]? = nil,
-        userData: AnyCodable? = nil
+        hide: [HideConsequenceObject]? = nil,
+        promote: [PromoteConsequenceObject]? = nil,
+        params: ParamsConsequence? = nil
     ) {
-        self.params = params
-        self.promote = promote
-        self.filterPromotes = filterPromotes
         self.hide = hide
-        self.userData = userData
+        self.promote = promote
+        self.params = params
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case params
-        case promote
-        case filterPromotes
         case hide
-        case userData
+        case promote
+        case params
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.params, forKey: .params)
-        try container.encodeIfPresent(self.promote, forKey: .promote)
-        try container.encodeIfPresent(self.filterPromotes, forKey: .filterPromotes)
         try container.encodeIfPresent(self.hide, forKey: .hide)
-        try container.encodeIfPresent(self.userData, forKey: .userData)
+        try container.encodeIfPresent(self.promote, forKey: .promote)
+        try container.encodeIfPresent(self.params, forKey: .params)
     }
 }
 
 extension RecommendConsequence: Equatable {
     public static func ==(lhs: RecommendConsequence, rhs: RecommendConsequence) -> Bool {
-        lhs.params == rhs.params &&
+        lhs.hide == rhs.hide &&
             lhs.promote == rhs.promote &&
-            lhs.filterPromotes == rhs.filterPromotes &&
-            lhs.hide == rhs.hide &&
-            lhs.userData == rhs.userData
+            lhs.params == rhs.params
     }
 }
 
 extension RecommendConsequence: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.params?.hashValue)
-        hasher.combine(self.promote?.hashValue)
-        hasher.combine(self.filterPromotes?.hashValue)
         hasher.combine(self.hide?.hashValue)
-        hasher.combine(self.userData?.hashValue)
+        hasher.combine(self.promote?.hashValue)
+        hasher.combine(self.params?.hashValue)
     }
 }

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Trending facets model.
+/// Trending facet values model.  This model recommends trending facet values for the specified facet attribute.
 public enum TrendingFacetsModel: String, Codable, CaseIterable {
     case trendingFacets = "trending-facets"
 }

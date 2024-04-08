@@ -6,8 +6,10 @@ import Foundation
     import Core
 #endif
 
-/// Condition that triggers the rule. If not specified, the rule is triggered for all recommendations.
-public struct RecommendCondition: Codable, JSONEncodable {
+/// Filter or boost recommendations matching a facet filter.
+public struct ParamsConsequence: Codable, JSONEncodable {
+    /// Filter recommendations that match or don't match the same `facet:facet_value` combination as the viewed item.
+    public var automaticFacetFilters: [AutoFacetFilter]?
     /// Filter expression to only include items that match the filter criteria in the response.  You can use these
     /// filter expressions:  - **Numeric filters.** `<facet> <op> <number>`, where `<op>` is one of `<`, `<=`, `=`,
     /// `!=`, `>`, `>=`. - **Ranges.** `<facet>:<lower> TO <upper>` where `<lower>` and `<upper>` are the lower and
@@ -22,40 +24,50 @@ public struct RecommendCondition: Codable, JSONEncodable {
     /// array, the filter matches if it matches at least one element of the array.  For more information, see
     /// [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/).
     public var filters: String?
-    /// An additional restriction that only triggers the rule, when the search has the same value as `ruleContexts`
-    /// parameter. For example, if `context: mobile`, the rule is only triggered when the search request has a matching
-    /// `ruleContexts: mobile`. A rule context must only contain alphanumeric characters.
-    public var context: String?
+    /// Filters to promote or demote records in the search results.  Optional filters work like facet filters, but they
+    /// don't exclude records from the search results. Records that match the optional filter rank before records that
+    /// don't match. Matches with higher weights (`<score=N>`) rank before matches with lower weights. If you're using a
+    /// negative filter `facet:-value`, matching records rank after records that don't match.
+    public var optionalFilters: [String]?
 
-    public init(filters: String? = nil, context: String? = nil) {
+    public init(
+        automaticFacetFilters: [AutoFacetFilter]? = nil,
+        filters: String? = nil,
+        optionalFilters: [String]? = nil
+    ) {
+        self.automaticFacetFilters = automaticFacetFilters
         self.filters = filters
-        self.context = context
+        self.optionalFilters = optionalFilters
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case automaticFacetFilters
         case filters
-        case context
+        case optionalFilters
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(self.automaticFacetFilters, forKey: .automaticFacetFilters)
         try container.encodeIfPresent(self.filters, forKey: .filters)
-        try container.encodeIfPresent(self.context, forKey: .context)
+        try container.encodeIfPresent(self.optionalFilters, forKey: .optionalFilters)
     }
 }
 
-extension RecommendCondition: Equatable {
-    public static func ==(lhs: RecommendCondition, rhs: RecommendCondition) -> Bool {
-        lhs.filters == rhs.filters &&
-            lhs.context == rhs.context
+extension ParamsConsequence: Equatable {
+    public static func ==(lhs: ParamsConsequence, rhs: ParamsConsequence) -> Bool {
+        lhs.automaticFacetFilters == rhs.automaticFacetFilters &&
+            lhs.filters == rhs.filters &&
+            lhs.optionalFilters == rhs.optionalFilters
     }
 }
 
-extension RecommendCondition: Hashable {
+extension ParamsConsequence: Hashable {
     public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.automaticFacetFilters?.hashValue)
         hasher.combine(self.filters?.hashValue)
-        hasher.combine(self.context?.hashValue)
+        hasher.combine(self.optionalFilters?.hashValue)
     }
 }

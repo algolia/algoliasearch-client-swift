@@ -6,24 +6,17 @@ import Foundation
     import Core
 #endif
 
-public struct BaseRecommendedForYouQuery: Codable, JSONEncodable {
+public struct RecommendedForYou: Codable, JSONEncodable {
     public var model: RecommendedForYouModel
-    public var queryParameters: RecommendedForYouQueryParameters?
-    public var fallbackParameters: RecommendedForYouQueryParameters?
+    public var fallbackParameters: FallbackParams?
 
-    public init(
-        model: RecommendedForYouModel,
-        queryParameters: RecommendedForYouQueryParameters? = nil,
-        fallbackParameters: RecommendedForYouQueryParameters? = nil
-    ) {
+    public init(model: RecommendedForYouModel, fallbackParameters: FallbackParams? = nil) {
         self.model = model
-        self.queryParameters = queryParameters
         self.fallbackParameters = fallbackParameters
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case model
-        case queryParameters
         case fallbackParameters
     }
 
@@ -32,23 +25,20 @@ public struct BaseRecommendedForYouQuery: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.model, forKey: .model)
-        try container.encodeIfPresent(self.queryParameters, forKey: .queryParameters)
         try container.encodeIfPresent(self.fallbackParameters, forKey: .fallbackParameters)
     }
 }
 
-extension BaseRecommendedForYouQuery: Equatable {
-    public static func ==(lhs: BaseRecommendedForYouQuery, rhs: BaseRecommendedForYouQuery) -> Bool {
+extension RecommendedForYou: Equatable {
+    public static func ==(lhs: RecommendedForYou, rhs: RecommendedForYou) -> Bool {
         lhs.model == rhs.model &&
-            lhs.queryParameters == rhs.queryParameters &&
             lhs.fallbackParameters == rhs.fallbackParameters
     }
 }
 
-extension BaseRecommendedForYouQuery: Hashable {
+extension RecommendedForYou: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.model.hashValue)
-        hasher.combine(self.queryParameters?.hashValue)
         hasher.combine(self.fallbackParameters?.hashValue)
     }
 }

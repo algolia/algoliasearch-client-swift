@@ -6,18 +6,20 @@ import Foundation
     import Core
 #endif
 
-public struct RecommendConsequenceParams: Codable, JSONEncodable {
+public struct RecommendSearchParams: Codable, JSONEncodable {
+    /// Search query.
+    public var query: String?
     /// Keywords to be used instead of the search query to conduct a more broader search.  Using the `similarQuery`
     /// parameter changes other settings:  - `queryType` is set to `prefixNone`. - `removeStopWords` is set to true. -
     /// `words` is set as the first ranking criterion. - All remaining words are treated as `optionalWords`.  Since the
     /// `similarQuery` is supposed to do a broad search, they usually return many results. Combine it with `filters` to
     /// narrow down the list of results.
     public var similarQuery: String?
-    /// Filter the search so that only records with matching values are included in the results.  These filters are
-    /// supported:  - **Numeric filters.** `<facet> <op> <number>`, where `<op>` is one of `<`, `<=`, `=`, `!=`, `>`,
-    /// `>=`. - **Ranges.** `<facet>:<lower> TO <upper>` where `<lower>` and `<upper>` are the lower and upper limits of
-    /// the range (inclusive). - **Facet filters.** `<facet>:<value>` where `<facet>` is a facet attribute
-    /// (case-sensitive) and `<value>` a facet value. - **Tag filters.** `_tags:<value>` or just `<value>`
+    /// Filter expression to only include items that match the filter criteria in the response.  You can use these
+    /// filter expressions:  - **Numeric filters.** `<facet> <op> <number>`, where `<op>` is one of `<`, `<=`, `=`,
+    /// `!=`, `>`, `>=`. - **Ranges.** `<facet>:<lower> TO <upper>` where `<lower>` and `<upper>` are the lower and
+    /// upper limits of the range (inclusive). - **Facet filters.** `<facet>:<value>` where `<facet>` is a facet
+    /// attribute (case-sensitive) and `<value>` a facet value. - **Tag filters.** `_tags:<value>` or just `<value>`
     /// (case-sensitive). - **Boolean filters.** `<facet>: true | false`.  You can combine filters with `AND`, `OR`, and
     /// `NOT` operators with the following restrictions:  - You can only combine filters of the same type with `OR`.  
     /// **Not supported:** `facet:value OR num > 3`. - You can't use `NOT` with combinations of filters.   **Not
@@ -261,11 +263,9 @@ public struct RecommendConsequenceParams: Codable, JSONEncodable {
     /// This setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
     public var reRankingApplyFilter: RecommendReRankingApplyFilter?
-    public var query: RecommendConsequenceQuery?
-    public var automaticFacetFilters: RecommendAutomaticFacetFilters?
-    public var automaticOptionalFacetFilters: RecommendAutomaticFacetFilters?
 
     public init(
+        query: String? = nil,
         similarQuery: String? = nil,
         filters: String? = nil,
         facetFilters: RecommendFacetFilters? = nil,
@@ -340,11 +340,9 @@ public struct RecommendConsequenceParams: Codable, JSONEncodable {
         attributeCriteriaComputedByMinProximity: Bool? = nil,
         renderingContent: RecommendRenderingContent? = nil,
         enableReRanking: Bool? = nil,
-        reRankingApplyFilter: RecommendReRankingApplyFilter? = nil,
-        query: RecommendConsequenceQuery? = nil,
-        automaticFacetFilters: RecommendAutomaticFacetFilters? = nil,
-        automaticOptionalFacetFilters: RecommendAutomaticFacetFilters? = nil
+        reRankingApplyFilter: RecommendReRankingApplyFilter? = nil
     ) {
+        self.query = query
         self.similarQuery = similarQuery
         self.filters = filters
         self.facetFilters = facetFilters
@@ -420,12 +418,10 @@ public struct RecommendConsequenceParams: Codable, JSONEncodable {
         self.renderingContent = renderingContent
         self.enableReRanking = enableReRanking
         self.reRankingApplyFilter = reRankingApplyFilter
-        self.query = query
-        self.automaticFacetFilters = automaticFacetFilters
-        self.automaticOptionalFacetFilters = automaticOptionalFacetFilters
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case query
         case similarQuery
         case filters
         case facetFilters
@@ -501,15 +497,13 @@ public struct RecommendConsequenceParams: Codable, JSONEncodable {
         case renderingContent
         case enableReRanking
         case reRankingApplyFilter
-        case query
-        case automaticFacetFilters
-        case automaticOptionalFacetFilters
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(self.query, forKey: .query)
         try container.encodeIfPresent(self.similarQuery, forKey: .similarQuery)
         try container.encodeIfPresent(self.filters, forKey: .filters)
         try container.encodeIfPresent(self.facetFilters, forKey: .facetFilters)
@@ -591,15 +585,13 @@ public struct RecommendConsequenceParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.renderingContent, forKey: .renderingContent)
         try container.encodeIfPresent(self.enableReRanking, forKey: .enableReRanking)
         try container.encodeIfPresent(self.reRankingApplyFilter, forKey: .reRankingApplyFilter)
-        try container.encodeIfPresent(self.query, forKey: .query)
-        try container.encodeIfPresent(self.automaticFacetFilters, forKey: .automaticFacetFilters)
-        try container.encodeIfPresent(self.automaticOptionalFacetFilters, forKey: .automaticOptionalFacetFilters)
     }
 }
 
-extension RecommendConsequenceParams: Equatable {
-    public static func ==(lhs: RecommendConsequenceParams, rhs: RecommendConsequenceParams) -> Bool {
-        lhs.similarQuery == rhs.similarQuery &&
+extension RecommendSearchParams: Equatable {
+    public static func ==(lhs: RecommendSearchParams, rhs: RecommendSearchParams) -> Bool {
+        lhs.query == rhs.query &&
+            lhs.similarQuery == rhs.similarQuery &&
             lhs.filters == rhs.filters &&
             lhs.facetFilters == rhs.facetFilters &&
             lhs.optionalFilters == rhs.optionalFilters &&
@@ -673,15 +665,13 @@ extension RecommendConsequenceParams: Equatable {
             lhs.attributeCriteriaComputedByMinProximity == rhs.attributeCriteriaComputedByMinProximity &&
             lhs.renderingContent == rhs.renderingContent &&
             lhs.enableReRanking == rhs.enableReRanking &&
-            lhs.reRankingApplyFilter == rhs.reRankingApplyFilter &&
-            lhs.query == rhs.query &&
-            lhs.automaticFacetFilters == rhs.automaticFacetFilters &&
-            lhs.automaticOptionalFacetFilters == rhs.automaticOptionalFacetFilters
+            lhs.reRankingApplyFilter == rhs.reRankingApplyFilter
     }
 }
 
-extension RecommendConsequenceParams: Hashable {
+extension RecommendSearchParams: Hashable {
     public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.query?.hashValue)
         hasher.combine(self.similarQuery?.hashValue)
         hasher.combine(self.filters?.hashValue)
         hasher.combine(self.facetFilters?.hashValue)
@@ -757,8 +747,5 @@ extension RecommendConsequenceParams: Hashable {
         hasher.combine(self.renderingContent?.hashValue)
         hasher.combine(self.enableReRanking?.hashValue)
         hasher.combine(self.reRankingApplyFilter?.hashValue)
-        hasher.combine(self.query?.hashValue)
-        hasher.combine(self.automaticFacetFilters?.hashValue)
-        hasher.combine(self.automaticOptionalFacetFilters?.hashValue)
     }
 }
