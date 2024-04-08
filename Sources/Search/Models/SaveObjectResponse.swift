@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct SaveObjectResponse: Codable, JSONEncodable {
-    /// Timestamp when the record was added, in ISO 8601 format.
+    /// Date and time when the object was created, in RFC 3339 format.
     public var createdAt: String
     /// Unique identifier of a task.  A successful API response means that a task was added to a queue. It might not run
     /// immediately. You can check the task's progress with the [`task` operation](#tag/Indices/operation/getTask) and

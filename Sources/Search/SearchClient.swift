@@ -206,7 +206,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter xAlgoliaUserID: (header) User ID to assign.
+    /// - parameter xAlgoliaUserID: (header) Unique identifier of the user who makes the search request.
     /// - parameter assignUserIdParams: (body)
     /// - returns: CreatedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -233,7 +233,7 @@ open class SearchClient {
     // Required API Key ACLs:
     //  - admin
     //
-    // - parameter xAlgoliaUserID: (header) User ID to assign.
+    // - parameter xAlgoliaUserID: (header) Unique identifier of the user who makes the search request.
     //
     // - parameter assignUserIdParams: (body)
     // - returns: RequestBuilder<CreatedAtResponse>
@@ -327,7 +327,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter xAlgoliaUserID: (header) User ID to assign.
+    /// - parameter xAlgoliaUserID: (header) Unique identifier of the user who makes the search request.
     /// - parameter batchAssignUserIdsParams: (body)
     /// - returns: CreatedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -353,7 +353,7 @@ open class SearchClient {
     // Required API Key ACLs:
     //  - admin
     //
-    // - parameter xAlgoliaUserID: (header) User ID to assign.
+    // - parameter xAlgoliaUserID: (header) Unique identifier of the user who makes the search request.
     //
     // - parameter batchAssignUserIdsParams: (body)
     // - returns: RequestBuilder<CreatedAtResponse>
@@ -2166,7 +2166,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter userID: (path) User ID to assign.
+    /// - parameter userID: (path) Unique identifier of the user who makes the search request.
     /// - returns: UserId
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getUserId(userID: String, requestOptions: RequestOptions? = nil) async throws -> UserId {
@@ -2184,7 +2184,7 @@ open class SearchClient {
     // Required API Key ACLs:
     //  - admin
     //
-    // - parameter userID: (path) User ID to assign.
+    // - parameter userID: (path) Unique identifier of the user who makes the search request.
     // - returns: RequestBuilder<UserId>
 
     open func getUserIdWithHTTPInfo(
@@ -2680,7 +2680,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter userID: (path) User ID to assign.
+    /// - parameter userID: (path) Unique identifier of the user who makes the search request.
     /// - returns: RemoveUserIdResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func removeUserId(userID: String, requestOptions: RequestOptions? = nil) async throws -> RemoveUserIdResponse {
@@ -2700,7 +2700,7 @@ open class SearchClient {
     // Required API Key ACLs:
     //  - admin
     //
-    // - parameter userID: (path) User ID to assign.
+    // - parameter userID: (path) Unique identifier of the user who makes the search request.
     // - returns: RequestBuilder<RemoveUserIdResponse>
 
     open func removeUserIdWithHTTPInfo(

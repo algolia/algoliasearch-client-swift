@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct GetLogFile200Response: Codable, JSONEncodable {
-    /// Timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format.
+    /// Date and time of the log entry, in RFC 3339 format.
     public var timestamp: String?
     public var level: ModelLogLevel?
     /// Details about this log entry.

@@ -30,8 +30,8 @@ public struct ConvertedObjectIDsAfterSearch: Codable, JSONEncodable {
     /// user tokens. For more information, see [User
     /// token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/).
     public var authenticatedUserToken: String?
-    /// Timestamp of the event in milliseconds in [Unix epoch time](https://wikipedia.org/wiki/Unix_time). By default,
-    /// the Insights API uses the time it receives an event as its timestamp.
+    /// Timestamp of the event, measured in milliseconds since the Unix epoch. By default, the Insights API uses the
+    /// time it receives an event as its timestamp.
     public var timestamp: Int64?
 
     public init(

@@ -12,7 +12,7 @@ public struct RecommendDeletedAtResponse: Codable, JSONEncodable {
     /// immediately. You can check the task's progress with the [`task` operation](#tag/Indices/operation/getTask) and
     /// this `taskID`.
     public var taskID: Int64
-    /// Timestamp of deletion in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
+    /// Date and time when the object was deleted, in RFC 3339 format.
     public var deletedAt: String
 
     public init(taskID: Int64, deletedAt: String) {

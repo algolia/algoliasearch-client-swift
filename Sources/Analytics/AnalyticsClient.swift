@@ -288,8 +288,8 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
@@ -324,9 +324,9 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
@@ -366,8 +366,8 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
@@ -404,9 +404,9 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
@@ -446,8 +446,8 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
@@ -482,9 +482,9 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
@@ -524,8 +524,8 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
@@ -560,9 +560,9 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
@@ -602,8 +602,8 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
@@ -638,9 +638,9 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
@@ -680,8 +680,8 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
@@ -716,9 +716,9 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
@@ -758,8 +758,8 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
@@ -794,9 +794,9 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
@@ -836,8 +836,8 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
@@ -872,9 +872,9 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
@@ -914,8 +914,8 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
@@ -951,9 +951,9 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
@@ -993,8 +993,8 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
@@ -1029,9 +1029,9 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
@@ -1071,8 +1071,8 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
@@ -1112,9 +1112,9 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
@@ -1162,8 +1162,8 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
@@ -1203,9 +1203,9 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
@@ -1303,8 +1303,8 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
@@ -1344,9 +1344,9 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
@@ -1395,8 +1395,8 @@ open class AnalyticsClient {
 
     /// - parameter index: (query) Index name.
     /// - parameter search: (query) Search query. (optional)
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
@@ -1441,9 +1441,9 @@ open class AnalyticsClient {
     //
     // - parameter search: (query) Search query. (optional)
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
@@ -1495,8 +1495,8 @@ open class AnalyticsClient {
     /// - parameter attribute: (path) Attribute name.
     /// - parameter index: (query) Index name.
     /// - parameter search: (query) Search query. (optional)
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
@@ -1545,9 +1545,9 @@ open class AnalyticsClient {
     //
     // - parameter search: (query) Search query. (optional)
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
@@ -1612,8 +1612,8 @@ open class AnalyticsClient {
 
     /// - parameter index: (query) Index name.
     /// - parameter search: (query) Search query. (optional)
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
@@ -1659,9 +1659,9 @@ open class AnalyticsClient {
     //
     // - parameter search: (query) Search query. (optional)
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
@@ -1716,8 +1716,8 @@ open class AnalyticsClient {
     /// response. (optional, default to false)
     /// - parameter revenueAnalytics: (query) Whether to include revenue-related metrics in the response.  If true,
     /// metrics related to click and conversion events are also included in the response.  (optional, default to false)
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
@@ -1771,9 +1771,9 @@ open class AnalyticsClient {
     // - parameter revenueAnalytics: (query) Whether to include revenue-related metrics in the response.  If true,
     // metrics related to click and conversion events are also included in the response.  (optional, default to false)
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
@@ -1831,8 +1831,8 @@ open class AnalyticsClient {
     /// response. (optional, default to false)
     /// - parameter revenueAnalytics: (query) Whether to include revenue-related metrics in the response.  If true,
     /// metrics related to click and conversion events are also included in the response.  (optional, default to false)
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter orderBy: (query) Attribute by which to order the response items.  If the &#x60;clickAnalytics&#x60;
     /// parameter is false, only &#x60;searchCount&#x60; is available.  (optional)
     /// - parameter direction: (query) Sorting direction of the results: ascending or descending.  (optional)
@@ -1889,9 +1889,9 @@ open class AnalyticsClient {
     // - parameter revenueAnalytics: (query) Whether to include revenue-related metrics in the response.  If true,
     // metrics related to click and conversion events are also included in the response.  (optional, default to false)
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter orderBy: (query) Attribute by which to order the response items.  If the &#x60;clickAnalytics&#x60;
     // parameter is false, only &#x60;searchCount&#x60; is available.  (optional)
@@ -1952,8 +1952,8 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
@@ -1991,9 +1991,9 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
-    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
     // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics

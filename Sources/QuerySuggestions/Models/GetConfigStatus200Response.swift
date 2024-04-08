@@ -11,11 +11,9 @@ public struct GetConfigStatus200Response: Codable, JSONEncodable {
     public var indexName: String?
     /// Whether the creation or update of the Query Suggestions index is in progress.
     public var isRunning: Bool?
-    /// Timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format when the Query Suggestions index was last
-    /// built.
+    /// Date and time when the Query Suggestions index was last built, in RFC 3339 format.
     public var lastBuiltAt: String?
-    /// Timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format when the Query Suggestions index was last
-    /// updated successfully.
+    /// Date and time when the Query Suggestions index was last updated successfully.
     public var lastSuccessfulBuiltAt: String?
     /// Duration of the last successful build in seconds.
     public var lastSuccessfulBuildDuration: String?

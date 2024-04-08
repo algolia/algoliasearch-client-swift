@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct GetUsage200ResponseStatisticsInner: Codable, JSONEncodable {
-    /// Timestamp in milliseconds in Unix epoch time.
+    /// Timestamp, measured in milliseconds since the Unix epoch.
     public var t: Int?
     public var v: StatisticValue?
 

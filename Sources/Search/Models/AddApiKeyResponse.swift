@@ -9,7 +9,7 @@ import Foundation
 public struct AddApiKeyResponse: Codable, JSONEncodable {
     /// API key.
     public var key: String
-    /// Timestamp of creation in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
+    /// Date and time when the object was created, in RFC 3339 format.
     public var createdAt: String
 
     public init(key: String, createdAt: String) {

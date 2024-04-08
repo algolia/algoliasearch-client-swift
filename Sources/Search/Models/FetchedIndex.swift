@@ -11,7 +11,7 @@ public struct FetchedIndex: Codable, JSONEncodable {
     public var name: String
     /// Index creation date. An empty string means that the index has no records.
     public var createdAt: String
-    /// Timestamp of the last update in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
+    /// Date and time when the object was updated, in RFC 3339 format.
     public var updatedAt: String
     /// Number of records contained in the index.
     public var entries: Int

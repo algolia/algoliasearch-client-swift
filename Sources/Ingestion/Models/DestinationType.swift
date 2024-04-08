@@ -6,9 +6,8 @@ import Foundation
     import Core
 #endif
 
-/// Destination type.  &lt;dl&gt; &lt;dt&gt;&lt;code&gt;search&lt;/code&gt;&lt;/dt&gt; &lt;dd&gt;Data is stored in an
-/// Algolia index.&lt;/dd&gt; &lt;dt&gt;&lt;code&gt;insights&lt;/code&gt;&lt;/dt&gt; &lt;dd&gt;Data is recorded as user
-/// events in the Insights API.&lt;/dd&gt; &lt;/dl&gt;.
+/// Destination type.  - &#x60;search&#x60;.   Data is stored in an Algolia index.  - &#x60;insights&#x60;.   Data is
+/// recorded as user events in the Insights API.
 public enum DestinationType: String, Codable, CaseIterable {
     case search
     case insights

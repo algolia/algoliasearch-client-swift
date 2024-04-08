@@ -11,7 +11,7 @@ public struct SaveSynonymResponse: Codable, JSONEncodable {
     /// immediately. You can check the task's progress with the [`task` operation](#tag/Indices/operation/getTask) and
     /// this `taskID`.
     public var taskID: Int64
-    /// Timestamp of the last update in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
+    /// Date and time when the object was updated, in RFC 3339 format.
     public var updatedAt: String
     /// Unique identifier of a synonym object.
     public var id: String

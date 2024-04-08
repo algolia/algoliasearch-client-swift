@@ -9,7 +9,7 @@ import Foundation
 public struct UpdatedRuleResponse: Codable, JSONEncodable {
     /// Unique identifier of a rule object.
     public var objectID: String
-    /// Timestamp of the last update in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
+    /// Date and time when the object was updated, in RFC 3339 format.
     public var updatedAt: String
     /// Unique identifier of a task.  A successful API response means that a task was added to a queue. It might not run
     /// immediately. You can check the task's progress with the [`task` operation](#tag/Indices/operation/getTask) and

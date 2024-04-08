@@ -8,7 +8,7 @@ import Foundation
 
 /// Unique user ID.
 public struct UserId: Codable, JSONEncodable {
-    /// User ID.
+    /// Unique identifier of the user who makes the search request.
     public var userID: String
     /// Cluster to which the user is assigned.
     public var clusterName: String

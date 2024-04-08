@@ -9,13 +9,11 @@ import Foundation
 public struct BaseIndexSettings: Codable, JSONEncodable {
     /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/). 
     /// Facets are ways to categorize search results based on attributes. Facets can be used to let user filter search
-    /// results. By default, no attribute is used for faceting.  **Modifiers**  <dl>
-    /// <dt><code>filterOnly(\"ATTRIBUTE\")</code></dt> <dd>Allows using this attribute as a filter, but doesn't evalue
-    /// the facet values.</dd> <dt><code>searchable(\"ATTRIBUTE\")</code></dt> <dd>Allows searching for facet
-    /// values.</dd> <dt><code>afterDistinct(\"ATTRIBUTE\")</code></dt> <dd>  Evaluates the facet count _after_
-    /// deduplication with `distinct`. This ensures accurate facet counts. You can apply this modifier to searchable
-    /// facets: `afterDistinct(searchable(ATTRIBUTE))`.  </dd> </dl>  Without modifiers, the attribute is used as a
-    /// regular facet.
+    /// results. By default, no attribute is used for faceting.  **Modifiers**  - `filterOnly(\"ATTRIBUTE\")`.   Allows
+    /// using this attribute as a filter, but doesn't evalue the facet values.  - `searchable(\"ATTRIBUTE\")`.   Allows
+    /// searching for facet values.  - `afterDistinct(\"ATTRIBUTE\")`.   Evaluates the facet count _after_ deduplication
+    /// with `distinct`.   This ensures accurate facet counts.   You can apply this modifier to searchable facets:
+    /// `afterDistinct(searchable(ATTRIBUTE))`.
     public var attributesForFaceting: [String]?
     /// Creates [replica
     /// indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/). 
@@ -23,13 +21,10 @@ public struct BaseIndexSettings: Codable, JSONEncodable {
     /// want to offer a different ranking or sorting of your search results, you'll use replica indices. All index
     /// operations on a primary index are automatically forwarded to its replicas. To add a replica index, you must
     /// provide the complete set of replicas to this parameter. If you omit a replica from this list, the replica turns
-    /// into a regular, standalone index that will no longer by synced with the primary index.  **Modifier**  <dl>
-    /// <dt><code>virtual(\"REPLICA\")</code></dt> <dd>  Create a virtual replica, Virtual replicas don't increase the
-    /// number of records and are optimized for [Relevant
-    /// sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/relevant-sort/). 
-    /// </dd> </dl>  Without modifier, a standard replica is created, which duplicates your record count and is used for
-    /// strict, or [exhaustive
-    /// sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/exhaustive-sort/).
+    /// into a regular, standalone index that will no longer by synced with the primary index.  **Modifier**  -
+    /// `virtual(\"REPLICA\")`.   Create a virtual replica,   Virtual replicas don't increase the number of records and
+    /// are optimized for [Relevant
+    /// sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/relevant-sort/).
     public var replicas: [String]?
     /// Maximum number of search results that can be obtained through pagination.  Higher pagination limits might slow
     /// down your search. For pagination limits above 1,000, the sorting of results beyond the 1,000th hit can't be
@@ -72,9 +67,8 @@ public struct BaseIndexSettings: Codable, JSONEncodable {
     /// Numeric attributes that can be used as [numerical filters](https://www.algolia.com/doc/guides/managing-results/rules/detecting-intent/how-to/applying-a-custom-filter-for-a-specific-query/#numerical-filters).
     ///  By default, all numeric attributes are available as numerical filters. For faster indexing, reduce the number
     /// of numeric attributes.  If you want to turn off filtering for all numeric attributes, specifiy an attribute that
-    /// doesn't exist in your index, such as `NO_NUMERIC_FILTERING`.  **Modifier**  <dl>
-    /// <dt><code>equalOnly(\"ATTRIBUTE\")</code></dt> <dd>  Support only filtering based on equality comparisons `=`
-    /// and `!=`.  </dd> </dl>  Without modifier, all numeric comparisons are supported.
+    /// doesn't exist in your index, such as `NO_NUMERIC_FILTERING`.  **Modifier**  - `equalOnly(\"ATTRIBUTE\")`.  
+    /// Support only filtering based on equality comparisons `=` and `!=`.
     public var numericAttributesForFiltering: [String]?
     /// Controls which separators are indexed.  Separators are all non-letter characters except spaces and currency
     /// characters, such as $€£¥. By default, separator characters aren't indexed. With `separatorsToIndex`, Algolia
@@ -86,9 +80,8 @@ public struct BaseIndexSettings: Codable, JSONEncodable {
     /// higher in the list of `searchableAttributes` rank first. To make matches in two attributes rank equally, include
     /// them in a comma-separated string, such as `\"title,alternate_title\"`. Attributes with the same priority are
     /// always unordered.  For more information, see [Searchable attributes](https://www.algolia.com/doc/guides/sending-and-managing-data/prepare-your-data/how-to/setting-searchable-attributes/).
-    ///  **Modifier**  <dl> <dt><code>unordered(\"ATTRIBUTE\")</code></dt> <dd> Ignore the position of a match within
-    /// the attribute. </dd> </dl>  Without modifier, matches at the beginning of an attribute rank higer than matches
-    /// at the end.
+    ///  **Modifier**  - `unordered(\"ATTRIBUTE\")`.   Ignore the position of a match within the attribute.  Without
+    /// modifier, matches at the beginning of an attribute rank higer than matches at the end.
     public var searchableAttributes: [String]?
     /// An object with custom data.  You can store up to 32&nbsp;kB as custom data.
     public var userData: AnyCodable?

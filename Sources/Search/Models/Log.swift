@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct Log: Codable, JSONEncodable {
-    /// Timestamp of the API request in ISO 8601 format.
+    /// Date and time of the API request, in RFC 3339 format.
     public var timestamp: String
     /// HTTP method of the request.
     public var method: String

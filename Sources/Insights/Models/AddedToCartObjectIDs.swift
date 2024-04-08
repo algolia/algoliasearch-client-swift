@@ -33,8 +33,8 @@ public struct AddedToCartObjectIDs: Codable, JSONEncodable {
     /// Extra information about the records involved in a purchase or add-to-cart event.  If specified, it must have the
     /// same length as `objectIDs`.
     public var objectData: [ObjectData]?
-    /// Timestamp of the event in milliseconds in [Unix epoch time](https://wikipedia.org/wiki/Unix_time). By default,
-    /// the Insights API uses the time it receives an event as its timestamp.
+    /// Timestamp of the event, measured in milliseconds since the Unix epoch. By default, the Insights API uses the
+    /// time it receives an event as its timestamp.
     public var timestamp: Int64?
     public var value: InsightsValue?
 

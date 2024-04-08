@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct UserHit: Codable, JSONEncodable {
-    /// User ID.
+    /// Unique identifier of the user who makes the search request.
     public var userID: String
     /// Cluster name.
     public var clusterName: String

@@ -9,7 +9,7 @@ import Foundation
 public struct BaseGetApiKeyResponse: Codable, JSONEncodable {
     /// API key.
     public var value: String?
-    /// Timestamp of creation in milliseconds in [Unix epoch time](https://wikipedia.org/wiki/Unix_time).
+    /// Timestamp when the object was created, in milliseconds since the Unix epoch.
     public var createdAt: Int64
 
     public init(value: String? = nil, createdAt: Int64) {

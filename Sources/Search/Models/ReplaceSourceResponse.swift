@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct ReplaceSourceResponse: Codable, JSONEncodable {
-    /// Timestamp of the last update in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
+    /// Date and time when the object was updated, in RFC 3339 format.
     public var updatedAt: String
 
     public init(updatedAt: String) {

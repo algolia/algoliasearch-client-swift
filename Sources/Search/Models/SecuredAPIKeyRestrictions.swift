@@ -12,7 +12,7 @@ public struct SecuredAPIKeyRestrictions: Codable, JSONEncodable {
     /// combined with `AND`. For example, if you set `group:admin` as fixed filter on your generated API key, and add
     /// `groups:visitors` to the search query, the complete set of filters will be `group:admin AND groups:visitors`.
     public var filters: String?
-    /// Timestamp in [Unix epoch time](https://en.wikipedia.org/wiki/Unix_time) when the API key should expire.
+    /// Timestamp when the secured API key expires, measured in seconds since the Unix epoch.
     public var validUntil: Int64?
     /// Index names or patterns that this API key can access. By default, an API key can access all indices in the same
     /// application.  You can use leading and trailing wildcard characters (`*`):  - `dev_*` matches all indices

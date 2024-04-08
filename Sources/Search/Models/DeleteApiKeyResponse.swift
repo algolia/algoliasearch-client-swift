@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct DeleteApiKeyResponse: Codable, JSONEncodable {
-    /// Timestamp of deletion in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
+    /// Date and time when the object was deleted, in RFC 3339 format.
     public var deletedAt: String
 
     public init(deletedAt: String) {
