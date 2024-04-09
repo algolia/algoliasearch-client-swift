@@ -9,49 +9,50 @@ import Foundation
 public struct Variant: Codable, JSONEncodable {
     /// Number of add-to-cart events for this variant.
     public var addToCartCount: Int
-    /// Variant's [add-to-cart
-    /// rate](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#add-to-cart-rate).
+    /// [Add-to-cart rate](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#add-to-cart-rate) for
+    /// this variant.
     public var addToCartRate: Double?
-    /// Variant's [average click
-    /// position](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-position).
+    /// [Average click position](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-position)
+    /// for this variant.
     public var averageClickPosition: Int?
     /// Number of click events for this variant.
     public var clickCount: Int
-    /// Variant's [click-through
-    /// rate](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
+    /// [Click-through rate](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate)
+    /// for this variant.
     public var clickThroughRate: Double?
     /// Number of click events for this variant.
     public var conversionCount: Int
-    /// Variant's [conversion
-    /// rate](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#conversion-rate).
+    /// [Conversion rate](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#conversion-rate) for
+    /// this variant.
     public var conversionRate: Double?
     /// A/B test currencies.
     public var currencies: [String: Currency]?
-    /// A/B test description.
+    /// Description for this variant.
     public var description: String
-    /// The estimated number of searches that will need to be run to achieve the desired confidence level and
-    /// statistical power. A `minimumDetectableEffect` must be set in the `configuration` object for this to be used.
+    /// Estimated number of searches required to achieve the desired statistical significance.  The A/B test
+    /// configuration must include a `mininmumDetectableEffect` setting for this number to be included in the response.
     public var estimatedSampleSize: Int?
     public var filterEffects: FilterEffects?
     /// A/B test index.
     public var index: String
     /// Number of [searches without
     /// results](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#searches-without-results) for
-    /// that variant.
+    /// this variant.
     public var noResultCount: Int?
     /// Number of purchase events for this variant.
     public var purchaseCount: Int
-    /// Variant's [purchase rate](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#purchase-rate).
+    /// [Purchase rate](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#purchase-rate) for this
+    /// variant.
     public var purchaseRate: Double?
-    /// Number of searches carried out during the A/B test.
+    /// Number of searches for this variant.
     public var searchCount: Int?
     /// Number of tracked searches. Tracked searches are search requests where the `clickAnalytics` parameter is true.
     public var trackedSearchCount: Int?
-    /// A/B test traffic percentage.
+    /// Percentage of search requests each variant receives.
     public var trafficPercentage: Int
-    /// Number of users during the A/B test.
+    /// Number of users that made searches to this variant.
     public var userCount: Int?
-    /// Number of users that performed a tracked search during the A/B test.
+    /// Number of users that made tracked searches to this variant.
     public var trackedUserCount: Int?
 
     public init(

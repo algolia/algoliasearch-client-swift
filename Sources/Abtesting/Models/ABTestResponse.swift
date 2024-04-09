@@ -9,7 +9,7 @@ import Foundation
 public struct ABTestResponse: Codable, JSONEncodable {
     /// A/B test index.
     public var index: String
-    /// Unique A/B test ID.
+    /// Unique A/B test identifier.
     public var abTestID: Int
     /// Unique identifier of a task.  A successful API response means that a task was added to a queue. It might not run
     /// immediately. You can check the task's progress with the [`task` operation](#tag/Indices/operation/getTask) and

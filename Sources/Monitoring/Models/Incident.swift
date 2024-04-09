@@ -10,9 +10,9 @@ import Foundation
 public struct Incident: Codable, JSONEncodable {
     /// Description of the incident.
     public var title: String?
-    public var status: Status?
+    public var status: MonitoringStatus?
 
-    public init(title: String? = nil, status: Status? = nil) {
+    public init(title: String? = nil, status: MonitoringStatus? = nil) {
         self.title = title
         self.status = status
     }

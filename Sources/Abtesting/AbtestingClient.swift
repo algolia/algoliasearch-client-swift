@@ -46,7 +46,7 @@ open class AbtestingClient {
         return body
     }
 
-    // Creates an A/B test.
+    // Creates a new A/B test.
     // Required API Key ACLs:
     //  - editSettings
     //
@@ -333,7 +333,7 @@ open class AbtestingClient {
         )
     }
 
-    /// - parameter id: (path) Unique A/B test ID.
+    /// - parameter id: (path) Unique A/B test identifier.
     /// - returns: ABTestResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteABTest(id: Int, requestOptions: RequestOptions? = nil) async throws -> ABTestResponse {
@@ -349,12 +349,11 @@ open class AbtestingClient {
         return body
     }
 
-    // Delete an A/B test. To determine the `id` for an A/B test, use the [`listABTests`
-    // operation](#tag/abtest/operation/listABTests).
+    // Deletes an A/B test by its ID.
     // Required API Key ACLs:
     //  - editSettings
     //
-    // - parameter id: (path) Unique A/B test ID.
+    // - parameter id: (path) Unique A/B test identifier.
     // - returns: RequestBuilder<ABTestResponse>
 
     open func deleteABTestWithHTTPInfo(
@@ -380,7 +379,7 @@ open class AbtestingClient {
         )
     }
 
-    /// - parameter id: (path) Unique A/B test ID.
+    /// - parameter id: (path) Unique A/B test identifier.
     /// - returns: ABTest
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getABTest(id: Int, requestOptions: RequestOptions? = nil) async throws -> ABTest {
@@ -393,12 +392,11 @@ open class AbtestingClient {
         return body
     }
 
-    // Get specific details for an A/B test. To determine the `id` for an A/B test, use the [`listABTests`
-    // operation](#tag/abtest/operation/listABTests).
+    // Retrieves the details for an A/B test by its ID.
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter id: (path) Unique A/B test ID.
+    // - parameter id: (path) Unique A/B test identifier.
     // - returns: RequestBuilder<ABTest>
 
     open func getABTestWithHTTPInfo(
@@ -426,8 +424,10 @@ open class AbtestingClient {
 
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
-    /// - parameter indexPrefix: (query) Only return A/B tests for indices starting with this prefix. (optional)
-    /// - parameter indexSuffix: (query) Only return A/B tests for indices ending with this suffix. (optional)
+    /// - parameter indexPrefix: (query) Index name prefix. Only A/B tests for indices starting with this string are
+    /// included in the response. (optional)
+    /// - parameter indexSuffix: (query) Index name suffix. Only A/B tests for indices ending with this string are
+    /// included in the response. (optional)
     /// - returns: ListABTestsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func listABTests(
@@ -452,7 +452,7 @@ open class AbtestingClient {
         return body
     }
 
-    // List all A/B tests.
+    // Lists all A/B tests you configured for this application.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -460,9 +460,11 @@ open class AbtestingClient {
     //
     // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
-    // - parameter indexPrefix: (query) Only return A/B tests for indices starting with this prefix. (optional)
+    // - parameter indexPrefix: (query) Index name prefix. Only A/B tests for indices starting with this string are
+    // included in the response. (optional)
     //
-    // - parameter indexSuffix: (query) Only return A/B tests for indices ending with this suffix. (optional)
+    // - parameter indexSuffix: (query) Index name suffix. Only A/B tests for indices ending with this string are
+    // included in the response. (optional)
     // - returns: RequestBuilder<ListABTestsResponse>
 
     open func listABTestsWithHTTPInfo(
@@ -493,7 +495,7 @@ open class AbtestingClient {
         )
     }
 
-    /// - parameter id: (path) Unique A/B test ID.
+    /// - parameter id: (path) Unique A/B test identifier.
     /// - returns: ABTestResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func stopABTest(id: Int, requestOptions: RequestOptions? = nil) async throws -> ABTestResponse {
@@ -509,13 +511,11 @@ open class AbtestingClient {
         return body
     }
 
-    // If stopped, the test is over and can't be restarted. There is now only one index, receiving 100% of all search
-    // requests. The data gathered for stopped A/B tests is retained. To determine the `id` for an A/B test, use the
-    // [`listABTests` operation](#tag/abtest/operation/listABTests).
+    // Stops an A/B test by its ID.  You can't restart stopped A/B tests.
     // Required API Key ACLs:
     //  - editSettings
     //
-    // - parameter id: (path) Unique A/B test ID.
+    // - parameter id: (path) Unique A/B test identifier.
     // - returns: RequestBuilder<ABTestResponse>
 
     open func stopABTestWithHTTPInfo(

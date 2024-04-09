@@ -9,7 +9,7 @@ import Foundation
 public struct ListABTestsResponse: Codable, JSONEncodable {
     /// A/B tests.
     public var abtests: [ABTest]?
-    /// Number of A/B tests implemented.
+    /// Number of A/B tests.
     public var count: Int
     /// Number of retrievable A/B tests.
     public var total: Int

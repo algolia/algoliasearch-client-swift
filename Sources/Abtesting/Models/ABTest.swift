@@ -7,35 +7,26 @@ import Foundation
 #endif
 
 public struct ABTest: Codable, JSONEncodable {
-    /// Unique A/B test ID.
+    /// Unique A/B test identifier.
     public var abTestID: Int
-    /// [A/B test significance](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing/in-depth/how-ab-test-scores-are-calculated/#statistical-significance-or-chance)
-    /// based on click data. A value of 0.95 or over is considered to be _significant_.
     public var clickSignificance: Double?
-    /// [A/B test significance](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing/in-depth/how-ab-test-scores-are-calculated/#statistical-significance-or-chance)
-    /// based on conversion. A value of 0.95 or over is considered to be _significant_.
     public var conversionSignificance: Double?
-    /// [A/B test significance](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing/in-depth/how-ab-test-scores-are-calculated/#statistical-significance-or-chance)
-    /// based on add-to-cart data. A value of 0.95 or over is considered to be _significant_.
     public var addToCartSignificance: Double?
-    /// [A/B test significance](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing/in-depth/how-ab-test-scores-are-calculated/#statistical-significance-or-chance)
-    /// based on purchase data. A value of 0.95 or over is considered to be _significant_.
     public var purchaseSignificance: Double?
-    /// [A/B test significance](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing/in-depth/how-ab-test-scores-are-calculated/#statistical-significance-or-chance)
-    /// based on revenue data. A value of 0.95 or over is considered to be _significant_.
     public var revenueSignificance: [String: Double]?
-    /// Update date timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format.
+    /// Date and time when the A/B test was last updated, in RFC 3339 format.
     public var updatedAt: String
-    /// Creation date timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format.
+    /// Date and time when the A/B test was created, in RFC 3339 format.
     public var createdAt: String
-    /// End date timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format.
+    /// End date and time of the A/B test, in RFC 3339 format.
     public var endAt: String
     /// A/B test name.
     public var name: String
-    /// A/B test status.
-    public var status: String
-    /// A/B test variants.
+    public var status: AbtestingStatus
+    /// A/B test variants.  The first variant is your _control_ index, typically your production index. The second
+    /// variant is an index with changed settings that you want to test against the control.
     public var variants: [Variant]
+    public var configuration: ABTestConfiguration?
 
     public init(
         abTestID: Int,
@@ -48,8 +39,9 @@ public struct ABTest: Codable, JSONEncodable {
         createdAt: String,
         endAt: String,
         name: String,
-        status: String,
-        variants: [Variant]
+        status: AbtestingStatus,
+        variants: [Variant],
+        configuration: ABTestConfiguration? = nil
     ) {
         self.abTestID = abTestID
         self.clickSignificance = clickSignificance
@@ -63,6 +55,7 @@ public struct ABTest: Codable, JSONEncodable {
         self.name = name
         self.status = status
         self.variants = variants
+        self.configuration = configuration
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -78,6 +71,7 @@ public struct ABTest: Codable, JSONEncodable {
         case name
         case status
         case variants
+        case configuration
     }
 
     // Encodable protocol methods
@@ -96,6 +90,7 @@ public struct ABTest: Codable, JSONEncodable {
         try container.encode(self.name, forKey: .name)
         try container.encode(self.status, forKey: .status)
         try container.encode(self.variants, forKey: .variants)
+        try container.encodeIfPresent(self.configuration, forKey: .configuration)
     }
 }
 
@@ -112,7 +107,8 @@ extension ABTest: Equatable {
             lhs.endAt == rhs.endAt &&
             lhs.name == rhs.name &&
             lhs.status == rhs.status &&
-            lhs.variants == rhs.variants
+            lhs.variants == rhs.variants &&
+            lhs.configuration == rhs.configuration
     }
 }
 
@@ -130,5 +126,6 @@ extension ABTest: Hashable {
         hasher.combine(self.name.hashValue)
         hasher.combine(self.status.hashValue)
         hasher.combine(self.variants.hashValue)
+        hasher.combine(self.configuration?.hashValue)
     }
 }

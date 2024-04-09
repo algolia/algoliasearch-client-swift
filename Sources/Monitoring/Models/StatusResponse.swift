@@ -7,9 +7,9 @@ import Foundation
 #endif
 
 public struct StatusResponse: Codable, JSONEncodable {
-    public var status: [String: Status]?
+    public var status: [String: MonitoringStatus]?
 
-    public init(status: [String: Status]? = nil) {
+    public init(status: [String: MonitoringStatus]? = nil) {
         self.status = status
     }
 

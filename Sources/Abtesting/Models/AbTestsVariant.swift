@@ -9,9 +9,9 @@ import Foundation
 public struct AbTestsVariant: Codable, JSONEncodable {
     /// A/B test index.
     public var index: String
-    /// A/B test traffic percentage.
+    /// Percentage of search requests each variant receives.
     public var trafficPercentage: Int
-    /// A/B test description.
+    /// Description for this variant.
     public var description: String?
 
     public init(index: String, trafficPercentage: Int, description: String? = nil) {
