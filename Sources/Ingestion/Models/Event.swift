@@ -15,7 +15,7 @@ public struct Event: Codable, JSONEncodable {
     /// The parent event, the cause of this event.
     public var parentID: String?
     public var status: EventStatus
-    public var type: EventType
+    public var type: IngestionEventType
     /// The extracted record batch size.
     public var batchSize: Int
     public var data: [String: AnyCodable]?
@@ -27,7 +27,7 @@ public struct Event: Codable, JSONEncodable {
         runID: String,
         parentID: String? = nil,
         status: EventStatus,
-        type: EventType,
+        type: IngestionEventType,
         batchSize: Int,
         data: [String: AnyCodable]? = nil,
         publishedAt: String

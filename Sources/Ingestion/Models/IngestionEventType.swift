@@ -6,11 +6,11 @@ import Foundation
     import Core
 #endif
 
-public enum EventType: String, Codable, CaseIterable {
+public enum IngestionEventType: String, Codable, CaseIterable {
     case fetch
     case record
     case log
     case transform
 }
 
-extension EventType: Hashable {}
+extension IngestionEventType: Hashable {}

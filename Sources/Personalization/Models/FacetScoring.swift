@@ -7,9 +7,9 @@ import Foundation
 #endif
 
 public struct FacetScoring: Codable, JSONEncodable {
-    /// The score for the event.
+    /// Event score.
     public var score: Int
-    /// The name of the facet.
+    /// Facet attribute name.
     public var facetName: String
 
     public init(score: Int, facetName: String) {

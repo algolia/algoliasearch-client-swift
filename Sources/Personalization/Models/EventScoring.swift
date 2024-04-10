@@ -7,14 +7,13 @@ import Foundation
 #endif
 
 public struct EventScoring: Codable, JSONEncodable {
-    /// The score for the event.
+    /// Event score.
     public var score: Int
-    /// The name of the event.
+    /// Event name.
     public var eventName: String
-    /// The type of the event.
-    public var eventType: String
+    public var eventType: PersonalizationEventType
 
-    public init(score: Int, eventName: String, eventType: String) {
+    public init(score: Int, eventName: String, eventType: PersonalizationEventType) {
         self.score = score
         self.eventName = eventName
         self.eventType = eventType
