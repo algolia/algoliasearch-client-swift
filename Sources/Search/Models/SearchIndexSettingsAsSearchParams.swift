@@ -65,7 +65,7 @@ public struct SearchIndexSettingsAsSearchParams: Codable, JSONEncodable {
     /// matches when searching in large sets of similar numbers.
     public var allowTyposOnNumericTokens: Bool?
     /// Attributes for which you want to turn off [typo
-    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/).
+    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/). 
     /// Returning only exact matches can help when:  - [Searching in hyphenated attributes](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/how-to/how-to-search-in-hyphenated-attributes/).
     /// - Reducing the number of matches when you have too many.   This can happen with attributes that are long blocks
     /// of text, such as product descriptions.  Consider alternatives such as `disableTypoToleranceOnWords` or adding
@@ -123,7 +123,7 @@ public struct SearchIndexSettingsAsSearchParams: Codable, JSONEncodable {
     /// matches.  - `singleWordSynonym`.   Single-word synonyms, such as \"NY/NYC\" are considered exact matches.  -
     /// `multiWordsSynonym`.   Multi-word synonyms, such as \"NY/New York\" are considered exact matches.
     public var alternativesAsExact: [SearchAlternativesAsExact]?
-    /// Advanced search syntax features you want to support.  - `exactPhrase`.   Phrases in quotes must match exactly.
+    /// Advanced search syntax features you want to support.  - `exactPhrase`.   Phrases in quotes must match exactly.  
     /// For example, `sparkly blue \"iPhone case\"` only returns records with the exact string \"iPhone case\".  -
     /// `excludeWords`.   Query words prefixed with a `-` must not occur in a record.   For example, `search -engine`
     /// matches records that contain \"search\" but not \"engine\".  This setting only has an effect if `advancedSyntax`
@@ -163,7 +163,7 @@ public struct SearchIndexSettingsAsSearchParams: Codable, JSONEncodable {
     /// attribute is determined by the order in the `searchableAttributes` setting.
     public var attributeCriteriaComputedByMinProximity: Bool?
     public var renderingContent: SearchRenderingContent?
-    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/).
+    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/). 
     /// This setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
     public var reRankingApplyFilter: SearchReRankingApplyFilter?
