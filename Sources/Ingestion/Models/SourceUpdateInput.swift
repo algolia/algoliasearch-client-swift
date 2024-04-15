@@ -13,6 +13,7 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable {
     case sourceJSON(SourceJSON)
     case sourceCSV(SourceCSV)
     case sourceUpdateDocker(SourceUpdateDocker)
+    case sourceUpdateShopify(SourceUpdateShopify)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -28,6 +29,8 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable {
         case let .sourceCSV(value):
             try container.encode(value)
         case let .sourceUpdateDocker(value):
+            try container.encode(value)
+        case let .sourceUpdateShopify(value):
             try container.encode(value)
         }
     }
@@ -46,6 +49,8 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable {
             self = .sourceCSV(value)
         } else if let value = try? container.decode(SourceUpdateDocker.self) {
             self = .sourceUpdateDocker(value)
+        } else if let value = try? container.decode(SourceUpdateShopify.self) {
+            self = .sourceUpdateShopify(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -71,6 +76,8 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable {
             value as SourceCSV
         case let .sourceUpdateDocker(value):
             value as SourceUpdateDocker
+        case let .sourceUpdateShopify(value):
+            value as SourceUpdateShopify
         }
     }
 }

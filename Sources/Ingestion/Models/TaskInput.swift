@@ -11,6 +11,7 @@ public enum TaskInput: Codable, JSONEncodable, AbstractEncodable {
     case onDemandDateUtilsInput(OnDemandDateUtilsInput)
     case scheduleDateUtilsInput(ScheduleDateUtilsInput)
     case streamingUtilsInput(StreamingUtilsInput)
+    case shopifyInput(ShopifyInput)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -20,6 +21,8 @@ public enum TaskInput: Codable, JSONEncodable, AbstractEncodable {
         case let .scheduleDateUtilsInput(value):
             try container.encode(value)
         case let .streamingUtilsInput(value):
+            try container.encode(value)
+        case let .shopifyInput(value):
             try container.encode(value)
         }
     }
@@ -32,6 +35,8 @@ public enum TaskInput: Codable, JSONEncodable, AbstractEncodable {
             self = .scheduleDateUtilsInput(value)
         } else if let value = try? container.decode(StreamingUtilsInput.self) {
             self = .streamingUtilsInput(value)
+        } else if let value = try? container.decode(ShopifyInput.self) {
+            self = .shopifyInput(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -48,6 +53,8 @@ public enum TaskInput: Codable, JSONEncodable, AbstractEncodable {
             value as ScheduleDateUtilsInput
         case let .streamingUtilsInput(value):
             value as StreamingUtilsInput
+        case let .shopifyInput(value):
+            value as ShopifyInput
         }
     }
 }
