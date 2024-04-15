@@ -36,7 +36,7 @@ public struct SearchBaseSearchParams: Codable, JSONEncodable {
     /// Whether to sum all filter scores.  If true, all filter scores are summed. Otherwise, the maximum filter score is
     /// kept. For more information, see [filter scores](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/in-depth/filter-scoring/#accumulating-scores-with-sumorfiltersscores).
     public var sumOrFiltersScores: Bool?
-    /// Restricts a search to a subset of your searchable attributes.
+    /// Restricts a search to a subset of your searchable attributes. Attribute names are case-sensitive.
     public var restrictSearchableAttributes: [String]?
     /// Facets for which to retrieve facet values that match the search criteria and the number of matching facet
     /// values.  To retrieve all facets, use the wildcard character `*`. For more information, see [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts).
@@ -70,13 +70,13 @@ public struct SearchBaseSearchParams: Codable, JSONEncodable {
     /// Coordinates of a polygon in which to search.  Polygons are defined by 3 to 10,000 points. Each point is
     /// represented by its latitude and longitude. Provide multiple polygons as nested arrays. For more information, see
     /// [filtering inside polygons](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filtering-inside-rectangular-or-polygonal-areas).
-    /// This parameter is ignored, if you also specify `insideBoundingBox`.
+    /// This parameter is ignored if you also specify `insideBoundingBox`.
     public var insidePolygon: [[Double]]?
     /// ISO language codes that adjust settings that are useful for processing natural language queries (as opposed to
     /// keyword searches):  - Sets `removeStopWords` and `ignorePlurals` to the list of provided languages. - Sets
     /// `removeWordsIfNoResults` to `allOptional`. - Adds a `natural_language` attribute to `ruleContexts` and
     /// `analyticsTags`.
-    public var naturalLanguages: [String]?
+    public var naturalLanguages: [SearchSupportedLanguage]?
     /// Assigns a rule context to the search query.  [Rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#whats-a-context)
     /// are strings that you can use to trigger matching rules.
     public var ruleContexts: [String]?
@@ -126,7 +126,7 @@ public struct SearchBaseSearchParams: Codable, JSONEncodable {
         minimumAroundRadius: Int? = nil,
         insideBoundingBox: [[Double]]? = nil,
         insidePolygon: [[Double]]? = nil,
-        naturalLanguages: [String]? = nil,
+        naturalLanguages: [SearchSupportedLanguage]? = nil,
         ruleContexts: [String]? = nil,
         personalizationImpact: Int? = nil,
         userToken: String? = nil,

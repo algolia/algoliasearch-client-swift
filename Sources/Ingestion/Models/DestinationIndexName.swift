@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct DestinationIndexName: Codable, JSONEncodable {
-    /// Algolia index name.
+    /// Algolia index name (case-sensitive).
     public var indexName: String
     public var recordType: RecordType?
     /// Attributes from your source to exclude from Algolia records.  Not all your data attributes will be useful for

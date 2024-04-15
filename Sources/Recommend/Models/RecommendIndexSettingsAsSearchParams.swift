@@ -8,10 +8,10 @@ import Foundation
 
 public struct RecommendIndexSettingsAsSearchParams: Codable, JSONEncodable {
     /// Attributes to include in the API response.  To reduce the size of your response, you can retrieve only some of
-    /// the attributes.  - `*` retrieves all attributes, except attributes included in the `customRanking` and
-    /// `unretrievableAttributes` settings. - To retrieve all attributes except a specific one, prefix the attribute
-    /// with a dash and combine it with the `*`: `[\"*\", \"-ATTRIBUTE\"]`. - The `objectID` attribute is always
-    /// included.
+    /// the attributes. Attribute names are case-sensitive.  - `*` retrieves all attributes, except attributes included
+    /// in the `customRanking` and `unretrievableAttributes` settings. - To retrieve all attributes except a specific
+    /// one, prefix the attribute with a dash and combine it with the `*`: `[\"*\", \"-ATTRIBUTE\"]`. - The `objectID`
+    /// attribute is always included.
     public var attributesToRetrieve: [String]?
     /// Determines the order in which Algolia returns your results.  By default, each entry corresponds to a [ranking
     /// criteria](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/).
@@ -23,12 +23,12 @@ public struct RecommendIndexSettingsAsSearchParams: Codable, JSONEncodable {
     /// dashboard, and by [A/B testing](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing/).
     public var ranking: [String]?
     /// Attributes to use as [custom
-    /// ranking](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/).  The custom ranking
-    /// attributes decide which items are shown first if the other ranking criteria are equal.  Records with missing
-    /// values for your selected custom ranking attributes are always sorted last. Boolean attributes are sorted based
-    /// on their alphabetical order.  **Modifiers**  - `asc(\"ATTRIBUTE\")`.   Sort the index by the values of an
-    /// attribute, in ascending order.  - `desc(\"ATTRIBUTE\")`.   Sort the index by the values of an attribute, in
-    /// descending order.  If you use two or more custom ranking attributes, [reduce the precision](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/how-to/controlling-custom-ranking-metrics-precision/)
+    /// ranking](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/). Attribute names are
+    /// case-sensitive.  The custom ranking attributes decide which items are shown first if the other ranking criteria
+    /// are equal.  Records with missing values for your selected custom ranking attributes are always sorted last.
+    /// Boolean attributes are sorted based on their alphabetical order.  **Modifiers**  - `asc(\"ATTRIBUTE\")`.   Sort
+    /// the index by the values of an attribute, in ascending order.  - `desc(\"ATTRIBUTE\")`.   Sort the index by the
+    /// values of an attribute, in descending order.  If you use two or more custom ranking attributes, [reduce the precision](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/how-to/controlling-custom-ranking-metrics-precision/)
     /// of your first attributes, or the other attributes will never be applied.
     public var customRanking: [String]?
     /// Relevancy threshold below which less relevant results aren't included in the results.  You can only set
@@ -36,14 +36,15 @@ public struct RecommendIndexSettingsAsSearchParams: Codable, JSONEncodable {
     /// Use this setting to strike a balance between the relevance and number of returned results.
     public var relevancyStrictness: Int?
     /// Attributes to highlight.  By default, all searchable attributes are highlighted. Use `*` to highlight all
-    /// attributes or use an empty array `[]` to turn off highlighting.  With highlighting, strings that match the
-    /// search query are surrounded by HTML tags defined by `highlightPreTag` and `highlightPostTag`. You can use this
-    /// to visually highlight matching parts of a search query in your UI.  For more information, see [Highlighting and snippeting](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/highlighting-snippeting/js/).
+    /// attributes or use an empty array `[]` to turn off highlighting. Attribute names are case-sensitive.  With
+    /// highlighting, strings that match the search query are surrounded by HTML tags defined by `highlightPreTag` and
+    /// `highlightPostTag`. You can use this to visually highlight matching parts of a search query in your UI.  For
+    /// more information, see [Highlighting and snippeting](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/highlighting-snippeting/js/).
     public var attributesToHighlight: [String]?
-    /// Attributes for which to enable snippets.  Snippets provide additional context to matched words. If you enable
-    /// snippets, they include 10 words, including the matched word. The matched word will also be wrapped by HTML tags
-    /// for highlighting. You can adjust the number of words with the following notation: `ATTRIBUTE:NUMBER`, where
-    /// `NUMBER` is the number of words to be extracted.
+    /// Attributes for which to enable snippets. Attribute names are case-sensitive.  Snippets provide additional
+    /// context to matched words. If you enable snippets, they include 10 words, including the matched word. The matched
+    /// word will also be wrapped by HTML tags for highlighting. You can adjust the number of words with the following
+    /// notation: `ATTRIBUTE:NUMBER`, where `NUMBER` is the number of words to be extracted.
     public var attributesToSnippet: [String]?
     /// HTML tag to insert before the highlighted parts in all highlighted results and snippets.
     public var highlightPreTag: String?
@@ -65,8 +66,8 @@ public struct RecommendIndexSettingsAsSearchParams: Codable, JSONEncodable {
     /// matches when searching in large sets of similar numbers.
     public var allowTyposOnNumericTokens: Bool?
     /// Attributes for which you want to turn off [typo
-    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/). 
-    /// Returning only exact matches can help when:  - [Searching in hyphenated attributes](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/how-to/how-to-search-in-hyphenated-attributes/).
+    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/).
+    /// Attribute names are case-sensitive.  Returning only exact matches can help when:  - [Searching in hyphenated attributes](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/how-to/how-to-search-in-hyphenated-attributes/).
     /// - Reducing the number of matches when you have too many.   This can happen with attributes that are long blocks
     /// of text, such as product descriptions.  Consider alternatives such as `disableTypoToleranceOnWords` or adding
     /// synonyms if your attributes have intentional unusual spellings that might look like typos.
@@ -113,9 +114,10 @@ public struct RecommendIndexSettingsAsSearchParams: Codable, JSONEncodable {
     /// see [Optional words](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/empty-or-insufficient-results/#creating-a-list-of-optional-words).
     public var optionalWords: [String]?
     /// Searchable attributes for which you want to [turn off the Exact ranking criterion](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/in-depth/adjust-exact-settings/#turn-off-exact-for-some-attributes).
-    ///  This can be useful for attributes with long values, where the likelyhood of an exact match is high, such as
-    /// product descriptions. Turning off the Exact ranking criterion for these attributes favors exact matching on
-    /// other attributes. This reduces the impact of individual attributes with a lot of content on ranking.
+    /// Attribute names are case-sensitive.  This can be useful for attributes with long values, where the likelyhood of
+    /// an exact match is high, such as product descriptions. Turning off the Exact ranking criterion for these
+    /// attributes favors exact matching on other attributes. This reduces the impact of individual attributes with a
+    /// lot of content on ranking.
     public var disableExactOnAttributes: [String]?
     public var exactOnSingleWordQuery: RecommendExactOnSingleWordQuery?
     /// Alternatives of query words that should be considered as exact matches by the Exact ranking criterion.  -

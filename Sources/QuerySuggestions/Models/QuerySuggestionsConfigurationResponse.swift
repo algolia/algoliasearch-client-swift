@@ -10,7 +10,7 @@ import Foundation
 public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable {
     /// Algolia application ID to which this Query Suggestions configuration belongs.
     public var appID: String
-    /// Name of the Query Suggestions index.
+    /// Name of the Query Suggestions index (case-sensitive).
     public var indexName: String
     /// Algolia indices from which to get the popular searches for query suggestions.
     public var sourceIndices: [SourceIndex]

@@ -13,7 +13,7 @@ public struct ViewedFilters: Codable, JSONEncodable {
     /// framework.
     public var eventName: String
     public var eventType: ViewEvent
-    /// Index name to which the event's items belong.
+    /// Index name (case-sensitive) to which the event's items belong.
     public var index: String
     /// Applied facet filters.  Facet filters are `facet:value` pairs. Facet values must be URL-encoded, such as,
     /// `discount:10%25`.

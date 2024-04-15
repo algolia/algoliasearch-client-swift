@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct RecommendedForYouQuery: Codable, JSONEncodable {
-    /// Index name.
+    /// Index name (case-sensitive).
     public var indexName: String
     /// Minimum score a recommendation must have to be included in the response.
     public var threshold: Double

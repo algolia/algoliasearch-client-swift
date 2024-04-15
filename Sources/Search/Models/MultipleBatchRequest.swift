@@ -10,7 +10,7 @@ public struct MultipleBatchRequest: Codable, JSONEncodable {
     public var action: Action
     /// Operation arguments (varies with specified `action`).
     public var body: AnyCodable
-    /// Index to target for this operation.
+    /// Index name (case-sensitive).
     public var indexName: String
 
     public init(action: Action, body: AnyCodable, indexName: String) {

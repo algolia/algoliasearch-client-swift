@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct SearchForHitsOptions: Codable, JSONEncodable {
-    /// Index name.
+    /// Index name (case-sensitive).
     public var indexName: String
     public var type: SearchTypeDefault?
 

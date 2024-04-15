@@ -33,7 +33,7 @@ public struct Variant: Codable, JSONEncodable {
     /// configuration must include a `mininmumDetectableEffect` setting for this number to be included in the response.
     public var estimatedSampleSize: Int?
     public var filterEffects: FilterEffects?
-    /// A/B test index.
+    /// Index name of the A/B test variant (case-sensitive).
     public var index: String
     /// Number of [searches without
     /// results](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#searches-without-results) for

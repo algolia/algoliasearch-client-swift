@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct GetConfigStatus200Response: Codable, JSONEncodable {
-    /// Name of the Query Suggestions index.
+    /// Name of the Query Suggestions index (case-sensitive).
     public var indexName: String?
     /// Whether the creation or update of the Query Suggestions index is in progress.
     public var isRunning: Bool?

@@ -8,7 +8,7 @@ import Foundation
 
 /// Configuration of an Algolia index for Query Suggestions.
 public struct SourceIndex: Codable, JSONEncodable {
-    /// Name of the Algolia index to use as source for query suggestions.
+    /// Name of the Algolia index (case-sensitive) to use as source for query suggestions.
     public var indexName: String
     /// If true, Query Suggestions uses all replica indices to find popular searches. If false, only the primary index
     /// is used.

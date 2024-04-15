@@ -15,7 +15,7 @@ public struct AddedToCartObjectIDs: Codable, JSONEncodable {
     public var eventName: String
     public var eventType: ConversionEvent
     public var eventSubtype: AddToCartEvent
-    /// Index name to which the event's items belong.
+    /// Index name (case-sensitive) to which the event's items belong.
     public var index: String
     /// Object IDs of the records that are part of the event.
     public var objectIDs: [String]

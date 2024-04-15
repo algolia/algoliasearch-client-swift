@@ -9,7 +9,7 @@ import Foundation
 public struct SearchForFacetsOptions: Codable, JSONEncodable {
     /// Facet name.
     public var facet: String
-    /// Index name.
+    /// Index name (case-sensitive).
     public var indexName: String
     /// Text to search inside the facet's values.
     public var facetQuery: String?

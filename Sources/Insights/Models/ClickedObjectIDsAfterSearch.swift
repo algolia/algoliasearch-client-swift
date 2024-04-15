@@ -13,7 +13,7 @@ public struct ClickedObjectIDsAfterSearch: Codable, JSONEncodable {
     /// framework.
     public var eventName: String
     public var eventType: ClickEvent
-    /// Index name to which the event's items belong.
+    /// Index name (case-sensitive) to which the event's items belong.
     public var index: String
     /// Object IDs of the records that are part of the event.
     public var objectIDs: [String]

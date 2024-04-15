@@ -14,7 +14,7 @@ public struct AddedToCartObjectIDsAfterSearch: Codable, JSONEncodable {
     public var eventName: String
     public var eventType: ConversionEvent
     public var eventSubtype: AddToCartEvent
-    /// Index name to which the event's items belong.
+    /// Index name (case-sensitive) to which the event's items belong.
     public var index: String
     /// Unique identifier for a search query.  The query ID is required for events related to search or browse requests.
     /// If you add `clickAnalytics: true` as a search request parameter, the query ID is included in the API response.

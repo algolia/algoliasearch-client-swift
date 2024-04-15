@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct AbTestsVariant: Codable, JSONEncodable {
-    /// A/B test index.
+    /// Index name of the A/B test variant (case-sensitive).
     public var index: String
     /// Percentage of search requests each variant receives.
     public var trafficPercentage: Int

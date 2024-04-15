@@ -16,7 +16,7 @@ public struct QuerySuggestionsConfigurationWithIndex: Codable, JSONEncodable {
     public var enablePersonalization: Bool?
     /// Whether to include suggestions with special characters.
     public var allowSpecialCharacters: Bool?
-    /// Name of the Query Suggestions index.
+    /// Name of the Query Suggestions index (case-sensitive).
     public var indexName: String
 
     public init(
