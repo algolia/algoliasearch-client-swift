@@ -11,4 +11,5 @@ Pod::Spec.new do |spec|
   spec.swift_version = "5.1"
   spec.source = { :git => "https://github.com/algolia/algoliasearch-client-swift.git", :tag => spec.version }
   spec.source_files  = "Sources/AlgoliaSearchClient/**/*.swift"
+  spec.resource_bundles = { 'AlgoliaSearchClient' => ['PrivacyInfo.xcprivacy']}
 end
