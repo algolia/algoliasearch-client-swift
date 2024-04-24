@@ -48,7 +48,7 @@ let package = Package(
       dependencies: [
       ] + extraTargetDependencies,
       resources: [
-        .copy("../../PrivacyInfo.xcprivacy"),
+        .copy("../../PrivacyInfo.xcprivacy")
       ]),
     .testTarget(
       name: "AlgoliaSearchClientTests",
