@@ -11,13 +11,13 @@ import Foundation
 /// facets, &#x60;_tags&#x60; can only be used for filtering (including or excluding records). You won&#39;t get a facet
 /// count. The same combination and escaping rules apply as for &#x60;facetFilters&#x60;.
 public enum SearchTagFilters: Codable, JSONEncodable, AbstractEncodable {
-    case arrayOfSearchMixedSearchFilters([SearchMixedSearchFilters])
+    case arrayOfSearchTagFilters([SearchTagFilters])
     case string(String)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .arrayOfSearchMixedSearchFilters(value):
+        case let .arrayOfSearchTagFilters(value):
             try container.encode(value)
         case let .string(value):
             try container.encode(value)
@@ -26,8 +26,8 @@ public enum SearchTagFilters: Codable, JSONEncodable, AbstractEncodable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode([SearchMixedSearchFilters].self) {
-            self = .arrayOfSearchMixedSearchFilters(value)
+        if let value = try? container.decode([SearchTagFilters].self) {
+            self = .arrayOfSearchTagFilters(value)
         } else if let value = try? container.decode(String.self) {
             self = .string(value)
         } else {
@@ -40,8 +40,8 @@ public enum SearchTagFilters: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .arrayOfSearchMixedSearchFilters(value):
-            value as [SearchMixedSearchFilters]
+        case let .arrayOfSearchTagFilters(value):
+            value as [SearchTagFilters]
         case let .string(value):
             value as String
         }

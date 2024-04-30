@@ -12,13 +12,13 @@ import Foundation
 /// that don&#39;t match.  - Optional filters don&#39;t work on virtual replicas. - Optional filters are applied _after_
 /// sort-by attributes. - Optional filters don&#39;t work with numeric attributes.
 public enum RecommendOptionalFilters: Codable, JSONEncodable, AbstractEncodable {
-    case arrayOfRecommendMixedSearchFilters([RecommendMixedSearchFilters])
+    case arrayOfRecommendOptionalFilters([RecommendOptionalFilters])
     case string(String)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .arrayOfRecommendMixedSearchFilters(value):
+        case let .arrayOfRecommendOptionalFilters(value):
             try container.encode(value)
         case let .string(value):
             try container.encode(value)
@@ -27,8 +27,8 @@ public enum RecommendOptionalFilters: Codable, JSONEncodable, AbstractEncodable 
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode([RecommendMixedSearchFilters].self) {
-            self = .arrayOfRecommendMixedSearchFilters(value)
+        if let value = try? container.decode([RecommendOptionalFilters].self) {
+            self = .arrayOfRecommendOptionalFilters(value)
         } else if let value = try? container.decode(String.self) {
             self = .string(value)
         } else {
@@ -44,8 +44,8 @@ public enum RecommendOptionalFilters: Codable, JSONEncodable, AbstractEncodable 
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .arrayOfRecommendMixedSearchFilters(value):
-            value as [RecommendMixedSearchFilters]
+        case let .arrayOfRecommendOptionalFilters(value):
+            value as [RecommendOptionalFilters]
         case let .string(value):
             value as String
         }

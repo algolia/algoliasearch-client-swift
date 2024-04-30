@@ -13,13 +13,13 @@ import Foundation
 /// &lt;upper&gt;&#x60;. The range includes the lower and upper boundaries. The same combination rules apply as for
 /// &#x60;facetFilters&#x60;.
 public enum SearchNumericFilters: Codable, JSONEncodable, AbstractEncodable {
-    case arrayOfSearchMixedSearchFilters([SearchMixedSearchFilters])
+    case arrayOfSearchNumericFilters([SearchNumericFilters])
     case string(String)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .arrayOfSearchMixedSearchFilters(value):
+        case let .arrayOfSearchNumericFilters(value):
             try container.encode(value)
         case let .string(value):
             try container.encode(value)
@@ -28,8 +28,8 @@ public enum SearchNumericFilters: Codable, JSONEncodable, AbstractEncodable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode([SearchMixedSearchFilters].self) {
-            self = .arrayOfSearchMixedSearchFilters(value)
+        if let value = try? container.decode([SearchNumericFilters].self) {
+            self = .arrayOfSearchNumericFilters(value)
         } else if let value = try? container.decode(String.self) {
             self = .string(value)
         } else {
@@ -45,8 +45,8 @@ public enum SearchNumericFilters: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .arrayOfSearchMixedSearchFilters(value):
-            value as [SearchMixedSearchFilters]
+        case let .arrayOfSearchNumericFilters(value):
+            value as [SearchNumericFilters]
         case let .string(value):
             value as String
         }

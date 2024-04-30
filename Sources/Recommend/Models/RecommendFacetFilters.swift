@@ -13,13 +13,13 @@ import Foundation
 /// interpreted as &#x60;NOT facet:value&#x60;.  While it&#39;s best to avoid attributes that start with a
 /// &#x60;-&#x60;, you can still filter them by escaping with a backslash: &#x60;facet:\\-value&#x60;.
 public enum RecommendFacetFilters: Codable, JSONEncodable, AbstractEncodable {
-    case arrayOfRecommendMixedSearchFilters([RecommendMixedSearchFilters])
+    case arrayOfRecommendFacetFilters([RecommendFacetFilters])
     case string(String)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .arrayOfRecommendMixedSearchFilters(value):
+        case let .arrayOfRecommendFacetFilters(value):
             try container.encode(value)
         case let .string(value):
             try container.encode(value)
@@ -28,8 +28,8 @@ public enum RecommendFacetFilters: Codable, JSONEncodable, AbstractEncodable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode([RecommendMixedSearchFilters].self) {
-            self = .arrayOfRecommendMixedSearchFilters(value)
+        if let value = try? container.decode([RecommendFacetFilters].self) {
+            self = .arrayOfRecommendFacetFilters(value)
         } else if let value = try? container.decode(String.self) {
             self = .string(value)
         } else {
@@ -45,8 +45,8 @@ public enum RecommendFacetFilters: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .arrayOfRecommendMixedSearchFilters(value):
-            value as [RecommendMixedSearchFilters]
+        case let .arrayOfRecommendFacetFilters(value):
+            value as [RecommendFacetFilters]
         case let .string(value):
             value as String
         }

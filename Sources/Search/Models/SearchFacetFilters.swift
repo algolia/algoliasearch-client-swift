@@ -13,13 +13,13 @@ import Foundation
 /// interpreted as &#x60;NOT facet:value&#x60;.  While it&#39;s best to avoid attributes that start with a
 /// &#x60;-&#x60;, you can still filter them by escaping with a backslash: &#x60;facet:\\-value&#x60;.
 public enum SearchFacetFilters: Codable, JSONEncodable, AbstractEncodable {
-    case arrayOfSearchMixedSearchFilters([SearchMixedSearchFilters])
+    case arrayOfSearchFacetFilters([SearchFacetFilters])
     case string(String)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .arrayOfSearchMixedSearchFilters(value):
+        case let .arrayOfSearchFacetFilters(value):
             try container.encode(value)
         case let .string(value):
             try container.encode(value)
@@ -28,8 +28,8 @@ public enum SearchFacetFilters: Codable, JSONEncodable, AbstractEncodable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode([SearchMixedSearchFilters].self) {
-            self = .arrayOfSearchMixedSearchFilters(value)
+        if let value = try? container.decode([SearchFacetFilters].self) {
+            self = .arrayOfSearchFacetFilters(value)
         } else if let value = try? container.decode(String.self) {
             self = .string(value)
         } else {
@@ -45,8 +45,8 @@ public enum SearchFacetFilters: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .arrayOfSearchMixedSearchFilters(value):
-            value as [SearchMixedSearchFilters]
+        case let .arrayOfSearchFacetFilters(value):
+            value as [SearchFacetFilters]
         case let .string(value):
             value as String
         }
