@@ -318,7 +318,7 @@ open class UsageClient {
     /// operations. - &#x60;set_settings_operations&#x60;. Number of [set
     /// settings](/specs/search#tag/Indices/operation/setSettings) operations. - &#x60;list_indices_operations&#x60;.
     /// Number of [list indices](/specs/search#tag/Indices/operation/listIndices) operations. -
-    /// &#x60;wait_task_operations&#x60;. Number of [wait](/specs/search#tag/Indices/operation/getTask) operations. 
+    /// &#x60;wait_task_operations&#x60;. Number of [wait](/specs/search#tag/Indices/operation/getTask) operations.
     /// **Record operations**  - &#x60;record_operations&#x60;. All record operations. -
     /// &#x60;total_records_operations&#x60;. Sum of all record operations. - &#x60;add_record_operations&#x60;. Number
     /// of
@@ -377,7 +377,7 @@ open class UsageClient {
     /// -
     /// &#x60;90p_processing_time&#x60;. 90th percentile of processing time (in milliseconds). -
     /// &#x60;99p_processing_time&#x60;. 99th percentile of processing time (in milliseconds). -
-    /// &#x60;queries_above_last_ms_processing_time&#x60;. Number of queries that take one or more seconds to process. 
+    /// &#x60;queries_above_last_ms_processing_time&#x60;. Number of queries that take one or more seconds to process.
     /// **Indices**  - &#x60;records&#x60;. Number of records. - &#x60;data_size&#x60;. The size of the records (in
     /// bytes). - &#x60;file_size&#x60;. The size of the records _and_ index metadata (in bytes).  **Maximum queries per
     /// second**  - &#x60;max_qps&#x60;. [Maximum queries per
@@ -390,7 +390,7 @@ open class UsageClient {
     /// server. - &#x60;region_used_search_capacity&#x60;. Maximum search capacity used per region. -
     /// &#x60;region_avg_used_search_capacity&#x60;. Average search capacity used per region. -
     /// &#x60;total_used_search_capacity&#x60;. Maximum search capacity used for all servers. -
-    /// &#x60;total_avg_used_search_capacity&#x60;. Average used search capacity for all servers.  **Degraded queries** 
+    /// &#x60;total_avg_used_search_capacity&#x60;. Average used search capacity for all servers.  **Degraded queries**
     /// Check the impact of [degraded queries](https://support.algolia.com/hc/en-us/articles/4406981934481).  -
     /// &#x60;degraded_queries_ssd_used_queries_impacted&#x60;. Percentage of degraded queries due to the Algolia search
     /// engine having to read from the server&#39;s SSD. - &#x60;degraded_queries_ssd_used_seconds_impacted&#x60;.
@@ -402,7 +402,7 @@ open class UsageClient {
     /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format.
     /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format.
     /// - parameter granularity: (query) Granularity of the aggregated metrics.  - &#x60;hourly&#x60;: the maximum time
-    /// range for hourly metrics is 7 days. - &#x60;daily&#x60;: the maximum time range for daily metrics is 365 days. 
+    /// range for hourly metrics is 7 days. - &#x60;daily&#x60;: the maximum time range for daily metrics is 365 days.
     /// (optional)
     /// - returns: GetUsage200Response
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -462,7 +462,7 @@ open class UsageClient {
     // operations. - &#x60;set_settings_operations&#x60;. Number of [set
     // settings](/specs/search#tag/Indices/operation/setSettings) operations. - &#x60;list_indices_operations&#x60;.
     // Number of [list indices](/specs/search#tag/Indices/operation/listIndices) operations. -
-    // &#x60;wait_task_operations&#x60;. Number of [wait](/specs/search#tag/Indices/operation/getTask) operations. 
+    // &#x60;wait_task_operations&#x60;. Number of [wait](/specs/search#tag/Indices/operation/getTask) operations.
     // **Record operations**  - &#x60;record_operations&#x60;. All record operations. -
     // &#x60;total_records_operations&#x60;. Sum of all record operations. - &#x60;add_record_operations&#x60;. Number
     // of
@@ -518,7 +518,7 @@ open class UsageClient {
     // operations.  **Processing time**  - &#x60;avg_processing_time&#x60;. Average processing time (in milliseconds). -
     // &#x60;90p_processing_time&#x60;. 90th percentile of processing time (in milliseconds). -
     // &#x60;99p_processing_time&#x60;. 99th percentile of processing time (in milliseconds). -
-    // &#x60;queries_above_last_ms_processing_time&#x60;. Number of queries that take one or more seconds to process. 
+    // &#x60;queries_above_last_ms_processing_time&#x60;. Number of queries that take one or more seconds to process.
     // **Indices**  - &#x60;records&#x60;. Number of records. - &#x60;data_size&#x60;. The size of the records (in
     // bytes). - &#x60;file_size&#x60;. The size of the records _and_ index metadata (in bytes).  **Maximum queries per
     // second**  - &#x60;max_qps&#x60;. [Maximum queries per
@@ -530,7 +530,7 @@ open class UsageClient {
     // server. - &#x60;region_used_search_capacity&#x60;. Maximum search capacity used per region. -
     // &#x60;region_avg_used_search_capacity&#x60;. Average search capacity used per region. -
     // &#x60;total_used_search_capacity&#x60;. Maximum search capacity used for all servers. -
-    // &#x60;total_avg_used_search_capacity&#x60;. Average used search capacity for all servers.  **Degraded queries** 
+    // &#x60;total_avg_used_search_capacity&#x60;. Average used search capacity for all servers.  **Degraded queries**
     // Check the impact of [degraded queries](https://support.algolia.com/hc/en-us/articles/4406981934481).  -
     // &#x60;degraded_queries_ssd_used_queries_impacted&#x60;. Percentage of degraded queries due to the Algolia search
     // engine having to read from the server&#39;s SSD. - &#x60;degraded_queries_ssd_used_seconds_impacted&#x60;.
@@ -546,7 +546,7 @@ open class UsageClient {
     // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format.
     //
     // - parameter granularity: (query) Granularity of the aggregated metrics.  - &#x60;hourly&#x60;: the maximum time
-    // range for hourly metrics is 7 days. - &#x60;daily&#x60;: the maximum time range for daily metrics is 365 days. 
+    // range for hourly metrics is 7 days. - &#x60;daily&#x60;: the maximum time range for daily metrics is 365 days.
     // (optional)
     // - returns: RequestBuilder<GetUsage200Response>
 
@@ -639,7 +639,7 @@ open class UsageClient {
     /// operations. - &#x60;set_settings_operations&#x60;. Number of [set
     /// settings](/specs/search#tag/Indices/operation/setSettings) operations. - &#x60;list_indices_operations&#x60;.
     /// Number of [list indices](/specs/search#tag/Indices/operation/listIndices) operations. -
-    /// &#x60;wait_task_operations&#x60;. Number of [wait](/specs/search#tag/Indices/operation/getTask) operations. 
+    /// &#x60;wait_task_operations&#x60;. Number of [wait](/specs/search#tag/Indices/operation/getTask) operations.
     /// **Record operations**  - &#x60;record_operations&#x60;. All record operations. -
     /// &#x60;total_records_operations&#x60;. Sum of all record operations. - &#x60;add_record_operations&#x60;. Number
     /// of
@@ -698,7 +698,7 @@ open class UsageClient {
     /// -
     /// &#x60;90p_processing_time&#x60;. 90th percentile of processing time (in milliseconds). -
     /// &#x60;99p_processing_time&#x60;. 99th percentile of processing time (in milliseconds). -
-    /// &#x60;queries_above_last_ms_processing_time&#x60;. Number of queries that take one or more seconds to process. 
+    /// &#x60;queries_above_last_ms_processing_time&#x60;. Number of queries that take one or more seconds to process.
     /// **Indices**  - &#x60;records&#x60;. Number of records. - &#x60;data_size&#x60;. The size of the records (in
     /// bytes). - &#x60;file_size&#x60;. The size of the records _and_ index metadata (in bytes).  **Maximum queries per
     /// second**  - &#x60;max_qps&#x60;. [Maximum queries per
@@ -711,7 +711,7 @@ open class UsageClient {
     /// server. - &#x60;region_used_search_capacity&#x60;. Maximum search capacity used per region. -
     /// &#x60;region_avg_used_search_capacity&#x60;. Average search capacity used per region. -
     /// &#x60;total_used_search_capacity&#x60;. Maximum search capacity used for all servers. -
-    /// &#x60;total_avg_used_search_capacity&#x60;. Average used search capacity for all servers.  **Degraded queries** 
+    /// &#x60;total_avg_used_search_capacity&#x60;. Average used search capacity for all servers.  **Degraded queries**
     /// Check the impact of [degraded queries](https://support.algolia.com/hc/en-us/articles/4406981934481).  -
     /// &#x60;degraded_queries_ssd_used_queries_impacted&#x60;. Percentage of degraded queries due to the Algolia search
     /// engine having to read from the server&#39;s SSD. - &#x60;degraded_queries_ssd_used_seconds_impacted&#x60;.
@@ -722,7 +722,7 @@ open class UsageClient {
     /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format.
     /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format.
     /// - parameter granularity: (query) Granularity of the aggregated metrics.  - &#x60;hourly&#x60;: the maximum time
-    /// range for hourly metrics is 7 days. - &#x60;daily&#x60;: the maximum time range for daily metrics is 365 days. 
+    /// range for hourly metrics is 7 days. - &#x60;daily&#x60;: the maximum time range for daily metrics is 365 days.
     /// (optional)
     /// - returns: GetUsage200Response
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -780,7 +780,7 @@ open class UsageClient {
     // operations. - &#x60;set_settings_operations&#x60;. Number of [set
     // settings](/specs/search#tag/Indices/operation/setSettings) operations. - &#x60;list_indices_operations&#x60;.
     // Number of [list indices](/specs/search#tag/Indices/operation/listIndices) operations. -
-    // &#x60;wait_task_operations&#x60;. Number of [wait](/specs/search#tag/Indices/operation/getTask) operations. 
+    // &#x60;wait_task_operations&#x60;. Number of [wait](/specs/search#tag/Indices/operation/getTask) operations.
     // **Record operations**  - &#x60;record_operations&#x60;. All record operations. -
     // &#x60;total_records_operations&#x60;. Sum of all record operations. - &#x60;add_record_operations&#x60;. Number
     // of
@@ -836,7 +836,7 @@ open class UsageClient {
     // operations.  **Processing time**  - &#x60;avg_processing_time&#x60;. Average processing time (in milliseconds). -
     // &#x60;90p_processing_time&#x60;. 90th percentile of processing time (in milliseconds). -
     // &#x60;99p_processing_time&#x60;. 99th percentile of processing time (in milliseconds). -
-    // &#x60;queries_above_last_ms_processing_time&#x60;. Number of queries that take one or more seconds to process. 
+    // &#x60;queries_above_last_ms_processing_time&#x60;. Number of queries that take one or more seconds to process.
     // **Indices**  - &#x60;records&#x60;. Number of records. - &#x60;data_size&#x60;. The size of the records (in
     // bytes). - &#x60;file_size&#x60;. The size of the records _and_ index metadata (in bytes).  **Maximum queries per
     // second**  - &#x60;max_qps&#x60;. [Maximum queries per
@@ -848,7 +848,7 @@ open class UsageClient {
     // server. - &#x60;region_used_search_capacity&#x60;. Maximum search capacity used per region. -
     // &#x60;region_avg_used_search_capacity&#x60;. Average search capacity used per region. -
     // &#x60;total_used_search_capacity&#x60;. Maximum search capacity used for all servers. -
-    // &#x60;total_avg_used_search_capacity&#x60;. Average used search capacity for all servers.  **Degraded queries** 
+    // &#x60;total_avg_used_search_capacity&#x60;. Average used search capacity for all servers.  **Degraded queries**
     // Check the impact of [degraded queries](https://support.algolia.com/hc/en-us/articles/4406981934481).  -
     // &#x60;degraded_queries_ssd_used_queries_impacted&#x60;. Percentage of degraded queries due to the Algolia search
     // engine having to read from the server&#39;s SSD. - &#x60;degraded_queries_ssd_used_seconds_impacted&#x60;.
@@ -862,7 +862,7 @@ open class UsageClient {
     // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format.
     //
     // - parameter granularity: (query) Granularity of the aggregated metrics.  - &#x60;hourly&#x60;: the maximum time
-    // range for hourly metrics is 7 days. - &#x60;daily&#x60;: the maximum time range for daily metrics is 365 days. 
+    // range for hourly metrics is 7 days. - &#x60;daily&#x60;: the maximum time range for daily metrics is 365 days.
     // (optional)
     // - returns: RequestBuilder<GetUsage200Response>
 
