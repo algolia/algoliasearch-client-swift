@@ -258,7 +258,7 @@ public extension URLRequest {
         case invalidQueryItems
 
         public var errorDescription: String? {
-            let contactUs = "Please contact support@algolia.com if this problem occurs."
+            let contactUs = "Please contact https://alg.li/support if this problem occurs."
             switch self {
             case let .badHost(host):
                 return "Bad host: \(host). Will retry with next host. " + contactUs
