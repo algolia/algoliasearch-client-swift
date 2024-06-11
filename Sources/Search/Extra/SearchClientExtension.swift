@@ -54,6 +54,47 @@ public extension SearchClient {
         )
     }
 
+    /// Wait for an application-level task to complete
+    /// - parameter taskID: The id of the task to wait for
+    /// - parameter maxRetries: The maximum number of retries
+    /// - parameter initialDelay: The initial delay between retries
+    /// - parameter maxDelay: The maximum delay between retries
+    /// - returns: GetTaskResponse
+    @discardableResult
+    func waitForAppTask(
+        with taskID: Int64,
+        maxRetries: Int = 50,
+        timeout: (Int) -> TimeInterval = { count in
+            min(TimeInterval(count) * 0.2, 5)
+        },
+        requestOptions: RequestOptions? = nil
+    ) async throws -> GetTaskResponse {
+        var retryCount = 0
+
+        return try await createIterable(
+            execute: { _ in
+                try await self.getAppTask(taskID: taskID, requestOptions: requestOptions)
+            },
+            validate: { response in
+                response.status == SearchTaskStatus.published
+            },
+            aggregator: { _ in
+                retryCount += 1
+            },
+            timeout: {
+                timeout(retryCount)
+            },
+            error: IterableError(
+                validate: { _ in
+                    retryCount >= maxRetries
+                },
+                message: { _ in
+                    "The maximum number of retries exceeded. (\(retryCount)/\(maxRetries))"
+                }
+            )
+        )
+    }
+
     /// Wait for an API key to be available
     /// - parameter key: The key to wait for
     /// - parameter operation: The type of operation

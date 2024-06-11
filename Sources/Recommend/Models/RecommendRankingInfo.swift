@@ -9,7 +9,7 @@ import Foundation
 /// Object with detailed information about the record&#39;s ranking.
 public struct RecommendRankingInfo: Codable, JSONEncodable {
     /// Whether a filter matched the query.
-    public var filters: Int
+    public var filters: Int?
     /// Position of the first matched word in the best matching attribute of the record.
     public var firstMatchedWord: Int
     /// Distance between the geo location in the search query and the best matching geo location in the record, divided
@@ -24,18 +24,18 @@ public struct RecommendRankingInfo: Codable, JSONEncodable {
     /// Number of typos encountered when matching the record.
     public var nbTypos: Int
     /// Whether the record was promoted by a rule.
-    public var promoted: Bool
+    public var promoted: Bool?
     /// Number of words between multiple matches in the query plus 1. For single word queries, `proximityDistance` is 0.
     public var proximityDistance: Int?
     /// Overall ranking of the record, expressed as a single integer. This attribute is internal.
     public var userScore: Int
     /// Number of matched words.
-    public var words: Int
+    public var words: Int?
     /// Whether the record is re-ranked.
     public var promotedByReRanking: Bool?
 
     public init(
-        filters: Int,
+        filters: Int? = nil,
         firstMatchedWord: Int,
         geoDistance: Int,
         geoPrecision: Int? = nil,
@@ -43,10 +43,10 @@ public struct RecommendRankingInfo: Codable, JSONEncodable {
         personalization: RecommendPersonalization? = nil,
         nbExactWords: Int,
         nbTypos: Int,
-        promoted: Bool,
+        promoted: Bool? = nil,
         proximityDistance: Int? = nil,
         userScore: Int,
-        words: Int,
+        words: Int? = nil,
         promotedByReRanking: Bool? = nil
     ) {
         self.filters = filters
@@ -84,7 +84,7 @@ public struct RecommendRankingInfo: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.filters, forKey: .filters)
+        try container.encodeIfPresent(self.filters, forKey: .filters)
         try container.encode(self.firstMatchedWord, forKey: .firstMatchedWord)
         try container.encode(self.geoDistance, forKey: .geoDistance)
         try container.encodeIfPresent(self.geoPrecision, forKey: .geoPrecision)
@@ -92,10 +92,10 @@ public struct RecommendRankingInfo: Codable, JSONEncodable {
         try container.encodeIfPresent(self.personalization, forKey: .personalization)
         try container.encode(self.nbExactWords, forKey: .nbExactWords)
         try container.encode(self.nbTypos, forKey: .nbTypos)
-        try container.encode(self.promoted, forKey: .promoted)
+        try container.encodeIfPresent(self.promoted, forKey: .promoted)
         try container.encodeIfPresent(self.proximityDistance, forKey: .proximityDistance)
         try container.encode(self.userScore, forKey: .userScore)
-        try container.encode(self.words, forKey: .words)
+        try container.encodeIfPresent(self.words, forKey: .words)
         try container.encodeIfPresent(self.promotedByReRanking, forKey: .promotedByReRanking)
     }
 }
@@ -120,7 +120,7 @@ extension RecommendRankingInfo: Equatable {
 
 extension RecommendRankingInfo: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.filters.hashValue)
+        hasher.combine(self.filters?.hashValue)
         hasher.combine(self.firstMatchedWord.hashValue)
         hasher.combine(self.geoDistance.hashValue)
         hasher.combine(self.geoPrecision?.hashValue)
@@ -128,10 +128,10 @@ extension RecommendRankingInfo: Hashable {
         hasher.combine(self.personalization?.hashValue)
         hasher.combine(self.nbExactWords.hashValue)
         hasher.combine(self.nbTypos.hashValue)
-        hasher.combine(self.promoted.hashValue)
+        hasher.combine(self.promoted?.hashValue)
         hasher.combine(self.proximityDistance?.hashValue)
         hasher.combine(self.userScore.hashValue)
-        hasher.combine(self.words.hashValue)
+        hasher.combine(self.words?.hashValue)
         hasher.combine(self.promotedByReRanking?.hashValue)
     }
 }
