@@ -457,6 +457,9 @@ public extension SearchClient {
     }
 
     /// Replace all objects in an index
+    ///
+    /// See https://api-clients-automation.netlify.app/docs/contributing/add-new-api-client#5-helpers for implementation
+    /// details.
     /// - parameter objects: The new objects
     /// - parameter indexName: The name of the index where to replace the objects
     /// - parameter requestOptions: The request options
@@ -470,8 +473,7 @@ public extension SearchClient {
     ) async throws -> ReplaceAllObjectsResponse {
         let tmpIndexName = try "\(indexName)_tmp_\(randomString())"
 
-        // Copy all index resources from production index
-        let copyOperationResponse = try await operationIndex(
+        var copyOperationResponse = try await operationIndex(
             indexName: indexName,
             operationIndexParams: OperationIndexParams(
                 operation: .copy,
@@ -481,9 +483,6 @@ public extension SearchClient {
             requestOptions: requestOptions
         )
 
-        try await self.waitForTask(with: copyOperationResponse.taskID, in: indexName)
-
-        // Send records to the tmp index (batched)
         let batchResponses = try await self.chunkedBatch(
             indexName: tmpIndexName,
             objects: objects,
@@ -491,8 +490,19 @@ public extension SearchClient {
             batchSize: batchSize,
             requestOptions: requestOptions
         )
+        try await self.waitForTask(with: copyOperationResponse.taskID, in: tmpIndexName)
 
-        // Move the temporary index to replace the main one
+        copyOperationResponse = try await operationIndex(
+            indexName: indexName,
+            operationIndexParams: OperationIndexParams(
+                operation: .copy,
+                destination: tmpIndexName,
+                scope: [.rules, .settings, .synonyms]
+            ),
+            requestOptions: requestOptions
+        )
+        try await self.waitForTask(with: copyOperationResponse.taskID, in: tmpIndexName)
+
         let moveOperationResponse = try await self.operationIndex(
             indexName: tmpIndexName,
             operationIndexParams: OperationIndexParams(
@@ -501,7 +511,6 @@ public extension SearchClient {
             ),
             requestOptions: requestOptions
         )
-
         try await self.waitForTask(with: moveOperationResponse.taskID, in: tmpIndexName)
 
         return ReplaceAllObjectsResponse(
