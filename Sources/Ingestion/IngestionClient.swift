@@ -1261,9 +1261,9 @@ open class IngestionClient {
     /// - parameter type: (query) Event type for filtering the list of task runs. (optional)
     /// - parameter sort: (query) Property by which to sort the list of task run events. (optional)
     /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
-    /// - parameter startDate: (query) Date and time in RFC3339 format for the earliest events to retrieve. By default,
+    /// - parameter startDate: (query) Date and time in RFC 3339 format for the earliest events to retrieve. By default,
     /// the current time minus three hours is used. (optional)
-    /// - parameter endDate: (query) Date and time in RFC3339 format for the latest events to retrieve. By default, the
+    /// - parameter endDate: (query) Date and time in RFC 3339 format for the latest events to retrieve. By default, the
     /// current time is used. (optional)
     /// - returns: ListEventsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1319,10 +1319,10 @@ open class IngestionClient {
     //
     // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     //
-    // - parameter startDate: (query) Date and time in RFC3339 format for the earliest events to retrieve. By default,
+    // - parameter startDate: (query) Date and time in RFC 3339 format for the earliest events to retrieve. By default,
     // the current time minus three hours is used. (optional)
     //
-    // - parameter endDate: (query) Date and time in RFC3339 format for the latest events to retrieve. By default, the
+    // - parameter endDate: (query) Date and time in RFC 3339 format for the latest events to retrieve. By default, the
     // current time is used. (optional)
     // - returns: RequestBuilder<ListEventsResponse>
 
@@ -1435,9 +1435,9 @@ open class IngestionClient {
     /// - parameter taskID: (query) Task ID for filtering the list of task runs. (optional)
     /// - parameter sort: (query) Property by which to sort the list of task runs. (optional)
     /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
-    /// - parameter startDate: (query) Date in RFC3339 format for the earliest run to retrieve. By default, the current
+    /// - parameter startDate: (query) Date in RFC 3339 format for the earliest run to retrieve. By default, the current
     /// day minus seven days is used. (optional)
-    /// - parameter endDate: (query) Date in RFC3339 format for the latest run to retrieve. By default, the current day
+    /// - parameter endDate: (query) Date in RFC 3339 format for the latest run to retrieve. By default, the current day
     /// is used. (optional)
     /// - returns: RunListResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1489,10 +1489,10 @@ open class IngestionClient {
     //
     // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     //
-    // - parameter startDate: (query) Date in RFC3339 format for the earliest run to retrieve. By default, the current
+    // - parameter startDate: (query) Date in RFC 3339 format for the earliest run to retrieve. By default, the current
     // day minus seven days is used. (optional)
     //
-    // - parameter endDate: (query) Date in RFC3339 format for the latest run to retrieve. By default, the current day
+    // - parameter endDate: (query) Date in RFC 3339 format for the latest run to retrieve. By default, the current day
     // is used. (optional)
     // - returns: RequestBuilder<RunListResponse>
 

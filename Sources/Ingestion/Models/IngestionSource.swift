@@ -14,9 +14,9 @@ public struct IngestionSource: Codable, JSONEncodable {
     public var input: SourceInput
     /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String?
-    /// Date of creation in RFC3339 format.
+    /// Date of creation in RFC 3339 format.
     public var createdAt: String
-    /// Date of last update in RFC3339 format.
+    /// Date of last update in RFC 3339 format.
     public var updatedAt: String?
 
     public init(

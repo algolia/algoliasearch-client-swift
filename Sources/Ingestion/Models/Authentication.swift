@@ -15,9 +15,9 @@ public struct Authentication: Codable, JSONEncodable {
     public var name: String
     public var platform: Platform?
     public var input: AuthInputPartial
-    /// Date of creation in RFC3339 format.
+    /// Date of creation in RFC 3339 format.
     public var createdAt: String
-    /// Date of last update in RFC3339 format.
+    /// Date of last update in RFC 3339 format.
     public var updatedAt: String?
 
     public init(

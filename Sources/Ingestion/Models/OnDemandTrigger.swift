@@ -9,7 +9,7 @@ import Foundation
 /// Trigger information for manually-triggered tasks.
 public struct OnDemandTrigger: Codable, JSONEncodable {
     public var type: OnDemandTriggerType
-    /// The last time the scheduled task ran in RFC3339 format.
+    /// The last time the scheduled task ran in RFC 3339 format.
     public var lastRun: String?
 
     public init(type: OnDemandTriggerType, lastRun: String? = nil) {

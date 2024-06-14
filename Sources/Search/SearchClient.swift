@@ -1643,7 +1643,7 @@ open class SearchClient {
     /// - parameter length: (query) Maximum number of entries to retrieve. (optional, default to 10)
     /// - parameter indexName: (query) Index for which to retrieve log entries. By default, log entries are retrieved
     /// for all indices.  (optional)
-    /// - parameter type: (query) Type of log entries to retrieve. By default, all log entries are retrieved. 
+    /// - parameter type: (query) Type of log entries to retrieve. By default, all log entries are retrieved.
     /// (optional)
     /// - returns: GetLogsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1720,7 +1720,7 @@ open class SearchClient {
     /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter objectID: (path) Unique record identifier.
     /// - parameter attributesToRetrieve: (query) Attributes to include with the records in the response. This is useful
-    /// to reduce the size of the API response. By default, all retrievable attributes are returned. 
+    /// to reduce the size of the API response. By default, all retrievable attributes are returned.
     /// &#x60;objectID&#x60; is always retrieved.  Attributes included in &#x60;unretrievableAttributes&#x60; won&#39;t
     /// be retrieved unless the request is authenticated with the admin API key.  (optional)
     /// - returns: [String: String]
@@ -1755,7 +1755,7 @@ open class SearchClient {
     // - parameter objectID: (path) Unique record identifier.
     //
     // - parameter attributesToRetrieve: (query) Attributes to include with the records in the response. This is useful
-    // to reduce the size of the API response. By default, all retrievable attributes are returned. 
+    // to reduce the size of the API response. By default, all retrievable attributes are returned.
     // &#x60;objectID&#x60;
     // is always retrieved.  Attributes included in &#x60;unretrievableAttributes&#x60; won&#39;t be retrieved unless
     // the
@@ -2579,7 +2579,7 @@ open class SearchClient {
     }
 
     // Copies or moves (renames) an index within the same Algolia application.  - Existing destination indices are
-    // overwritten, except for their analytics data. - If the destination index doesn't exist yet, it'll be created. 
+    // overwritten, except for their analytics data. - If the destination index doesn't exist yet, it'll be created.
     // **Copy**  - Copying a source index that doesn't exist creates a new index with 0 records and default settings. -
     // The API keys of the source index are merged with the existing keys in the destination index. - You can't copy the
     // `enableReRanking`, `mode`, and `replicas` settings. - You can't copy to a destination index that already has
@@ -2588,7 +2588,7 @@ open class SearchClient {
     // -
     // Related guide: [Copy indices](https://www.algolia.com/doc/guides/sending-and-managing-data/manage-indices-and-apps/manage-indices/how-to/copy-indices/)
     // **Move**  - Moving a source index that doesn't exist is ignored without returning an error. - When moving an
-    // index, the analytics data keep their original name and a new set of analytics data is started for the new name.  
+    // index, the analytics data keep their original name and a new set of analytics data is started for the new name.
     // To access the original analytics in the dashboard, create an index with the original name. - If the destination
     // index has replicas, moving will overwrite the existing index and copy the data to the replica indices. - Related
     // guide: [Move indices](https://www.algolia.com/doc/guides/sending-and-managing-data/manage-indices-and-apps/manage-indices/how-to/move-indices/).
@@ -3456,7 +3456,7 @@ open class SearchClient {
         return body
     }
 
-    // Searches for values of a specified facet attribute.  - By default, facet values are sorted by decreasing count.  
+    // Searches for values of a specified facet attribute.  - By default, facet values are sorted by decreasing count.
     // You can adjust this with the `sortFacetValueBy` parameter. - Searching for facet values doesn't work if you have
     // **more than 65 searchable facets and searchable attributes combined**.
     // Required API Key ACLs:

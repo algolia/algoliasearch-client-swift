@@ -9,9 +9,9 @@ import Foundation
 /// Input for a manually-triggered task whose source is of type &#x60;bigquery&#x60; and for which extracted data spans
 /// a given time range.
 public struct OnDemandDateUtilsInput: Codable, JSONEncodable {
-    /// Earliest date in RFC3339 format of the extracted data from Big Query.
+    /// Earliest date in RFC 3339 format of the extracted data from Big Query.
     public var startDate: String
-    /// Latest date in RFC3339 format of the extracted data from Big Query.
+    /// Latest date in RFC 3339 format of the extracted data from Big Query.
     public var endDate: String
     public var mapping: MappingInput?
 

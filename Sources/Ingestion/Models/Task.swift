@@ -20,9 +20,9 @@ public struct Task: Codable, JSONEncodable {
     /// Maximum accepted percentage of failures for a task run to finish successfully.
     public var failureThreshold: Int?
     public var action: ActionType
-    /// Date of creation in RFC3339 format.
+    /// Date of creation in RFC 3339 format.
     public var createdAt: String
-    /// Date of last update in RFC3339 format.
+    /// Date of last update in RFC 3339 format.
     public var updatedAt: String?
 
     public init(
