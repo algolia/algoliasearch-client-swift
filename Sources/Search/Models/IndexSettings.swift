@@ -8,7 +8,7 @@ import Foundation
 
 /// Index settings.
 public struct IndexSettings: Codable, JSONEncodable {
-    /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/).
+    /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/). 
     /// Facets are attributes that let you categorize search results. They can be used for filtering search results. By
     /// default, no attribute is used for faceting. Attribute names are case-sensitive.  **Modifiers**  -
     /// `filterOnly(\"ATTRIBUTE\")`.   Allows using this attribute as a filter, but doesn't evalue the facet values.  -
@@ -17,7 +17,7 @@ public struct IndexSettings: Codable, JSONEncodable {
     /// this modifier to searchable facets: `afterDistinct(searchable(ATTRIBUTE))`.
     public var attributesForFaceting: [String]?
     /// Creates [replica
-    /// indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/).
+    /// indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/). 
     /// Replicas are copies of a primary index with the same records but different settings, synonyms, or rules. If you
     /// want to offer a different ranking or sorting of your search results, you'll use replica indices. All index
     /// operations on a primary index are automatically forwarded to its replicas. To add a replica index, you must
@@ -70,7 +70,7 @@ public struct IndexSettings: Codable, JSONEncodable {
     /// Numeric attributes that can be used as [numerical filters](https://www.algolia.com/doc/guides/managing-results/rules/detecting-intent/how-to/applying-a-custom-filter-for-a-specific-query/#numerical-filters).
     /// Attribute names are case-sensitive.  By default, all numeric attributes are available as numerical filters. For
     /// faster indexing, reduce the number of numeric attributes.  If you want to turn off filtering for all numeric
-    /// attributes, specifiy an attribute that doesn't exist in your index, such as `NO_NUMERIC_FILTERING`.
+    /// attributes, specifiy an attribute that doesn't exist in your index, such as `NO_NUMERIC_FILTERING`. 
     /// **Modifier**  - `equalOnly(\"ATTRIBUTE\")`.   Support only filtering based on equality comparisons `=` and `!=`.
     public var numericAttributesForFiltering: [String]?
     /// Controls which separators are indexed.  Separators are all non-letter characters except spaces and currency
@@ -215,7 +215,7 @@ public struct IndexSettings: Codable, JSONEncodable {
     /// matches.  - `singleWordSynonym`.   Single-word synonyms, such as \"NY/NYC\" are considered exact matches.  -
     /// `multiWordsSynonym`.   Multi-word synonyms, such as \"NY/New York\" are considered exact matches.
     public var alternativesAsExact: [SearchAlternativesAsExact]?
-    /// Advanced search syntax features you want to support.  - `exactPhrase`.   Phrases in quotes must match exactly.
+    /// Advanced search syntax features you want to support.  - `exactPhrase`.   Phrases in quotes must match exactly.  
     /// For example, `sparkly blue \"iPhone case\"` only returns records with the exact string \"iPhone case\".  -
     /// `excludeWords`.   Query words prefixed with a `-` must not occur in a record.   For example, `search -engine`
     /// matches records that contain \"search\" but not \"engine\".  This setting only has an effect if `advancedSyntax`
@@ -255,7 +255,7 @@ public struct IndexSettings: Codable, JSONEncodable {
     /// attribute is determined by the order in the `searchableAttributes` setting.
     public var attributeCriteriaComputedByMinProximity: Bool?
     public var renderingContent: SearchRenderingContent?
-    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/).
+    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/). 
     /// This setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
     public var reRankingApplyFilter: SearchReRankingApplyFilter?
