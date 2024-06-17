@@ -526,7 +526,7 @@ public extension SearchClient {
     /// - returns: String?
     func generateSecuredApiKey(
         parentApiKey: String,
-        with restriction: SecuredAPIKeyRestrictions = SecuredAPIKeyRestrictions()
+        with restriction: SecuredApiKeyRestrictions = SecuredApiKeyRestrictions()
     ) throws -> String? {
         let queryParams = try restriction.toURLEncodedString()
         let hash = queryParams.hmac256(withKey: parentApiKey)
@@ -534,10 +534,10 @@ public extension SearchClient {
     }
 
     /// Get the remaining validity of a secured API key
-    /// - parameter securedAPIKey: The secured API key
+    /// - parameter securedApiKey: The secured API key
     /// - returns: TimeInterval?
-    func getSecuredApiKeyRemainingValidity(for securedAPIKey: String) -> TimeInterval? {
-        guard let rawDecodedAPIKey = String(data: Data(base64Encoded: securedAPIKey) ?? Data(), encoding: .utf8),
+    func getSecuredApiKeyRemainingValidity(for securedApiKey: String) -> TimeInterval? {
+        guard let rawDecodedAPIKey = String(data: Data(base64Encoded: securedApiKey) ?? Data(), encoding: .utf8),
               !rawDecodedAPIKey.isEmpty else {
             return nil
         }

@@ -3,7 +3,7 @@
 #endif
 import Foundation
 
-public extension SecuredAPIKeyRestrictions {
+public extension SecuredApiKeyRestrictions {
     func toURLEncodedString() throws -> String {
         var queryDictionary: [String: Any] = [:]
 

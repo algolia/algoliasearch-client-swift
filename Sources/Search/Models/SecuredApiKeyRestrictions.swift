@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SecuredAPIKeyRestrictions: Codable, JSONEncodable {
+public struct SecuredApiKeyRestrictions: Codable, JSONEncodable {
     public var searchParams: SearchSearchParamsObject?
     /// Filters that apply to every search made with the secured API key. Extra filters added at search time will be
     /// combined with `AND`. For example, if you set `group:admin` as fixed filter on your generated API key, and add
@@ -65,8 +65,8 @@ public struct SecuredAPIKeyRestrictions: Codable, JSONEncodable {
     }
 }
 
-extension SecuredAPIKeyRestrictions: Equatable {
-    public static func ==(lhs: SecuredAPIKeyRestrictions, rhs: SecuredAPIKeyRestrictions) -> Bool {
+extension SecuredApiKeyRestrictions: Equatable {
+    public static func ==(lhs: SecuredApiKeyRestrictions, rhs: SecuredApiKeyRestrictions) -> Bool {
         lhs.searchParams == rhs.searchParams &&
             lhs.filters == rhs.filters &&
             lhs.validUntil == rhs.validUntil &&
@@ -76,7 +76,7 @@ extension SecuredAPIKeyRestrictions: Equatable {
     }
 }
 
-extension SecuredAPIKeyRestrictions: Hashable {
+extension SecuredApiKeyRestrictions: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.searchParams?.hashValue)
         hasher.combine(self.filters?.hashValue)
