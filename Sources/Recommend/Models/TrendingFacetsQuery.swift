@@ -17,7 +17,7 @@ public struct TrendingFacetsQuery: Codable, JSONEncodable {
     public var maxRecommendations: Int?
     public var queryParameters: RecommendSearchParams?
     /// Facet attribute for which to retrieve trending facet values.
-    public var facetName: AnyCodable
+    public var facetName: AnyCodable?
     public var model: TrendingFacetsModel
     public var fallbackParameters: FallbackParams?
 
@@ -26,7 +26,7 @@ public struct TrendingFacetsQuery: Codable, JSONEncodable {
         threshold: Double,
         maxRecommendations: Int? = nil,
         queryParameters: RecommendSearchParams? = nil,
-        facetName: AnyCodable,
+        facetName: AnyCodable?,
         model: TrendingFacetsModel,
         fallbackParameters: FallbackParams? = nil
     ) {

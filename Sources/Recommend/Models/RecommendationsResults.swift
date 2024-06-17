@@ -61,7 +61,7 @@ public struct RecommendationsResults: Codable, JSONEncodable {
     public var serverTimeMS: Int?
     /// Host name of the server that processed the request.
     public var serverUsed: String?
-    /// An object with custom data.  You can store up to 32&nbsp;kB as custom data.
+    /// An object with custom data.  You can store up to 32kB as custom data.
     public var userData: AnyCodable?
     /// Unique identifier for the query. This is used for [click
     /// analytics](https://www.algolia.com/doc/guides/analytics/click-analytics/).

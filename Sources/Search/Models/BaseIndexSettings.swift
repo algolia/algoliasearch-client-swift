@@ -86,7 +86,7 @@ public struct BaseIndexSettings: Codable, JSONEncodable {
     ///  **Modifier**  - `unordered(\"ATTRIBUTE\")`.   Ignore the position of a match within the attribute.  Without
     /// modifier, matches at the beginning of an attribute rank higer than matches at the end.
     public var searchableAttributes: [String]?
-    /// An object with custom data.  You can store up to 32&nbsp;kB as custom data.
+    /// An object with custom data.  You can store up to 32kB as custom data.
     public var userData: AnyCodable?
     /// Characters and their normalized replacements. This overrides Algolia's default [normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/).
     public var customNormalization: [String: [String: String]]?
