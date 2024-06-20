@@ -8,7 +8,7 @@ import Foundation
 
 /// Order of facet values that aren&#39;t explicitly positioned with the &#x60;order&#x60; setting.  -
 /// &#x60;count&#x60;.   Order remaining facet values by decreasing count.   The count is the number of matching records
-/// containing this facet value.  - &#x60;alpha&#x60;.   Sort facet values alphabetically.  - &#x60;hidden&#x60;.  
+/// containing this facet value.  - &#x60;alpha&#x60;.   Sort facet values alphabetically.  - &#x60;hidden&#x60;.
 /// Don&#39;t show facet values that aren&#39;t explicitly positioned.
 public enum SearchSortRemainingBy: String, Codable, CaseIterable {
     case count
