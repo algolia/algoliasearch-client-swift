@@ -20,6 +20,8 @@ public struct Task: Codable, JSONEncodable {
     /// Maximum accepted percentage of failures for a task run to finish successfully.
     public var failureThreshold: Int?
     public var action: ActionType
+    /// Date of the last cursor in RFC 3339 format.
+    public var cursor: String?
     /// Date of creation in RFC 3339 format.
     public var createdAt: String
     /// Date of last update in RFC 3339 format.
@@ -34,6 +36,7 @@ public struct Task: Codable, JSONEncodable {
         enabled: Bool,
         failureThreshold: Int? = nil,
         action: ActionType,
+        cursor: String? = nil,
         createdAt: String,
         updatedAt: String? = nil
     ) {
@@ -45,6 +48,7 @@ public struct Task: Codable, JSONEncodable {
         self.enabled = enabled
         self.failureThreshold = failureThreshold
         self.action = action
+        self.cursor = cursor
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
@@ -58,6 +62,7 @@ public struct Task: Codable, JSONEncodable {
         case enabled
         case failureThreshold
         case action
+        case cursor
         case createdAt
         case updatedAt
     }
@@ -74,6 +79,7 @@ public struct Task: Codable, JSONEncodable {
         try container.encode(self.enabled, forKey: .enabled)
         try container.encodeIfPresent(self.failureThreshold, forKey: .failureThreshold)
         try container.encode(self.action, forKey: .action)
+        try container.encodeIfPresent(self.cursor, forKey: .cursor)
         try container.encode(self.createdAt, forKey: .createdAt)
         try container.encodeIfPresent(self.updatedAt, forKey: .updatedAt)
     }
@@ -89,6 +95,7 @@ extension Task: Equatable {
             lhs.enabled == rhs.enabled &&
             lhs.failureThreshold == rhs.failureThreshold &&
             lhs.action == rhs.action &&
+            lhs.cursor == rhs.cursor &&
             lhs.createdAt == rhs.createdAt &&
             lhs.updatedAt == rhs.updatedAt
     }
@@ -104,6 +111,7 @@ extension Task: Hashable {
         hasher.combine(self.enabled.hashValue)
         hasher.combine(self.failureThreshold?.hashValue)
         hasher.combine(self.action.hashValue)
+        hasher.combine(self.cursor?.hashValue)
         hasher.combine(self.createdAt.hashValue)
         hasher.combine(self.updatedAt?.hashValue)
     }

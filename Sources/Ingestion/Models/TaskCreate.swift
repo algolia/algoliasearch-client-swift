@@ -19,6 +19,8 @@ public struct TaskCreate: Codable, JSONEncodable {
     /// Maximum accepted percentage of failures for a task run to finish successfully.
     public var failureThreshold: Int?
     public var input: TaskInput?
+    /// Date of the last cursor in RFC 3339 format.
+    public var cursor: String?
 
     public init(
         sourceID: String,
@@ -27,7 +29,8 @@ public struct TaskCreate: Codable, JSONEncodable {
         action: ActionType,
         enabled: Bool? = nil,
         failureThreshold: Int? = nil,
-        input: TaskInput? = nil
+        input: TaskInput? = nil,
+        cursor: String? = nil
     ) {
         self.sourceID = sourceID
         self.destinationID = destinationID
@@ -36,6 +39,7 @@ public struct TaskCreate: Codable, JSONEncodable {
         self.enabled = enabled
         self.failureThreshold = failureThreshold
         self.input = input
+        self.cursor = cursor
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -46,6 +50,7 @@ public struct TaskCreate: Codable, JSONEncodable {
         case enabled
         case failureThreshold
         case input
+        case cursor
     }
 
     // Encodable protocol methods
@@ -59,6 +64,7 @@ public struct TaskCreate: Codable, JSONEncodable {
         try container.encodeIfPresent(self.enabled, forKey: .enabled)
         try container.encodeIfPresent(self.failureThreshold, forKey: .failureThreshold)
         try container.encodeIfPresent(self.input, forKey: .input)
+        try container.encodeIfPresent(self.cursor, forKey: .cursor)
     }
 }
 
@@ -70,7 +76,8 @@ extension TaskCreate: Equatable {
             lhs.action == rhs.action &&
             lhs.enabled == rhs.enabled &&
             lhs.failureThreshold == rhs.failureThreshold &&
-            lhs.input == rhs.input
+            lhs.input == rhs.input &&
+            lhs.cursor == rhs.cursor
     }
 }
 
@@ -83,5 +90,6 @@ extension TaskCreate: Hashable {
         hasher.combine(self.enabled?.hashValue)
         hasher.combine(self.failureThreshold?.hashValue)
         hasher.combine(self.input?.hashValue)
+        hasher.combine(self.cursor?.hashValue)
     }
 }
