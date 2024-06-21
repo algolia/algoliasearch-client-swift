@@ -39,7 +39,7 @@ public func createIterable<T>(
 
         if let error, error.validate(response) {
             guard let errorMessage = error.message else {
-                throw AlgoliaError.wait("An error occured")
+                throw AlgoliaError.wait("An error occurred")
             }
 
             throw AlgoliaError.wait(errorMessage(response))
