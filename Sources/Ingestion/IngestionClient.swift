@@ -216,6 +216,51 @@ open class IngestionClient {
         )
     }
 
+    /// - parameter transformationCreate: (body) Request body for creating a transformation.
+    /// - returns: TransformationCreateResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func createTransformation(
+        transformationCreate: TransformationCreate,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> TransformationCreateResponse {
+        let response: Response<TransformationCreateResponse> = try await createTransformationWithHTTPInfo(
+            transformationCreate: transformationCreate,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Creates a new transformation.
+    //
+    //
+    // - parameter transformationCreate: (body) Request body for creating a transformation.
+    // - returns: RequestBuilder<TransformationCreateResponse>
+
+    open func createTransformationWithHTTPInfo(
+        transformationCreate: TransformationCreate,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TransformationCreateResponse> {
+        let resourcePath = "/1/transformations"
+        let body = transformationCreate
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
     /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - returns: AnyCodable
@@ -694,6 +739,64 @@ open class IngestionClient {
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "DELETE",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter transformationID: (path) Unique identifier of a transformation.
+    /// - returns: DeleteResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func deleteTransformation(
+        transformationID: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> DeleteResponse {
+        let response: Response<DeleteResponse> = try await deleteTransformationWithHTTPInfo(
+            transformationID: transformationID,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Deletes a transformation by its ID.
+    //
+    //
+    // - parameter transformationID: (path) Unique identifier of a transformation.
+    // - returns: RequestBuilder<DeleteResponse>
+
+    open func deleteTransformationWithHTTPInfo(
+        transformationID: String,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<DeleteResponse> {
+        guard !transformationID.isEmpty else {
+            throw AlgoliaError.invalidArgument("transformationID", "deleteTransformation")
+        }
+
+        var resourcePath = "/1/transformations/{transformationID}"
+        let transformationIDPreEscape = "\(APIHelper.mapValueToPathItem(transformationID))"
+        let transformationIDPostEscape = transformationIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{transformationID}",
+            with: transformationIDPostEscape,
             options: .literal,
             range: nil
         )
@@ -1776,6 +1879,124 @@ open class IngestionClient {
         )
     }
 
+    /// - parameter transformationID: (path) Unique identifier of a transformation.
+    /// - returns: Transformation
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getTransformation(
+        transformationID: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Transformation {
+        let response: Response<Transformation> = try await getTransformationWithHTTPInfo(
+            transformationID: transformationID,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieves a transformation by its ID.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter transformationID: (path) Unique identifier of a transformation.
+    // - returns: RequestBuilder<Transformation>
+
+    open func getTransformationWithHTTPInfo(
+        transformationID: String,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<Transformation> {
+        guard !transformationID.isEmpty else {
+            throw AlgoliaError.invalidArgument("transformationID", "getTransformation")
+        }
+
+        var resourcePath = "/1/transformations/{transformationID}"
+        let transformationIDPreEscape = "\(APIHelper.mapValueToPathItem(transformationID))"
+        let transformationIDPostEscape = transformationIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{transformationID}",
+            with: transformationIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter sort: (query) Property by which to sort the list. (optional)
+    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    /// - returns: ListTransformationsResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getTransformations(
+        sort: SortKeys? = nil,
+        order: OrderKeys? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> ListTransformationsResponse {
+        let response: Response<ListTransformationsResponse> = try await getTransformationsWithHTTPInfo(
+            sort: sort,
+            order: order,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieves a list of transformations.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter sort: (query) Property by which to sort the list. (optional)
+    //
+    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    // - returns: RequestBuilder<ListTransformationsResponse>
+
+    open func getTransformationsWithHTTPInfo(
+        sort: SortKeys? = nil,
+        order: OrderKeys? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<ListTransformationsResponse> {
+        let resourcePath = "/1/transformations"
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?] = [
+            "sort": sort?.encodeToJSON(),
+            "order": order?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
     /// - parameter taskID: (path) Unique identifier of a task.
     /// - returns: RunResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -2023,6 +2244,54 @@ open class IngestionClient {
         )
     }
 
+    /// - parameter transformationSearch: (body)
+    /// - returns: [Transformation]
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func searchTransformations(
+        transformationSearch: TransformationSearch,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> [Transformation] {
+        let response: Response<[Transformation]> = try await searchTransformationsWithHTTPInfo(
+            transformationSearch: transformationSearch,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Searches for transformations.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter transformationSearch: (body)
+    // - returns: RequestBuilder<[Transformation]>
+
+    open func searchTransformationsWithHTTPInfo(
+        transformationSearch: TransformationSearch,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<[Transformation]> {
+        let resourcePath = "/1/transformations/search"
+        let body = transformationSearch
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
     /// - parameter sourceID: (path) Unique identifier of a source.
     /// - returns: SourceWatchResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -2071,6 +2340,54 @@ open class IngestionClient {
             range: nil
         )
         let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter transformationTry: (body)
+    /// - returns: TransformationTryResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func tryTransformations(
+        transformationTry: TransformationTry,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> TransformationTryResponse {
+        let response: Response<TransformationTryResponse> = try await tryTransformationsWithHTTPInfo(
+            transformationTry: transformationTry,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Searches for transformations.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter transformationTry: (body)
+    // - returns: RequestBuilder<TransformationTryResponse>
+
+    open func tryTransformationsWithHTTPInfo(
+        transformationTry: TransformationTry,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TransformationTryResponse> {
+        let resourcePath = "/1/transformations/try"
+        let body = transformationTry
         let queryParameters: [String: Any?]? = nil
 
         let nillableHeaders: [String: Any?]? = nil
@@ -2344,6 +2661,70 @@ open class IngestionClient {
 
         return try await self.transporter.send(
             method: "PATCH",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter transformationID: (path) Unique identifier of a transformation.
+    /// - parameter transformationCreate: (body)
+    /// - returns: TransformationUpdateResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func updateTransformation(
+        transformationID: String,
+        transformationCreate: TransformationCreate,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> TransformationUpdateResponse {
+        let response: Response<TransformationUpdateResponse> = try await updateTransformationWithHTTPInfo(
+            transformationID: transformationID,
+            transformationCreate: transformationCreate,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Updates a transformation by its ID.
+    //
+    //
+    // - parameter transformationID: (path) Unique identifier of a transformation.
+    //
+    // - parameter transformationCreate: (body)
+    // - returns: RequestBuilder<TransformationUpdateResponse>
+
+    open func updateTransformationWithHTTPInfo(
+        transformationID: String,
+        transformationCreate: TransformationCreate,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TransformationUpdateResponse> {
+        guard !transformationID.isEmpty else {
+            throw AlgoliaError.invalidArgument("transformationID", "updateTransformation")
+        }
+
+        var resourcePath = "/1/transformations/{transformationID}"
+        let transformationIDPreEscape = "\(APIHelper.mapValueToPathItem(transformationID))"
+        let transformationIDPostEscape = transformationIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{transformationID}",
+            with: transformationIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body = transformationCreate
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "PUT",
             path: resourcePath,
             data: body,
             requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
