@@ -11,15 +11,19 @@ public struct RecommendValue: Codable, JSONEncodable {
     /// the top of the list.
     public var order: [String]?
     public var sortRemainingBy: RecommendSortRemainingBy?
+    /// Hide facet values.
+    public var hide: [String]?
 
-    public init(order: [String]? = nil, sortRemainingBy: RecommendSortRemainingBy? = nil) {
+    public init(order: [String]? = nil, sortRemainingBy: RecommendSortRemainingBy? = nil, hide: [String]? = nil) {
         self.order = order
         self.sortRemainingBy = sortRemainingBy
+        self.hide = hide
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case order
         case sortRemainingBy
+        case hide
     }
 
     // Encodable protocol methods
@@ -28,13 +32,15 @@ public struct RecommendValue: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.order, forKey: .order)
         try container.encodeIfPresent(self.sortRemainingBy, forKey: .sortRemainingBy)
+        try container.encodeIfPresent(self.hide, forKey: .hide)
     }
 }
 
 extension RecommendValue: Equatable {
     public static func ==(lhs: RecommendValue, rhs: RecommendValue) -> Bool {
         lhs.order == rhs.order &&
-            lhs.sortRemainingBy == rhs.sortRemainingBy
+            lhs.sortRemainingBy == rhs.sortRemainingBy &&
+            lhs.hide == rhs.hide
     }
 }
 
@@ -42,5 +48,6 @@ extension RecommendValue: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.order?.hashValue)
         hasher.combine(self.sortRemainingBy?.hashValue)
+        hasher.combine(self.hide?.hashValue)
     }
 }
