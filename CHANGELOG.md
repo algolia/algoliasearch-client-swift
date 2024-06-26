@@ -1,3 +1,12 @@
+## [9.0.0-beta.7](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-beta.6...9.0.0-beta.7)
+
+- [e5cfcf0c4](https://github.com/algolia/api-clients-automation/commit/e5cfcf0c4) feat(clients): generate common LICENSE ([#3258](https://github.com/algolia/api-clients-automation/pull/3258)) by [@shortcuts](https://github.com/shortcuts/)
+- [47dd4bb5b](https://github.com/algolia/api-clients-automation/commit/47dd4bb5b) fix(clients): update README snippets and contributing guides ([#3257](https://github.com/algolia/api-clients-automation/pull/3257)) by [@shortcuts](https://github.com/shortcuts/)
+- [7a90e4532](https://github.com/algolia/api-clients-automation/commit/7a90e4532) feat(clients): add `saveObjects`, `deleteObjects` and `partialUpdateObjects` helpers ([#3180](https://github.com/algolia/api-clients-automation/pull/3180)) by [@shortcuts](https://github.com/shortcuts/)
+- [5dbdb91e9](https://github.com/algolia/api-clients-automation/commit/5dbdb91e9) fix(specs): virtual is a fetchedIndex props ([#3255](https://github.com/algolia/api-clients-automation/pull/3255)) by [@shortcuts](https://github.com/shortcuts/)
+- [0a6277937](https://github.com/algolia/api-clients-automation/commit/0a6277937) fix(specs): add virtual index settings and update renderingContent ([#3254](https://github.com/algolia/api-clients-automation/pull/3254)) by [@shortcuts](https://github.com/shortcuts/)
+- [536a348f1](https://github.com/algolia/api-clients-automation/commit/536a348f1) fix(clients): chunked batch helper size property consistency ([#3253](https://github.com/algolia/api-clients-automation/pull/3253)) by [@Fluf22](https://github.com/Fluf22/)
+
 ## [9.0.0-beta.6](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-beta.5...9.0.0-beta.6)
 
 - [07e074806](https://github.com/algolia/api-clients-automation/commit/07e074806) feat(clients): add recommend to algoliasearch ([#2860](https://github.com/algolia/api-clients-automation/pull/2860)) by [@shortcuts](https://github.com/shortcuts/)
