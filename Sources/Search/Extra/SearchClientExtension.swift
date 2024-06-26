@@ -456,6 +456,71 @@ public extension SearchClient {
         return responses
     }
 
+    /// Helper: Saves the given array of objects in the given index. The `chunkedBatch` helper is used under the hood,
+    /// which creates a `batch` requests with at most 1000 objects in it.
+    /// - parameter indexName: The name of the index where to save the objects
+    /// - parameter objects: The new objects
+    /// - parameter requestOptions: The request options
+    /// - returns: [BatchResponse]
+    func saveObjects(
+        indexName: String,
+        objects: [some Encodable],
+        requestOptions: RequestOptions? = nil
+    ) async throws -> [BatchResponse] {
+        try await self.chunkedBatch(
+            indexName: indexName,
+            objects: objects,
+            action: .addObject,
+            waitForTasks: false,
+            batchSize: 1000,
+            requestOptions: requestOptions
+        )
+    }
+
+    /// Helper: Deletes every records for the given objectIDs. The `chunkedBatch` helper is used under the hood, which
+    /// creates a `batch` requests with at most 1000 objectIDs in it.
+    /// - parameter indexName: The name of the index to delete objectIDs from
+    /// - parameter objectIDs: The objectIDs to delete
+    /// - parameter requestOptions: The request options
+    /// - returns: [BatchResponse]
+    func deleteObjects(
+        indexName: String,
+        objectIDs: [String],
+        requestOptions: RequestOptions? = nil
+    ) async throws -> [BatchResponse] {
+        try await self.chunkedBatch(
+            indexName: indexName,
+            objects: objectIDs.map { AnyCodable(["objectID": $0]) },
+            action: .deleteObject,
+            waitForTasks: false,
+            batchSize: 1000,
+            requestOptions: requestOptions
+        )
+    }
+
+    /// Helper: Replaces object content of all the given objects according to their respective `objectID` field. The
+    /// `chunkedBatch` helper is used under the hood, which creates a `batch` requests with at most 1000 objects in it.
+    /// - parameter indexName: The name of the index where to update the objects
+    /// - parameter objects: The objects to update
+    /// - parameter createIfNotExist: To be provided if non-existing objects are passed, otherwise, the call will fail..
+    /// - parameter requestOptions: The request options
+    /// - returns: [BatchResponse]
+    func partialUpdateObjects(
+        indexName: String,
+        objects: [some Encodable],
+        createIfNotExist: Bool = false,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> [BatchResponse] {
+        try await self.chunkedBatch(
+            indexName: indexName,
+            objects: objects,
+            action: createIfNotExist ? .partialUpdateObject : .partialUpdateObjectNoCreate,
+            waitForTasks: false,
+            batchSize: 1000,
+            requestOptions: requestOptions
+        )
+    }
+
     /// Replace all objects in an index
     ///
     /// See https://api-clients-automation.netlify.app/docs/contributing/add-new-api-client#5-helpers for implementation
