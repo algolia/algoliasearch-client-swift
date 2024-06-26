@@ -47,7 +47,7 @@
 - Detailed logging
 - Injectable HTTP client
 
-## Install
+## 💡 Getting Started
 
 ### Swift Package Manager
 
@@ -62,19 +62,10 @@ If you're a framework author and use Swift API Client as a dependency, update yo
 let package = Package(
     // 9.0.0 ..< 10.0.0
     dependencies: [
-        .package(url: "https://github.com/algolia/algoliasearch-client-swift", from: "9.0.0-alpha.0")
+        .package(url: "https://github.com/algolia/algoliasearch-client-swift", from: "9.0.0-beta.6")
     ],
     // ...
 )
-```
-
-Import the Core package and the required client package to your source code files:
-
-```swift
-#if canImport(Core)
-    import Core
-#endif
-import Search // or Ingestion, for example
 ```
 
 ### Cocoapods
@@ -112,85 +103,37 @@ github "algolia/algoliasearch-client-swift" ~> 9.0.0-alpha.0
 
 If this is your first time using Carthage in the project, you'll need to go through some additional steps as explained [over at Carthage](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
 
+You can now import the Algolia API client in your project and play with it.
 
-## 💡 Getting Started
-
-### Initialize the client
-
-To start, you need to initialize the client. To do this, you need your **Application ID** and **API Key**.
-You can find both on [your Algolia account](https://www.algolia.com/api-keys).
+> Import the Core package and the required client package to your source code files:
 
 ```swift
-let client = SearchClient(applicationID: applicationID, apiKey: apiKey)
+#if canImport(Core)
+    import Core
+#endif
+import Search
+
+let client = try SearchClient(appID: "YOUR_APP_ID", apiKey: "YOUR_API_KEY")
+
+// Add a new record to your Algolia index
+let response = try await client.saveObject(
+    indexName: "<YOUR_INDEX_NAME>",
+    body: ["objectID": "id", "test": "val"]
+)
+
+// Poll the task status to know when it has been indexed
+try await client.waitForTask(with: response.taskID, in: "<YOUR_INDEX_NAME>")
+
+// Fetch search results, with typo tolerance
+let response: SearchResponses<Hit> = try await client
+    .search(searchMethodParams: SearchMethodParams(requests: [SearchQuery.searchForHits(SearchForHits(
+        query: "<YOUR_QUERY>",
+        hitsPerPage: 50,
+        indexName: "<YOUR_INDEX_NAME>"
+    ))]))
 ```
 
-### Push data
-
-Without any prior configuration, you can start indexing contacts in the `contacts` index using the following code:
-
-```swift
-struct Contact: Encodable {
-  let firstname: String
-  let lastname: String
-  let followers: Int
-  let company: String
-}
-
-let contacts: [Contact] = [
-  .init(firstname: "Jimmie", lastname: "Barninger", followers: 93, company: "California Paint"),
-  .init(firstname: "Warren", lastname: "Speach", followers: 42, company: "Norwalk Crmc")
-]
-
-for contact in contacts {
-    let saveObjRes = try await client.saveObject(indexName: "contacts", body: contact)
-    _ = try await client.getTask(indexName: "contacts", taskID: saveObjRes.taskID)
-}
-```
-
-### Search
-
-You can now search for contacts by `firstname`, `lastname`, `company`, etc. (even with typos):
-
-```swift
-let searchParams = SearchParamsObject(query: "Jimmy")
-
-let res = try await client.searchSingleIndex(indexName: "contacts", searchParams: .searchParamsObject(searchParams))
-
-dump(res.hits[0])
-```
-
-### Configure
-
-Settings can be customized to tune the search behavior. For example, you can add a custom sort by number of followers to the already great built-in relevance:
-
-```swift
-let indexSettings = IndexSettings(customRanking: ["desc(followers)"])
-try await client.setSettings(indexName: "contacts", indexSettings: indexSettings)
-```
-
-You can also configure the list of attributes you want to index by order of importance (first = most important):
-
-**Note:** Since the engine is designed to suggest results as you type, you'll generally search by prefix.
-In this case the order of attributes is very important to decide which hit is the best:
-
-```swift
-let indexSettings = IndexSettings(searchableAttributes: ["lastname", "firstname", "company"])
-try await client.setSettings(indexName: "contacts", indexSettings: indexSettings)
-```
-
-For full documentation, visit the [Algolia's API Clients Automation documentation](https://api-clients-automation.netlify.app/docs/clients/introduction).
-
-## 📝 Examples
-
-You can find code samples in the [Algolia's API Clients Automation guides](https://api-clients-automation.netlify.app/docs/clients/guides/send-data-to-algolia).
-
-## Contributing to this repository
-
-The Algolia API clients are automatically generated, you can find everything here https://github.com/algolia/api-clients-automation
-
-## 📄 License
-
-Algolia Swift API Client is an open-sourced software licensed under the [MIT license](LICENSE).
+For full documentation, visit the **[Algolia Swift API Client](https://www.algolia.com/doc/api-client/getting-started/install/swift/)**.
 
 ## Notes
 
@@ -212,8 +155,14 @@ You can use the old library with Swift by one of the following ways:
 - `pod 'AlgoliaSearch-Client-Swift', '~> 8.19'`
 - `pod 'AlgoliaSearch-Client-Swift', :git => 'https://github.com/algolia/algoliasearch-client-swift.git', :branch => 'swift-4'`
 
-## Getting Help
+## ❓ Troubleshooting
 
-- **Need help**? Ask a question to the [Algolia Community](https://discourse.algolia.com/) or on [Stack Overflow](http://stackoverflow.com/questions/tagged/algolia).
-- **Encountering an issue?** Before reaching out to support, we recommend heading to our [FAQ](https://www.algolia.com/doc/api-client/troubleshooting/faq/swift/) where you will find answers for the most common issues and gotchas with the client.
-- **Found a bug?** You can open a [GitHub issue](https://github.com/algolia/algoliasearch-client-swift/issues).
+Encountering an issue? Before reaching out to support, we recommend heading to our [FAQ](https://www.algolia.com/doc/api-client/troubleshooting/faq/swift/) where you will find answers for the most common issues and gotchas with the client. You can also open [a GitHub issue](https://github.com/algolia/api-clients-automation/issues/new?assignees=&labels=&projects=&template=Bug_report.md)
+
+## Contributing
+
+This repository hosts the code of the generated Algolia API client for Swift, if you'd like to contribute, head over to the [main repository](https://github.com/algolia/api-clients-automation). You can also find contributing guides on [our documentation website](https://api-clients-automation.netlify.app/docs/contributing/introduction).
+
+## 📄 License
+
+The Algolia Swift API Client is an open-sourced software licensed under the [MIT license](LICENSE).
