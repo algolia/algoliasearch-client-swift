@@ -29,6 +29,8 @@ public struct FetchedIndex: Codable, JSONEncodable {
     public var primary: String?
     /// Only present if the index is a primary index with replicas. Contains the names of all linked replicas.
     public var replicas: [String]?
+    /// Only present if the index is a [virtual replica](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/how-to/sort-an-index-alphabetically/#virtual-replicas).
+    public var virtual: Bool?
 
     public init(
         name: String,
@@ -41,7 +43,8 @@ public struct FetchedIndex: Codable, JSONEncodable {
         numberOfPendingTasks: Int,
         pendingTask: Bool,
         primary: String? = nil,
-        replicas: [String]? = nil
+        replicas: [String]? = nil,
+        virtual: Bool? = nil
     ) {
         self.name = name
         self.createdAt = createdAt
@@ -54,6 +57,7 @@ public struct FetchedIndex: Codable, JSONEncodable {
         self.pendingTask = pendingTask
         self.primary = primary
         self.replicas = replicas
+        self.virtual = virtual
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -68,6 +72,7 @@ public struct FetchedIndex: Codable, JSONEncodable {
         case pendingTask
         case primary
         case replicas
+        case virtual
     }
 
     // Encodable protocol methods
@@ -85,6 +90,7 @@ public struct FetchedIndex: Codable, JSONEncodable {
         try container.encode(self.pendingTask, forKey: .pendingTask)
         try container.encodeIfPresent(self.primary, forKey: .primary)
         try container.encodeIfPresent(self.replicas, forKey: .replicas)
+        try container.encodeIfPresent(self.virtual, forKey: .virtual)
     }
 }
 
@@ -100,7 +106,8 @@ extension FetchedIndex: Equatable {
             lhs.numberOfPendingTasks == rhs.numberOfPendingTasks &&
             lhs.pendingTask == rhs.pendingTask &&
             lhs.primary == rhs.primary &&
-            lhs.replicas == rhs.replicas
+            lhs.replicas == rhs.replicas &&
+            lhs.virtual == rhs.virtual
     }
 }
 
@@ -117,5 +124,6 @@ extension FetchedIndex: Hashable {
         hasher.combine(self.pendingTask.hashValue)
         hasher.combine(self.primary?.hashValue)
         hasher.combine(self.replicas?.hashValue)
+        hasher.combine(self.virtual?.hashValue)
     }
 }

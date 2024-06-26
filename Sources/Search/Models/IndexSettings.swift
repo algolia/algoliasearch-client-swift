@@ -27,8 +27,6 @@ public struct IndexSettings: Codable, JSONEncodable {
     /// are optimized for [Relevant
     /// sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/relevant-sort/).
     public var replicas: [String]?
-    /// Only present if the index is a [virtual replica](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/how-to/sort-an-index-alphabetically/#virtual-replicas).
-    public var virtual: Bool?
     /// Maximum number of search results that can be obtained through pagination.  Higher pagination limits might slow
     /// down your search. For pagination limits above 1,000, the sorting of results beyond the 1,000th hit can't be
     /// guaranteed.
@@ -265,7 +263,6 @@ public struct IndexSettings: Codable, JSONEncodable {
     public init(
         attributesForFaceting: [String]? = nil,
         replicas: [String]? = nil,
-        virtual: Bool? = nil,
         paginationLimitedTo: Int? = nil,
         unretrievableAttributes: [String]? = nil,
         disableTypoToleranceOnWords: [String]? = nil,
@@ -328,7 +325,6 @@ public struct IndexSettings: Codable, JSONEncodable {
     ) {
         self.attributesForFaceting = attributesForFaceting
         self.replicas = replicas
-        self.virtual = virtual
         self.paginationLimitedTo = paginationLimitedTo
         self.unretrievableAttributes = unretrievableAttributes
         self.disableTypoToleranceOnWords = disableTypoToleranceOnWords
@@ -393,7 +389,6 @@ public struct IndexSettings: Codable, JSONEncodable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case attributesForFaceting
         case replicas
-        case virtual
         case paginationLimitedTo
         case unretrievableAttributes
         case disableTypoToleranceOnWords
@@ -461,7 +456,6 @@ public struct IndexSettings: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.attributesForFaceting, forKey: .attributesForFaceting)
         try container.encodeIfPresent(self.replicas, forKey: .replicas)
-        try container.encodeIfPresent(self.virtual, forKey: .virtual)
         try container.encodeIfPresent(self.paginationLimitedTo, forKey: .paginationLimitedTo)
         try container.encodeIfPresent(self.unretrievableAttributes, forKey: .unretrievableAttributes)
         try container.encodeIfPresent(self.disableTypoToleranceOnWords, forKey: .disableTypoToleranceOnWords)
@@ -534,7 +528,6 @@ extension IndexSettings: Equatable {
     public static func ==(lhs: IndexSettings, rhs: IndexSettings) -> Bool {
         lhs.attributesForFaceting == rhs.attributesForFaceting &&
             lhs.replicas == rhs.replicas &&
-            lhs.virtual == rhs.virtual &&
             lhs.paginationLimitedTo == rhs.paginationLimitedTo &&
             lhs.unretrievableAttributes == rhs.unretrievableAttributes &&
             lhs.disableTypoToleranceOnWords == rhs.disableTypoToleranceOnWords &&
@@ -601,7 +594,6 @@ extension IndexSettings: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.attributesForFaceting?.hashValue)
         hasher.combine(self.replicas?.hashValue)
-        hasher.combine(self.virtual?.hashValue)
         hasher.combine(self.paginationLimitedTo?.hashValue)
         hasher.combine(self.unretrievableAttributes?.hashValue)
         hasher.combine(self.disableTypoToleranceOnWords?.hashValue)
