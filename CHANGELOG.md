@@ -1,3 +1,8 @@
+## [9.0.0-beta.8](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-beta.7...9.0.0-beta.8)
+
+- [197d1989a](https://github.com/algolia/api-clients-automation/commit/197d1989a) feat(swift): generate tests for helpers ([#3248](https://github.com/algolia/api-clients-automation/pull/3248)) by [@millotp](https://github.com/millotp/)
+- [8e98407c1](https://github.com/algolia/api-clients-automation/commit/8e98407c1) fix(clients): update ingestion transformations description and fix taggroups ([#3265](https://github.com/algolia/api-clients-automation/pull/3265)) by [@shortcuts](https://github.com/shortcuts/)
+
 ## [9.0.0-beta.7](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-beta.6...9.0.0-beta.7)
 
 - [e5cfcf0c4](https://github.com/algolia/api-clients-automation/commit/e5cfcf0c4) feat(clients): generate common LICENSE ([#3258](https://github.com/algolia/api-clients-automation/pull/3258)) by [@shortcuts](https://github.com/shortcuts/)
