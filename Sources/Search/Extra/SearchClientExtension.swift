@@ -525,18 +525,19 @@ public extension SearchClient {
     ///
     /// See https://api-clients-automation.netlify.app/docs/contributing/add-new-api-client#5-helpers for implementation
     /// details.
-    /// - parameter objects: The new objects
     /// - parameter indexName: The name of the index where to replace the objects
+    /// - parameter objects: The new objects
+    /// - parameter batchSize: The maximum number of objects to include in a batch
     /// - parameter requestOptions: The request options
     /// - returns: ReplaceAllObjectsResponse
     @discardableResult
     func replaceAllObjects(
-        with objects: [some Encodable],
-        in indexName: String,
+        indexName: String,
+        objects: [some Encodable],
         batchSize: Int = 1000,
         requestOptions: RequestOptions? = nil
     ) async throws -> ReplaceAllObjectsResponse {
-        let tmpIndexName = try "\(indexName)_tmp_\(randomString())"
+        let tmpIndexName = try "\(indexName)_tmp_\(Int.random(in: 1_000_000 ..< 10_000_000))"
 
         var copyOperationResponse = try await operationIndex(
             indexName: indexName,

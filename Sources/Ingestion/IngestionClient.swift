@@ -261,7 +261,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - returns: AnyCodable
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -286,7 +286,7 @@ open class IngestionClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     // - returns: RequestBuilder<AnyCodable>
@@ -323,7 +323,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - returns: AnyCodable
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -348,7 +348,7 @@ open class IngestionClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     // - returns: RequestBuilder<AnyCodable>
@@ -385,7 +385,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - parameter body: (body) Parameters to send with the custom request. (optional)
     /// - returns: AnyCodable
@@ -413,7 +413,7 @@ open class IngestionClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     //
@@ -453,7 +453,7 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - parameter body: (body) Parameters to send with the custom request. (optional)
     /// - returns: AnyCodable
@@ -481,7 +481,7 @@ open class IngestionClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     //
@@ -1634,8 +1634,8 @@ open class IngestionClient {
     /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
     /// - parameter page: (query) Page number of the paginated API response. (optional)
     /// - parameter type: (query) Source type. Some sources require authentication. (optional)
-    /// - parameter authenticationID: (query) Authentication IDs of the sources to retrieve. &#39;none&#39; returns
-    /// sources that doesn&#39;t have an authentication resource.  (optional)
+    /// - parameter authenticationID: (query) Authentication IDs of the sources to retrieve. 'none' returns sources that
+    /// doesn't have an authentication resource.  (optional)
     /// - parameter sort: (query) Property by which to sort the list of sources. (optional)
     /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     /// - returns: ListSourcesResponse
@@ -1678,8 +1678,8 @@ open class IngestionClient {
     //
     // - parameter type: (query) Source type. Some sources require authentication. (optional)
     //
-    // - parameter authenticationID: (query) Authentication IDs of the sources to retrieve. &#39;none&#39; returns
-    // sources that doesn&#39;t have an authentication resource.  (optional)
+    // - parameter authenticationID: (query) Authentication IDs of the sources to retrieve. 'none' returns sources that
+    // doesn't have an authentication resource.  (optional)
     //
     // - parameter sort: (query) Property by which to sort the list of sources. (optional)
     //
@@ -1776,7 +1776,7 @@ open class IngestionClient {
     /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
     /// - parameter page: (query) Page number of the paginated API response. (optional)
     /// - parameter action: (query) Actions for filtering the list of tasks. (optional)
-    /// - parameter enabled: (query) Whether to filter the list of tasks by the &#x60;enabled&#x60; status. (optional)
+    /// - parameter enabled: (query) Whether to filter the list of tasks by the `enabled` status. (optional)
     /// - parameter sourceID: (query) Source IDs for filtering the list of tasks. (optional)
     /// - parameter destinationID: (query) Destination IDs for filtering the list of tasks. (optional)
     /// - parameter triggerType: (query) Type of task trigger for filtering the list of tasks. (optional)
@@ -1828,7 +1828,7 @@ open class IngestionClient {
     //
     // - parameter action: (query) Actions for filtering the list of tasks. (optional)
     //
-    // - parameter enabled: (query) Whether to filter the list of tasks by the &#x60;enabled&#x60; status. (optional)
+    // - parameter enabled: (query) Whether to filter the list of tasks by the `enabled` status. (optional)
     //
     // - parameter sourceID: (query) Source IDs for filtering the list of tasks. (optional)
     //

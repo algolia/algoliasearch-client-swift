@@ -701,7 +701,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - returns: AnyCodable
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -726,7 +726,7 @@ open class SearchClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     // - returns: RequestBuilder<AnyCodable>
@@ -763,7 +763,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - returns: AnyCodable
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -788,7 +788,7 @@ open class SearchClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     // - returns: RequestBuilder<AnyCodable>
@@ -825,7 +825,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - parameter body: (body) Parameters to send with the custom request. (optional)
     /// - returns: AnyCodable
@@ -853,7 +853,7 @@ open class SearchClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     //
@@ -893,7 +893,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - parameter body: (body) Parameters to send with the custom request. (optional)
     /// - returns: AnyCodable
@@ -921,7 +921,7 @@ open class SearchClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     //
@@ -1720,9 +1720,9 @@ open class SearchClient {
     /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter objectID: (path) Unique record identifier.
     /// - parameter attributesToRetrieve: (query) Attributes to include with the records in the response. This is useful
-    /// to reduce the size of the API response. By default, all retrievable attributes are returned. 
-    /// &#x60;objectID&#x60; is always retrieved.  Attributes included in &#x60;unretrievableAttributes&#x60; won&#39;t
-    /// be retrieved unless the request is authenticated with the admin API key.  (optional)
+    /// to reduce the size of the API response. By default, all retrievable attributes are returned.  `objectID` is
+    /// always retrieved.  Attributes included in `unretrievableAttributes` won't be retrieved unless the request is
+    /// authenticated with the admin API key.  (optional)
     /// - returns: [String: String]
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getObject(
@@ -1755,11 +1755,10 @@ open class SearchClient {
     // - parameter objectID: (path) Unique record identifier.
     //
     // - parameter attributesToRetrieve: (query) Attributes to include with the records in the response. This is useful
-    // to reduce the size of the API response. By default, all retrievable attributes are returned. 
-    // &#x60;objectID&#x60;
-    // is always retrieved.  Attributes included in &#x60;unretrievableAttributes&#x60; won&#39;t be retrieved unless
-    // the
-    // request is authenticated with the admin API key.  (optional)
+    // to reduce the size of the API response. By default, all retrievable attributes are returned.  `objectID` is
+    // always
+    // retrieved.  Attributes included in `unretrievableAttributes` won't be retrieved unless the request is
+    // authenticated with the admin API key.  (optional)
     // - returns: RequestBuilder<[String: String]>
 
     open func getObjectWithHTTPInfo(
@@ -2272,7 +2271,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter getClusters: (query) Whether to include the cluster&#39;s pending mapping state in the response.
+    /// - parameter getClusters: (query) Whether to include the cluster's pending mapping state in the response.
     /// (optional)
     /// - returns: HasPendingMappingsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -2297,7 +2296,7 @@ open class SearchClient {
     // Required API Key ACLs:
     //  - admin
     //
-    // - parameter getClusters: (query) Whether to include the cluster&#39;s pending mapping state in the response.
+    // - parameter getClusters: (query) Whether to include the cluster's pending mapping state in the response.
     // (optional)
     // - returns: RequestBuilder<HasPendingMappingsResponse>
 
@@ -2394,8 +2393,8 @@ open class SearchClient {
         )
     }
 
-    /// - parameter page: (query) Requested page of the API response. If &#x60;null&#x60;, the API response is not
-    /// paginated.  (optional)
+    /// - parameter page: (query) Requested page of the API response. If `null`, the API response is not paginated. 
+    /// (optional)
     /// - parameter hitsPerPage: (query) Number of hits per page. (optional, default to 100)
     /// - returns: ListIndicesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -2422,8 +2421,8 @@ open class SearchClient {
     // Required API Key ACLs:
     //  - listIndexes
     //
-    // - parameter page: (query) Requested page of the API response. If &#x60;null&#x60;, the API response is not
-    // paginated.  (optional)
+    // - parameter page: (query) Requested page of the API response. If `null`, the API response is not paginated. 
+    // (optional)
     //
     // - parameter hitsPerPage: (query) Number of hits per page. (optional, default to 100)
     // - returns: RequestBuilder<ListIndicesResponse>
@@ -2452,8 +2451,8 @@ open class SearchClient {
         )
     }
 
-    /// - parameter page: (query) Requested page of the API response. If &#x60;null&#x60;, the API response is not
-    /// paginated.  (optional)
+    /// - parameter page: (query) Requested page of the API response. If `null`, the API response is not paginated. 
+    /// (optional)
     /// - parameter hitsPerPage: (query) Number of hits per page. (optional, default to 100)
     /// - returns: ListUserIdsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -2480,8 +2479,8 @@ open class SearchClient {
     // Required API Key ACLs:
     //  - admin
     //
-    // - parameter page: (query) Requested page of the API response. If &#x60;null&#x60;, the API response is not
-    // paginated.  (optional)
+    // - parameter page: (query) Requested page of the API response. If `null`, the API response is not paginated. 
+    // (optional)
     //
     // - parameter hitsPerPage: (query) Number of hits per page. (optional, default to 100)
     // - returns: RequestBuilder<ListUserIdsResponse>
@@ -2637,8 +2636,8 @@ open class SearchClient {
     /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter objectID: (path) Unique record identifier.
     /// - parameter attributesToUpdate: (body) Attributes with their values.
-    /// - parameter createIfNotExists: (query) Whether to create a new record if it doesn&#39;t exist. (optional,
-    /// default to true)
+    /// - parameter createIfNotExists: (query) Whether to create a new record if it doesn't exist. (optional, default to
+    /// true)
     /// - returns: UpdatedAtWithObjectIdResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func partialUpdateObject(
@@ -2676,8 +2675,8 @@ open class SearchClient {
     //
     // - parameter attributesToUpdate: (body) Attributes with their values.
     //
-    // - parameter createIfNotExists: (query) Whether to create a new record if it doesn&#39;t exist. (optional, default
-    // to true)
+    // - parameter createIfNotExists: (query) Whether to create a new record if it doesn't exist. (optional, default to
+    // true)
     // - returns: RequestBuilder<UpdatedAtWithObjectIdResponse>
 
     open func partialUpdateObjectWithHTTPInfo(
@@ -3432,7 +3431,7 @@ open class SearchClient {
 
     /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter facetName: (path) Facet attribute in which to search for values.  This attribute must be included in
-    /// the &#x60;attributesForFaceting&#x60; index setting with the &#x60;searchable()&#x60; modifier.
+    /// the `attributesForFaceting` index setting with the `searchable()` modifier.
     /// - parameter searchForFacetValuesRequest: (body)  (optional)
     /// - returns: SearchForFacetValuesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -3465,7 +3464,7 @@ open class SearchClient {
     // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter facetName: (path) Facet attribute in which to search for values.  This attribute must be included in
-    // the &#x60;attributesForFaceting&#x60; index setting with the &#x60;searchable()&#x60; modifier.
+    // the `attributesForFaceting` index setting with the `searchable()` modifier.
     //
     // - parameter searchForFacetValuesRequest: (body)  (optional)
     // - returns: RequestBuilder<SearchForFacetValuesResponse>
@@ -3654,7 +3653,7 @@ open class SearchClient {
     }
 
     /// - parameter indexName: (path) Name of the index on which to perform the operation.
-    /// - parameter searchSynonymsParams: (body) Body of the &#x60;searchSynonyms&#x60; operation. (optional)
+    /// - parameter searchSynonymsParams: (body) Body of the `searchSynonyms` operation. (optional)
     /// - returns: SearchSynonymsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func searchSynonyms(
@@ -3681,7 +3680,7 @@ open class SearchClient {
     //
     // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
-    // - parameter searchSynonymsParams: (body) Body of the &#x60;searchSynonyms&#x60; operation. (optional)
+    // - parameter searchSynonymsParams: (body) Body of the `searchSynonyms` operation. (optional)
     // - returns: RequestBuilder<SearchSynonymsResponse>
 
     open func searchSynonymsWithHTTPInfo(

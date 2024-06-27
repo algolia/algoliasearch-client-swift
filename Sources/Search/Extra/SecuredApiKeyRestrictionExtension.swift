@@ -36,6 +36,7 @@ public extension SecuredApiKeyRestrictions {
         }
 
         return (APIHelper.mapValuesToQueryItems(queryDictionary) ?? [])
+            .sorted { $0.name < $1.name }
             .map { "\($0.name)=\($0.value ?? "null")" }
             .joined(separator: "&")
     }

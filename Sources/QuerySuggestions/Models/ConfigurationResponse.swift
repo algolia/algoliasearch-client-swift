@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// API response for retrieving Query Suggestions configurations.
-public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable {
+public struct ConfigurationResponse: Codable, JSONEncodable {
     /// Algolia application ID to which this Query Suggestions configuration belongs.
     public var appID: String
     /// Name of the Query Suggestions index (case-sensitive).
@@ -63,11 +63,8 @@ public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable {
     }
 }
 
-extension QuerySuggestionsConfigurationResponse: Equatable {
-    public static func ==(
-        lhs: QuerySuggestionsConfigurationResponse,
-        rhs: QuerySuggestionsConfigurationResponse
-    ) -> Bool {
+extension ConfigurationResponse: Equatable {
+    public static func ==(lhs: ConfigurationResponse, rhs: ConfigurationResponse) -> Bool {
         lhs.appID == rhs.appID &&
             lhs.indexName == rhs.indexName &&
             lhs.sourceIndices == rhs.sourceIndices &&
@@ -78,7 +75,7 @@ extension QuerySuggestionsConfigurationResponse: Equatable {
     }
 }
 
-extension QuerySuggestionsConfigurationResponse: Hashable {
+extension ConfigurationResponse: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.appID.hashValue)
         hasher.combine(self.indexName.hashValue)

@@ -27,15 +27,15 @@ open class QuerySuggestionsClient {
         try self.init(configuration: QuerySuggestionsClientConfiguration(appID: appID, apiKey: apiKey, region: region))
     }
 
-    /// - parameter querySuggestionsConfigurationWithIndex: (body)
+    /// - parameter configurationWithIndex: (body)
     /// - returns: BaseResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func createConfig(
-        querySuggestionsConfigurationWithIndex: QuerySuggestionsConfigurationWithIndex,
+        configurationWithIndex: ConfigurationWithIndex,
         requestOptions: RequestOptions? = nil
     ) async throws -> BaseResponse {
         let response: Response<BaseResponse> = try await createConfigWithHTTPInfo(
-            querySuggestionsConfigurationWithIndex: querySuggestionsConfigurationWithIndex,
+            configurationWithIndex: configurationWithIndex,
             requestOptions: requestOptions
         )
 
@@ -50,15 +50,15 @@ open class QuerySuggestionsClient {
     // Required API Key ACLs:
     //  - editSettings
     //
-    // - parameter querySuggestionsConfigurationWithIndex: (body)
+    // - parameter configurationWithIndex: (body)
     // - returns: RequestBuilder<BaseResponse>
 
     open func createConfigWithHTTPInfo(
-        querySuggestionsConfigurationWithIndex: QuerySuggestionsConfigurationWithIndex,
+        configurationWithIndex: ConfigurationWithIndex,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<BaseResponse> {
         let resourcePath = "/1/configs"
-        let body = querySuggestionsConfigurationWithIndex
+        let body = configurationWithIndex
         let queryParameters: [String: Any?]? = nil
 
         let nillableHeaders: [String: Any?]? = nil
@@ -73,7 +73,7 @@ open class QuerySuggestionsClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - returns: AnyCodable
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -98,7 +98,7 @@ open class QuerySuggestionsClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     // - returns: RequestBuilder<AnyCodable>
@@ -135,7 +135,7 @@ open class QuerySuggestionsClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - returns: AnyCodable
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -160,7 +160,7 @@ open class QuerySuggestionsClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     // - returns: RequestBuilder<AnyCodable>
@@ -197,7 +197,7 @@ open class QuerySuggestionsClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - parameter body: (body) Parameters to send with the custom request. (optional)
     /// - returns: AnyCodable
@@ -225,7 +225,7 @@ open class QuerySuggestionsClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     //
@@ -265,7 +265,7 @@ open class QuerySuggestionsClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - parameter body: (body) Parameters to send with the custom request. (optional)
     /// - returns: AnyCodable
@@ -293,7 +293,7 @@ open class QuerySuggestionsClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     //
@@ -391,11 +391,10 @@ open class QuerySuggestionsClient {
         )
     }
 
-    /// - returns: [QuerySuggestionsConfigurationResponse]
+    /// - returns: [ConfigurationResponse]
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getAllConfigs(requestOptions: RequestOptions? = nil) async throws
-    -> [QuerySuggestionsConfigurationResponse] {
-        let response: Response<[QuerySuggestionsConfigurationResponse]> =
+    open func getAllConfigs(requestOptions: RequestOptions? = nil) async throws -> [ConfigurationResponse] {
+        let response: Response<[ConfigurationResponse]> =
             try await getAllConfigsWithHTTPInfo(requestOptions: requestOptions)
 
         guard let body = response.body else {
@@ -408,10 +407,10 @@ open class QuerySuggestionsClient {
     // Retrieves all Query Suggestions configurations of your Algolia application.
     // Required API Key ACLs:
     //  - settings
-    //     - returns: RequestBuilder<[QuerySuggestionsConfigurationResponse]>
+    //     - returns: RequestBuilder<[ConfigurationResponse]>
 
     open func getAllConfigsWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil) async throws
-    -> Response<[QuerySuggestionsConfigurationResponse]> {
+    -> Response<[ConfigurationResponse]> {
         let resourcePath = "/1/configs"
         let body: AnyCodable? = nil
         let queryParameters: [String: Any?]? = nil
@@ -429,13 +428,13 @@ open class QuerySuggestionsClient {
     }
 
     /// - parameter indexName: (path) Query Suggestions index name.
-    /// - returns: QuerySuggestionsConfigurationResponse
+    /// - returns: ConfigurationResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getConfig(
         indexName: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> QuerySuggestionsConfigurationResponse {
-        let response: Response<QuerySuggestionsConfigurationResponse> = try await getConfigWithHTTPInfo(
+    ) async throws -> ConfigurationResponse {
+        let response: Response<ConfigurationResponse> = try await getConfigWithHTTPInfo(
             indexName: indexName,
             requestOptions: requestOptions
         )
@@ -452,13 +451,12 @@ open class QuerySuggestionsClient {
     //  - settings
     //
     // - parameter indexName: (path) Query Suggestions index name.
-    // - returns: RequestBuilder<QuerySuggestionsConfigurationResponse>
+    // - returns: RequestBuilder<ConfigurationResponse>
 
     open func getConfigWithHTTPInfo(
         indexName: String,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws
-    -> Response<QuerySuggestionsConfigurationResponse> {
+    ) async throws -> Response<ConfigurationResponse> {
         guard !indexName.isEmpty else {
             throw AlgoliaError.invalidArgument("indexName", "getConfig")
         }

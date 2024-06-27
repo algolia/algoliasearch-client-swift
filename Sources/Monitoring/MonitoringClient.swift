@@ -27,7 +27,7 @@ open class MonitoringClient {
         try self.init(configuration: MonitoringClientConfiguration(appID: appID, apiKey: apiKey))
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - returns: AnyCodable
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -52,7 +52,7 @@ open class MonitoringClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     // - returns: RequestBuilder<AnyCodable>
@@ -89,7 +89,7 @@ open class MonitoringClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - returns: AnyCodable
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -114,7 +114,7 @@ open class MonitoringClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     // - returns: RequestBuilder<AnyCodable>
@@ -151,7 +151,7 @@ open class MonitoringClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - parameter body: (body) Parameters to send with the custom request. (optional)
     /// - returns: AnyCodable
@@ -179,7 +179,7 @@ open class MonitoringClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     //
@@ -219,7 +219,7 @@ open class MonitoringClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - parameter body: (body) Parameters to send with the custom request. (optional)
     /// - returns: AnyCodable
@@ -247,7 +247,7 @@ open class MonitoringClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     //
@@ -548,12 +548,12 @@ open class MonitoringClient {
     }
 
     /// - parameter metric: (path) Metric to report.  For more information about the individual metrics, see the
-    /// description of the API response. To include all metrics, use &#x60;*&#x60;.
-    /// - parameter period: (path) Period over which to aggregate the metrics:  - &#x60;minute&#x60;. Aggregate the last
-    /// minute. 1 data point per 10 seconds. - &#x60;hour&#x60;. Aggregate the last hour. 1 data point per minute. -
-    /// &#x60;day&#x60;. Aggregate the last day. 1 data point per 10 minutes. - &#x60;week&#x60;. Aggregate the last
-    /// week.
-    /// 1 data point per hour. - &#x60;month&#x60;. Aggregate the last month. 1 data point per day.
+    /// description of the API response. To include all metrics, use `*`.
+    /// - parameter period: (path) Period over which to aggregate the metrics:  - `minute`. Aggregate the last minute. 1
+    /// data point per 10 seconds. - `hour`. Aggregate the last hour. 1 data point per minute. - `day`. Aggregate the
+    /// last
+    /// day. 1 data point per 10 minutes. - `week`. Aggregate the last week. 1 data point per hour. - `month`. Aggregate
+    /// the last month. 1 data point per day.
     /// - returns: InfrastructureResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getMetrics(
@@ -581,13 +581,13 @@ open class MonitoringClient {
     //
     //
     // - parameter metric: (path) Metric to report.  For more information about the individual metrics, see the
-    // description of the API response. To include all metrics, use &#x60;*&#x60;.
+    // description of the API response. To include all metrics, use `*`.
     //
-    // - parameter period: (path) Period over which to aggregate the metrics:  - &#x60;minute&#x60;. Aggregate the last
-    // minute. 1 data point per 10 seconds. - &#x60;hour&#x60;. Aggregate the last hour. 1 data point per minute. -
-    // &#x60;day&#x60;. Aggregate the last day. 1 data point per 10 minutes. - &#x60;week&#x60;. Aggregate the last
-    // week.
-    // 1 data point per hour. - &#x60;month&#x60;. Aggregate the last month. 1 data point per day.
+    // - parameter period: (path) Period over which to aggregate the metrics:  - `minute`. Aggregate the last minute. 1
+    // data point per 10 seconds. - `hour`. Aggregate the last hour. 1 data point per minute. - `day`. Aggregate the
+    // last
+    // day. 1 data point per 10 minutes. - `week`. Aggregate the last week. 1 data point per hour. - `month`. Aggregate
+    // the last month. 1 data point per day.
     // - returns: RequestBuilder<InfrastructureResponse>
 
     open func getMetricsWithHTTPInfo(

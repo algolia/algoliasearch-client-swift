@@ -27,7 +27,7 @@ open class AnalyticsClient {
         try self.init(configuration: AnalyticsClientConfiguration(appID: appID, apiKey: apiKey, region: region))
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - returns: AnyCodable
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -52,7 +52,7 @@ open class AnalyticsClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     // - returns: RequestBuilder<AnyCodable>
@@ -89,7 +89,7 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - returns: AnyCodable
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -114,7 +114,7 @@ open class AnalyticsClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     // - returns: RequestBuilder<AnyCodable>
@@ -151,7 +151,7 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - parameter body: (body) Parameters to send with the custom request. (optional)
     /// - returns: AnyCodable
@@ -179,7 +179,7 @@ open class AnalyticsClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     //
@@ -219,7 +219,7 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - parameter body: (body) Parameters to send with the custom request. (optional)
     /// - returns: AnyCodable
@@ -247,7 +247,7 @@ open class AnalyticsClient {
     // This method allow you to send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
+    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     //
@@ -288,10 +288,10 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetAddToCartRateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -324,12 +324,12 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetAddToCartRateResponse>
 
@@ -366,10 +366,10 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetAverageClickPositionResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -404,12 +404,12 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetAverageClickPositionResponse>
 
@@ -446,10 +446,10 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetClickPositionsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -482,12 +482,12 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetClickPositionsResponse>
 
@@ -524,10 +524,10 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetClickThroughRateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -560,12 +560,12 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetClickThroughRateResponse>
 
@@ -602,10 +602,10 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetConversionRateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -638,12 +638,12 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetConversionRateResponse>
 
@@ -680,10 +680,10 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetNoClickRateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -716,12 +716,12 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetNoClickRateResponse>
 
@@ -758,10 +758,10 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetNoResultsRateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -794,12 +794,12 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetNoResultsRateResponse>
 
@@ -836,10 +836,10 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetPurchaseRateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -872,12 +872,12 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetPurchaseRateResponse>
 
@@ -914,10 +914,10 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetRevenue
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -951,12 +951,12 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetRevenue>
 
@@ -993,10 +993,10 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetSearchesCountResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1029,12 +1029,12 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetSearchesCountResponse>
 
@@ -1071,12 +1071,12 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetSearchesNoClicksResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1112,16 +1112,16 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
     // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
     // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetSearchesNoClicksResponse>
 
@@ -1162,12 +1162,12 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetSearchesNoResultsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1203,16 +1203,16 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
     // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
     // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetSearchesNoResultsResponse>
 
@@ -1303,12 +1303,12 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetTopCountriesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1344,16 +1344,16 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
     // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
     // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetTopCountriesResponse>
 
@@ -1395,12 +1395,12 @@ open class AnalyticsClient {
 
     /// - parameter index: (query) Index name.
     /// - parameter search: (query) Search query. (optional)
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetTopFilterAttributesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1441,16 +1441,16 @@ open class AnalyticsClient {
     //
     // - parameter search: (query) Search query. (optional)
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
     // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
     // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetTopFilterAttributesResponse>
 
@@ -1495,12 +1495,12 @@ open class AnalyticsClient {
     /// - parameter attribute: (path) Attribute name.
     /// - parameter index: (query) Index name.
     /// - parameter search: (query) Search query. (optional)
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetTopFilterForAttributeResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1545,16 +1545,16 @@ open class AnalyticsClient {
     //
     // - parameter search: (query) Search query. (optional)
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
     // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
     // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetTopFilterForAttributeResponse>
 
@@ -1612,12 +1612,12 @@ open class AnalyticsClient {
 
     /// - parameter index: (query) Index name.
     /// - parameter search: (query) Search query. (optional)
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetTopFiltersNoResultsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1659,16 +1659,16 @@ open class AnalyticsClient {
     //
     // - parameter search: (query) Search query. (optional)
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
     // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
     // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetTopFiltersNoResultsResponse>
 
@@ -1716,12 +1716,12 @@ open class AnalyticsClient {
     /// response. (optional, default to false)
     /// - parameter revenueAnalytics: (query) Whether to include revenue-related metrics in the response.  If true,
     /// metrics related to click and conversion events are also included in the response.  (optional, default to false)
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetTopHitsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1771,16 +1771,16 @@ open class AnalyticsClient {
     // - parameter revenueAnalytics: (query) Whether to include revenue-related metrics in the response.  If true,
     // metrics related to click and conversion events are also included in the response.  (optional, default to false)
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
     // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
     // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetTopHitsResponse>
 
@@ -1831,15 +1831,15 @@ open class AnalyticsClient {
     /// response. (optional, default to false)
     /// - parameter revenueAnalytics: (query) Whether to include revenue-related metrics in the response.  If true,
     /// metrics related to click and conversion events are also included in the response.  (optional, default to false)
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter orderBy: (query) Attribute by which to order the response items.  If the &#x60;clickAnalytics&#x60;
-    /// parameter is false, only &#x60;searchCount&#x60; is available.  (optional)
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter orderBy: (query) Attribute by which to order the response items.  If the `clickAnalytics` parameter
+    /// is false, only `searchCount` is available.  (optional)
     /// - parameter direction: (query) Sorting direction of the results: ascending or descending.  (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetTopSearchesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1889,12 +1889,12 @@ open class AnalyticsClient {
     // - parameter revenueAnalytics: (query) Whether to include revenue-related metrics in the response.  If true,
     // metrics related to click and conversion events are also included in the response.  (optional, default to false)
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter orderBy: (query) Attribute by which to order the response items.  If the &#x60;clickAnalytics&#x60;
-    // parameter is false, only &#x60;searchCount&#x60; is available.  (optional)
+    // - parameter orderBy: (query) Attribute by which to order the response items.  If the `clickAnalytics` parameter
+    // is false, only `searchCount` is available.  (optional)
     //
     // - parameter direction: (query) Sorting direction of the results: ascending or descending.  (optional)
     //
@@ -1902,8 +1902,8 @@ open class AnalyticsClient {
     //
     // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetTopSearchesResponse>
 
@@ -1952,10 +1952,10 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
-    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetUsersCountResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1991,12 +1991,12 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter endDate: (query) End date of the period to analyze, in &#x60;YYYY-MM-DD&#x60; format. (optional)
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
-    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
+    // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
     // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetUsersCountResponse>
 
