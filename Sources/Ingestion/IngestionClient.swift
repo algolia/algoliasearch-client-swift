@@ -2373,7 +2373,7 @@ open class IngestionClient {
         return body
     }
 
-    // Searches for transformations.
+    // Try a transformation.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
