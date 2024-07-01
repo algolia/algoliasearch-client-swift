@@ -1,3 +1,7 @@
+## [9.0.0-beta.9](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-beta.8...9.0.0-beta.9)
+
+- [9776cb3ba](https://github.com/algolia/api-clients-automation/commit/9776cb3ba) feat(specs): add redirect to renderingContent ([#3296](https://github.com/algolia/api-clients-automation/pull/3296)) by [@shortcuts](https://github.com/shortcuts/)
+
 ## [9.0.0-beta.8](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-beta.7...9.0.0-beta.8)
 
 - [197d1989a](https://github.com/algolia/api-clients-automation/commit/197d1989a) feat(swift): generate tests for helpers ([#3248](https://github.com/algolia/api-clients-automation/pull/3248)) by [@millotp](https://github.com/millotp/)
