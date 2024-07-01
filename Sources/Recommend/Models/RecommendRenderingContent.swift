@@ -10,13 +10,16 @@ import Foundation
 /// order of facet names and values without changing your frontend code.
 public struct RecommendRenderingContent: Codable, JSONEncodable {
     public var facetOrdering: RecommendFacetOrdering?
+    public var redirect: RecommendRedirectURL?
 
-    public init(facetOrdering: RecommendFacetOrdering? = nil) {
+    public init(facetOrdering: RecommendFacetOrdering? = nil, redirect: RecommendRedirectURL? = nil) {
         self.facetOrdering = facetOrdering
+        self.redirect = redirect
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case facetOrdering
+        case redirect
     }
 
     // Encodable protocol methods
@@ -24,17 +27,20 @@ public struct RecommendRenderingContent: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.facetOrdering, forKey: .facetOrdering)
+        try container.encodeIfPresent(self.redirect, forKey: .redirect)
     }
 }
 
 extension RecommendRenderingContent: Equatable {
     public static func ==(lhs: RecommendRenderingContent, rhs: RecommendRenderingContent) -> Bool {
-        lhs.facetOrdering == rhs.facetOrdering
+        lhs.facetOrdering == rhs.facetOrdering &&
+            lhs.redirect == rhs.redirect
     }
 }
 
 extension RecommendRenderingContent: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.facetOrdering?.hashValue)
+        hasher.combine(self.redirect?.hashValue)
     }
 }
