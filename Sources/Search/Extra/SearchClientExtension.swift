@@ -502,19 +502,20 @@ public extension SearchClient {
     /// `chunkedBatch` helper is used under the hood, which creates a `batch` requests with at most 1000 objects in it.
     /// - parameter indexName: The name of the index where to update the objects
     /// - parameter objects: The objects to update
-    /// - parameter createIfNotExist: To be provided if non-existing objects are passed, otherwise, the call will fail..
+    /// - parameter createIfNotExists: To be provided if non-existing objects are passed, otherwise, the call will
+    /// fail..
     /// - parameter requestOptions: The request options
     /// - returns: [BatchResponse]
     func partialUpdateObjects(
         indexName: String,
         objects: [some Encodable],
-        createIfNotExist: Bool = false,
+        createIfNotExists: Bool = false,
         requestOptions: RequestOptions? = nil
     ) async throws -> [BatchResponse] {
         try await self.chunkedBatch(
             indexName: indexName,
             objects: objects,
-            action: createIfNotExist ? .partialUpdateObject : .partialUpdateObjectNoCreate,
+            action: createIfNotExists ? .partialUpdateObject : .partialUpdateObjectNoCreate,
             waitForTasks: false,
             batchSize: 1000,
             requestOptions: requestOptions
@@ -544,7 +545,7 @@ public extension SearchClient {
             operationIndexParams: OperationIndexParams(
                 operation: .copy,
                 destination: tmpIndexName,
-                scope: [.rules, .settings, .synonyms]
+                scope: [.settings, .rules, .synonyms]
             ),
             requestOptions: requestOptions
         )
@@ -563,7 +564,7 @@ public extension SearchClient {
             operationIndexParams: OperationIndexParams(
                 operation: .copy,
                 destination: tmpIndexName,
-                scope: [.rules, .settings, .synonyms]
+                scope: [.settings, .rules, .synonyms]
             ),
             requestOptions: requestOptions
         )
