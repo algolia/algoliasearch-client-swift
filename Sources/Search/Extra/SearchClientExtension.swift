@@ -126,24 +126,23 @@ public extension SearchClient {
                     try await self.getApiKey(key: key, requestOptions: requestOptions)
                 },
                 validate: { response in
-                    if apiKey.description != nil, apiKey.description != response.description {
+                    if apiKey.description != response.description {
                         return false
                     }
 
-                    if apiKey.queryParameters != nil, apiKey.queryParameters != response.queryParameters {
+                    if apiKey.queryParameters != response.queryParameters {
                         return false
                     }
 
-                    if apiKey.maxHitsPerQuery != nil, apiKey.maxHitsPerQuery != response.maxHitsPerQuery {
+                    if apiKey.maxHitsPerQuery != response.maxHitsPerQuery {
                         return false
                     }
 
-                    if apiKey.maxQueriesPerIPPerHour != nil,
-                       apiKey.maxQueriesPerIPPerHour != response.maxQueriesPerIPPerHour {
+                    if apiKey.maxQueriesPerIPPerHour != response.maxQueriesPerIPPerHour {
                         return false
                     }
 
-                    if apiKey.validity != nil, apiKey.validity != response.validity {
+                    if apiKey.validity != response.validity {
                         return false
                     }
 
@@ -153,20 +152,16 @@ public extension SearchClient {
                         return false
                     }
 
-                    if let apiKeyIndexes = apiKey.indexes {
-                        let expectedIndexes = apiKeyIndexes.sorted { $0 > $1 }
-                        let responseIndexes = response.indexes?.sorted { $0 > $1 }
-                        if expectedIndexes != responseIndexes {
-                            return false
-                        }
+                    let expectedIndexes = apiKey.indexes?.sorted { $0 > $1 }
+                    let responseIndexes = response.indexes?.sorted { $0 > $1 }
+                    if expectedIndexes != responseIndexes {
+                        return false
                     }
 
-                    if let apiKeyReferers = apiKey.referers {
-                        let expectedReferers = apiKeyReferers.sorted { $0 > $1 }
-                        let responseReferers = response.referers?.sorted { $0 > $1 }
-                        if expectedReferers != responseReferers {
-                            return false
-                        }
+                    let expectedReferers = apiKey.referers?.sorted { $0 > $1 }
+                    let responseReferers = response.referers?.sorted { $0 > $1 }
+                    if expectedReferers != responseReferers {
+                        return false
                     }
 
                     return true
