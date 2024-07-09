@@ -20,8 +20,8 @@ public extension SearchClient {
     /// - returns: GetTaskResponse
     @discardableResult
     func waitForTask(
-        with taskID: Int64,
-        in indexName: String,
+        indexName: String,
+        taskID: Int64,
         maxRetries: Int = 50,
         timeout: (Int) -> TimeInterval = { count in
             min(TimeInterval(count) * 0.2, 5)
@@ -62,7 +62,7 @@ public extension SearchClient {
     /// - returns: GetTaskResponse
     @discardableResult
     func waitForAppTask(
-        with taskID: Int64,
+        taskID: Int64,
         maxRetries: Int = 50,
         timeout: (Int) -> TimeInterval = { count in
             min(TimeInterval(count) * 0.2, 5)
@@ -105,7 +105,7 @@ public extension SearchClient {
     /// - returns: GetApiKeyResponse?
     @discardableResult
     func waitForApiKey(
-        with key: String,
+        key: String,
         operation: ApiKeyOperation,
         apiKey: ApiKey? = nil,
         maxRetries: Int = 50,
@@ -126,23 +126,24 @@ public extension SearchClient {
                     try await self.getApiKey(key: key, requestOptions: requestOptions)
                 },
                 validate: { response in
-                    if apiKey.description != response.description {
+                    if apiKey.description != nil, apiKey.description != response.description {
                         return false
                     }
 
-                    if apiKey.queryParameters != response.queryParameters {
+                    if apiKey.queryParameters != nil, apiKey.queryParameters != response.queryParameters {
                         return false
                     }
 
-                    if apiKey.maxHitsPerQuery != response.maxHitsPerQuery {
+                    if apiKey.maxHitsPerQuery != nil, apiKey.maxHitsPerQuery != response.maxHitsPerQuery {
                         return false
                     }
 
-                    if apiKey.maxQueriesPerIPPerHour != response.maxQueriesPerIPPerHour {
+                    if apiKey.maxQueriesPerIPPerHour != nil,
+                       apiKey.maxQueriesPerIPPerHour != response.maxQueriesPerIPPerHour {
                         return false
                     }
 
-                    if apiKey.validity != response.validity {
+                    if apiKey.validity != nil, apiKey.validity != response.validity {
                         return false
                     }
 
@@ -152,16 +153,20 @@ public extension SearchClient {
                         return false
                     }
 
-                    let expectedIndexes = apiKey.indexes?.sorted { $0 > $1 }
-                    let responseIndexes = response.indexes?.sorted { $0 > $1 }
-                    if expectedIndexes != responseIndexes {
-                        return false
+                    if let apiKeyIndexes = apiKey.indexes {
+                        let expectedIndexes = apiKeyIndexes.sorted { $0 > $1 }
+                        let responseIndexes = response.indexes?.sorted { $0 > $1 }
+                        if expectedIndexes != responseIndexes {
+                            return false
+                        }
                     }
 
-                    let expectedReferers = apiKey.referers?.sorted { $0 > $1 }
-                    let responseReferers = response.referers?.sorted { $0 > $1 }
-                    if expectedReferers != responseReferers {
-                        return false
+                    if let apiKeyReferers = apiKey.referers {
+                        let expectedReferers = apiKeyReferers.sorted { $0 > $1 }
+                        let responseReferers = response.referers?.sorted { $0 > $1 }
+                        if expectedReferers != responseReferers {
+                            return false
+                        }
                     }
 
                     return true
@@ -185,12 +190,15 @@ public extension SearchClient {
 
         return try await createIterable(
             execute: { _ in
-                let response = try await self.getApiKeyWithHTTPInfo(key: key, requestOptions: requestOptions)
-                if response.statusCode == 404 {
-                    return nil
-                }
+                do {
+                    return try await self.getApiKey(key: key, requestOptions: requestOptions)
+                } catch let AlgoliaError.httpError(error) {
+                    if error.statusCode == 404 {
+                        return nil
+                    }
 
-                return response.body
+                    throw error
+                }
             },
             validate: { response in
                 switch operation {
@@ -232,7 +240,7 @@ public extension SearchClient {
     /// - returns: BrowseResponse
     @discardableResult
     func browseObjects<T: Codable>(
-        in indexName: String,
+        indexName: String,
         browseParams: BrowseParamsObject,
         validate: (BrowseResponse<T>) -> Bool = { response in
             response.cursor == nil
@@ -267,7 +275,7 @@ public extension SearchClient {
     /// - returns: SearchRulesResponse
     @discardableResult
     func browseRules(
-        in indexName: String,
+        indexName: String,
         searchRulesParams: SearchRulesParams,
         validate: ((SearchRulesResponse) -> Bool)? = nil,
         aggregator: @escaping (SearchRulesResponse) -> Void,
@@ -310,7 +318,7 @@ public extension SearchClient {
     /// - returns: SearchSynonymsResponse
     @discardableResult
     func browseSynonyms(
-        in indexName: String,
+        indexName: String,
         searchSynonymsParams: SearchSynonymsParams,
         validate: ((SearchSynonymsResponse) -> Bool)? = nil,
         aggregator: @escaping (SearchSynonymsResponse) -> Void,
@@ -449,7 +457,7 @@ public extension SearchClient {
 
         if waitForTasks {
             for batchResponse in responses {
-                try await self.waitForTask(with: batchResponse.taskID, in: indexName)
+                try await self.waitForTask(indexName: indexName, taskID: batchResponse.taskID)
             }
         }
 
@@ -557,7 +565,7 @@ public extension SearchClient {
             batchSize: batchSize,
             requestOptions: requestOptions
         )
-        try await self.waitForTask(with: copyOperationResponse.taskID, in: tmpIndexName)
+        try await self.waitForTask(indexName: tmpIndexName, taskID: copyOperationResponse.taskID)
 
         copyOperationResponse = try await operationIndex(
             indexName: indexName,
@@ -568,7 +576,7 @@ public extension SearchClient {
             ),
             requestOptions: requestOptions
         )
-        try await self.waitForTask(with: copyOperationResponse.taskID, in: tmpIndexName)
+        try await self.waitForTask(indexName: tmpIndexName, taskID: copyOperationResponse.taskID)
 
         let moveOperationResponse = try await self.operationIndex(
             indexName: tmpIndexName,
@@ -578,7 +586,7 @@ public extension SearchClient {
             ),
             requestOptions: requestOptions
         )
-        try await self.waitForTask(with: moveOperationResponse.taskID, in: tmpIndexName)
+        try await self.waitForTask(indexName: tmpIndexName, taskID: moveOperationResponse.taskID)
 
         return ReplaceAllObjectsResponse(
             copyOperationResponse: copyOperationResponse,
@@ -603,7 +611,7 @@ public extension SearchClient {
     /// Get the remaining validity of a secured API key
     /// - parameter securedApiKey: The secured API key
     /// - returns: TimeInterval?
-    func getSecuredApiKeyRemainingValidity(for securedApiKey: String) -> TimeInterval? {
+    func getSecuredApiKeyRemainingValidity(securedApiKey: String) -> TimeInterval? {
         guard let rawDecodedAPIKey = String(data: Data(base64Encoded: securedApiKey) ?? Data(), encoding: .utf8),
               !rawDecodedAPIKey.isEmpty else {
             return nil

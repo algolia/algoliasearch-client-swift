@@ -132,7 +132,7 @@ open class Transporter {
                 self.retryStrategy.notify(host: host, error: error)
 
                 guard self.retryStrategy.canRetry(inCaseOf: error) else {
-                    throw AlgoliaError.requestError(error)
+                    throw error
                 }
 
                 intermediateErrors.append(error)
