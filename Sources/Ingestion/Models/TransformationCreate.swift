@@ -13,9 +13,9 @@ public struct TransformationCreate: Codable, JSONEncodable {
     /// The uniquely identified name of your transformation.
     public var name: String
     /// A descriptive name for your transformation of what it does.
-    public var description: String
+    public var description: String?
 
-    public init(code: String, name: String, description: String) {
+    public init(code: String, name: String, description: String? = nil) {
         self.code = code
         self.name = name
         self.description = description
@@ -33,7 +33,7 @@ public struct TransformationCreate: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.code, forKey: .code)
         try container.encode(self.name, forKey: .name)
-        try container.encode(self.description, forKey: .description)
+        try container.encodeIfPresent(self.description, forKey: .description)
     }
 }
 
@@ -49,6 +49,6 @@ extension TransformationCreate: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.code.hashValue)
         hasher.combine(self.name.hashValue)
-        hasher.combine(self.description.hashValue)
+        hasher.combine(self.description?.hashValue)
     }
 }

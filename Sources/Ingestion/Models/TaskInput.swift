@@ -8,19 +8,16 @@ import Foundation
 
 /// Configuration of the task, depending on its type.
 public enum TaskInput: Codable, JSONEncodable, AbstractEncodable {
-    case onDemandDateUtilsInput(OnDemandDateUtilsInput)
-    case scheduleDateUtilsInput(ScheduleDateUtilsInput)
-    case streamingUtilsInput(StreamingUtilsInput)
+    case streamingInput(StreamingInput)
+    case dockerStreamsInput(DockerStreamsInput)
     case shopifyInput(ShopifyInput)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .onDemandDateUtilsInput(value):
+        case let .streamingInput(value):
             try container.encode(value)
-        case let .scheduleDateUtilsInput(value):
-            try container.encode(value)
-        case let .streamingUtilsInput(value):
+        case let .dockerStreamsInput(value):
             try container.encode(value)
         case let .shopifyInput(value):
             try container.encode(value)
@@ -29,12 +26,10 @@ public enum TaskInput: Codable, JSONEncodable, AbstractEncodable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(OnDemandDateUtilsInput.self) {
-            self = .onDemandDateUtilsInput(value)
-        } else if let value = try? container.decode(ScheduleDateUtilsInput.self) {
-            self = .scheduleDateUtilsInput(value)
-        } else if let value = try? container.decode(StreamingUtilsInput.self) {
-            self = .streamingUtilsInput(value)
+        if let value = try? container.decode(StreamingInput.self) {
+            self = .streamingInput(value)
+        } else if let value = try? container.decode(DockerStreamsInput.self) {
+            self = .dockerStreamsInput(value)
         } else if let value = try? container.decode(ShopifyInput.self) {
             self = .shopifyInput(value)
         } else {
@@ -47,12 +42,10 @@ public enum TaskInput: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .onDemandDateUtilsInput(value):
-            value as OnDemandDateUtilsInput
-        case let .scheduleDateUtilsInput(value):
-            value as ScheduleDateUtilsInput
-        case let .streamingUtilsInput(value):
-            value as StreamingUtilsInput
+        case let .streamingInput(value):
+            value as StreamingInput
+        case let .dockerStreamsInput(value):
+            value as DockerStreamsInput
         case let .shopifyInput(value):
             value as ShopifyInput
         }

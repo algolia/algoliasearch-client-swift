@@ -14,7 +14,7 @@ public struct Transformation: Codable, JSONEncodable {
     /// The uniquely identified name of your transformation.
     public var name: String
     /// A descriptive name for your transformation of what it does.
-    public var description: String
+    public var description: String?
     /// Date of creation in RFC 3339 format.
     public var createdAt: String
     /// Date of last update in RFC 3339 format.
@@ -24,7 +24,7 @@ public struct Transformation: Codable, JSONEncodable {
         transformationID: String,
         code: String,
         name: String,
-        description: String,
+        description: String? = nil,
         createdAt: String,
         updatedAt: String? = nil
     ) {
@@ -52,7 +52,7 @@ public struct Transformation: Codable, JSONEncodable {
         try container.encode(self.transformationID, forKey: .transformationID)
         try container.encode(self.code, forKey: .code)
         try container.encode(self.name, forKey: .name)
-        try container.encode(self.description, forKey: .description)
+        try container.encodeIfPresent(self.description, forKey: .description)
         try container.encode(self.createdAt, forKey: .createdAt)
         try container.encodeIfPresent(self.updatedAt, forKey: .updatedAt)
     }
@@ -74,7 +74,7 @@ extension Transformation: Hashable {
         hasher.combine(self.transformationID.hashValue)
         hasher.combine(self.code.hashValue)
         hasher.combine(self.name.hashValue)
-        hasher.combine(self.description.hashValue)
+        hasher.combine(self.description?.hashValue)
         hasher.combine(self.createdAt.hashValue)
         hasher.combine(self.updatedAt?.hashValue)
     }
