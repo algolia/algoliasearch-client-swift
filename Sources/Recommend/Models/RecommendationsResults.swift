@@ -29,22 +29,14 @@ public struct RecommendationsResults: Codable, JSONEncodable {
     public var facets: [String: [String: Int]]?
     /// Statistics for numerical facets.
     public var facetsStats: [String: RecommendFacetsStats]?
-    /// Number of hits per page.
-    public var hitsPerPage: Int
     /// Index name used for the query.
     public var index: String?
     /// Index name used for the query. During A/B testing, the targeted index isn't always the index used by the query.
     public var indexUsed: String?
     /// Warnings about the query.
     public var message: String?
-    /// Number of results (hits).
-    public var nbHits: Int
-    /// Number of pages of results.
-    public var nbPages: Int
     /// Number of hits selected and sorted by the relevant sort algorithm.
     public var nbSortedHits: Int?
-    /// Page of search results to retrieve.
-    public var page: Int
     /// Post-[normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/#what-does-normalization-mean)
     /// query string that will be searched.
     public var parsedQuery: String?
@@ -66,6 +58,14 @@ public struct RecommendationsResults: Codable, JSONEncodable {
     /// Unique identifier for the query. This is used for [click
     /// analytics](https://www.algolia.com/doc/guides/analytics/click-analytics/).
     public var queryID: String?
+    /// Page of search results to retrieve.
+    public var page: Int
+    /// Number of results (hits).
+    public var nbHits: Int
+    /// Number of pages of results.
+    public var nbPages: Int
+    /// Number of hits per page.
+    public var hitsPerPage: Int
     public var hits: [RecommendationsHit]
 
     public init(
@@ -79,14 +79,10 @@ public struct RecommendationsResults: Codable, JSONEncodable {
         exhaustiveTypo: Bool? = nil,
         facets: [String: [String: Int]]? = nil,
         facetsStats: [String: RecommendFacetsStats]? = nil,
-        hitsPerPage: Int,
         index: String? = nil,
         indexUsed: String? = nil,
         message: String? = nil,
-        nbHits: Int,
-        nbPages: Int,
         nbSortedHits: Int? = nil,
-        page: Int,
         parsedQuery: String? = nil,
         processingTimeMS: Int,
         processingTimingsMS: AnyCodable? = nil,
@@ -97,6 +93,10 @@ public struct RecommendationsResults: Codable, JSONEncodable {
         serverUsed: String? = nil,
         userData: AnyCodable? = nil,
         queryID: String? = nil,
+        page: Int,
+        nbHits: Int,
+        nbPages: Int,
+        hitsPerPage: Int,
         hits: [RecommendationsHit]
     ) {
         self.abTestID = abTestID
@@ -109,14 +109,10 @@ public struct RecommendationsResults: Codable, JSONEncodable {
         self.exhaustiveTypo = exhaustiveTypo
         self.facets = facets
         self.facetsStats = facetsStats
-        self.hitsPerPage = hitsPerPage
         self.index = index
         self.indexUsed = indexUsed
         self.message = message
-        self.nbHits = nbHits
-        self.nbPages = nbPages
         self.nbSortedHits = nbSortedHits
-        self.page = page
         self.parsedQuery = parsedQuery
         self.processingTimeMS = processingTimeMS
         self.processingTimingsMS = processingTimingsMS
@@ -127,6 +123,10 @@ public struct RecommendationsResults: Codable, JSONEncodable {
         self.serverUsed = serverUsed
         self.userData = userData
         self.queryID = queryID
+        self.page = page
+        self.nbHits = nbHits
+        self.nbPages = nbPages
+        self.hitsPerPage = hitsPerPage
         self.hits = hits
     }
 
@@ -141,14 +141,10 @@ public struct RecommendationsResults: Codable, JSONEncodable {
         case exhaustiveTypo
         case facets
         case facetsStats = "facets_stats"
-        case hitsPerPage
         case index
         case indexUsed
         case message
-        case nbHits
-        case nbPages
         case nbSortedHits
-        case page
         case parsedQuery
         case processingTimeMS
         case processingTimingsMS
@@ -159,6 +155,10 @@ public struct RecommendationsResults: Codable, JSONEncodable {
         case serverUsed
         case userData
         case queryID
+        case page
+        case nbHits
+        case nbPages
+        case hitsPerPage
         case hits
     }
 
@@ -176,14 +176,10 @@ public struct RecommendationsResults: Codable, JSONEncodable {
         try container.encodeIfPresent(self.exhaustiveTypo, forKey: .exhaustiveTypo)
         try container.encodeIfPresent(self.facets, forKey: .facets)
         try container.encodeIfPresent(self.facetsStats, forKey: .facetsStats)
-        try container.encode(self.hitsPerPage, forKey: .hitsPerPage)
         try container.encodeIfPresent(self.index, forKey: .index)
         try container.encodeIfPresent(self.indexUsed, forKey: .indexUsed)
         try container.encodeIfPresent(self.message, forKey: .message)
-        try container.encode(self.nbHits, forKey: .nbHits)
-        try container.encode(self.nbPages, forKey: .nbPages)
         try container.encodeIfPresent(self.nbSortedHits, forKey: .nbSortedHits)
-        try container.encode(self.page, forKey: .page)
         try container.encodeIfPresent(self.parsedQuery, forKey: .parsedQuery)
         try container.encode(self.processingTimeMS, forKey: .processingTimeMS)
         try container.encodeIfPresent(self.processingTimingsMS, forKey: .processingTimingsMS)
@@ -194,6 +190,10 @@ public struct RecommendationsResults: Codable, JSONEncodable {
         try container.encodeIfPresent(self.serverUsed, forKey: .serverUsed)
         try container.encodeIfPresent(self.userData, forKey: .userData)
         try container.encodeIfPresent(self.queryID, forKey: .queryID)
+        try container.encode(self.page, forKey: .page)
+        try container.encode(self.nbHits, forKey: .nbHits)
+        try container.encode(self.nbPages, forKey: .nbPages)
+        try container.encode(self.hitsPerPage, forKey: .hitsPerPage)
         try container.encode(self.hits, forKey: .hits)
     }
 }
@@ -210,14 +210,10 @@ extension RecommendationsResults: Equatable {
             lhs.exhaustiveTypo == rhs.exhaustiveTypo &&
             lhs.facets == rhs.facets &&
             lhs.facetsStats == rhs.facetsStats &&
-            lhs.hitsPerPage == rhs.hitsPerPage &&
             lhs.index == rhs.index &&
             lhs.indexUsed == rhs.indexUsed &&
             lhs.message == rhs.message &&
-            lhs.nbHits == rhs.nbHits &&
-            lhs.nbPages == rhs.nbPages &&
             lhs.nbSortedHits == rhs.nbSortedHits &&
-            lhs.page == rhs.page &&
             lhs.parsedQuery == rhs.parsedQuery &&
             lhs.processingTimeMS == rhs.processingTimeMS &&
             lhs.processingTimingsMS == rhs.processingTimingsMS &&
@@ -228,6 +224,10 @@ extension RecommendationsResults: Equatable {
             lhs.serverUsed == rhs.serverUsed &&
             lhs.userData == rhs.userData &&
             lhs.queryID == rhs.queryID &&
+            lhs.page == rhs.page &&
+            lhs.nbHits == rhs.nbHits &&
+            lhs.nbPages == rhs.nbPages &&
+            lhs.hitsPerPage == rhs.hitsPerPage &&
             lhs.hits == rhs.hits
     }
 }
@@ -244,14 +244,10 @@ extension RecommendationsResults: Hashable {
         hasher.combine(self.exhaustiveTypo?.hashValue)
         hasher.combine(self.facets?.hashValue)
         hasher.combine(self.facetsStats?.hashValue)
-        hasher.combine(self.hitsPerPage.hashValue)
         hasher.combine(self.index?.hashValue)
         hasher.combine(self.indexUsed?.hashValue)
         hasher.combine(self.message?.hashValue)
-        hasher.combine(self.nbHits.hashValue)
-        hasher.combine(self.nbPages.hashValue)
         hasher.combine(self.nbSortedHits?.hashValue)
-        hasher.combine(self.page.hashValue)
         hasher.combine(self.parsedQuery?.hashValue)
         hasher.combine(self.processingTimeMS.hashValue)
         hasher.combine(self.processingTimingsMS?.hashValue)
@@ -262,6 +258,10 @@ extension RecommendationsResults: Hashable {
         hasher.combine(self.serverUsed?.hashValue)
         hasher.combine(self.userData?.hashValue)
         hasher.combine(self.queryID?.hashValue)
+        hasher.combine(self.page.hashValue)
+        hasher.combine(self.nbHits.hashValue)
+        hasher.combine(self.nbPages.hashValue)
+        hasher.combine(self.hitsPerPage.hashValue)
         hasher.combine(self.hits.hashValue)
     }
 }

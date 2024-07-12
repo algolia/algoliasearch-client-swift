@@ -29,22 +29,14 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
     public var facets: [String: [String: Int]]?
     /// Statistics for numerical facets.
     public var facetsStats: [String: SearchFacetsStats]?
-    /// Number of hits per page.
-    public var hitsPerPage: Int
     /// Index name used for the query.
     public var index: String?
     /// Index name used for the query. During A/B testing, the targeted index isn't always the index used by the query.
     public var indexUsed: String?
     /// Warnings about the query.
     public var message: String?
-    /// Number of results (hits).
-    public var nbHits: Int
-    /// Number of pages of results.
-    public var nbPages: Int
     /// Number of hits selected and sorted by the relevant sort algorithm.
     public var nbSortedHits: Int?
-    /// Page of search results to retrieve.
-    public var page: Int
     /// Post-[normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/#what-does-normalization-mean)
     /// query string that will be searched.
     public var parsedQuery: String?
@@ -66,6 +58,14 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
     /// Unique identifier for the query. This is used for [click
     /// analytics](https://www.algolia.com/doc/guides/analytics/click-analytics/).
     public var queryID: String?
+    /// Page of search results to retrieve.
+    public var page: Int
+    /// Number of results (hits).
+    public var nbHits: Int
+    /// Number of pages of results.
+    public var nbPages: Int
+    /// Number of hits per page.
+    public var hitsPerPage: Int
     /// Search results (hits).  Hits are records from your index that match the search criteria, augmented with
     /// additional attributes, such as, for highlighting.
     public var hits: [T]
@@ -85,14 +85,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         exhaustiveTypo: Bool? = nil,
         facets: [String: [String: Int]]? = nil,
         facetsStats: [String: SearchFacetsStats]? = nil,
-        hitsPerPage: Int,
         index: String? = nil,
         indexUsed: String? = nil,
         message: String? = nil,
-        nbHits: Int,
-        nbPages: Int,
         nbSortedHits: Int? = nil,
-        page: Int,
         parsedQuery: String? = nil,
         processingTimeMS: Int,
         processingTimingsMS: AnyCodable? = nil,
@@ -103,6 +99,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         serverUsed: String? = nil,
         userData: AnyCodable? = nil,
         queryID: String? = nil,
+        page: Int,
+        nbHits: Int,
+        nbPages: Int,
+        hitsPerPage: Int,
         hits: [T],
         query: String,
         params: String
@@ -117,14 +117,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         self.exhaustiveTypo = exhaustiveTypo
         self.facets = facets
         self.facetsStats = facetsStats
-        self.hitsPerPage = hitsPerPage
         self.index = index
         self.indexUsed = indexUsed
         self.message = message
-        self.nbHits = nbHits
-        self.nbPages = nbPages
         self.nbSortedHits = nbSortedHits
-        self.page = page
         self.parsedQuery = parsedQuery
         self.processingTimeMS = processingTimeMS
         self.processingTimingsMS = processingTimingsMS
@@ -135,6 +131,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         self.serverUsed = serverUsed
         self.userData = userData
         self.queryID = queryID
+        self.page = page
+        self.nbHits = nbHits
+        self.nbPages = nbPages
+        self.hitsPerPage = hitsPerPage
         self.hits = hits
         self.query = query
         self.params = params
@@ -151,14 +151,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         case exhaustiveTypo
         case facets
         case facetsStats = "facets_stats"
-        case hitsPerPage
         case index
         case indexUsed
         case message
-        case nbHits
-        case nbPages
         case nbSortedHits
-        case page
         case parsedQuery
         case processingTimeMS
         case processingTimingsMS
@@ -169,6 +165,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         case serverUsed
         case userData
         case queryID
+        case page
+        case nbHits
+        case nbPages
+        case hitsPerPage
         case hits
         case query
         case params
@@ -210,30 +210,14 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
 
         self.facetsStats = dictionary["facetsStats"]?.value as? [String: SearchFacetsStats]
 
-        guard let hitsPerPage = dictionary["hitsPerPage"]?.value as? Int else {
-            throw GenericError(description: "Failed to cast")
-        }
-        self.hitsPerPage = hitsPerPage
         self.index = dictionary["index"]?.value as? String
 
         self.indexUsed = dictionary["indexUsed"]?.value as? String
 
         self.message = dictionary["message"]?.value as? String
 
-        guard let nbHits = dictionary["nbHits"]?.value as? Int else {
-            throw GenericError(description: "Failed to cast")
-        }
-        self.nbHits = nbHits
-        guard let nbPages = dictionary["nbPages"]?.value as? Int else {
-            throw GenericError(description: "Failed to cast")
-        }
-        self.nbPages = nbPages
         self.nbSortedHits = dictionary["nbSortedHits"]?.value as? Int
 
-        guard let page = dictionary["page"]?.value as? Int else {
-            throw GenericError(description: "Failed to cast")
-        }
-        self.page = page
         self.parsedQuery = dictionary["parsedQuery"]?.value as? String
 
         guard let processingTimeMS = dictionary["processingTimeMS"]?.value as? Int else {
@@ -256,6 +240,22 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
 
         self.queryID = dictionary["queryID"]?.value as? String
 
+        guard let page = dictionary["page"]?.value as? Int else {
+            throw GenericError(description: "Failed to cast")
+        }
+        self.page = page
+        guard let nbHits = dictionary["nbHits"]?.value as? Int else {
+            throw GenericError(description: "Failed to cast")
+        }
+        self.nbHits = nbHits
+        guard let nbPages = dictionary["nbPages"]?.value as? Int else {
+            throw GenericError(description: "Failed to cast")
+        }
+        self.nbPages = nbPages
+        guard let hitsPerPage = dictionary["hitsPerPage"]?.value as? Int else {
+            throw GenericError(description: "Failed to cast")
+        }
+        self.hitsPerPage = hitsPerPage
         guard let hits = dictionary["hits"]?.value as? [T] else {
             throw GenericError(description: "Failed to cast")
         }
@@ -271,10 +271,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         for (key, value) in dictionary {
             switch key {
             case "abTestID", "abTestVariantID", "aroundLatLng", "automaticRadius", "exhaustive",
-                 "exhaustiveFacetsCount", "exhaustiveNbHits", "exhaustiveTypo", "facets", "facetsStats", "hitsPerPage",
-                 "index", "indexUsed", "message", "nbHits", "nbPages", "nbSortedHits", "page", "parsedQuery",
-                 "processingTimeMS", "processingTimingsMS", "queryAfterRemoval", "redirect", "renderingContent",
-                 "serverTimeMS", "serverUsed", "userData", "queryID", "hits", "query", "params":
+                 "exhaustiveFacetsCount", "exhaustiveNbHits", "exhaustiveTypo", "facets", "facetsStats", "index",
+                 "indexUsed", "message", "nbSortedHits", "parsedQuery", "processingTimeMS", "processingTimingsMS",
+                 "queryAfterRemoval", "redirect", "renderingContent", "serverTimeMS", "serverUsed", "userData",
+                 "queryID", "page", "nbHits", "nbPages", "hitsPerPage", "hits", "query", "params":
                 continue
             default:
                 self.additionalProperties[key] = value
@@ -296,14 +296,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         try container.encodeIfPresent(self.exhaustiveTypo, forKey: .exhaustiveTypo)
         try container.encodeIfPresent(self.facets, forKey: .facets)
         try container.encodeIfPresent(self.facetsStats, forKey: .facetsStats)
-        try container.encode(self.hitsPerPage, forKey: .hitsPerPage)
         try container.encodeIfPresent(self.index, forKey: .index)
         try container.encodeIfPresent(self.indexUsed, forKey: .indexUsed)
         try container.encodeIfPresent(self.message, forKey: .message)
-        try container.encode(self.nbHits, forKey: .nbHits)
-        try container.encode(self.nbPages, forKey: .nbPages)
         try container.encodeIfPresent(self.nbSortedHits, forKey: .nbSortedHits)
-        try container.encode(self.page, forKey: .page)
         try container.encodeIfPresent(self.parsedQuery, forKey: .parsedQuery)
         try container.encode(self.processingTimeMS, forKey: .processingTimeMS)
         try container.encodeIfPresent(self.processingTimingsMS, forKey: .processingTimingsMS)
@@ -314,6 +310,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         try container.encodeIfPresent(self.serverUsed, forKey: .serverUsed)
         try container.encodeIfPresent(self.userData, forKey: .userData)
         try container.encodeIfPresent(self.queryID, forKey: .queryID)
+        try container.encode(self.page, forKey: .page)
+        try container.encode(self.nbHits, forKey: .nbHits)
+        try container.encode(self.nbPages, forKey: .nbPages)
+        try container.encode(self.hitsPerPage, forKey: .hitsPerPage)
         try container.encode(self.hits, forKey: .hits)
         try container.encode(self.query, forKey: .query)
         try container.encode(self.params, forKey: .params)
@@ -336,14 +336,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         self.exhaustiveTypo = try container.decodeIfPresent(Bool.self, forKey: .exhaustiveTypo)
         self.facets = try container.decodeIfPresent([String: [String: Int]].self, forKey: .facets)
         self.facetsStats = try container.decodeIfPresent([String: SearchFacetsStats].self, forKey: .facetsStats)
-        self.hitsPerPage = try container.decode(Int.self, forKey: .hitsPerPage)
         self.index = try container.decodeIfPresent(String.self, forKey: .index)
         self.indexUsed = try container.decodeIfPresent(String.self, forKey: .indexUsed)
         self.message = try container.decodeIfPresent(String.self, forKey: .message)
-        self.nbHits = try container.decode(Int.self, forKey: .nbHits)
-        self.nbPages = try container.decode(Int.self, forKey: .nbPages)
         self.nbSortedHits = try container.decodeIfPresent(Int.self, forKey: .nbSortedHits)
-        self.page = try container.decode(Int.self, forKey: .page)
         self.parsedQuery = try container.decodeIfPresent(String.self, forKey: .parsedQuery)
         self.processingTimeMS = try container.decode(Int.self, forKey: .processingTimeMS)
         self.processingTimingsMS = try container.decodeIfPresent(AnyCodable.self, forKey: .processingTimingsMS)
@@ -354,6 +350,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         self.serverUsed = try container.decodeIfPresent(String.self, forKey: .serverUsed)
         self.userData = try container.decodeIfPresent(AnyCodable.self, forKey: .userData)
         self.queryID = try container.decodeIfPresent(String.self, forKey: .queryID)
+        self.page = try container.decode(Int.self, forKey: .page)
+        self.nbHits = try container.decode(Int.self, forKey: .nbHits)
+        self.nbPages = try container.decode(Int.self, forKey: .nbPages)
+        self.hitsPerPage = try container.decode(Int.self, forKey: .hitsPerPage)
         self.hits = try container.decode([T].self, forKey: .hits)
         self.query = try container.decode(String.self, forKey: .query)
         self.params = try container.decode(String.self, forKey: .params)
@@ -368,14 +368,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         nonAdditionalPropertyKeys.insert("exhaustiveTypo")
         nonAdditionalPropertyKeys.insert("facets")
         nonAdditionalPropertyKeys.insert("facets_stats")
-        nonAdditionalPropertyKeys.insert("hitsPerPage")
         nonAdditionalPropertyKeys.insert("index")
         nonAdditionalPropertyKeys.insert("indexUsed")
         nonAdditionalPropertyKeys.insert("message")
-        nonAdditionalPropertyKeys.insert("nbHits")
-        nonAdditionalPropertyKeys.insert("nbPages")
         nonAdditionalPropertyKeys.insert("nbSortedHits")
-        nonAdditionalPropertyKeys.insert("page")
         nonAdditionalPropertyKeys.insert("parsedQuery")
         nonAdditionalPropertyKeys.insert("processingTimeMS")
         nonAdditionalPropertyKeys.insert("processingTimingsMS")
@@ -386,6 +382,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         nonAdditionalPropertyKeys.insert("serverUsed")
         nonAdditionalPropertyKeys.insert("userData")
         nonAdditionalPropertyKeys.insert("queryID")
+        nonAdditionalPropertyKeys.insert("page")
+        nonAdditionalPropertyKeys.insert("nbHits")
+        nonAdditionalPropertyKeys.insert("nbPages")
+        nonAdditionalPropertyKeys.insert("hitsPerPage")
         nonAdditionalPropertyKeys.insert("hits")
         nonAdditionalPropertyKeys.insert("query")
         nonAdditionalPropertyKeys.insert("params")
@@ -409,14 +409,10 @@ extension SearchResponse: Equatable where T: Equatable {
             lhs.exhaustiveTypo == rhs.exhaustiveTypo &&
             lhs.facets == rhs.facets &&
             lhs.facetsStats == rhs.facetsStats &&
-            lhs.hitsPerPage == rhs.hitsPerPage &&
             lhs.index == rhs.index &&
             lhs.indexUsed == rhs.indexUsed &&
             lhs.message == rhs.message &&
-            lhs.nbHits == rhs.nbHits &&
-            lhs.nbPages == rhs.nbPages &&
             lhs.nbSortedHits == rhs.nbSortedHits &&
-            lhs.page == rhs.page &&
             lhs.parsedQuery == rhs.parsedQuery &&
             lhs.processingTimeMS == rhs.processingTimeMS &&
             lhs.processingTimingsMS == rhs.processingTimingsMS &&
@@ -427,6 +423,10 @@ extension SearchResponse: Equatable where T: Equatable {
             lhs.serverUsed == rhs.serverUsed &&
             lhs.userData == rhs.userData &&
             lhs.queryID == rhs.queryID &&
+            lhs.page == rhs.page &&
+            lhs.nbHits == rhs.nbHits &&
+            lhs.nbPages == rhs.nbPages &&
+            lhs.hitsPerPage == rhs.hitsPerPage &&
             lhs.hits == rhs.hits &&
             lhs.query == rhs.query &&
             lhs.params == rhs.params
@@ -446,14 +446,10 @@ extension SearchResponse: Hashable where T: Hashable {
         hasher.combine(self.exhaustiveTypo?.hashValue)
         hasher.combine(self.facets?.hashValue)
         hasher.combine(self.facetsStats?.hashValue)
-        hasher.combine(self.hitsPerPage.hashValue)
         hasher.combine(self.index?.hashValue)
         hasher.combine(self.indexUsed?.hashValue)
         hasher.combine(self.message?.hashValue)
-        hasher.combine(self.nbHits.hashValue)
-        hasher.combine(self.nbPages.hashValue)
         hasher.combine(self.nbSortedHits?.hashValue)
-        hasher.combine(self.page.hashValue)
         hasher.combine(self.parsedQuery?.hashValue)
         hasher.combine(self.processingTimeMS.hashValue)
         hasher.combine(self.processingTimingsMS?.hashValue)
@@ -464,6 +460,10 @@ extension SearchResponse: Hashable where T: Hashable {
         hasher.combine(self.serverUsed?.hashValue)
         hasher.combine(self.userData?.hashValue)
         hasher.combine(self.queryID?.hashValue)
+        hasher.combine(self.page.hashValue)
+        hasher.combine(self.nbHits.hashValue)
+        hasher.combine(self.nbPages.hashValue)
+        hasher.combine(self.hitsPerPage.hashValue)
         hasher.combine(self.hits.hashValue)
         hasher.combine(self.query.hashValue)
         hasher.combine(self.params.hashValue)
