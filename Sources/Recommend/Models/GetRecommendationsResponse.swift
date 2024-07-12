@@ -7,9 +7,9 @@ import Foundation
 #endif
 
 public struct GetRecommendationsResponse: Codable, JSONEncodable {
-    public var results: [RecommendationsResults]?
+    public var results: [RecommendationsResults]
 
-    public init(results: [RecommendationsResults]? = nil) {
+    public init(results: [RecommendationsResults]) {
         self.results = results
     }
 
@@ -21,7 +21,7 @@ public struct GetRecommendationsResponse: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.results, forKey: .results)
+        try container.encode(self.results, forKey: .results)
     }
 }
 
@@ -33,6 +33,6 @@ extension GetRecommendationsResponse: Equatable {
 
 extension GetRecommendationsResponse: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.results?.hashValue)
+        hasher.combine(self.results.hashValue)
     }
 }
