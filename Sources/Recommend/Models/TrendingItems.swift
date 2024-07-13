@@ -9,16 +9,16 @@ import Foundation
 public struct TrendingItems: Codable, JSONEncodable {
     /// Facet attribute. To be used in combination with `facetValue`. If specified, only recommendations matching the
     /// facet filter will be returned.
-    public var facetName: String
+    public var facetName: String?
     /// Facet value. To be used in combination with `facetName`. If specified, only recommendations matching the facet
     /// filter will be returned.
-    public var facetValue: String
+    public var facetValue: String?
     public var model: TrendingItemsModel
     public var fallbackParameters: RecommendSearchParamsObject?
 
     public init(
-        facetName: String,
-        facetValue: String,
+        facetName: String? = nil,
+        facetValue: String? = nil,
         model: TrendingItemsModel,
         fallbackParameters: RecommendSearchParamsObject? = nil
     ) {
@@ -39,8 +39,8 @@ public struct TrendingItems: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.facetName, forKey: .facetName)
-        try container.encode(self.facetValue, forKey: .facetValue)
+        try container.encodeIfPresent(self.facetName, forKey: .facetName)
+        try container.encodeIfPresent(self.facetValue, forKey: .facetValue)
         try container.encode(self.model, forKey: .model)
         try container.encodeIfPresent(self.fallbackParameters, forKey: .fallbackParameters)
     }
@@ -57,8 +57,8 @@ extension TrendingItems: Equatable {
 
 extension TrendingItems: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.facetName.hashValue)
-        hasher.combine(self.facetValue.hashValue)
+        hasher.combine(self.facetName?.hashValue)
+        hasher.combine(self.facetValue?.hashValue)
         hasher.combine(self.model.hashValue)
         hasher.combine(self.fallbackParameters?.hashValue)
     }

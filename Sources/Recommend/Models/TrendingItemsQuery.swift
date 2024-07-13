@@ -18,10 +18,10 @@ public struct TrendingItemsQuery: Codable, JSONEncodable {
     public var queryParameters: RecommendSearchParams?
     /// Facet attribute. To be used in combination with `facetValue`. If specified, only recommendations matching the
     /// facet filter will be returned.
-    public var facetName: String
+    public var facetName: String?
     /// Facet value. To be used in combination with `facetName`. If specified, only recommendations matching the facet
     /// filter will be returned.
-    public var facetValue: String
+    public var facetValue: String?
     public var model: TrendingItemsModel
     public var fallbackParameters: RecommendSearchParamsObject?
 
@@ -30,8 +30,8 @@ public struct TrendingItemsQuery: Codable, JSONEncodable {
         threshold: Double,
         maxRecommendations: Int? = nil,
         queryParameters: RecommendSearchParams? = nil,
-        facetName: String,
-        facetValue: String,
+        facetName: String? = nil,
+        facetValue: String? = nil,
         model: TrendingItemsModel,
         fallbackParameters: RecommendSearchParamsObject? = nil
     ) {
@@ -64,8 +64,8 @@ public struct TrendingItemsQuery: Codable, JSONEncodable {
         try container.encode(self.threshold, forKey: .threshold)
         try container.encodeIfPresent(self.maxRecommendations, forKey: .maxRecommendations)
         try container.encodeIfPresent(self.queryParameters, forKey: .queryParameters)
-        try container.encode(self.facetName, forKey: .facetName)
-        try container.encode(self.facetValue, forKey: .facetValue)
+        try container.encodeIfPresent(self.facetName, forKey: .facetName)
+        try container.encodeIfPresent(self.facetValue, forKey: .facetValue)
         try container.encode(self.model, forKey: .model)
         try container.encodeIfPresent(self.fallbackParameters, forKey: .fallbackParameters)
     }
@@ -90,8 +90,8 @@ extension TrendingItemsQuery: Hashable {
         hasher.combine(self.threshold.hashValue)
         hasher.combine(self.maxRecommendations?.hashValue)
         hasher.combine(self.queryParameters?.hashValue)
-        hasher.combine(self.facetName.hashValue)
-        hasher.combine(self.facetValue.hashValue)
+        hasher.combine(self.facetName?.hashValue)
+        hasher.combine(self.facetValue?.hashValue)
         hasher.combine(self.model.hashValue)
         hasher.combine(self.fallbackParameters?.hashValue)
     }
