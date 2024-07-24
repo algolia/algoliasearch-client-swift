@@ -10,7 +10,7 @@ import Foundation
 public enum AlgoliaError: Error, LocalizedError {
     case requestError(Error)
     case httpError(HTTPError)
-    case noReachableHosts(intermediateErrors: [Error])
+    case noReachableHosts(intermediateErrors: [Error], exposeIntermediateErrors: Bool)
     case missingData
     case decodingFailure(Error)
     case runtimeError(String)
@@ -24,8 +24,13 @@ public enum AlgoliaError: Error, LocalizedError {
             "Request failed: \(error.localizedDescription)"
         case let .httpError(error):
             "HTTP error: \(error)"
-        case let .noReachableHosts(errors):
-            "All hosts are unreachable. Intermediate errors: \(errors.map(\.localizedDescription).joined(separator: ", "))"
+        case let .noReachableHosts(errors, exposeIntermediateErrors):
+            "All hosts are unreachable. " +
+                (
+                    exposeIntermediateErrors ?
+                        "Intermediate errors:\n- \(errors.map(\.localizedDescription).joined(separator: "\n- "))" :
+                        "You can use 'exposeIntermediateErrors: true' in the config to investigate."
+                )
         case .missingData:
             "Missing response data"
         case .decodingFailure:

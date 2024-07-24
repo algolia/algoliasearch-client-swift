@@ -41,12 +41,15 @@ class AlgoliaRetryStrategy: RetryStrategy {
                 self.hosts.resetAll(for: callType)
             }
 
+            var hostIterator = self.hosts
+                .sorted { $0.lastUpdated.compare($1.lastUpdated) == .orderedAscending }
+                .filter { $0.supports(callType) && $0.isUp }
+                .makeIterator()
+
             return HostIterator { [weak self] in
                 guard let retryStrategy = self else { return nil }
                 return retryStrategy.queue.sync {
-                    retryStrategy.hosts
-                        .sorted { $0.lastUpdated.compare($1.lastUpdated) == .orderedAscending }
-                        .first { $0.supports(callType) && $0.isUp }
+                    hostIterator.next()
                 }
             }
         }
