@@ -200,6 +200,51 @@ open class IngestionClient {
         taskCreate: TaskCreate,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<TaskCreateResponse> {
+        let resourcePath = "/2/tasks"
+        let body = taskCreate
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter taskCreate: (body) Request body for creating a task.
+    /// - returns: TaskCreateResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func createTaskV1(
+        taskCreate: TaskCreateV1,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> TaskCreateResponse {
+        let response: Response<TaskCreateResponse> = try await createTaskV1WithHTTPInfo(
+            taskCreate: taskCreate,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Creates a new task using the v1 endpoint, please use `createTask` instead.
+    //
+    //
+    // - parameter taskCreate: (body) Request body for creating a task.
+    // - returns: RequestBuilder<TaskCreateResponse>
+
+    open func createTaskV1WithHTTPInfo(
+        taskCreate: TaskCreateV1,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TaskCreateResponse> {
         let resourcePath = "/1/tasks"
         let body = taskCreate
         let queryParameters: [String: Any?]? = nil
@@ -732,6 +777,61 @@ open class IngestionClient {
             throw AlgoliaError.invalidArgument("taskID", "deleteTask")
         }
 
+        var resourcePath = "/2/tasks/{taskID}"
+        let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
+        let taskIDPostEscape = taskIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{taskID}",
+            with: taskIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "DELETE",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter taskID: (path) Unique identifier of a task.
+    /// - returns: DeleteResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func deleteTaskV1(taskID: String, requestOptions: RequestOptions? = nil) async throws -> DeleteResponse {
+        let response: Response<DeleteResponse> = try await deleteTaskV1WithHTTPInfo(
+            taskID: taskID,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Deletes a task by its ID using the v1 endpoint, please use `deleteTask` instead.
+    //
+    //
+    // - parameter taskID: (path) Unique identifier of a task.
+    // - returns: RequestBuilder<DeleteResponse>
+
+    open func deleteTaskV1WithHTTPInfo(
+        taskID: String,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<DeleteResponse> {
+        guard !taskID.isEmpty else {
+            throw AlgoliaError.invalidArgument("taskID", "deleteTaskV1")
+        }
+
         var resourcePath = "/1/tasks/{taskID}"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
         let taskIDPostEscape = taskIDPreEscape
@@ -848,6 +948,66 @@ open class IngestionClient {
             throw AlgoliaError.invalidArgument("taskID", "disableTask")
         }
 
+        var resourcePath = "/2/tasks/{taskID}/disable"
+        let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
+        let taskIDPostEscape = taskIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{taskID}",
+            with: taskIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "PUT",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter taskID: (path) Unique identifier of a task.
+    /// - returns: TaskUpdateResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func disableTaskV1(taskID: String, requestOptions: RequestOptions? = nil) async throws -> TaskUpdateResponse {
+        let response: Response<TaskUpdateResponse> = try await disableTaskV1WithHTTPInfo(
+            taskID: taskID,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    /// Disables a task using the v1 endpoint, please use `disableTask` instead.
+    /// Required API Key ACLs:
+    ///  - addObject
+    ///  - deleteIndex
+    ///  - editSettings
+    ///
+    /// - parameter taskID: (path) Unique identifier of a task.
+    /// - returns: RequestBuilder<TaskUpdateResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
+
+    open func disableTaskV1WithHTTPInfo(
+        taskID: String,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TaskUpdateResponse> {
+        guard !taskID.isEmpty else {
+            throw AlgoliaError.invalidArgument("taskID", "disableTaskV1")
+        }
+
         var resourcePath = "/1/tasks/{taskID}/disable"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
         let taskIDPostEscape = taskIDPreEscape
@@ -904,6 +1064,64 @@ open class IngestionClient {
     ) async throws -> Response<TaskUpdateResponse> {
         guard !taskID.isEmpty else {
             throw AlgoliaError.invalidArgument("taskID", "enableTask")
+        }
+
+        var resourcePath = "/2/tasks/{taskID}/enable"
+        let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
+        let taskIDPostEscape = taskIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{taskID}",
+            with: taskIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "PUT",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter taskID: (path) Unique identifier of a task.
+    /// - returns: TaskUpdateResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func enableTaskV1(taskID: String, requestOptions: RequestOptions? = nil) async throws -> TaskUpdateResponse {
+        let response: Response<TaskUpdateResponse> = try await enableTaskV1WithHTTPInfo(
+            taskID: taskID,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Enables a task using the v1 endpoint, please use `enableTask` instead.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter taskID: (path) Unique identifier of a task.
+    // - returns: RequestBuilder<TaskUpdateResponse>
+
+    open func enableTaskV1WithHTTPInfo(
+        taskID: String,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TaskUpdateResponse> {
+        guard !taskID.isEmpty else {
+            throw AlgoliaError.invalidArgument("taskID", "enableTaskV1")
         }
 
         var resourcePath = "/1/tasks/{taskID}/enable"
@@ -992,91 +1210,6 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
-    /// - parameter page: (query) Page number of the paginated API response. (optional)
-    /// - parameter type: (query) Type of authentication resource to retrieve. (optional)
-    /// - parameter platform: (query) Ecommerce platform for which to retrieve authentication resources. (optional)
-    /// - parameter sort: (query) Property by which to sort the list of authentication resources. (optional)
-    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
-    /// - returns: ListAuthenticationsResponse
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getAuthentications(
-        itemsPerPage: Int? = nil,
-        page: Int? = nil,
-        type: [AuthenticationType]? = nil,
-        platform: [PlatformWithNone]? = nil,
-        sort: AuthenticationSortKeys? = nil,
-        order: OrderKeys? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> ListAuthenticationsResponse {
-        let response: Response<ListAuthenticationsResponse> = try await getAuthenticationsWithHTTPInfo(
-            itemsPerPage: itemsPerPage,
-            page: page,
-            type: type,
-            platform: platform,
-            sort: sort,
-            order: order,
-            requestOptions: requestOptions
-        )
-
-        guard let body = response.body else {
-            throw AlgoliaError.missingData
-        }
-
-        return body
-    }
-
-    // Retrieves a list of all authentication resources.
-    // Required API Key ACLs:
-    //  - addObject
-    //  - deleteIndex
-    //  - editSettings
-    //
-    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
-    //
-    // - parameter page: (query) Page number of the paginated API response. (optional)
-    //
-    // - parameter type: (query) Type of authentication resource to retrieve. (optional)
-    //
-    // - parameter platform: (query) Ecommerce platform for which to retrieve authentication resources. (optional)
-    //
-    // - parameter sort: (query) Property by which to sort the list of authentication resources. (optional)
-    //
-    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
-    // - returns: RequestBuilder<ListAuthenticationsResponse>
-
-    open func getAuthenticationsWithHTTPInfo(
-        itemsPerPage: Int? = nil,
-        page: Int? = nil,
-        type: [AuthenticationType]? = nil,
-        platform: [PlatformWithNone]? = nil,
-        sort: AuthenticationSortKeys? = nil,
-        order: OrderKeys? = nil,
-        requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<ListAuthenticationsResponse> {
-        let resourcePath = "/1/authentications"
-        let body: AnyCodable? = nil
-        let queryParameters: [String: Any?] = [
-            "itemsPerPage": itemsPerPage?.encodeToJSON(),
-            "page": page?.encodeToJSON(),
-            "type": type?.encodeToJSON(),
-            "platform": platform?.encodeToJSON(),
-            "sort": sort?.encodeToJSON(),
-            "order": order?.encodeToJSON(),
-        ]
-
-        let nillableHeaders: [String: Any?]? = nil
-
-        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
-
-        return try await self.transporter.send(
-            method: "GET",
-            path: resourcePath,
-            data: body,
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
-        )
-    }
-
     /// - parameter destinationID: (path) Unique identifier of a destination.
     /// - returns: Destination
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1122,91 +1255,6 @@ open class IngestionClient {
         )
         let body: AnyCodable? = nil
         let queryParameters: [String: Any?]? = nil
-
-        let nillableHeaders: [String: Any?]? = nil
-
-        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
-
-        return try await self.transporter.send(
-            method: "GET",
-            path: resourcePath,
-            data: body,
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
-        )
-    }
-
-    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
-    /// - parameter page: (query) Page number of the paginated API response. (optional)
-    /// - parameter type: (query) Destination type. (optional)
-    /// - parameter authenticationID: (query) Authentication ID used by destinations. (optional)
-    /// - parameter sort: (query) Property by which to sort the destinations. (optional)
-    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
-    /// - returns: ListDestinationsResponse
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getDestinations(
-        itemsPerPage: Int? = nil,
-        page: Int? = nil,
-        type: [DestinationType]? = nil,
-        authenticationID: [String]? = nil,
-        sort: DestinationSortKeys? = nil,
-        order: OrderKeys? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> ListDestinationsResponse {
-        let response: Response<ListDestinationsResponse> = try await getDestinationsWithHTTPInfo(
-            itemsPerPage: itemsPerPage,
-            page: page,
-            type: type,
-            authenticationID: authenticationID,
-            sort: sort,
-            order: order,
-            requestOptions: requestOptions
-        )
-
-        guard let body = response.body else {
-            throw AlgoliaError.missingData
-        }
-
-        return body
-    }
-
-    // Retrieves a list of destinations.
-    // Required API Key ACLs:
-    //  - addObject
-    //  - deleteIndex
-    //  - editSettings
-    //
-    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
-    //
-    // - parameter page: (query) Page number of the paginated API response. (optional)
-    //
-    // - parameter type: (query) Destination type. (optional)
-    //
-    // - parameter authenticationID: (query) Authentication ID used by destinations. (optional)
-    //
-    // - parameter sort: (query) Property by which to sort the destinations. (optional)
-    //
-    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
-    // - returns: RequestBuilder<ListDestinationsResponse>
-
-    open func getDestinationsWithHTTPInfo(
-        itemsPerPage: Int? = nil,
-        page: Int? = nil,
-        type: [DestinationType]? = nil,
-        authenticationID: [String]? = nil,
-        sort: DestinationSortKeys? = nil,
-        order: OrderKeys? = nil,
-        requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<ListDestinationsResponse> {
-        let resourcePath = "/1/destinations"
-        let body: AnyCodable? = nil
-        let queryParameters: [String: Any?] = [
-            "itemsPerPage": itemsPerPage?.encodeToJSON(),
-            "page": page?.encodeToJSON(),
-            "type": type?.encodeToJSON(),
-            "authenticationID": authenticationID?.encodeToJSON(),
-            "sort": sort?.encodeToJSON(),
-            "order": order?.encodeToJSON(),
-        ]
 
         let nillableHeaders: [String: Any?]? = nil
 
@@ -1296,127 +1344,6 @@ open class IngestionClient {
     }
 
     /// - parameter runID: (path) Unique identifier of a task run.
-    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
-    /// - parameter page: (query) Page number of the paginated API response. (optional)
-    /// - parameter status: (query) Event status for filtering the list of task runs. (optional)
-    /// - parameter type: (query) Event type for filtering the list of task runs. (optional)
-    /// - parameter sort: (query) Property by which to sort the list of task run events. (optional)
-    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
-    /// - parameter startDate: (query) Date and time in RFC 3339 format for the earliest events to retrieve. By default,
-    /// the current time minus three hours is used. (optional)
-    /// - parameter endDate: (query) Date and time in RFC 3339 format for the latest events to retrieve. By default, the
-    /// current time is used. (optional)
-    /// - returns: ListEventsResponse
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getEvents(
-        runID: String,
-        itemsPerPage: Int? = nil,
-        page: Int? = nil,
-        status: [EventStatus]? = nil,
-        type: [IngestionEventType]? = nil,
-        sort: EventSortKeys? = nil,
-        order: OrderKeys? = nil,
-        startDate: String? = nil,
-        endDate: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> ListEventsResponse {
-        let response: Response<ListEventsResponse> = try await getEventsWithHTTPInfo(
-            runID: runID,
-            itemsPerPage: itemsPerPage,
-            page: page,
-            status: status,
-            type: type,
-            sort: sort,
-            order: order,
-            startDate: startDate,
-            endDate: endDate,
-            requestOptions: requestOptions
-        )
-
-        guard let body = response.body else {
-            throw AlgoliaError.missingData
-        }
-
-        return body
-    }
-
-    // Retrieves a list of events for a task run, identified by it's ID.
-    // Required API Key ACLs:
-    //  - addObject
-    //  - deleteIndex
-    //  - editSettings
-    //
-    // - parameter runID: (path) Unique identifier of a task run.
-    //
-    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
-    //
-    // - parameter page: (query) Page number of the paginated API response. (optional)
-    //
-    // - parameter status: (query) Event status for filtering the list of task runs. (optional)
-    //
-    // - parameter type: (query) Event type for filtering the list of task runs. (optional)
-    //
-    // - parameter sort: (query) Property by which to sort the list of task run events. (optional)
-    //
-    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
-    //
-    // - parameter startDate: (query) Date and time in RFC 3339 format for the earliest events to retrieve. By default,
-    // the current time minus three hours is used. (optional)
-    //
-    // - parameter endDate: (query) Date and time in RFC 3339 format for the latest events to retrieve. By default, the
-    // current time is used. (optional)
-    // - returns: RequestBuilder<ListEventsResponse>
-
-    open func getEventsWithHTTPInfo(
-        runID: String,
-        itemsPerPage: Int? = nil,
-        page: Int? = nil,
-        status: [EventStatus]? = nil,
-        type: [IngestionEventType]? = nil,
-        sort: EventSortKeys? = nil,
-        order: OrderKeys? = nil,
-        startDate: String? = nil,
-        endDate: String? = nil,
-        requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<ListEventsResponse> {
-        guard !runID.isEmpty else {
-            throw AlgoliaError.invalidArgument("runID", "getEvents")
-        }
-
-        var resourcePath = "/1/runs/{runID}/events"
-        let runIDPreEscape = "\(APIHelper.mapValueToPathItem(runID))"
-        let runIDPostEscape = runIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-        resourcePath = resourcePath.replacingOccurrences(
-            of: "{runID}",
-            with: runIDPostEscape,
-            options: .literal,
-            range: nil
-        )
-        let body: AnyCodable? = nil
-        let queryParameters: [String: Any?] = [
-            "itemsPerPage": itemsPerPage?.encodeToJSON(),
-            "page": page?.encodeToJSON(),
-            "status": status?.encodeToJSON(),
-            "type": type?.encodeToJSON(),
-            "sort": sort?.encodeToJSON(),
-            "order": order?.encodeToJSON(),
-            "startDate": startDate?.encodeToJSON(),
-            "endDate": endDate?.encodeToJSON(),
-        ]
-
-        let nillableHeaders: [String: Any?]? = nil
-
-        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
-
-        return try await self.transporter.send(
-            method: "GET",
-            path: resourcePath,
-            data: body,
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
-        )
-    }
-
-    /// - parameter runID: (path) Unique identifier of a task run.
     /// - returns: Run
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getRun(runID: String, requestOptions: RequestOptions? = nil) async throws -> Run {
@@ -1457,109 +1384,6 @@ open class IngestionClient {
         )
         let body: AnyCodable? = nil
         let queryParameters: [String: Any?]? = nil
-
-        let nillableHeaders: [String: Any?]? = nil
-
-        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
-
-        return try await self.transporter.send(
-            method: "GET",
-            path: resourcePath,
-            data: body,
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
-        )
-    }
-
-    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
-    /// - parameter page: (query) Page number of the paginated API response. (optional)
-    /// - parameter status: (query) Run status for filtering the list of task runs. (optional)
-    /// - parameter taskID: (query) Task ID for filtering the list of task runs. (optional)
-    /// - parameter sort: (query) Property by which to sort the list of task runs. (optional)
-    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
-    /// - parameter startDate: (query) Date in RFC 3339 format for the earliest run to retrieve. By default, the current
-    /// day minus seven days is used. (optional)
-    /// - parameter endDate: (query) Date in RFC 3339 format for the latest run to retrieve. By default, the current day
-    /// is used. (optional)
-    /// - returns: RunListResponse
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getRuns(
-        itemsPerPage: Int? = nil,
-        page: Int? = nil,
-        status: [RunStatus]? = nil,
-        taskID: String? = nil,
-        sort: RunSortKeys? = nil,
-        order: OrderKeys? = nil,
-        startDate: String? = nil,
-        endDate: String? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> RunListResponse {
-        let response: Response<RunListResponse> = try await getRunsWithHTTPInfo(
-            itemsPerPage: itemsPerPage,
-            page: page,
-            status: status,
-            taskID: taskID,
-            sort: sort,
-            order: order,
-            startDate: startDate,
-            endDate: endDate,
-            requestOptions: requestOptions
-        )
-
-        guard let body = response.body else {
-            throw AlgoliaError.missingData
-        }
-
-        return body
-    }
-
-    // Retrieve a list of task runs.
-    // Required API Key ACLs:
-    //  - addObject
-    //  - deleteIndex
-    //  - editSettings
-    //
-    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
-    //
-    // - parameter page: (query) Page number of the paginated API response. (optional)
-    //
-    // - parameter status: (query) Run status for filtering the list of task runs. (optional)
-    //
-    // - parameter taskID: (query) Task ID for filtering the list of task runs. (optional)
-    //
-    // - parameter sort: (query) Property by which to sort the list of task runs. (optional)
-    //
-    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
-    //
-    // - parameter startDate: (query) Date in RFC 3339 format for the earliest run to retrieve. By default, the current
-    // day minus seven days is used. (optional)
-    //
-    // - parameter endDate: (query) Date in RFC 3339 format for the latest run to retrieve. By default, the current day
-    // is used. (optional)
-    // - returns: RequestBuilder<RunListResponse>
-
-    open func getRunsWithHTTPInfo(
-        itemsPerPage: Int? = nil,
-        page: Int? = nil,
-        status: [RunStatus]? = nil,
-        taskID: String? = nil,
-        sort: RunSortKeys? = nil,
-        order: OrderKeys? = nil,
-        startDate: String? = nil,
-        endDate: String? = nil,
-        requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<RunListResponse> {
-        let resourcePath = "/1/runs"
-        let body: AnyCodable? = nil
-        let queryParameters: [String: Any?] = [
-            "itemsPerPage": itemsPerPage?.encodeToJSON(),
-            "page": page?.encodeToJSON(),
-            "status": status?.encodeToJSON(),
-            "taskID": taskID?.encodeToJSON(),
-            "sort": sort?.encodeToJSON(),
-            "order": order?.encodeToJSON(),
-            "startDate": startDate?.encodeToJSON(),
-            "endDate": endDate?.encodeToJSON(),
-        ]
 
         let nillableHeaders: [String: Any?]? = nil
 
@@ -1631,93 +1455,6 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
-    /// - parameter page: (query) Page number of the paginated API response. (optional)
-    /// - parameter type: (query) Source type. Some sources require authentication. (optional)
-    /// - parameter authenticationID: (query) Authentication IDs of the sources to retrieve. 'none' returns sources that
-    /// doesn't have an authentication resource.  (optional)
-    /// - parameter sort: (query) Property by which to sort the list of sources. (optional)
-    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
-    /// - returns: ListSourcesResponse
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getSources(
-        itemsPerPage: Int? = nil,
-        page: Int? = nil,
-        type: [SourceType]? = nil,
-        authenticationID: [String]? = nil,
-        sort: SourceSortKeys? = nil,
-        order: OrderKeys? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> ListSourcesResponse {
-        let response: Response<ListSourcesResponse> = try await getSourcesWithHTTPInfo(
-            itemsPerPage: itemsPerPage,
-            page: page,
-            type: type,
-            authenticationID: authenticationID,
-            sort: sort,
-            order: order,
-            requestOptions: requestOptions
-        )
-
-        guard let body = response.body else {
-            throw AlgoliaError.missingData
-        }
-
-        return body
-    }
-
-    // Retrieves a list of sources.
-    // Required API Key ACLs:
-    //  - addObject
-    //  - deleteIndex
-    //  - editSettings
-    //
-    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
-    //
-    // - parameter page: (query) Page number of the paginated API response. (optional)
-    //
-    // - parameter type: (query) Source type. Some sources require authentication. (optional)
-    //
-    // - parameter authenticationID: (query) Authentication IDs of the sources to retrieve. 'none' returns sources that
-    // doesn't have an authentication resource.  (optional)
-    //
-    // - parameter sort: (query) Property by which to sort the list of sources. (optional)
-    //
-    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
-    // - returns: RequestBuilder<ListSourcesResponse>
-
-    open func getSourcesWithHTTPInfo(
-        itemsPerPage: Int? = nil,
-        page: Int? = nil,
-        type: [SourceType]? = nil,
-        authenticationID: [String]? = nil,
-        sort: SourceSortKeys? = nil,
-        order: OrderKeys? = nil,
-        requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<ListSourcesResponse> {
-        let resourcePath = "/1/sources"
-        let body: AnyCodable? = nil
-        let queryParameters: [String: Any?] = [
-            "itemsPerPage": itemsPerPage?.encodeToJSON(),
-            "page": page?.encodeToJSON(),
-            "type": type?.encodeToJSON(),
-            "authenticationID": authenticationID?.encodeToJSON(),
-            "sort": sort?.encodeToJSON(),
-            "order": order?.encodeToJSON(),
-        ]
-
-        let nillableHeaders: [String: Any?]? = nil
-
-        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
-
-        return try await self.transporter.send(
-            method: "GET",
-            path: resourcePath,
-            data: body,
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
-        )
-    }
-
     /// - parameter taskID: (path) Unique identifier of a task.
     /// - returns: Task
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1748,7 +1485,7 @@ open class IngestionClient {
             throw AlgoliaError.invalidArgument("taskID", "getTask")
         }
 
-        var resourcePath = "/1/tasks/{taskID}"
+        var resourcePath = "/2/tasks/{taskID}"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
         let taskIDPostEscape = taskIDPreEscape
             .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1773,41 +1510,11 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
-    /// - parameter page: (query) Page number of the paginated API response. (optional)
-    /// - parameter action: (query) Actions for filtering the list of tasks. (optional)
-    /// - parameter enabled: (query) Whether to filter the list of tasks by the `enabled` status. (optional)
-    /// - parameter sourceID: (query) Source IDs for filtering the list of tasks. (optional)
-    /// - parameter destinationID: (query) Destination IDs for filtering the list of tasks. (optional)
-    /// - parameter triggerType: (query) Type of task trigger for filtering the list of tasks. (optional)
-    /// - parameter sort: (query) Property by which to sort the list of tasks. (optional)
-    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
-    /// - returns: ListTasksResponse
+    /// - parameter taskID: (path) Unique identifier of a task.
+    /// - returns: TaskV1
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getTasks(
-        itemsPerPage: Int? = nil,
-        page: Int? = nil,
-        action: [ActionType]? = nil,
-        enabled: Bool? = nil,
-        sourceID: [String]? = nil,
-        destinationID: [String]? = nil,
-        triggerType: [TriggerType]? = nil,
-        sort: TaskSortKeys? = nil,
-        order: OrderKeys? = nil,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> ListTasksResponse {
-        let response: Response<ListTasksResponse> = try await getTasksWithHTTPInfo(
-            itemsPerPage: itemsPerPage,
-            page: page,
-            action: action,
-            enabled: enabled,
-            sourceID: sourceID,
-            destinationID: destinationID,
-            triggerType: triggerType,
-            sort: sort,
-            order: order,
-            requestOptions: requestOptions
-        )
+    open func getTaskV1(taskID: String, requestOptions: RequestOptions? = nil) async throws -> TaskV1 {
+        let response: Response<TaskV1> = try await getTaskV1WithHTTPInfo(taskID: taskID, requestOptions: requestOptions)
 
         guard let body = response.body else {
             throw AlgoliaError.missingData
@@ -1816,56 +1523,35 @@ open class IngestionClient {
         return body
     }
 
-    // Retrieves a list of tasks.
+    // Retrieves a task by its ID using the v1 endpoint, please use `getTask` instead.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
     //  - editSettings
     //
-    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
-    //
-    // - parameter page: (query) Page number of the paginated API response. (optional)
-    //
-    // - parameter action: (query) Actions for filtering the list of tasks. (optional)
-    //
-    // - parameter enabled: (query) Whether to filter the list of tasks by the `enabled` status. (optional)
-    //
-    // - parameter sourceID: (query) Source IDs for filtering the list of tasks. (optional)
-    //
-    // - parameter destinationID: (query) Destination IDs for filtering the list of tasks. (optional)
-    //
-    // - parameter triggerType: (query) Type of task trigger for filtering the list of tasks. (optional)
-    //
-    // - parameter sort: (query) Property by which to sort the list of tasks. (optional)
-    //
-    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
-    // - returns: RequestBuilder<ListTasksResponse>
+    // - parameter taskID: (path) Unique identifier of a task.
+    // - returns: RequestBuilder<TaskV1>
 
-    open func getTasksWithHTTPInfo(
-        itemsPerPage: Int? = nil,
-        page: Int? = nil,
-        action: [ActionType]? = nil,
-        enabled: Bool? = nil,
-        sourceID: [String]? = nil,
-        destinationID: [String]? = nil,
-        triggerType: [TriggerType]? = nil,
-        sort: TaskSortKeys? = nil,
-        order: OrderKeys? = nil,
+    open func getTaskV1WithHTTPInfo(
+        taskID: String,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<ListTasksResponse> {
-        let resourcePath = "/1/tasks"
+    ) async throws -> Response<TaskV1> {
+        guard !taskID.isEmpty else {
+            throw AlgoliaError.invalidArgument("taskID", "getTaskV1")
+        }
+
+        var resourcePath = "/1/tasks/{taskID}"
+        let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
+        let taskIDPostEscape = taskIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{taskID}",
+            with: taskIDPostEscape,
+            options: .literal,
+            range: nil
+        )
         let body: AnyCodable? = nil
-        let queryParameters: [String: Any?] = [
-            "itemsPerPage": itemsPerPage?.encodeToJSON(),
-            "page": page?.encodeToJSON(),
-            "action": action?.encodeToJSON(),
-            "enabled": enabled?.encodeToJSON(),
-            "sourceID": sourceID?.encodeToJSON(),
-            "destinationID": destinationID?.encodeToJSON(),
-            "triggerType": triggerType?.encodeToJSON(),
-            "sort": sort?.encodeToJSON(),
-            "order": order?.encodeToJSON(),
-        ]
+        let queryParameters: [String: Any?]? = nil
 
         let nillableHeaders: [String: Any?]? = nil
 
@@ -1940,16 +1626,709 @@ open class IngestionClient {
         )
     }
 
+    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    /// - parameter page: (query) Page number of the paginated API response. (optional)
+    /// - parameter type: (query) Type of authentication resource to retrieve. (optional)
+    /// - parameter platform: (query) Ecommerce platform for which to retrieve authentication resources. (optional)
+    /// - parameter sort: (query) Property by which to sort the list of authentication resources. (optional)
+    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    /// - returns: ListAuthenticationsResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func listAuthentications(
+        itemsPerPage: Int? = nil,
+        page: Int? = nil,
+        type: [AuthenticationType]? = nil,
+        platform: [PlatformWithNone]? = nil,
+        sort: AuthenticationSortKeys? = nil,
+        order: OrderKeys? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> ListAuthenticationsResponse {
+        let response: Response<ListAuthenticationsResponse> = try await listAuthenticationsWithHTTPInfo(
+            itemsPerPage: itemsPerPage,
+            page: page,
+            type: type,
+            platform: platform,
+            sort: sort,
+            order: order,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieves a list of all authentication resources.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    //
+    // - parameter page: (query) Page number of the paginated API response. (optional)
+    //
+    // - parameter type: (query) Type of authentication resource to retrieve. (optional)
+    //
+    // - parameter platform: (query) Ecommerce platform for which to retrieve authentication resources. (optional)
+    //
+    // - parameter sort: (query) Property by which to sort the list of authentication resources. (optional)
+    //
+    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    // - returns: RequestBuilder<ListAuthenticationsResponse>
+
+    open func listAuthenticationsWithHTTPInfo(
+        itemsPerPage: Int? = nil,
+        page: Int? = nil,
+        type: [AuthenticationType]? = nil,
+        platform: [PlatformWithNone]? = nil,
+        sort: AuthenticationSortKeys? = nil,
+        order: OrderKeys? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<ListAuthenticationsResponse> {
+        let resourcePath = "/1/authentications"
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?] = [
+            "itemsPerPage": itemsPerPage?.encodeToJSON(),
+            "page": page?.encodeToJSON(),
+            "type": type?.encodeToJSON(),
+            "platform": platform?.encodeToJSON(),
+            "sort": sort?.encodeToJSON(),
+            "order": order?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    /// - parameter page: (query) Page number of the paginated API response. (optional)
+    /// - parameter type: (query) Destination type. (optional)
+    /// - parameter authenticationID: (query) Authentication ID used by destinations. (optional)
+    /// - parameter sort: (query) Property by which to sort the destinations. (optional)
+    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    /// - returns: ListDestinationsResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func listDestinations(
+        itemsPerPage: Int? = nil,
+        page: Int? = nil,
+        type: [DestinationType]? = nil,
+        authenticationID: [String]? = nil,
+        sort: DestinationSortKeys? = nil,
+        order: OrderKeys? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> ListDestinationsResponse {
+        let response: Response<ListDestinationsResponse> = try await listDestinationsWithHTTPInfo(
+            itemsPerPage: itemsPerPage,
+            page: page,
+            type: type,
+            authenticationID: authenticationID,
+            sort: sort,
+            order: order,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieves a list of destinations.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    //
+    // - parameter page: (query) Page number of the paginated API response. (optional)
+    //
+    // - parameter type: (query) Destination type. (optional)
+    //
+    // - parameter authenticationID: (query) Authentication ID used by destinations. (optional)
+    //
+    // - parameter sort: (query) Property by which to sort the destinations. (optional)
+    //
+    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    // - returns: RequestBuilder<ListDestinationsResponse>
+
+    open func listDestinationsWithHTTPInfo(
+        itemsPerPage: Int? = nil,
+        page: Int? = nil,
+        type: [DestinationType]? = nil,
+        authenticationID: [String]? = nil,
+        sort: DestinationSortKeys? = nil,
+        order: OrderKeys? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<ListDestinationsResponse> {
+        let resourcePath = "/1/destinations"
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?] = [
+            "itemsPerPage": itemsPerPage?.encodeToJSON(),
+            "page": page?.encodeToJSON(),
+            "type": type?.encodeToJSON(),
+            "authenticationID": authenticationID?.encodeToJSON(),
+            "sort": sort?.encodeToJSON(),
+            "order": order?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter runID: (path) Unique identifier of a task run.
+    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    /// - parameter page: (query) Page number of the paginated API response. (optional)
+    /// - parameter status: (query) Event status for filtering the list of task runs. (optional)
+    /// - parameter type: (query) Event type for filtering the list of task runs. (optional)
+    /// - parameter sort: (query) Property by which to sort the list of task run events. (optional)
+    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    /// - parameter startDate: (query) Date and time in RFC 3339 format for the earliest events to retrieve. By default,
+    /// the current time minus three hours is used. (optional)
+    /// - parameter endDate: (query) Date and time in RFC 3339 format for the latest events to retrieve. By default, the
+    /// current time is used. (optional)
+    /// - returns: ListEventsResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func listEvents(
+        runID: String,
+        itemsPerPage: Int? = nil,
+        page: Int? = nil,
+        status: [EventStatus]? = nil,
+        type: [IngestionEventType]? = nil,
+        sort: EventSortKeys? = nil,
+        order: OrderKeys? = nil,
+        startDate: String? = nil,
+        endDate: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> ListEventsResponse {
+        let response: Response<ListEventsResponse> = try await listEventsWithHTTPInfo(
+            runID: runID,
+            itemsPerPage: itemsPerPage,
+            page: page,
+            status: status,
+            type: type,
+            sort: sort,
+            order: order,
+            startDate: startDate,
+            endDate: endDate,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieves a list of events for a task run, identified by it's ID.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter runID: (path) Unique identifier of a task run.
+    //
+    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    //
+    // - parameter page: (query) Page number of the paginated API response. (optional)
+    //
+    // - parameter status: (query) Event status for filtering the list of task runs. (optional)
+    //
+    // - parameter type: (query) Event type for filtering the list of task runs. (optional)
+    //
+    // - parameter sort: (query) Property by which to sort the list of task run events. (optional)
+    //
+    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    //
+    // - parameter startDate: (query) Date and time in RFC 3339 format for the earliest events to retrieve. By default,
+    // the current time minus three hours is used. (optional)
+    //
+    // - parameter endDate: (query) Date and time in RFC 3339 format for the latest events to retrieve. By default, the
+    // current time is used. (optional)
+    // - returns: RequestBuilder<ListEventsResponse>
+
+    open func listEventsWithHTTPInfo(
+        runID: String,
+        itemsPerPage: Int? = nil,
+        page: Int? = nil,
+        status: [EventStatus]? = nil,
+        type: [IngestionEventType]? = nil,
+        sort: EventSortKeys? = nil,
+        order: OrderKeys? = nil,
+        startDate: String? = nil,
+        endDate: String? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<ListEventsResponse> {
+        guard !runID.isEmpty else {
+            throw AlgoliaError.invalidArgument("runID", "listEvents")
+        }
+
+        var resourcePath = "/1/runs/{runID}/events"
+        let runIDPreEscape = "\(APIHelper.mapValueToPathItem(runID))"
+        let runIDPostEscape = runIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{runID}",
+            with: runIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?] = [
+            "itemsPerPage": itemsPerPage?.encodeToJSON(),
+            "page": page?.encodeToJSON(),
+            "status": status?.encodeToJSON(),
+            "type": type?.encodeToJSON(),
+            "sort": sort?.encodeToJSON(),
+            "order": order?.encodeToJSON(),
+            "startDate": startDate?.encodeToJSON(),
+            "endDate": endDate?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    /// - parameter page: (query) Page number of the paginated API response. (optional)
+    /// - parameter status: (query) Run status for filtering the list of task runs. (optional)
+    /// - parameter taskID: (query) Task ID for filtering the list of task runs. (optional)
+    /// - parameter sort: (query) Property by which to sort the list of task runs. (optional)
+    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    /// - parameter startDate: (query) Date in RFC 3339 format for the earliest run to retrieve. By default, the current
+    /// day minus seven days is used. (optional)
+    /// - parameter endDate: (query) Date in RFC 3339 format for the latest run to retrieve. By default, the current day
+    /// is used. (optional)
+    /// - returns: RunListResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func listRuns(
+        itemsPerPage: Int? = nil,
+        page: Int? = nil,
+        status: [RunStatus]? = nil,
+        taskID: String? = nil,
+        sort: RunSortKeys? = nil,
+        order: OrderKeys? = nil,
+        startDate: String? = nil,
+        endDate: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> RunListResponse {
+        let response: Response<RunListResponse> = try await listRunsWithHTTPInfo(
+            itemsPerPage: itemsPerPage,
+            page: page,
+            status: status,
+            taskID: taskID,
+            sort: sort,
+            order: order,
+            startDate: startDate,
+            endDate: endDate,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieve a list of task runs.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    //
+    // - parameter page: (query) Page number of the paginated API response. (optional)
+    //
+    // - parameter status: (query) Run status for filtering the list of task runs. (optional)
+    //
+    // - parameter taskID: (query) Task ID for filtering the list of task runs. (optional)
+    //
+    // - parameter sort: (query) Property by which to sort the list of task runs. (optional)
+    //
+    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    //
+    // - parameter startDate: (query) Date in RFC 3339 format for the earliest run to retrieve. By default, the current
+    // day minus seven days is used. (optional)
+    //
+    // - parameter endDate: (query) Date in RFC 3339 format for the latest run to retrieve. By default, the current day
+    // is used. (optional)
+    // - returns: RequestBuilder<RunListResponse>
+
+    open func listRunsWithHTTPInfo(
+        itemsPerPage: Int? = nil,
+        page: Int? = nil,
+        status: [RunStatus]? = nil,
+        taskID: String? = nil,
+        sort: RunSortKeys? = nil,
+        order: OrderKeys? = nil,
+        startDate: String? = nil,
+        endDate: String? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<RunListResponse> {
+        let resourcePath = "/1/runs"
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?] = [
+            "itemsPerPage": itemsPerPage?.encodeToJSON(),
+            "page": page?.encodeToJSON(),
+            "status": status?.encodeToJSON(),
+            "taskID": taskID?.encodeToJSON(),
+            "sort": sort?.encodeToJSON(),
+            "order": order?.encodeToJSON(),
+            "startDate": startDate?.encodeToJSON(),
+            "endDate": endDate?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    /// - parameter page: (query) Page number of the paginated API response. (optional)
+    /// - parameter type: (query) Source type. Some sources require authentication. (optional)
+    /// - parameter authenticationID: (query) Authentication IDs of the sources to retrieve. 'none' returns sources that
+    /// doesn't have an authentication resource.  (optional)
+    /// - parameter sort: (query) Property by which to sort the list of sources. (optional)
+    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    /// - returns: ListSourcesResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func listSources(
+        itemsPerPage: Int? = nil,
+        page: Int? = nil,
+        type: [SourceType]? = nil,
+        authenticationID: [String]? = nil,
+        sort: SourceSortKeys? = nil,
+        order: OrderKeys? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> ListSourcesResponse {
+        let response: Response<ListSourcesResponse> = try await listSourcesWithHTTPInfo(
+            itemsPerPage: itemsPerPage,
+            page: page,
+            type: type,
+            authenticationID: authenticationID,
+            sort: sort,
+            order: order,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieves a list of sources.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    //
+    // - parameter page: (query) Page number of the paginated API response. (optional)
+    //
+    // - parameter type: (query) Source type. Some sources require authentication. (optional)
+    //
+    // - parameter authenticationID: (query) Authentication IDs of the sources to retrieve. 'none' returns sources that
+    // doesn't have an authentication resource.  (optional)
+    //
+    // - parameter sort: (query) Property by which to sort the list of sources. (optional)
+    //
+    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    // - returns: RequestBuilder<ListSourcesResponse>
+
+    open func listSourcesWithHTTPInfo(
+        itemsPerPage: Int? = nil,
+        page: Int? = nil,
+        type: [SourceType]? = nil,
+        authenticationID: [String]? = nil,
+        sort: SourceSortKeys? = nil,
+        order: OrderKeys? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<ListSourcesResponse> {
+        let resourcePath = "/1/sources"
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?] = [
+            "itemsPerPage": itemsPerPage?.encodeToJSON(),
+            "page": page?.encodeToJSON(),
+            "type": type?.encodeToJSON(),
+            "authenticationID": authenticationID?.encodeToJSON(),
+            "sort": sort?.encodeToJSON(),
+            "order": order?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    /// - parameter page: (query) Page number of the paginated API response. (optional)
+    /// - parameter action: (query) Actions for filtering the list of tasks. (optional)
+    /// - parameter enabled: (query) Whether to filter the list of tasks by the `enabled` status. (optional)
+    /// - parameter sourceID: (query) Source IDs for filtering the list of tasks. (optional)
+    /// - parameter destinationID: (query) Destination IDs for filtering the list of tasks. (optional)
+    /// - parameter triggerType: (query) Type of task trigger for filtering the list of tasks. (optional)
+    /// - parameter sort: (query) Property by which to sort the list of tasks. (optional)
+    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    /// - returns: ListTasksResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func listTasks(
+        itemsPerPage: Int? = nil,
+        page: Int? = nil,
+        action: [ActionType]? = nil,
+        enabled: Bool? = nil,
+        sourceID: [String]? = nil,
+        destinationID: [String]? = nil,
+        triggerType: [TriggerType]? = nil,
+        sort: TaskSortKeys? = nil,
+        order: OrderKeys? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> ListTasksResponse {
+        let response: Response<ListTasksResponse> = try await listTasksWithHTTPInfo(
+            itemsPerPage: itemsPerPage,
+            page: page,
+            action: action,
+            enabled: enabled,
+            sourceID: sourceID,
+            destinationID: destinationID,
+            triggerType: triggerType,
+            sort: sort,
+            order: order,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieves a list of tasks.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    //
+    // - parameter page: (query) Page number of the paginated API response. (optional)
+    //
+    // - parameter action: (query) Actions for filtering the list of tasks. (optional)
+    //
+    // - parameter enabled: (query) Whether to filter the list of tasks by the `enabled` status. (optional)
+    //
+    // - parameter sourceID: (query) Source IDs for filtering the list of tasks. (optional)
+    //
+    // - parameter destinationID: (query) Destination IDs for filtering the list of tasks. (optional)
+    //
+    // - parameter triggerType: (query) Type of task trigger for filtering the list of tasks. (optional)
+    //
+    // - parameter sort: (query) Property by which to sort the list of tasks. (optional)
+    //
+    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    // - returns: RequestBuilder<ListTasksResponse>
+
+    open func listTasksWithHTTPInfo(
+        itemsPerPage: Int? = nil,
+        page: Int? = nil,
+        action: [ActionType]? = nil,
+        enabled: Bool? = nil,
+        sourceID: [String]? = nil,
+        destinationID: [String]? = nil,
+        triggerType: [TriggerType]? = nil,
+        sort: TaskSortKeys? = nil,
+        order: OrderKeys? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<ListTasksResponse> {
+        let resourcePath = "/2/tasks"
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?] = [
+            "itemsPerPage": itemsPerPage?.encodeToJSON(),
+            "page": page?.encodeToJSON(),
+            "action": action?.encodeToJSON(),
+            "enabled": enabled?.encodeToJSON(),
+            "sourceID": sourceID?.encodeToJSON(),
+            "destinationID": destinationID?.encodeToJSON(),
+            "triggerType": triggerType?.encodeToJSON(),
+            "sort": sort?.encodeToJSON(),
+            "order": order?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    /// - parameter page: (query) Page number of the paginated API response. (optional)
+    /// - parameter action: (query) Actions for filtering the list of tasks. (optional)
+    /// - parameter enabled: (query) Whether to filter the list of tasks by the `enabled` status. (optional)
+    /// - parameter sourceID: (query) Source IDs for filtering the list of tasks. (optional)
+    /// - parameter destinationID: (query) Destination IDs for filtering the list of tasks. (optional)
+    /// - parameter triggerType: (query) Type of task trigger for filtering the list of tasks. (optional)
+    /// - parameter sort: (query) Property by which to sort the list of tasks. (optional)
+    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    /// - returns: ListTasksResponseV1
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func listTasksV1(
+        itemsPerPage: Int? = nil,
+        page: Int? = nil,
+        action: [ActionType]? = nil,
+        enabled: Bool? = nil,
+        sourceID: [String]? = nil,
+        destinationID: [String]? = nil,
+        triggerType: [TriggerType]? = nil,
+        sort: TaskSortKeys? = nil,
+        order: OrderKeys? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> ListTasksResponseV1 {
+        let response: Response<ListTasksResponseV1> = try await listTasksV1WithHTTPInfo(
+            itemsPerPage: itemsPerPage,
+            page: page,
+            action: action,
+            enabled: enabled,
+            sourceID: sourceID,
+            destinationID: destinationID,
+            triggerType: triggerType,
+            sort: sort,
+            order: order,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieves a list of tasks using the v1 endpoint, please use `getTasks` instead.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    //
+    // - parameter page: (query) Page number of the paginated API response. (optional)
+    //
+    // - parameter action: (query) Actions for filtering the list of tasks. (optional)
+    //
+    // - parameter enabled: (query) Whether to filter the list of tasks by the `enabled` status. (optional)
+    //
+    // - parameter sourceID: (query) Source IDs for filtering the list of tasks. (optional)
+    //
+    // - parameter destinationID: (query) Destination IDs for filtering the list of tasks. (optional)
+    //
+    // - parameter triggerType: (query) Type of task trigger for filtering the list of tasks. (optional)
+    //
+    // - parameter sort: (query) Property by which to sort the list of tasks. (optional)
+    //
+    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    // - returns: RequestBuilder<ListTasksResponseV1>
+
+    open func listTasksV1WithHTTPInfo(
+        itemsPerPage: Int? = nil,
+        page: Int? = nil,
+        action: [ActionType]? = nil,
+        enabled: Bool? = nil,
+        sourceID: [String]? = nil,
+        destinationID: [String]? = nil,
+        triggerType: [TriggerType]? = nil,
+        sort: TaskSortKeys? = nil,
+        order: OrderKeys? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<ListTasksResponseV1> {
+        let resourcePath = "/1/tasks"
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?] = [
+            "itemsPerPage": itemsPerPage?.encodeToJSON(),
+            "page": page?.encodeToJSON(),
+            "action": action?.encodeToJSON(),
+            "enabled": enabled?.encodeToJSON(),
+            "sourceID": sourceID?.encodeToJSON(),
+            "destinationID": destinationID?.encodeToJSON(),
+            "triggerType": triggerType?.encodeToJSON(),
+            "sort": sort?.encodeToJSON(),
+            "order": order?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
     /// - parameter sort: (query) Property by which to sort the list. (optional)
     /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     /// - returns: ListTransformationsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getTransformations(
+    open func listTransformations(
         sort: SortKeys? = nil,
         order: OrderKeys? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws -> ListTransformationsResponse {
-        let response: Response<ListTransformationsResponse> = try await getTransformationsWithHTTPInfo(
+        let response: Response<ListTransformationsResponse> = try await listTransformationsWithHTTPInfo(
             sort: sort,
             order: order,
             requestOptions: requestOptions
@@ -1973,7 +2352,7 @@ open class IngestionClient {
     // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     // - returns: RequestBuilder<ListTransformationsResponse>
 
-    open func getTransformationsWithHTTPInfo(
+    open func listTransformationsWithHTTPInfo(
         sort: SortKeys? = nil,
         order: OrderKeys? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
@@ -2028,6 +2407,65 @@ open class IngestionClient {
     ) async throws -> Response<RunResponse> {
         guard !taskID.isEmpty else {
             throw AlgoliaError.invalidArgument("taskID", "runTask")
+        }
+
+        var resourcePath = "/2/tasks/{taskID}/run"
+        let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
+        let taskIDPostEscape = taskIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{taskID}",
+            with: taskIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter taskID: (path) Unique identifier of a task.
+    /// - returns: RunResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func runTaskV1(taskID: String, requestOptions: RequestOptions? = nil) async throws -> RunResponse {
+        let response: Response<RunResponse> = try await runTaskV1WithHTTPInfo(
+            taskID: taskID,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Runs a task using the v1 endpoint, please use `runTask` instead. You can check the status of task runs with the
+    // observability endpoints.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter taskID: (path) Unique identifier of a task.
+    // - returns: RequestBuilder<RunResponse>
+
+    open func runTaskV1WithHTTPInfo(
+        taskID: String,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<RunResponse> {
+        guard !taskID.isEmpty else {
+            throw AlgoliaError.invalidArgument("taskID", "runTaskV1")
         }
 
         var resourcePath = "/1/tasks/{taskID}/run"
@@ -2228,6 +2666,51 @@ open class IngestionClient {
         taskSearch: TaskSearch,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<[Task]> {
+        let resourcePath = "/2/tasks/search"
+        let body = taskSearch
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter taskSearch: (body)
+    /// - returns: [TaskV1]
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func searchTasksV1(taskSearch: TaskSearch, requestOptions: RequestOptions? = nil) async throws -> [TaskV1] {
+        let response: Response<[TaskV1]> = try await searchTasksV1WithHTTPInfo(
+            taskSearch: taskSearch,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Searches for tasks using the v1 endpoint, please use `searchTasks` instead.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter taskSearch: (body)
+    // - returns: RequestBuilder<[TaskV1]>
+
+    open func searchTasksV1WithHTTPInfo(
+        taskSearch: TaskSearch,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<[TaskV1]> {
         let resourcePath = "/1/tasks/search"
         let body = taskSearch
         let queryParameters: [String: Any?]? = nil
@@ -2640,6 +3123,70 @@ open class IngestionClient {
     ) async throws -> Response<TaskUpdateResponse> {
         guard !taskID.isEmpty else {
             throw AlgoliaError.invalidArgument("taskID", "updateTask")
+        }
+
+        var resourcePath = "/2/tasks/{taskID}"
+        let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
+        let taskIDPostEscape = taskIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{taskID}",
+            with: taskIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body = taskUpdate
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "PATCH",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter taskID: (path) Unique identifier of a task.
+    /// - parameter taskUpdate: (body)
+    /// - returns: TaskUpdateResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func updateTaskV1(
+        taskID: String,
+        taskUpdate: TaskUpdateV1,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> TaskUpdateResponse {
+        let response: Response<TaskUpdateResponse> = try await updateTaskV1WithHTTPInfo(
+            taskID: taskID,
+            taskUpdate: taskUpdate,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Updates a task by its ID using the v1 endpoint, please use `updateTask` instead.
+    //
+    //
+    // - parameter taskID: (path) Unique identifier of a task.
+    //
+    // - parameter taskUpdate: (body)
+    // - returns: RequestBuilder<TaskUpdateResponse>
+
+    open func updateTaskV1WithHTTPInfo(
+        taskID: String,
+        taskUpdate: TaskUpdateV1,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TaskUpdateResponse> {
+        guard !taskID.isEmpty else {
+            throw AlgoliaError.invalidArgument("taskID", "updateTaskV1")
         }
 
         var resourcePath = "/1/tasks/{taskID}"

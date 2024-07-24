@@ -6,19 +6,16 @@ import Foundation
     import Core
 #endif
 
-public struct Task: Codable, JSONEncodable {
+/// The V1 task object, please use methods and types that don&#39;t contain the V1 suffix.
+@available(*, deprecated, message: "This schema is deprecated.")
+public struct TaskV1: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of a task.
     public var taskID: String
     /// Universally uniqud identifier (UUID) of a source.
     public var sourceID: String
     /// Universally unique identifier (UUID) of a destination resource.
     public var destinationID: String
-    /// Cron expression for the task's schedule.
-    public var cron: String?
-    /// The last time the scheduled task ran in RFC 3339 format.
-    public var lastRun: String?
-    /// The next scheduled run of the task in RFC 3339 format.
-    public var nextRun: String?
+    public var trigger: Trigger
     public var input: TaskInput?
     /// Whether the task is enabled.
     public var enabled: Bool
@@ -36,9 +33,7 @@ public struct Task: Codable, JSONEncodable {
         taskID: String,
         sourceID: String,
         destinationID: String,
-        cron: String? = nil,
-        lastRun: String? = nil,
-        nextRun: String? = nil,
+        trigger: Trigger,
         input: TaskInput? = nil,
         enabled: Bool,
         failureThreshold: Int? = nil,
@@ -50,9 +45,7 @@ public struct Task: Codable, JSONEncodable {
         self.taskID = taskID
         self.sourceID = sourceID
         self.destinationID = destinationID
-        self.cron = cron
-        self.lastRun = lastRun
-        self.nextRun = nextRun
+        self.trigger = trigger
         self.input = input
         self.enabled = enabled
         self.failureThreshold = failureThreshold
@@ -66,9 +59,7 @@ public struct Task: Codable, JSONEncodable {
         case taskID
         case sourceID
         case destinationID
-        case cron
-        case lastRun
-        case nextRun
+        case trigger
         case input
         case enabled
         case failureThreshold
@@ -85,9 +76,7 @@ public struct Task: Codable, JSONEncodable {
         try container.encode(self.taskID, forKey: .taskID)
         try container.encode(self.sourceID, forKey: .sourceID)
         try container.encode(self.destinationID, forKey: .destinationID)
-        try container.encodeIfPresent(self.cron, forKey: .cron)
-        try container.encodeIfPresent(self.lastRun, forKey: .lastRun)
-        try container.encodeIfPresent(self.nextRun, forKey: .nextRun)
+        try container.encode(self.trigger, forKey: .trigger)
         try container.encodeIfPresent(self.input, forKey: .input)
         try container.encode(self.enabled, forKey: .enabled)
         try container.encodeIfPresent(self.failureThreshold, forKey: .failureThreshold)
@@ -98,14 +87,12 @@ public struct Task: Codable, JSONEncodable {
     }
 }
 
-extension Task: Equatable {
-    public static func ==(lhs: Task, rhs: Task) -> Bool {
+extension TaskV1: Equatable {
+    public static func ==(lhs: TaskV1, rhs: TaskV1) -> Bool {
         lhs.taskID == rhs.taskID &&
             lhs.sourceID == rhs.sourceID &&
             lhs.destinationID == rhs.destinationID &&
-            lhs.cron == rhs.cron &&
-            lhs.lastRun == rhs.lastRun &&
-            lhs.nextRun == rhs.nextRun &&
+            lhs.trigger == rhs.trigger &&
             lhs.input == rhs.input &&
             lhs.enabled == rhs.enabled &&
             lhs.failureThreshold == rhs.failureThreshold &&
@@ -116,14 +103,12 @@ extension Task: Equatable {
     }
 }
 
-extension Task: Hashable {
+extension TaskV1: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.taskID.hashValue)
         hasher.combine(self.sourceID.hashValue)
         hasher.combine(self.destinationID.hashValue)
-        hasher.combine(self.cron?.hashValue)
-        hasher.combine(self.lastRun?.hashValue)
-        hasher.combine(self.nextRun?.hashValue)
+        hasher.combine(self.trigger.hashValue)
         hasher.combine(self.input?.hashValue)
         hasher.combine(self.enabled.hashValue)
         hasher.combine(self.failureThreshold?.hashValue)

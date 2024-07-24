@@ -6,12 +6,13 @@ import Foundation
     import Core
 #endif
 
-/// API request body for updating a task.
-public struct TaskUpdate: Codable, JSONEncodable {
+/// API request body for updating a task using the V1 shape, please use methods and types that don&#39;t contain the V1
+/// suffix.
+@available(*, deprecated, message: "This schema is deprecated.")
+public struct TaskUpdateV1: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of a destination resource.
     public var destinationID: String?
-    /// Cron expression for the task's schedule.
-    public var cron: String?
+    public var trigger: TriggerUpdateInput?
     public var input: TaskInput?
     /// Whether the task is enabled.
     public var enabled: Bool?
@@ -20,13 +21,13 @@ public struct TaskUpdate: Codable, JSONEncodable {
 
     public init(
         destinationID: String? = nil,
-        cron: String? = nil,
+        trigger: TriggerUpdateInput? = nil,
         input: TaskInput? = nil,
         enabled: Bool? = nil,
         failureThreshold: Int? = nil
     ) {
         self.destinationID = destinationID
-        self.cron = cron
+        self.trigger = trigger
         self.input = input
         self.enabled = enabled
         self.failureThreshold = failureThreshold
@@ -34,7 +35,7 @@ public struct TaskUpdate: Codable, JSONEncodable {
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case destinationID
-        case cron
+        case trigger
         case input
         case enabled
         case failureThreshold
@@ -45,27 +46,27 @@ public struct TaskUpdate: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.destinationID, forKey: .destinationID)
-        try container.encodeIfPresent(self.cron, forKey: .cron)
+        try container.encodeIfPresent(self.trigger, forKey: .trigger)
         try container.encodeIfPresent(self.input, forKey: .input)
         try container.encodeIfPresent(self.enabled, forKey: .enabled)
         try container.encodeIfPresent(self.failureThreshold, forKey: .failureThreshold)
     }
 }
 
-extension TaskUpdate: Equatable {
-    public static func ==(lhs: TaskUpdate, rhs: TaskUpdate) -> Bool {
+extension TaskUpdateV1: Equatable {
+    public static func ==(lhs: TaskUpdateV1, rhs: TaskUpdateV1) -> Bool {
         lhs.destinationID == rhs.destinationID &&
-            lhs.cron == rhs.cron &&
+            lhs.trigger == rhs.trigger &&
             lhs.input == rhs.input &&
             lhs.enabled == rhs.enabled &&
             lhs.failureThreshold == rhs.failureThreshold
     }
 }
 
-extension TaskUpdate: Hashable {
+extension TaskUpdateV1: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.destinationID?.hashValue)
-        hasher.combine(self.cron?.hashValue)
+        hasher.combine(self.trigger?.hashValue)
         hasher.combine(self.input?.hashValue)
         hasher.combine(self.enabled?.hashValue)
         hasher.combine(self.failureThreshold?.hashValue)
