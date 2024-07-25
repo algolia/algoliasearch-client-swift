@@ -2377,6 +2377,76 @@ open class IngestionClient {
     }
 
     /// - parameter taskID: (path) Unique identifier of a task.
+    /// - parameter batchWriteParams: (body) Request body of a Search API `batch` request that will be pushed in the
+    /// Connectors pipeline.
+    /// - returns: RunResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func pushTask(
+        taskID: String,
+        batchWriteParams: IngestionBatchWriteParams,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> RunResponse {
+        let response: Response<RunResponse> = try await pushTaskWithHTTPInfo(
+            taskID: taskID,
+            batchWriteParams: batchWriteParams,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Push a `batch` request payload through the Pipeline. You can check the status of task pushes with the
+    // observability endpoints.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter taskID: (path) Unique identifier of a task.
+    //
+    // - parameter batchWriteParams: (body) Request body of a Search API `batch` request that will be pushed in the
+    // Connectors pipeline.
+    // - returns: RequestBuilder<RunResponse>
+
+    open func pushTaskWithHTTPInfo(
+        taskID: String,
+        batchWriteParams: IngestionBatchWriteParams,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<RunResponse> {
+        guard !taskID.isEmpty else {
+            throw AlgoliaError.invalidArgument("taskID", "pushTask")
+        }
+
+        var resourcePath = "/2/tasks/{taskID}/push"
+        let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
+        let taskIDPostEscape = taskIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{taskID}",
+            with: taskIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body = batchWriteParams
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter taskID: (path) Unique identifier of a task.
     /// - returns: RunResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func runTask(taskID: String, requestOptions: RequestOptions? = nil) async throws -> RunResponse {

@@ -6,12 +6,12 @@ import Foundation
     import Core
 #endif
 
-public struct BatchRequest: Codable, JSONEncodable {
-    public var action: Action
+public struct SearchBatchRequest: Codable, JSONEncodable {
+    public var action: SearchAction
     /// Operation arguments (varies with specified `action`).
     public var body: AnyCodable
 
-    public init(action: Action, body: AnyCodable) {
+    public init(action: SearchAction, body: AnyCodable) {
         self.action = action
         self.body = body
     }
@@ -30,14 +30,14 @@ public struct BatchRequest: Codable, JSONEncodable {
     }
 }
 
-extension BatchRequest: Equatable {
-    public static func ==(lhs: BatchRequest, rhs: BatchRequest) -> Bool {
+extension SearchBatchRequest: Equatable {
+    public static func ==(lhs: SearchBatchRequest, rhs: SearchBatchRequest) -> Bool {
         lhs.action == rhs.action &&
             lhs.body == rhs.body
     }
 }
 
-extension BatchRequest: Hashable {
+extension SearchBatchRequest: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.action.hashValue)
         hasher.combine(self.body.hashValue)

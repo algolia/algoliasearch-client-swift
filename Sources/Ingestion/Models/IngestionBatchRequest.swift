@@ -6,23 +6,19 @@ import Foundation
     import Core
 #endif
 
-public struct MultipleBatchRequest: Codable, JSONEncodable {
-    public var action: SearchAction
+public struct IngestionBatchRequest: Codable, JSONEncodable {
+    public var action: IngestionAction
     /// Operation arguments (varies with specified `action`).
     public var body: AnyCodable
-    /// Index name (case-sensitive).
-    public var indexName: String
 
-    public init(action: SearchAction, body: AnyCodable, indexName: String) {
+    public init(action: IngestionAction, body: AnyCodable) {
         self.action = action
         self.body = body
-        self.indexName = indexName
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case action
         case body
-        case indexName
     }
 
     // Encodable protocol methods
@@ -31,22 +27,19 @@ public struct MultipleBatchRequest: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.action, forKey: .action)
         try container.encode(self.body, forKey: .body)
-        try container.encode(self.indexName, forKey: .indexName)
     }
 }
 
-extension MultipleBatchRequest: Equatable {
-    public static func ==(lhs: MultipleBatchRequest, rhs: MultipleBatchRequest) -> Bool {
+extension IngestionBatchRequest: Equatable {
+    public static func ==(lhs: IngestionBatchRequest, rhs: IngestionBatchRequest) -> Bool {
         lhs.action == rhs.action &&
-            lhs.body == rhs.body &&
-            lhs.indexName == rhs.indexName
+            lhs.body == rhs.body
     }
 }
 
-extension MultipleBatchRequest: Hashable {
+extension IngestionBatchRequest: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.action.hashValue)
         hasher.combine(self.body.hashValue)
-        hasher.combine(self.indexName.hashValue)
     }
 }

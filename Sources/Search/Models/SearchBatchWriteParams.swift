@@ -7,10 +7,10 @@ import Foundation
 #endif
 
 /// Batch parameters.
-public struct BatchWriteParams: Codable, JSONEncodable {
-    public var requests: [BatchRequest]
+public struct SearchBatchWriteParams: Codable, JSONEncodable {
+    public var requests: [SearchBatchRequest]
 
-    public init(requests: [BatchRequest]) {
+    public init(requests: [SearchBatchRequest]) {
         self.requests = requests
     }
 
@@ -26,13 +26,13 @@ public struct BatchWriteParams: Codable, JSONEncodable {
     }
 }
 
-extension BatchWriteParams: Equatable {
-    public static func ==(lhs: BatchWriteParams, rhs: BatchWriteParams) -> Bool {
+extension SearchBatchWriteParams: Equatable {
+    public static func ==(lhs: SearchBatchWriteParams, rhs: SearchBatchWriteParams) -> Bool {
         lhs.requests == rhs.requests
     }
 }
 
-extension BatchWriteParams: Hashable {
+extension SearchBatchWriteParams: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.requests.hashValue)
     }

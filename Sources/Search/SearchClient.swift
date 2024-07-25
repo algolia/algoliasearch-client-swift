@@ -267,7 +267,7 @@ open class SearchClient {
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func batch(
         indexName: String,
-        batchWriteParams: BatchWriteParams,
+        batchWriteParams: SearchBatchWriteParams,
         requestOptions: RequestOptions? = nil
     ) async throws -> BatchResponse {
         let response: Response<BatchResponse> = try await batchWithHTTPInfo(
@@ -295,7 +295,7 @@ open class SearchClient {
 
     open func batchWithHTTPInfo(
         indexName: String,
-        batchWriteParams: BatchWriteParams,
+        batchWriteParams: SearchBatchWriteParams,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<BatchResponse> {
         guard !indexName.isEmpty else {

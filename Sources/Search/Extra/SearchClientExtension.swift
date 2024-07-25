@@ -426,7 +426,7 @@ public extension SearchClient {
     func chunkedBatch(
         indexName: String,
         objects: [some Encodable],
-        action: Action = .addObject,
+        action: SearchAction = .addObject,
         waitForTasks: Bool = false,
         batchSize: Int = 1000,
         requestOptions: RequestOptions? = nil
@@ -439,7 +439,7 @@ public extension SearchClient {
         for batch in batches {
             let batchResponse = try await self.batch(
                 indexName: indexName,
-                batchWriteParams: BatchWriteParams(
+                batchWriteParams: SearchBatchWriteParams(
                     requests: batch.map {
                         .init(action: action, body: AnyCodable($0))
                     }
