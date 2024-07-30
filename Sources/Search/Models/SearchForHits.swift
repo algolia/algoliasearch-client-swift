@@ -184,8 +184,11 @@ public struct SearchForHits: Codable, JSONEncodable {
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
     /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/).
     public var queryLanguages: [SearchSupportedLanguage]?
-    /// Whether to split compound words into their building blocks.  For more information, see [Word segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#splitting-compound-words).
+    /// Whether to split compound words in the query into their building blocks.  For more information, see [Word segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#splitting-compound-words).
     /// Word segmentation is supported for these languages: German, Dutch, Finnish, Swedish, and Norwegian.
+    /// Decompounding doesn't work for words with [non-spacing mark Unicode
+    /// characters](https://www.charactercodes.net/category/non-spacing_mark). For example, `Gartenstühle` won't be
+    /// decompounded if the `ü` consists of `u` (U+0075) and `◌̈` (U+0308).
     public var decompoundQuery: Bool?
     /// Whether to enable rules.
     public var enableRules: Bool?
