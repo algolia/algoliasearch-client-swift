@@ -1726,15 +1726,15 @@ open class SearchClient {
     /// to reduce the size of the API response. By default, all retrievable attributes are returned.  `objectID` is
     /// always retrieved.  Attributes included in `unretrievableAttributes` won't be retrieved unless the request is
     /// authenticated with the admin API key.  (optional)
-    /// - returns: [String: String]
+    /// - returns: AnyCodable
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getObject(
         indexName: String,
         objectID: String,
         attributesToRetrieve: [String]? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> [String: String] {
-        let response: Response<[String: String]> = try await getObjectWithHTTPInfo(
+    ) async throws -> AnyCodable {
+        let response: Response<AnyCodable> = try await getObjectWithHTTPInfo(
             indexName: indexName,
             objectID: objectID,
             attributesToRetrieve: attributesToRetrieve,
@@ -1762,14 +1762,14 @@ open class SearchClient {
     // always
     // retrieved.  Attributes included in `unretrievableAttributes` won't be retrieved unless the request is
     // authenticated with the admin API key.  (optional)
-    // - returns: RequestBuilder<[String: String]>
+    // - returns: RequestBuilder<AnyCodable>
 
     open func getObjectWithHTTPInfo(
         indexName: String,
         objectID: String,
         attributesToRetrieve: [String]? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<[String: String]> {
+    ) async throws -> Response<AnyCodable> {
         guard !indexName.isEmpty else {
             throw AlgoliaError.invalidArgument("indexName", "getObject")
         }
