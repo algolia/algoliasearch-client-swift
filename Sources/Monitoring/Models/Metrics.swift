@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct InfrastructureResponseMetrics: Codable, JSONEncodable {
+public struct Metrics: Codable, JSONEncodable {
     /// CPU idleness in %.
     public var cpuUsage: [String: [ProbesMetric]]?
     /// RAM used for indexing in MB.
@@ -53,8 +53,8 @@ public struct InfrastructureResponseMetrics: Codable, JSONEncodable {
     }
 }
 
-extension InfrastructureResponseMetrics: Equatable {
-    public static func ==(lhs: InfrastructureResponseMetrics, rhs: InfrastructureResponseMetrics) -> Bool {
+extension Metrics: Equatable {
+    public static func ==(lhs: Metrics, rhs: Metrics) -> Bool {
         lhs.cpuUsage == rhs.cpuUsage &&
             lhs.ramIndexingUsage == rhs.ramIndexingUsage &&
             lhs.ramSearchUsage == rhs.ramSearchUsage &&
@@ -63,7 +63,7 @@ extension InfrastructureResponseMetrics: Equatable {
     }
 }
 
-extension InfrastructureResponseMetrics: Hashable {
+extension Metrics: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.cpuUsage?.hashValue)
         hasher.combine(self.ramIndexingUsage?.hashValue)

@@ -397,7 +397,7 @@ open class UsageClient {
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format.
     /// - parameter granularity: (query) Granularity of the aggregated metrics.  - `hourly`: the maximum time range for
     /// hourly metrics is 7 days. - `daily`: the maximum time range for daily metrics is 365 days.  (optional)
-    /// - returns: GetUsage200Response
+    /// - returns: IndexUsage
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getIndexUsage(
         statistic: Statistic,
@@ -406,8 +406,8 @@ open class UsageClient {
         endDate: String,
         granularity: Granularity? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> GetUsage200Response {
-        let response: Response<GetUsage200Response> = try await getIndexUsageWithHTTPInfo(
+    ) async throws -> IndexUsage {
+        let response: Response<IndexUsage> = try await getIndexUsageWithHTTPInfo(
             statistic: statistic,
             indexName: indexName,
             startDate: startDate,
@@ -530,7 +530,7 @@ open class UsageClient {
     //
     // - parameter granularity: (query) Granularity of the aggregated metrics.  - `hourly`: the maximum time range for
     // hourly metrics is 7 days. - `daily`: the maximum time range for daily metrics is 365 days.  (optional)
-    // - returns: RequestBuilder<GetUsage200Response>
+    // - returns: RequestBuilder<IndexUsage>
 
     open func getIndexUsageWithHTTPInfo(
         statistic: Statistic,
@@ -539,7 +539,7 @@ open class UsageClient {
         endDate: String,
         granularity: Granularity? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<GetUsage200Response> {
+    ) async throws -> Response<IndexUsage> {
         guard !indexName.isEmpty else {
             throw AlgoliaError.invalidArgument("indexName", "getIndexUsage")
         }
@@ -699,7 +699,7 @@ open class UsageClient {
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format.
     /// - parameter granularity: (query) Granularity of the aggregated metrics.  - `hourly`: the maximum time range for
     /// hourly metrics is 7 days. - `daily`: the maximum time range for daily metrics is 365 days.  (optional)
-    /// - returns: GetUsage200Response
+    /// - returns: IndexUsage
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getUsage(
         statistic: Statistic,
@@ -707,8 +707,8 @@ open class UsageClient {
         endDate: String,
         granularity: Granularity? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> GetUsage200Response {
-        let response: Response<GetUsage200Response> = try await getUsageWithHTTPInfo(
+    ) async throws -> IndexUsage {
+        let response: Response<IndexUsage> = try await getUsageWithHTTPInfo(
             statistic: statistic,
             startDate: startDate,
             endDate: endDate,
@@ -828,7 +828,7 @@ open class UsageClient {
     //
     // - parameter granularity: (query) Granularity of the aggregated metrics.  - `hourly`: the maximum time range for
     // hourly metrics is 7 days. - `daily`: the maximum time range for daily metrics is 365 days.  (optional)
-    // - returns: RequestBuilder<GetUsage200Response>
+    // - returns: RequestBuilder<IndexUsage>
 
     open func getUsageWithHTTPInfo(
         statistic: Statistic,
@@ -836,7 +836,7 @@ open class UsageClient {
         endDate: String,
         granularity: Granularity? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<GetUsage200Response> {
+    ) async throws -> Response<IndexUsage> {
         guard !startDate.isEmpty else {
             throw AlgoliaError.invalidArgument("startDate", "getUsage")
         }

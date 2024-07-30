@@ -7,9 +7,9 @@ import Foundation
 #endif
 
 public struct IncidentsResponse: Codable, JSONEncodable {
-    public var incidents: [String: [IncidentsInner]]?
+    public var incidents: [String: [IncidentEntry]]?
 
-    public init(incidents: [String: [IncidentsInner]]? = nil) {
+    public init(incidents: [String: [IncidentEntry]]? = nil) {
         self.incidents = incidents
     }
 

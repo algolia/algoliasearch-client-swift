@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetUsage400ResponseErrorErrorsInner: Codable, JSONEncodable {
+public struct ErrorItem: Codable, JSONEncodable {
     public var code: String?
     public var message: String
     public var line: Int?
@@ -37,8 +37,8 @@ public struct GetUsage400ResponseErrorErrorsInner: Codable, JSONEncodable {
     }
 }
 
-extension GetUsage400ResponseErrorErrorsInner: Equatable {
-    public static func ==(lhs: GetUsage400ResponseErrorErrorsInner, rhs: GetUsage400ResponseErrorErrorsInner) -> Bool {
+extension ErrorItem: Equatable {
+    public static func ==(lhs: ErrorItem, rhs: ErrorItem) -> Bool {
         lhs.code == rhs.code &&
             lhs.message == rhs.message &&
             lhs.line == rhs.line &&
@@ -46,7 +46,7 @@ extension GetUsage400ResponseErrorErrorsInner: Equatable {
     }
 }
 
-extension GetUsage400ResponseErrorErrorsInner: Hashable {
+extension ErrorItem: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.code?.hashValue)
         hasher.combine(self.message.hashValue)

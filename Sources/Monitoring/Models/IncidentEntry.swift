@@ -6,12 +6,12 @@ import Foundation
     import Core
 #endif
 
-public struct GetUsage200ResponseStatisticsInner: Codable, JSONEncodable {
+public struct IncidentEntry: Codable, JSONEncodable {
     /// Timestamp, measured in milliseconds since the Unix epoch.
-    public var t: Int?
-    public var v: StatisticValue?
+    public var t: Int64?
+    public var v: Incident?
 
-    public init(t: Int? = nil, v: StatisticValue? = nil) {
+    public init(t: Int64? = nil, v: Incident? = nil) {
         self.t = t
         self.v = v
     }
@@ -30,14 +30,14 @@ public struct GetUsage200ResponseStatisticsInner: Codable, JSONEncodable {
     }
 }
 
-extension GetUsage200ResponseStatisticsInner: Equatable {
-    public static func ==(lhs: GetUsage200ResponseStatisticsInner, rhs: GetUsage200ResponseStatisticsInner) -> Bool {
+extension IncidentEntry: Equatable {
+    public static func ==(lhs: IncidentEntry, rhs: IncidentEntry) -> Bool {
         lhs.t == rhs.t &&
             lhs.v == rhs.v
     }
 }
 
-extension GetUsage200ResponseStatisticsInner: Hashable {
+extension IncidentEntry: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.t?.hashValue)
         hasher.combine(self.v?.hashValue)

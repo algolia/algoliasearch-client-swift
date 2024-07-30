@@ -10,14 +10,14 @@ import Foundation
 /// considers all matches within the same range of distances to be equal.
 public enum SearchAroundPrecision: Codable, JSONEncodable, AbstractEncodable {
     case int(Int)
-    case arrayOfSearchAroundPrecisionFromValueInner([SearchAroundPrecisionFromValueInner])
+    case arrayOfSearchRange([SearchRange])
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
         case let .int(value):
             try container.encode(value)
-        case let .arrayOfSearchAroundPrecisionFromValueInner(value):
+        case let .arrayOfSearchRange(value):
             try container.encode(value)
         }
     }
@@ -26,8 +26,8 @@ public enum SearchAroundPrecision: Codable, JSONEncodable, AbstractEncodable {
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(Int.self) {
             self = .int(value)
-        } else if let value = try? container.decode([SearchAroundPrecisionFromValueInner].self) {
-            self = .arrayOfSearchAroundPrecisionFromValueInner(value)
+        } else if let value = try? container.decode([SearchRange].self) {
+            self = .arrayOfSearchRange(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -43,8 +43,8 @@ public enum SearchAroundPrecision: Codable, JSONEncodable, AbstractEncodable {
         switch self {
         case let .int(value):
             value as Int
-        case let .arrayOfSearchAroundPrecisionFromValueInner(value):
-            value as [SearchAroundPrecisionFromValueInner]
+        case let .arrayOfSearchRange(value):
+            value as [SearchRange]
         }
     }
 }

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetConfigStatus200Response: Codable, JSONEncodable {
+public struct ConfigStatus: Codable, JSONEncodable {
     /// Name of the Query Suggestions index (case-sensitive).
     public var indexName: String?
     /// Whether the creation or update of the Query Suggestions index is in progress.
@@ -52,8 +52,8 @@ public struct GetConfigStatus200Response: Codable, JSONEncodable {
     }
 }
 
-extension GetConfigStatus200Response: Equatable {
-    public static func ==(lhs: GetConfigStatus200Response, rhs: GetConfigStatus200Response) -> Bool {
+extension ConfigStatus: Equatable {
+    public static func ==(lhs: ConfigStatus, rhs: ConfigStatus) -> Bool {
         lhs.indexName == rhs.indexName &&
             lhs.isRunning == rhs.isRunning &&
             lhs.lastBuiltAt == rhs.lastBuiltAt &&
@@ -62,7 +62,7 @@ extension GetConfigStatus200Response: Equatable {
     }
 }
 
-extension GetConfigStatus200Response: Hashable {
+extension ConfigStatus: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.indexName?.hashValue)
         hasher.combine(self.isRunning?.hashValue)

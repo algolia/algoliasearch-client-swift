@@ -7,9 +7,9 @@ import Foundation
 #endif
 
 public struct IndexingTimeResponse: Codable, JSONEncodable {
-    public var metrics: IndexingTimeResponseMetrics?
+    public var metrics: IndexingMetric?
 
-    public init(metrics: IndexingTimeResponseMetrics? = nil) {
+    public init(metrics: IndexingMetric? = nil) {
         self.metrics = metrics
     }
 

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// The error if the transformation failed.
-public struct TransformationTryResponseError: Codable, JSONEncodable {
+public struct TransformationError: Codable, JSONEncodable {
     /// The error status code.
     public var code: Int?
     /// A descriptive message explaining the failure.
@@ -32,14 +32,14 @@ public struct TransformationTryResponseError: Codable, JSONEncodable {
     }
 }
 
-extension TransformationTryResponseError: Equatable {
-    public static func ==(lhs: TransformationTryResponseError, rhs: TransformationTryResponseError) -> Bool {
+extension TransformationError: Equatable {
+    public static func ==(lhs: TransformationError, rhs: TransformationError) -> Bool {
         lhs.code == rhs.code &&
             lhs.message == rhs.message
     }
 }
 
-extension TransformationTryResponseError: Hashable {
+extension TransformationError: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.code?.hashValue)
         hasher.combine(self.message?.hashValue)

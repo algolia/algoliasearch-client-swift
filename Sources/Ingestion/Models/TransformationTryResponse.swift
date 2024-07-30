@@ -9,9 +9,9 @@ import Foundation
 public struct TransformationTryResponse: Codable, JSONEncodable {
     /// The array of records returned by the transformation service.
     public var payloads: [AnyCodable]
-    public var error: TransformationTryResponseError?
+    public var error: TransformationError?
 
-    public init(payloads: [AnyCodable], error: TransformationTryResponseError? = nil) {
+    public init(payloads: [AnyCodable], error: TransformationError? = nil) {
         self.payloads = payloads
         self.error = error
     }

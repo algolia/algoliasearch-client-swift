@@ -15,15 +15,9 @@ public struct RecommendRedirectRuleIndexMetadata: Codable, JSONEncodable {
     public var reason: String
     /// Redirect rule status.
     public var succeed: Bool
-    public var data: RecommendRedirectRuleIndexMetadataData
+    public var data: RecommendRedirectRuleIndexData
 
-    public init(
-        source: String,
-        dest: String,
-        reason: String,
-        succeed: Bool,
-        data: RecommendRedirectRuleIndexMetadataData
-    ) {
+    public init(source: String, dest: String, reason: String, succeed: Bool, data: RecommendRedirectRuleIndexData) {
         self.source = source
         self.dest = dest
         self.reason = reason

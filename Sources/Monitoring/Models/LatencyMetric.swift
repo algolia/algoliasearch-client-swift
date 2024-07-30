@@ -6,10 +6,10 @@ import Foundation
     import Core
 #endif
 
-public struct LatencyResponseMetrics: Codable, JSONEncodable {
-    public var latency: [String: [TimeInner]]?
+public struct LatencyMetric: Codable, JSONEncodable {
+    public var latency: [String: [TimeEntry]]?
 
-    public init(latency: [String: [TimeInner]]? = nil) {
+    public init(latency: [String: [TimeEntry]]? = nil) {
         self.latency = latency
     }
 
@@ -25,13 +25,13 @@ public struct LatencyResponseMetrics: Codable, JSONEncodable {
     }
 }
 
-extension LatencyResponseMetrics: Equatable {
-    public static func ==(lhs: LatencyResponseMetrics, rhs: LatencyResponseMetrics) -> Bool {
+extension LatencyMetric: Equatable {
+    public static func ==(lhs: LatencyMetric, rhs: LatencyMetric) -> Bool {
         lhs.latency == rhs.latency
     }
 }
 
-extension LatencyResponseMetrics: Hashable {
+extension LatencyMetric: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.latency?.hashValue)
     }

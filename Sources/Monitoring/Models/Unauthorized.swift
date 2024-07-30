@@ -6,33 +6,33 @@ import Foundation
     import Core
 #endif
 
-public struct LatencyResponse: Codable, JSONEncodable {
-    public var metrics: LatencyMetric?
+public struct Unauthorized: Codable, JSONEncodable {
+    public var reason: String?
 
-    public init(metrics: LatencyMetric? = nil) {
-        self.metrics = metrics
+    public init(reason: String? = nil) {
+        self.reason = reason
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case metrics
+        case reason
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.metrics, forKey: .metrics)
+        try container.encodeIfPresent(self.reason, forKey: .reason)
     }
 }
 
-extension LatencyResponse: Equatable {
-    public static func ==(lhs: LatencyResponse, rhs: LatencyResponse) -> Bool {
-        lhs.metrics == rhs.metrics
+extension Unauthorized: Equatable {
+    public static func ==(lhs: Unauthorized, rhs: Unauthorized) -> Bool {
+        lhs.reason == rhs.reason
     }
 }
 
-extension LatencyResponse: Hashable {
+extension Unauthorized: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.metrics?.hashValue)
+        hasher.combine(self.reason?.hashValue)
     }
 }

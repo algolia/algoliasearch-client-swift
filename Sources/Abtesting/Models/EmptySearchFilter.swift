@@ -6,8 +6,8 @@ import Foundation
     import Core
 #endif
 
-/// Outliers removed from the A/B test as a result of configuration settings.
-public struct FilterEffectsOutliers: Codable, JSONEncodable {
+/// Empty searches removed from the A/B test as a result of configuration settings.
+public struct EmptySearchFilter: Codable, JSONEncodable {
     /// Number of users removed from the A/B test.
     public var usersCount: Int?
     /// Number of tracked searches removed from the A/B test.
@@ -32,14 +32,14 @@ public struct FilterEffectsOutliers: Codable, JSONEncodable {
     }
 }
 
-extension FilterEffectsOutliers: Equatable {
-    public static func ==(lhs: FilterEffectsOutliers, rhs: FilterEffectsOutliers) -> Bool {
+extension EmptySearchFilter: Equatable {
+    public static func ==(lhs: EmptySearchFilter, rhs: EmptySearchFilter) -> Bool {
         lhs.usersCount == rhs.usersCount &&
             lhs.trackedSearchesCount == rhs.trackedSearchesCount
     }
 }
 
-extension FilterEffectsOutliers: Hashable {
+extension EmptySearchFilter: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.usersCount?.hashValue)
         hasher.combine(self.trackedSearchesCount?.hashValue)

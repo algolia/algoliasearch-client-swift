@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Redirect rule data.
-public struct SearchRedirectRuleIndexMetadataData: Codable, JSONEncodable {
+public struct RecommendRedirectRuleIndexData: Codable, JSONEncodable {
     public var ruleObjectID: String
 
     public init(ruleObjectID: String) {
@@ -26,13 +26,13 @@ public struct SearchRedirectRuleIndexMetadataData: Codable, JSONEncodable {
     }
 }
 
-extension SearchRedirectRuleIndexMetadataData: Equatable {
-    public static func ==(lhs: SearchRedirectRuleIndexMetadataData, rhs: SearchRedirectRuleIndexMetadataData) -> Bool {
+extension RecommendRedirectRuleIndexData: Equatable {
+    public static func ==(lhs: RecommendRedirectRuleIndexData, rhs: RecommendRedirectRuleIndexData) -> Bool {
         lhs.ruleObjectID == rhs.ruleObjectID
     }
 }
 
-extension SearchRedirectRuleIndexMetadataData: Hashable {
+extension RecommendRedirectRuleIndexData: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.ruleObjectID.hashValue)
     }

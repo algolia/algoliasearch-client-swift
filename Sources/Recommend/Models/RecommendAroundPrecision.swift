@@ -10,14 +10,14 @@ import Foundation
 /// considers all matches within the same range of distances to be equal.
 public enum RecommendAroundPrecision: Codable, JSONEncodable, AbstractEncodable {
     case int(Int)
-    case arrayOfRecommendAroundPrecisionFromValueInner([RecommendAroundPrecisionFromValueInner])
+    case arrayOfRecommendRange([RecommendRange])
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
         case let .int(value):
             try container.encode(value)
-        case let .arrayOfRecommendAroundPrecisionFromValueInner(value):
+        case let .arrayOfRecommendRange(value):
             try container.encode(value)
         }
     }
@@ -26,8 +26,8 @@ public enum RecommendAroundPrecision: Codable, JSONEncodable, AbstractEncodable 
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(Int.self) {
             self = .int(value)
-        } else if let value = try? container.decode([RecommendAroundPrecisionFromValueInner].self) {
-            self = .arrayOfRecommendAroundPrecisionFromValueInner(value)
+        } else if let value = try? container.decode([RecommendRange].self) {
+            self = .arrayOfRecommendRange(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -43,8 +43,8 @@ public enum RecommendAroundPrecision: Codable, JSONEncodable, AbstractEncodable 
         switch self {
         case let .int(value):
             value as Int
-        case let .arrayOfRecommendAroundPrecisionFromValueInner(value):
-            value as [RecommendAroundPrecisionFromValueInner]
+        case let .arrayOfRecommendRange(value):
+            value as [RecommendRange]
         }
     }
 }

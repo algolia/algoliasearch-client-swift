@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Click position.
-public struct ClickPositionsInner: Codable, JSONEncodable {
+public struct ClickPosition: Codable, JSONEncodable {
     /// Range of positions in the search results, using the pattern `[start,end]`.  For positions 11 and up, click
     /// events are summed over the specified range. `-1` indicates the end of the list of search results.
     public var position: [Int]?
@@ -33,14 +33,14 @@ public struct ClickPositionsInner: Codable, JSONEncodable {
     }
 }
 
-extension ClickPositionsInner: Equatable {
-    public static func ==(lhs: ClickPositionsInner, rhs: ClickPositionsInner) -> Bool {
+extension ClickPosition: Equatable {
+    public static func ==(lhs: ClickPosition, rhs: ClickPosition) -> Bool {
         lhs.position == rhs.position &&
             lhs.clickCount == rhs.clickCount
     }
 }
 
-extension ClickPositionsInner: Hashable {
+extension ClickPosition: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.position?.hashValue)
         hasher.combine(self.clickCount?.hashValue)

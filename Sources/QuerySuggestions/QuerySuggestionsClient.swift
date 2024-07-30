@@ -487,13 +487,10 @@ open class QuerySuggestionsClient {
     }
 
     /// - parameter indexName: (path) Query Suggestions index name.
-    /// - returns: GetConfigStatus200Response
+    /// - returns: ConfigStatus
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getConfigStatus(
-        indexName: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> GetConfigStatus200Response {
-        let response: Response<GetConfigStatus200Response> = try await getConfigStatusWithHTTPInfo(
+    open func getConfigStatus(indexName: String, requestOptions: RequestOptions? = nil) async throws -> ConfigStatus {
+        let response: Response<ConfigStatus> = try await getConfigStatusWithHTTPInfo(
             indexName: indexName,
             requestOptions: requestOptions
         )
@@ -510,12 +507,12 @@ open class QuerySuggestionsClient {
     //  - settings
     //
     // - parameter indexName: (path) Query Suggestions index name.
-    // - returns: RequestBuilder<GetConfigStatus200Response>
+    // - returns: RequestBuilder<ConfigStatus>
 
     open func getConfigStatusWithHTTPInfo(
         indexName: String,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<GetConfigStatus200Response> {
+    ) async throws -> Response<ConfigStatus> {
         guard !indexName.isEmpty else {
             throw AlgoliaError.invalidArgument("indexName", "getConfigStatus")
         }
@@ -546,13 +543,10 @@ open class QuerySuggestionsClient {
     }
 
     /// - parameter indexName: (path) Query Suggestions index name.
-    /// - returns: GetLogFile200Response
+    /// - returns: LogFile
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getLogFile(
-        indexName: String,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> GetLogFile200Response {
-        let response: Response<GetLogFile200Response> = try await getLogFileWithHTTPInfo(
+    open func getLogFile(indexName: String, requestOptions: RequestOptions? = nil) async throws -> LogFile {
+        let response: Response<LogFile> = try await getLogFileWithHTTPInfo(
             indexName: indexName,
             requestOptions: requestOptions
         )
@@ -569,12 +563,12 @@ open class QuerySuggestionsClient {
     //  - settings
     //
     // - parameter indexName: (path) Query Suggestions index name.
-    // - returns: RequestBuilder<GetLogFile200Response>
+    // - returns: RequestBuilder<LogFile>
 
     open func getLogFileWithHTTPInfo(
         indexName: String,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<GetLogFile200Response> {
+    ) async throws -> Response<LogFile> {
         guard !indexName.isEmpty else {
             throw AlgoliaError.invalidArgument("indexName", "getLogFile")
         }

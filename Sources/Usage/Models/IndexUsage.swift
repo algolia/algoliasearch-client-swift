@@ -6,10 +6,10 @@ import Foundation
     import Core
 #endif
 
-public struct GetUsage200Response: Codable, JSONEncodable {
-    public var statistics: [GetUsage200ResponseStatisticsInner]?
+public struct IndexUsage: Codable, JSONEncodable {
+    public var statistics: [StatisticEntry]?
 
-    public init(statistics: [GetUsage200ResponseStatisticsInner]? = nil) {
+    public init(statistics: [StatisticEntry]? = nil) {
         self.statistics = statistics
     }
 
@@ -25,13 +25,13 @@ public struct GetUsage200Response: Codable, JSONEncodable {
     }
 }
 
-extension GetUsage200Response: Equatable {
-    public static func ==(lhs: GetUsage200Response, rhs: GetUsage200Response) -> Bool {
+extension IndexUsage: Equatable {
+    public static func ==(lhs: IndexUsage, rhs: IndexUsage) -> Bool {
         lhs.statistics == rhs.statistics
     }
 }
 
-extension GetUsage200Response: Hashable {
+extension IndexUsage: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.statistics?.hashValue)
     }

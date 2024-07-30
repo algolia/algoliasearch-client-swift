@@ -7,9 +7,9 @@ import Foundation
 #endif
 
 public struct InfrastructureResponse: Codable, JSONEncodable {
-    public var metrics: InfrastructureResponseMetrics?
+    public var metrics: Metrics?
 
-    public init(metrics: InfrastructureResponseMetrics? = nil) {
+    public init(metrics: Metrics? = nil) {
         self.metrics = metrics
     }
 

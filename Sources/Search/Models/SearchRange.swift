@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Range object with lower and upper values in meters to define custom ranges.
-public struct RecommendAroundPrecisionFromValueInner: Codable, JSONEncodable {
+public struct SearchRange: Codable, JSONEncodable {
     /// Lower boundary of a range in meters. The Geo ranking criterion considers all records within the range to be
     /// equal.
     public var from: Int?
@@ -34,17 +34,14 @@ public struct RecommendAroundPrecisionFromValueInner: Codable, JSONEncodable {
     }
 }
 
-extension RecommendAroundPrecisionFromValueInner: Equatable {
-    public static func ==(
-        lhs: RecommendAroundPrecisionFromValueInner,
-        rhs: RecommendAroundPrecisionFromValueInner
-    ) -> Bool {
+extension SearchRange: Equatable {
+    public static func ==(lhs: SearchRange, rhs: SearchRange) -> Bool {
         lhs.from == rhs.from &&
             lhs.value == rhs.value
     }
 }
 
-extension RecommendAroundPrecisionFromValueInner: Hashable {
+extension SearchRange: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.from?.hashValue)
         hasher.combine(self.value?.hashValue)

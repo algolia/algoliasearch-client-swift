@@ -6,10 +6,10 @@ import Foundation
     import Core
 #endif
 
-public struct IndexingTimeResponseMetrics: Codable, JSONEncodable {
-    public var indexing: [String: [TimeInner]]?
+public struct IndexingMetric: Codable, JSONEncodable {
+    public var indexing: [String: [TimeEntry]]?
 
-    public init(indexing: [String: [TimeInner]]? = nil) {
+    public init(indexing: [String: [TimeEntry]]? = nil) {
         self.indexing = indexing
     }
 
@@ -25,13 +25,13 @@ public struct IndexingTimeResponseMetrics: Codable, JSONEncodable {
     }
 }
 
-extension IndexingTimeResponseMetrics: Equatable {
-    public static func ==(lhs: IndexingTimeResponseMetrics, rhs: IndexingTimeResponseMetrics) -> Bool {
+extension IndexingMetric: Equatable {
+    public static func ==(lhs: IndexingMetric, rhs: IndexingMetric) -> Bool {
         lhs.indexing == rhs.indexing
     }
 }
 
-extension IndexingTimeResponseMetrics: Hashable {
+extension IndexingMetric: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.indexing?.hashValue)
     }

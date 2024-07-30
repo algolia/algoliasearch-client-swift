@@ -6,12 +6,12 @@ import Foundation
     import Core
 #endif
 
-public struct GetUsage400ResponseError: Codable, JSONEncodable {
+public struct InvalidRequestError: Codable, JSONEncodable {
     public var code: String?
     public var message: String?
-    public var errors: [GetUsage400ResponseErrorErrorsInner]?
+    public var errors: [ErrorItem]?
 
-    public init(code: String? = nil, message: String? = nil, errors: [GetUsage400ResponseErrorErrorsInner]? = nil) {
+    public init(code: String? = nil, message: String? = nil, errors: [ErrorItem]? = nil) {
         self.code = code
         self.message = message
         self.errors = errors
@@ -33,15 +33,15 @@ public struct GetUsage400ResponseError: Codable, JSONEncodable {
     }
 }
 
-extension GetUsage400ResponseError: Equatable {
-    public static func ==(lhs: GetUsage400ResponseError, rhs: GetUsage400ResponseError) -> Bool {
+extension InvalidRequestError: Equatable {
+    public static func ==(lhs: InvalidRequestError, rhs: InvalidRequestError) -> Bool {
         lhs.code == rhs.code &&
             lhs.message == rhs.message &&
             lhs.errors == rhs.errors
     }
 }
 
-extension GetUsage400ResponseError: Hashable {
+extension InvalidRequestError: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.code?.hashValue)
         hasher.combine(self.message?.hashValue)

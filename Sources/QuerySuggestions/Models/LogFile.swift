@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetLogFile200Response: Codable, JSONEncodable {
+public struct LogFile: Codable, JSONEncodable {
     /// Date and time of the log entry, in RFC 3339 format.
     public var timestamp: String?
     public var level: ModelLogLevel?
@@ -46,8 +46,8 @@ public struct GetLogFile200Response: Codable, JSONEncodable {
     }
 }
 
-extension GetLogFile200Response: Equatable {
-    public static func ==(lhs: GetLogFile200Response, rhs: GetLogFile200Response) -> Bool {
+extension LogFile: Equatable {
+    public static func ==(lhs: LogFile, rhs: LogFile) -> Bool {
         lhs.timestamp == rhs.timestamp &&
             lhs.level == rhs.level &&
             lhs.message == rhs.message &&
@@ -55,7 +55,7 @@ extension GetLogFile200Response: Equatable {
     }
 }
 
-extension GetLogFile200Response: Hashable {
+extension LogFile: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.timestamp?.hashValue)
         hasher.combine(self.level?.hashValue)

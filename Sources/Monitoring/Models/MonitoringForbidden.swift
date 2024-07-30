@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetServers403Response: Codable, JSONEncodable {
+public struct MonitoringForbidden: Codable, JSONEncodable {
     public var reason: String?
 
     public init(reason: String? = nil) {
@@ -25,13 +25,13 @@ public struct GetServers403Response: Codable, JSONEncodable {
     }
 }
 
-extension GetServers403Response: Equatable {
-    public static func ==(lhs: GetServers403Response, rhs: GetServers403Response) -> Bool {
+extension MonitoringForbidden: Equatable {
+    public static func ==(lhs: MonitoringForbidden, rhs: MonitoringForbidden) -> Bool {
         lhs.reason == rhs.reason
     }
 }
 
-extension GetServers403Response: Hashable {
+extension MonitoringForbidden: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.reason?.hashValue)
     }

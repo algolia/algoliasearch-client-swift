@@ -8,9 +8,9 @@ import Foundation
 
 public struct GetClickPositionsResponse: Codable, JSONEncodable {
     /// List of positions in the search results and clicks associated with this search.
-    public var positions: [ClickPositionsInner]
+    public var positions: [ClickPosition]
 
-    public init(positions: [ClickPositionsInner]) {
+    public init(positions: [ClickPosition]) {
         self.positions = positions
     }
 

@@ -6,33 +6,33 @@ import Foundation
     import Core
 #endif
 
-public struct GetUsage400Response: Codable, JSONEncodable {
-    public var error: GetUsage400ResponseError
+public struct BadRequest: Codable, JSONEncodable {
+    public var reason: String?
 
-    public init(error: GetUsage400ResponseError) {
-        self.error = error
+    public init(reason: String? = nil) {
+        self.reason = reason
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case error
+        case reason
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.error, forKey: .error)
+        try container.encodeIfPresent(self.reason, forKey: .reason)
     }
 }
 
-extension GetUsage400Response: Equatable {
-    public static func ==(lhs: GetUsage400Response, rhs: GetUsage400Response) -> Bool {
-        lhs.error == rhs.error
+extension BadRequest: Equatable {
+    public static func ==(lhs: BadRequest, rhs: BadRequest) -> Bool {
+        lhs.reason == rhs.reason
     }
 }
 
-extension GetUsage400Response: Hashable {
+extension BadRequest: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.error.hashValue)
+        hasher.combine(self.reason?.hashValue)
     }
 }

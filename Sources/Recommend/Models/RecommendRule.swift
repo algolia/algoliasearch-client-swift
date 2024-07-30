@@ -8,7 +8,7 @@ import Foundation
 
 /// Recommend rule.
 public struct RecommendRule: Codable, JSONEncodable {
-    public var metadata: RecommendRuleMetadata?
+    public var metadata: RuleMetadata?
     /// Unique identifier of a rule object.
     public var objectID: String?
     public var condition: RecommendCondition?
@@ -19,7 +19,7 @@ public struct RecommendRule: Codable, JSONEncodable {
     public var enabled: Bool?
 
     public init(
-        metadata: RecommendRuleMetadata? = nil,
+        metadata: RuleMetadata? = nil,
         objectID: String? = nil,
         condition: RecommendCondition? = nil,
         consequence: RecommendConsequence? = nil,

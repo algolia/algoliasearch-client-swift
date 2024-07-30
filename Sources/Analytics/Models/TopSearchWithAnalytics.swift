@@ -18,7 +18,7 @@ public struct TopSearchWithAnalytics: Codable, JSONEncodable {
     /// search requests with `clickAnalytics` set to true.
     public var averageClickPosition: Double?
     /// List of positions in the search results and clicks associated with this search.
-    public var clickPositions: [ClickPositionsInner]
+    public var clickPositions: [ClickPosition]
     /// Conversion rate, calculated as number of tracked searches with at least one conversion event divided by the
     /// number of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to
     /// true.
@@ -37,7 +37,7 @@ public struct TopSearchWithAnalytics: Codable, JSONEncodable {
         count: Int,
         clickThroughRate: Double?,
         averageClickPosition: Double?,
-        clickPositions: [ClickPositionsInner],
+        clickPositions: [ClickPosition],
         conversionRate: Double?,
         trackedSearchCount: Int,
         clickCount: Int,

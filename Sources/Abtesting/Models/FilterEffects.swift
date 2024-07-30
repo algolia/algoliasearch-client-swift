@@ -8,10 +8,10 @@ import Foundation
 
 /// A/B test filter effects resulting from configuration settings.
 public struct FilterEffects: Codable, JSONEncodable {
-    public var outliers: FilterEffectsOutliers?
-    public var emptySearch: FilterEffectsEmptySearch?
+    public var outliers: OutliersFilter?
+    public var emptySearch: EmptySearchFilter?
 
-    public init(outliers: FilterEffectsOutliers? = nil, emptySearch: FilterEffectsEmptySearch? = nil) {
+    public init(outliers: OutliersFilter? = nil, emptySearch: EmptySearchFilter? = nil) {
         self.outliers = outliers
         self.emptySearch = emptySearch
     }
