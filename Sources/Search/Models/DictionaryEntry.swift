@@ -10,7 +10,7 @@ import Foundation
 public struct DictionaryEntry: Codable, JSONEncodable {
     /// Unique identifier for the dictionary entry.
     public var objectID: String
-    public var language: SearchSupportedLanguage
+    public var language: SearchSupportedLanguage?
     /// Matching dictionary word for `stopwords` and `compounds` dictionaries.
     public var word: String?
     /// Matching words in the `plurals` dictionary including declensions.
@@ -21,7 +21,7 @@ public struct DictionaryEntry: Codable, JSONEncodable {
 
     public init(
         objectID: String,
-        language: SearchSupportedLanguage,
+        language: SearchSupportedLanguage? = nil,
         word: String? = nil,
         words: [String]? = nil,
         decomposition: [String]? = nil,
@@ -64,10 +64,8 @@ public struct DictionaryEntry: Codable, JSONEncodable {
             throw GenericError(description: "Failed to cast")
         }
         self.objectID = objectID
-        guard let language = dictionary["language"]?.value as? SearchSupportedLanguage else {
-            throw GenericError(description: "Failed to cast")
-        }
-        self.language = language
+        self.language = dictionary["language"]?.value as? SearchSupportedLanguage
+
         self.word = dictionary["word"]?.value as? String
 
         self.words = dictionary["words"]?.value as? [String]
@@ -91,7 +89,7 @@ public struct DictionaryEntry: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.objectID, forKey: .objectID)
-        try container.encode(self.language, forKey: .language)
+        try container.encodeIfPresent(self.language, forKey: .language)
         try container.encodeIfPresent(self.word, forKey: .word)
         try container.encodeIfPresent(self.words, forKey: .words)
         try container.encodeIfPresent(self.decomposition, forKey: .decomposition)
@@ -106,7 +104,7 @@ public struct DictionaryEntry: Codable, JSONEncodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.objectID = try container.decode(String.self, forKey: .objectID)
-        self.language = try container.decode(SearchSupportedLanguage.self, forKey: .language)
+        self.language = try container.decodeIfPresent(SearchSupportedLanguage.self, forKey: .language)
         self.word = try container.decodeIfPresent(String.self, forKey: .word)
         self.words = try container.decodeIfPresent([String].self, forKey: .words)
         self.decomposition = try container.decodeIfPresent([String].self, forKey: .decomposition)
@@ -141,7 +139,7 @@ extension DictionaryEntry: Equatable {
 extension DictionaryEntry: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.objectID.hashValue)
-        hasher.combine(self.language.hashValue)
+        hasher.combine(self.language?.hashValue)
         hasher.combine(self.word?.hashValue)
         hasher.combine(self.words?.hashValue)
         hasher.combine(self.decomposition?.hashValue)
