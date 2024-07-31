@@ -9,11 +9,9 @@ import Foundation
 /// Update to perform on the attribute.
 public struct BuiltInOperation: Codable, JSONEncodable {
     public var operation: BuiltInOperationType
-    /// Value that corresponds to the operation, for example an `Increment` or `Decrement` step, or an `Add` or `Remove`
-    /// value.
-    public var value: String
+    public var value: BuiltInOperationValue
 
-    public init(operation: BuiltInOperationType, value: String) {
+    public init(operation: BuiltInOperationType, value: BuiltInOperationValue) {
         self.operation = operation
         self.value = value
     }
