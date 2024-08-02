@@ -2446,6 +2446,73 @@ open class IngestionClient {
         )
     }
 
+    /// - parameter sourceID: (path) Unique identifier of a source.
+    /// - parameter runSourcePayload: (body)  (optional)
+    /// - returns: RunSourceResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func runSource(
+        sourceID: String,
+        runSourcePayload: RunSourcePayload? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> RunSourceResponse {
+        let response: Response<RunSourceResponse> = try await runSourceWithHTTPInfo(
+            sourceID: sourceID,
+            runSourcePayload: runSourcePayload,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Runs all tasks linked to a source, only available for Shopify sources. It will create 1 run per task.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter sourceID: (path) Unique identifier of a source.
+    //
+    // - parameter runSourcePayload: (body)  (optional)
+    // - returns: RequestBuilder<RunSourceResponse>
+
+    open func runSourceWithHTTPInfo(
+        sourceID: String,
+        runSourcePayload: RunSourcePayload? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<RunSourceResponse> {
+        guard !sourceID.isEmpty else {
+            throw AlgoliaError.invalidArgument("sourceID", "runSource")
+        }
+
+        var resourcePath = "/1/sources/{sourceID}/run"
+        let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
+        let sourceIDPostEscape = sourceIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{sourceID}",
+            with: sourceIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body = runSourcePayload
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body ?? AnyCodable(),
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
     /// - parameter taskID: (path) Unique identifier of a task.
     /// - returns: RunResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
