@@ -9,11 +9,11 @@ import Foundation
 public struct MultipleBatchRequest: Codable, JSONEncodable {
     public var action: SearchAction
     /// Operation arguments (varies with specified `action`).
-    public var body: AnyCodable
+    public var body: AnyCodable?
     /// Index name (case-sensitive).
     public var indexName: String
 
-    public init(action: SearchAction, body: AnyCodable, indexName: String) {
+    public init(action: SearchAction, body: AnyCodable? = nil, indexName: String) {
         self.action = action
         self.body = body
         self.indexName = indexName
@@ -30,7 +30,7 @@ public struct MultipleBatchRequest: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.action, forKey: .action)
-        try container.encode(self.body, forKey: .body)
+        try container.encodeIfPresent(self.body, forKey: .body)
         try container.encode(self.indexName, forKey: .indexName)
     }
 }
@@ -46,7 +46,7 @@ extension MultipleBatchRequest: Equatable {
 extension MultipleBatchRequest: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.action.hashValue)
-        hasher.combine(self.body.hashValue)
+        hasher.combine(self.body?.hashValue)
         hasher.combine(self.indexName.hashValue)
     }
 }
