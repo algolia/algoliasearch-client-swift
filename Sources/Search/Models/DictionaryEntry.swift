@@ -18,6 +18,7 @@ public struct DictionaryEntry: Codable, JSONEncodable {
     /// Invividual components of a compound word in the `compounds` dictionary.
     public var decomposition: [String]?
     public var state: DictionaryEntryState?
+    public var type: DictionaryEntryType?
 
     public init(
         objectID: String,
@@ -25,7 +26,8 @@ public struct DictionaryEntry: Codable, JSONEncodable {
         word: String? = nil,
         words: [String]? = nil,
         decomposition: [String]? = nil,
-        state: DictionaryEntryState? = nil
+        state: DictionaryEntryState? = nil,
+        type: DictionaryEntryType? = nil
     ) {
         self.objectID = objectID
         self.language = language
@@ -33,6 +35,7 @@ public struct DictionaryEntry: Codable, JSONEncodable {
         self.words = words
         self.decomposition = decomposition
         self.state = state
+        self.type = type
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -42,6 +45,7 @@ public struct DictionaryEntry: Codable, JSONEncodable {
         case words
         case decomposition
         case state
+        case type
     }
 
     public var additionalProperties: [String: AnyCodable] = [:]
@@ -74,9 +78,11 @@ public struct DictionaryEntry: Codable, JSONEncodable {
 
         self.state = dictionary["state"]?.value as? DictionaryEntryState
 
+        self.type = dictionary["type"]?.value as? DictionaryEntryType
+
         for (key, value) in dictionary {
             switch key {
-            case "objectID", "language", "word", "words", "decomposition", "state":
+            case "objectID", "language", "word", "words", "decomposition", "state", "type":
                 continue
             default:
                 self.additionalProperties[key] = value
@@ -94,6 +100,7 @@ public struct DictionaryEntry: Codable, JSONEncodable {
         try container.encodeIfPresent(self.words, forKey: .words)
         try container.encodeIfPresent(self.decomposition, forKey: .decomposition)
         try container.encodeIfPresent(self.state, forKey: .state)
+        try container.encodeIfPresent(self.type, forKey: .type)
         var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
         try additionalPropertiesContainer.encodeMap(self.additionalProperties)
     }
@@ -109,6 +116,7 @@ public struct DictionaryEntry: Codable, JSONEncodable {
         self.words = try container.decodeIfPresent([String].self, forKey: .words)
         self.decomposition = try container.decodeIfPresent([String].self, forKey: .decomposition)
         self.state = try container.decodeIfPresent(DictionaryEntryState.self, forKey: .state)
+        self.type = try container.decodeIfPresent(DictionaryEntryType.self, forKey: .type)
         var nonAdditionalPropertyKeys = Set<String>()
         nonAdditionalPropertyKeys.insert("objectID")
         nonAdditionalPropertyKeys.insert("language")
@@ -116,6 +124,7 @@ public struct DictionaryEntry: Codable, JSONEncodable {
         nonAdditionalPropertyKeys.insert("words")
         nonAdditionalPropertyKeys.insert("decomposition")
         nonAdditionalPropertyKeys.insert("state")
+        nonAdditionalPropertyKeys.insert("type")
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,
@@ -131,7 +140,8 @@ extension DictionaryEntry: Equatable {
             lhs.word == rhs.word &&
             lhs.words == rhs.words &&
             lhs.decomposition == rhs.decomposition &&
-            lhs.state == rhs.state
+            lhs.state == rhs.state &&
+            lhs.type == rhs.type
             && lhs.additionalProperties == rhs.additionalProperties
     }
 }
@@ -144,6 +154,7 @@ extension DictionaryEntry: Hashable {
         hasher.combine(self.words?.hashValue)
         hasher.combine(self.decomposition?.hashValue)
         hasher.combine(self.state?.hashValue)
+        hasher.combine(self.type?.hashValue)
         hasher.combine(self.additionalProperties.hashValue)
     }
 }
