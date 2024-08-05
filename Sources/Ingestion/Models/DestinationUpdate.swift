@@ -14,17 +14,20 @@ public struct DestinationUpdate: Codable, JSONEncodable {
     public var input: DestinationInput?
     /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String?
+    public var transformationIDs: [String]?
 
     public init(
         type: DestinationType? = nil,
         name: String? = nil,
         input: DestinationInput? = nil,
-        authenticationID: String? = nil
+        authenticationID: String? = nil,
+        transformationIDs: [String]? = nil
     ) {
         self.type = type
         self.name = name
         self.input = input
         self.authenticationID = authenticationID
+        self.transformationIDs = transformationIDs
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -32,6 +35,7 @@ public struct DestinationUpdate: Codable, JSONEncodable {
         case name
         case input
         case authenticationID
+        case transformationIDs
     }
 
     // Encodable protocol methods
@@ -42,6 +46,7 @@ public struct DestinationUpdate: Codable, JSONEncodable {
         try container.encodeIfPresent(self.name, forKey: .name)
         try container.encodeIfPresent(self.input, forKey: .input)
         try container.encodeIfPresent(self.authenticationID, forKey: .authenticationID)
+        try container.encodeIfPresent(self.transformationIDs, forKey: .transformationIDs)
     }
 }
 
@@ -50,7 +55,8 @@ extension DestinationUpdate: Equatable {
         lhs.type == rhs.type &&
             lhs.name == rhs.name &&
             lhs.input == rhs.input &&
-            lhs.authenticationID == rhs.authenticationID
+            lhs.authenticationID == rhs.authenticationID &&
+            lhs.transformationIDs == rhs.transformationIDs
     }
 }
 
@@ -60,5 +66,6 @@ extension DestinationUpdate: Hashable {
         hasher.combine(self.name?.hashValue)
         hasher.combine(self.input?.hashValue)
         hasher.combine(self.authenticationID?.hashValue)
+        hasher.combine(self.transformationIDs?.hashValue)
     }
 }

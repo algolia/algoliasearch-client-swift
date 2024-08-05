@@ -2319,16 +2319,22 @@ open class IngestionClient {
         )
     }
 
+    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    /// - parameter page: (query) Page number of the paginated API response. (optional)
     /// - parameter sort: (query) Property by which to sort the list. (optional)
     /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     /// - returns: ListTransformationsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func listTransformations(
+        itemsPerPage: Int? = nil,
+        page: Int? = nil,
         sort: SortKeys? = nil,
         order: OrderKeys? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws -> ListTransformationsResponse {
         let response: Response<ListTransformationsResponse> = try await listTransformationsWithHTTPInfo(
+            itemsPerPage: itemsPerPage,
+            page: page,
             sort: sort,
             order: order,
             requestOptions: requestOptions
@@ -2347,12 +2353,18 @@ open class IngestionClient {
     //  - deleteIndex
     //  - editSettings
     //
+    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    //
+    // - parameter page: (query) Page number of the paginated API response. (optional)
+    //
     // - parameter sort: (query) Property by which to sort the list. (optional)
     //
     // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     // - returns: RequestBuilder<ListTransformationsResponse>
 
     open func listTransformationsWithHTTPInfo(
+        itemsPerPage: Int? = nil,
+        page: Int? = nil,
         sort: SortKeys? = nil,
         order: OrderKeys? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
@@ -2360,6 +2372,8 @@ open class IngestionClient {
         let resourcePath = "/1/transformations"
         let body: AnyCodable? = nil
         let queryParameters: [String: Any?] = [
+            "itemsPerPage": itemsPerPage?.encodeToJSON(),
+            "page": page?.encodeToJSON(),
             "sort": sort?.encodeToJSON(),
             "order": order?.encodeToJSON(),
         ]

@@ -14,12 +14,20 @@ public struct DestinationCreate: Codable, JSONEncodable {
     public var input: DestinationInput
     /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String?
+    public var transformationIDs: [String]?
 
-    public init(type: DestinationType, name: String, input: DestinationInput, authenticationID: String? = nil) {
+    public init(
+        type: DestinationType,
+        name: String,
+        input: DestinationInput,
+        authenticationID: String? = nil,
+        transformationIDs: [String]? = nil
+    ) {
         self.type = type
         self.name = name
         self.input = input
         self.authenticationID = authenticationID
+        self.transformationIDs = transformationIDs
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -27,6 +35,7 @@ public struct DestinationCreate: Codable, JSONEncodable {
         case name
         case input
         case authenticationID
+        case transformationIDs
     }
 
     // Encodable protocol methods
@@ -37,6 +46,7 @@ public struct DestinationCreate: Codable, JSONEncodable {
         try container.encode(self.name, forKey: .name)
         try container.encode(self.input, forKey: .input)
         try container.encodeIfPresent(self.authenticationID, forKey: .authenticationID)
+        try container.encodeIfPresent(self.transformationIDs, forKey: .transformationIDs)
     }
 }
 
@@ -45,7 +55,8 @@ extension DestinationCreate: Equatable {
         lhs.type == rhs.type &&
             lhs.name == rhs.name &&
             lhs.input == rhs.input &&
-            lhs.authenticationID == rhs.authenticationID
+            lhs.authenticationID == rhs.authenticationID &&
+            lhs.transformationIDs == rhs.transformationIDs
     }
 }
 
@@ -55,5 +66,6 @@ extension DestinationCreate: Hashable {
         hasher.combine(self.name.hashValue)
         hasher.combine(self.input.hashValue)
         hasher.combine(self.authenticationID?.hashValue)
+        hasher.combine(self.transformationIDs?.hashValue)
     }
 }

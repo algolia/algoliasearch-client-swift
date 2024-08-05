@@ -20,6 +20,7 @@ public struct Destination: Codable, JSONEncodable {
     public var updatedAt: String?
     /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String?
+    public var transformationIDs: [String]?
 
     public init(
         destinationID: String,
@@ -28,7 +29,8 @@ public struct Destination: Codable, JSONEncodable {
         input: DestinationInput,
         createdAt: String,
         updatedAt: String? = nil,
-        authenticationID: String? = nil
+        authenticationID: String? = nil,
+        transformationIDs: [String]? = nil
     ) {
         self.destinationID = destinationID
         self.type = type
@@ -37,6 +39,7 @@ public struct Destination: Codable, JSONEncodable {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.authenticationID = authenticationID
+        self.transformationIDs = transformationIDs
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -47,6 +50,7 @@ public struct Destination: Codable, JSONEncodable {
         case createdAt
         case updatedAt
         case authenticationID
+        case transformationIDs
     }
 
     // Encodable protocol methods
@@ -60,6 +64,7 @@ public struct Destination: Codable, JSONEncodable {
         try container.encode(self.createdAt, forKey: .createdAt)
         try container.encodeIfPresent(self.updatedAt, forKey: .updatedAt)
         try container.encodeIfPresent(self.authenticationID, forKey: .authenticationID)
+        try container.encodeIfPresent(self.transformationIDs, forKey: .transformationIDs)
     }
 }
 
@@ -71,7 +76,8 @@ extension Destination: Equatable {
             lhs.input == rhs.input &&
             lhs.createdAt == rhs.createdAt &&
             lhs.updatedAt == rhs.updatedAt &&
-            lhs.authenticationID == rhs.authenticationID
+            lhs.authenticationID == rhs.authenticationID &&
+            lhs.transformationIDs == rhs.transformationIDs
     }
 }
 
@@ -84,5 +90,6 @@ extension Destination: Hashable {
         hasher.combine(self.createdAt.hashValue)
         hasher.combine(self.updatedAt?.hashValue)
         hasher.combine(self.authenticationID?.hashValue)
+        hasher.combine(self.transformationIDs?.hashValue)
     }
 }
