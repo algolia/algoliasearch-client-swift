@@ -2319,6 +2319,46 @@ open class IngestionClient {
         )
     }
 
+    /// - returns: TransformationModels
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func listTransformationModels(requestOptions: RequestOptions? = nil) async throws -> TransformationModels {
+        let response: Response<TransformationModels> =
+            try await listTransformationModelsWithHTTPInfo(requestOptions: requestOptions)
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieves a list of existing LLM transformation helpers.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //     - returns: RequestBuilder<TransformationModels>
+
+    open func listTransformationModelsWithHTTPInfo(
+        requestOptions userRequestOptions: RequestOptions? =
+            nil
+    ) async throws -> Response<TransformationModels> {
+        let resourcePath = "/1/transformations/copilot"
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
     /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
     /// - parameter page: (query) Page number of the paginated API response. (optional)
     /// - parameter sort: (query) Property by which to sort the list. (optional)
