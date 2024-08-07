@@ -7,32 +7,32 @@ import Foundation
 #endif
 
 public struct TransformationSearch: Codable, JSONEncodable {
-    public var transformationsIDs: [String]
+    public var transformationIDs: [String]?
 
-    public init(transformationsIDs: [String]) {
-        self.transformationsIDs = transformationsIDs
+    public init(transformationIDs: [String]? = nil) {
+        self.transformationIDs = transformationIDs
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case transformationsIDs
+        case transformationIDs
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.transformationsIDs, forKey: .transformationsIDs)
+        try container.encodeIfPresent(self.transformationIDs, forKey: .transformationIDs)
     }
 }
 
 extension TransformationSearch: Equatable {
     public static func ==(lhs: TransformationSearch, rhs: TransformationSearch) -> Bool {
-        lhs.transformationsIDs == rhs.transformationsIDs
+        lhs.transformationIDs == rhs.transformationIDs
     }
 }
 
 extension TransformationSearch: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.transformationsIDs.hashValue)
+        hasher.combine(self.transformationIDs?.hashValue)
     }
 }
