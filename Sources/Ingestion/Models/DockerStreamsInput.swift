@@ -8,9 +8,9 @@ import Foundation
 
 /// The selected streams of a singer or airbyte connector.
 public struct DockerStreamsInput: Codable, JSONEncodable {
-    public var streams: AnyCodable
+    public var streams: [DockerStreams]
 
-    public init(streams: AnyCodable) {
+    public init(streams: [DockerStreams]) {
         self.streams = streams
     }
 

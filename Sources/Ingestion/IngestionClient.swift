@@ -3031,11 +3031,11 @@ open class IngestionClient {
     /// - parameter transformationTry: (body)
     /// - returns: TransformationTryResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func tryTransformations(
+    open func tryTransformation(
         transformationTry: TransformationTry,
         requestOptions: RequestOptions? = nil
     ) async throws -> TransformationTryResponse {
-        let response: Response<TransformationTryResponse> = try await tryTransformationsWithHTTPInfo(
+        let response: Response<TransformationTryResponse> = try await tryTransformationWithHTTPInfo(
             transformationTry: transformationTry,
             requestOptions: requestOptions
         )
@@ -3056,7 +3056,7 @@ open class IngestionClient {
     // - parameter transformationTry: (body)
     // - returns: RequestBuilder<TransformationTryResponse>
 
-    open func tryTransformationsWithHTTPInfo(
+    open func tryTransformationWithHTTPInfo(
         transformationTry: TransformationTry,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<TransformationTryResponse> {
