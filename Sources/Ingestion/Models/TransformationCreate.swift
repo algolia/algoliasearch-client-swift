@@ -14,17 +14,21 @@ public struct TransformationCreate: Codable, JSONEncodable {
     public var name: String
     /// A descriptive name for your transformation of what it does.
     public var description: String?
+    /// The authentications associated for the current transformation.
+    public var authenticationIDs: [String]?
 
-    public init(code: String, name: String, description: String? = nil) {
+    public init(code: String, name: String, description: String? = nil, authenticationIDs: [String]? = nil) {
         self.code = code
         self.name = name
         self.description = description
+        self.authenticationIDs = authenticationIDs
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case code
         case name
         case description
+        case authenticationIDs
     }
 
     // Encodable protocol methods
@@ -34,6 +38,7 @@ public struct TransformationCreate: Codable, JSONEncodable {
         try container.encode(self.code, forKey: .code)
         try container.encode(self.name, forKey: .name)
         try container.encodeIfPresent(self.description, forKey: .description)
+        try container.encodeIfPresent(self.authenticationIDs, forKey: .authenticationIDs)
     }
 }
 
@@ -41,7 +46,8 @@ extension TransformationCreate: Equatable {
     public static func ==(lhs: TransformationCreate, rhs: TransformationCreate) -> Bool {
         lhs.code == rhs.code &&
             lhs.name == rhs.name &&
-            lhs.description == rhs.description
+            lhs.description == rhs.description &&
+            lhs.authenticationIDs == rhs.authenticationIDs
     }
 }
 
@@ -50,5 +56,6 @@ extension TransformationCreate: Hashable {
         hasher.combine(self.code.hashValue)
         hasher.combine(self.name.hashValue)
         hasher.combine(self.description?.hashValue)
+        hasher.combine(self.authenticationIDs?.hashValue)
     }
 }

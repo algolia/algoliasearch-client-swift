@@ -3095,7 +3095,7 @@ open class IngestionClient {
         return body
     }
 
-    // Try a transformation.
+    // Try a transformation before creating it.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
@@ -3109,6 +3109,73 @@ open class IngestionClient {
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<TransformationTryResponse> {
         let resourcePath = "/1/transformations/try"
+        let body = transformationTry
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter transformationID: (path) Unique identifier of a transformation.
+    /// - parameter transformationTry: (body)
+    /// - returns: TransformationTryResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func tryTransformationBeforeUpdate(
+        transformationID: String,
+        transformationTry: TransformationTry,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> TransformationTryResponse {
+        let response: Response<TransformationTryResponse> = try await tryTransformationBeforeUpdateWithHTTPInfo(
+            transformationID: transformationID,
+            transformationTry: transformationTry,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Try a transformation before updating it.
+    // Required API Key ACLs:
+    //  - addObject
+    //  - deleteIndex
+    //  - editSettings
+    //
+    // - parameter transformationID: (path) Unique identifier of a transformation.
+    //
+    // - parameter transformationTry: (body)
+    // - returns: RequestBuilder<TransformationTryResponse>
+
+    open func tryTransformationBeforeUpdateWithHTTPInfo(
+        transformationID: String,
+        transformationTry: TransformationTry,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TransformationTryResponse> {
+        guard !transformationID.isEmpty else {
+            throw AlgoliaError.invalidArgument("transformationID", "tryTransformationBeforeUpdate")
+        }
+
+        var resourcePath = "/1/transformations/{transformationID}/try"
+        let transformationIDPreEscape = "\(APIHelper.mapValueToPathItem(transformationID))"
+        let transformationIDPostEscape = transformationIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{transformationID}",
+            with: transformationIDPostEscape,
+            options: .literal,
+            range: nil
+        )
         let body = transformationTry
         let queryParameters: [String: Any?]? = nil
 

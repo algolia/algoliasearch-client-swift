@@ -11,15 +11,18 @@ public struct TransformationTry: Codable, JSONEncodable {
     public var code: String
     /// The record to apply the given code to.
     public var sampleRecord: AnyCodable
+    public var authentications: [AuthenticationCreate]?
 
-    public init(code: String, sampleRecord: AnyCodable) {
+    public init(code: String, sampleRecord: AnyCodable, authentications: [AuthenticationCreate]? = nil) {
         self.code = code
         self.sampleRecord = sampleRecord
+        self.authentications = authentications
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case code
         case sampleRecord
+        case authentications
     }
 
     // Encodable protocol methods
@@ -28,13 +31,15 @@ public struct TransformationTry: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.code, forKey: .code)
         try container.encode(self.sampleRecord, forKey: .sampleRecord)
+        try container.encodeIfPresent(self.authentications, forKey: .authentications)
     }
 }
 
 extension TransformationTry: Equatable {
     public static func ==(lhs: TransformationTry, rhs: TransformationTry) -> Bool {
         lhs.code == rhs.code &&
-            lhs.sampleRecord == rhs.sampleRecord
+            lhs.sampleRecord == rhs.sampleRecord &&
+            lhs.authentications == rhs.authentications
     }
 }
 
@@ -42,5 +47,6 @@ extension TransformationTry: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.code.hashValue)
         hasher.combine(self.sampleRecord.hashValue)
+        hasher.combine(self.authentications?.hashValue)
     }
 }

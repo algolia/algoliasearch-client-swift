@@ -9,6 +9,8 @@ import Foundation
 public struct Transformation: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of a transformation.
     public var transformationID: String
+    /// The authentications associated for the current transformation.
+    public var authenticationIDs: [String]?
     /// The source code of the transformation.
     public var code: String
     /// The uniquely identified name of your transformation.
@@ -22,6 +24,7 @@ public struct Transformation: Codable, JSONEncodable {
 
     public init(
         transformationID: String,
+        authenticationIDs: [String]? = nil,
         code: String,
         name: String,
         description: String? = nil,
@@ -29,6 +32,7 @@ public struct Transformation: Codable, JSONEncodable {
         updatedAt: String? = nil
     ) {
         self.transformationID = transformationID
+        self.authenticationIDs = authenticationIDs
         self.code = code
         self.name = name
         self.description = description
@@ -38,6 +42,7 @@ public struct Transformation: Codable, JSONEncodable {
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case transformationID
+        case authenticationIDs
         case code
         case name
         case description
@@ -50,6 +55,7 @@ public struct Transformation: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.transformationID, forKey: .transformationID)
+        try container.encodeIfPresent(self.authenticationIDs, forKey: .authenticationIDs)
         try container.encode(self.code, forKey: .code)
         try container.encode(self.name, forKey: .name)
         try container.encodeIfPresent(self.description, forKey: .description)
@@ -61,6 +67,7 @@ public struct Transformation: Codable, JSONEncodable {
 extension Transformation: Equatable {
     public static func ==(lhs: Transformation, rhs: Transformation) -> Bool {
         lhs.transformationID == rhs.transformationID &&
+            lhs.authenticationIDs == rhs.authenticationIDs &&
             lhs.code == rhs.code &&
             lhs.name == rhs.name &&
             lhs.description == rhs.description &&
@@ -72,6 +79,7 @@ extension Transformation: Equatable {
 extension Transformation: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.transformationID.hashValue)
+        hasher.combine(self.authenticationIDs?.hashValue)
         hasher.combine(self.code.hashValue)
         hasher.combine(self.name.hashValue)
         hasher.combine(self.description?.hashValue)
