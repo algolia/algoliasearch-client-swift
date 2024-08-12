@@ -7,9 +7,9 @@ import Foundation
 #endif
 
 public struct TransformationSearch: Codable, JSONEncodable {
-    public var transformationIDs: [String]?
+    public var transformationIDs: [String]
 
-    public init(transformationIDs: [String]? = nil) {
+    public init(transformationIDs: [String]) {
         self.transformationIDs = transformationIDs
     }
 
@@ -21,7 +21,7 @@ public struct TransformationSearch: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.transformationIDs, forKey: .transformationIDs)
+        try container.encode(self.transformationIDs, forKey: .transformationIDs)
     }
 }
 
@@ -33,6 +33,6 @@ extension TransformationSearch: Equatable {
 
 extension TransformationSearch: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.transformationIDs?.hashValue)
+        hasher.combine(self.transformationIDs.hashValue)
     }
 }
