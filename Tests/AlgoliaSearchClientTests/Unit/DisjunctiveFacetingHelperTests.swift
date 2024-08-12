@@ -382,5 +382,67 @@ class DisjunctiveFacetingHelperTests: XCTestCase {
     ])
     XCTAssertTrue(response.exhaustiveFacetsCount!)
   }
+    
+    func testKeepExistingFilters() throws {
+        var query = Query()
+        query.filters = "NOT color:blue"
+        
+        let refinements: [Attribute: [String]] = [
+          "size": ["m", "s"],
+          "color": ["blue", "green", "red"],
+          "brand": ["apple", "samsung", "sony"]
+        ]
+        let disjunctiveFacets: Set<Attribute> = [
+          "color",
+          "size"
+        ]
+        let helper = DisjunctiveFacetingHelper(query: query,
+                                               refinements: refinements,
+                                               disjunctiveFacets: disjunctiveFacets)
+        let queries = helper.makeQueries()
+        XCTAssertEqual(queries.count, 3)
+        XCTAssertEqual(queries.first?.filters, """
+        NOT color:blue AND ("brand":"apple" AND "brand":"samsung" AND "brand":"sony") AND ("color":"blue" OR "color":"green" OR "color":"red") AND ("size":"m" OR "size":"s")
+        """)
+        XCTAssertEqual(queries[1].facets, ["color"])
+        XCTAssertEqual(queries[1].filters, """
+        NOT color:blue AND ("brand":"apple" AND "brand":"samsung" AND "brand":"sony") AND ("size":"m" OR "size":"s")
+        """)
+        XCTAssertEqual(queries[2].facets, ["size"])
+        XCTAssertEqual(queries[2].filters, """
+        NOT color:blue AND ("brand":"apple" AND "brand":"samsung" AND "brand":"sony") AND ("color":"blue" OR "color":"green" OR "color":"red")
+        """)
+    }
+    
+    func testKeepExistingFiltersEmpty() throws {
+        var query = Query()
+        query.filters = ""
+        
+        let refinements: [Attribute: [String]] = [
+          "size": ["m", "s"],
+          "color": ["blue", "green", "red"],
+          "brand": ["apple", "samsung", "sony"]
+        ]
+        let disjunctiveFacets: Set<Attribute> = [
+          "color",
+          "size"
+        ]
+        let helper = DisjunctiveFacetingHelper(query: query,
+                                               refinements: refinements,
+                                               disjunctiveFacets: disjunctiveFacets)
+        let queries = helper.makeQueries()
+        XCTAssertEqual(queries.count, 3)
+        XCTAssertEqual(queries.first?.filters, """
+        ("brand":"apple" AND "brand":"samsung" AND "brand":"sony") AND ("color":"blue" OR "color":"green" OR "color":"red") AND ("size":"m" OR "size":"s")
+        """)
+        XCTAssertEqual(queries[1].facets, ["color"])
+        XCTAssertEqual(queries[1].filters, """
+        ("brand":"apple" AND "brand":"samsung" AND "brand":"sony") AND ("size":"m" OR "size":"s")
+        """)
+        XCTAssertEqual(queries[2].facets, ["size"])
+        XCTAssertEqual(queries[2].filters, """
+        ("brand":"apple" AND "brand":"samsung" AND "brand":"sony") AND ("color":"blue" OR "color":"green" OR "color":"red")
+        """)
+    }
 
 }

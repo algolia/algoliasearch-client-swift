@@ -50,7 +50,10 @@ struct DisjunctiveFacetingHelper {
     var queries = [Query]()
 
     var mainQuery = query
-    mainQuery.filters = buildFilters(excluding: .none)
+    if let mainQueryFilters = mainQuery.filters, !mainQueryFilters.isEmpty {
+      mainQuery.filters = mainQueryFilters + " AND "
+    }
+    mainQuery.filters = (mainQuery.filters ?? "") + buildFilters(excluding: .none)
 
     queries.append(mainQuery)
 
@@ -59,7 +62,10 @@ struct DisjunctiveFacetingHelper {
       .forEach { disjunctiveFacet in
       var disjunctiveQuery = query
       disjunctiveQuery.facets = [disjunctiveFacet]
-      disjunctiveQuery.filters = buildFilters(excluding: disjunctiveFacet)
+      if let disjunctiveQueryFilters = disjunctiveQuery.filters, !disjunctiveQueryFilters.isEmpty {
+          disjunctiveQuery.filters = disjunctiveQueryFilters + " AND "
+      }
+      disjunctiveQuery.filters = (disjunctiveQuery.filters ?? "") + buildFilters(excluding: disjunctiveFacet)
       disjunctiveQuery.hitsPerPage = 0
       disjunctiveQuery.attributesToRetrieve = []
       disjunctiveQuery.attributesToHighlight = []
