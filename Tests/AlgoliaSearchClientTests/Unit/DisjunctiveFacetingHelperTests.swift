@@ -444,5 +444,30 @@ class DisjunctiveFacetingHelperTests: XCTestCase {
         ("brand":"apple" AND "brand":"samsung" AND "brand":"sony") AND ("color":"blue" OR "color":"green" OR "color":"red")
         """)
     }
+    
+    func testKeepExistingFiltersNoRefinement() throws {
+        var query = Query()
+        query.filters = "NOT color:blue"
 
+        let disjunctiveFacets: Set<Attribute> = [
+          "color",
+          "size"
+        ]
+        let helper = DisjunctiveFacetingHelper(query: query,
+                                               refinements: [:],
+                                               disjunctiveFacets: disjunctiveFacets)
+        let queries = helper.makeQueries()
+        XCTAssertEqual(queries.count, 3)
+        XCTAssertEqual(queries.first?.filters, """
+        NOT color:blue
+        """)
+        XCTAssertEqual(queries[1].facets, ["color"])
+        XCTAssertEqual(queries[1].filters, """
+        NOT color:blue
+        """)
+        XCTAssertEqual(queries[2].facets, ["size"])
+        XCTAssertEqual(queries[2].filters, """
+        NOT color:blue
+        """)
+    }
 }
