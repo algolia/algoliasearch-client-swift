@@ -1,3 +1,9 @@
+## [9.0.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-beta.17...9.0.0)
+
+New major version released! Browse [our documentation](https://www.algolia.com/doc/libraries/swift)
+
+- [22348001a](https://github.com/algolia/api-clients-automation/commit/22348001a) fix(specs): required ingestion search params ([#3516](https://github.com/algolia/api-clients-automation/pull/3516)) by [@shortcuts](https://github.com/shortcuts/)
+
 ## [9.0.0-beta.17](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-beta.16...9.0.0-beta.17)
 
 - [4c052002e](https://github.com/algolia/api-clients-automation/commit/4c052002e) feat(specs): recursive snippets and highlights result ([#3497](https://github.com/algolia/api-clients-automation/pull/3497)) by [@shortcuts](https://github.com/shortcuts/)
