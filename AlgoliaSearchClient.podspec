@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.source = { :git => 'https://github.com/algolia/algoliasearch-client-swift.git', :tag => '9.0.0' }
   s.authors = { 'Algolia' => 'contact@algolia.com' }
   s.license = { :type => 'MIT', :file => 'LICENSE' }
-  s.homepage = 'https://github.com/algolia/algoliasearch-client-swift/tree/next'
+  s.homepage = 'https://github.com/algolia/algoliasearch-client-swift/tree/main'
   s.summary = 'Algolia Search API Client written in Swift.'
   s.documentation_url = 'https://www.algolia.com/doc/api-client/getting-started/what-is-the-api-client/swift/'
   s.ios.deployment_target = '14.0'
