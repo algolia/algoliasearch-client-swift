@@ -7,13 +7,13 @@ import Foundation
 #endif
 
 public enum EventsItems: Codable, JSONEncodable, AbstractEncodable {
-    case clickedObjectIDsAfterSearch(ClickedObjectIDsAfterSearch)
     case addedToCartObjectIDsAfterSearch(AddedToCartObjectIDsAfterSearch)
     case purchasedObjectIDsAfterSearch(PurchasedObjectIDsAfterSearch)
-    case convertedObjectIDsAfterSearch(ConvertedObjectIDsAfterSearch)
-    case clickedObjectIDs(ClickedObjectIDs)
+    case clickedObjectIDsAfterSearch(ClickedObjectIDsAfterSearch)
     case purchasedObjectIDs(PurchasedObjectIDs)
     case addedToCartObjectIDs(AddedToCartObjectIDs)
+    case convertedObjectIDsAfterSearch(ConvertedObjectIDsAfterSearch)
+    case clickedObjectIDs(ClickedObjectIDs)
     case convertedObjectIDs(ConvertedObjectIDs)
     case clickedFilters(ClickedFilters)
     case convertedFilters(ConvertedFilters)
@@ -23,19 +23,19 @@ public enum EventsItems: Codable, JSONEncodable, AbstractEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .clickedObjectIDsAfterSearch(value):
-            try container.encode(value)
         case let .addedToCartObjectIDsAfterSearch(value):
             try container.encode(value)
         case let .purchasedObjectIDsAfterSearch(value):
             try container.encode(value)
-        case let .convertedObjectIDsAfterSearch(value):
-            try container.encode(value)
-        case let .clickedObjectIDs(value):
+        case let .clickedObjectIDsAfterSearch(value):
             try container.encode(value)
         case let .purchasedObjectIDs(value):
             try container.encode(value)
         case let .addedToCartObjectIDs(value):
+            try container.encode(value)
+        case let .convertedObjectIDsAfterSearch(value):
+            try container.encode(value)
+        case let .clickedObjectIDs(value):
             try container.encode(value)
         case let .convertedObjectIDs(value):
             try container.encode(value)
@@ -52,20 +52,20 @@ public enum EventsItems: Codable, JSONEncodable, AbstractEncodable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(ClickedObjectIDsAfterSearch.self) {
-            self = .clickedObjectIDsAfterSearch(value)
-        } else if let value = try? container.decode(AddedToCartObjectIDsAfterSearch.self) {
+        if let value = try? container.decode(AddedToCartObjectIDsAfterSearch.self) {
             self = .addedToCartObjectIDsAfterSearch(value)
         } else if let value = try? container.decode(PurchasedObjectIDsAfterSearch.self) {
             self = .purchasedObjectIDsAfterSearch(value)
-        } else if let value = try? container.decode(ConvertedObjectIDsAfterSearch.self) {
-            self = .convertedObjectIDsAfterSearch(value)
-        } else if let value = try? container.decode(ClickedObjectIDs.self) {
-            self = .clickedObjectIDs(value)
+        } else if let value = try? container.decode(ClickedObjectIDsAfterSearch.self) {
+            self = .clickedObjectIDsAfterSearch(value)
         } else if let value = try? container.decode(PurchasedObjectIDs.self) {
             self = .purchasedObjectIDs(value)
         } else if let value = try? container.decode(AddedToCartObjectIDs.self) {
             self = .addedToCartObjectIDs(value)
+        } else if let value = try? container.decode(ConvertedObjectIDsAfterSearch.self) {
+            self = .convertedObjectIDsAfterSearch(value)
+        } else if let value = try? container.decode(ClickedObjectIDs.self) {
+            self = .clickedObjectIDs(value)
         } else if let value = try? container.decode(ConvertedObjectIDs.self) {
             self = .convertedObjectIDs(value)
         } else if let value = try? container.decode(ClickedFilters.self) {
@@ -86,20 +86,20 @@ public enum EventsItems: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .clickedObjectIDsAfterSearch(value):
-            value as ClickedObjectIDsAfterSearch
         case let .addedToCartObjectIDsAfterSearch(value):
             value as AddedToCartObjectIDsAfterSearch
         case let .purchasedObjectIDsAfterSearch(value):
             value as PurchasedObjectIDsAfterSearch
-        case let .convertedObjectIDsAfterSearch(value):
-            value as ConvertedObjectIDsAfterSearch
-        case let .clickedObjectIDs(value):
-            value as ClickedObjectIDs
+        case let .clickedObjectIDsAfterSearch(value):
+            value as ClickedObjectIDsAfterSearch
         case let .purchasedObjectIDs(value):
             value as PurchasedObjectIDs
         case let .addedToCartObjectIDs(value):
             value as AddedToCartObjectIDs
+        case let .convertedObjectIDsAfterSearch(value):
+            value as ConvertedObjectIDsAfterSearch
+        case let .clickedObjectIDs(value):
+            value as ClickedObjectIDs
         case let .convertedObjectIDs(value):
             value as ConvertedObjectIDs
         case let .clickedFilters(value):

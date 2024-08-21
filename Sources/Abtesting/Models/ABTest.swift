@@ -30,11 +30,11 @@ public struct ABTest: Codable, JSONEncodable {
 
     public init(
         abTestID: Int,
-        clickSignificance: Double?,
-        conversionSignificance: Double?,
-        addToCartSignificance: Double?,
-        purchaseSignificance: Double?,
-        revenueSignificance: [String: Double]?,
+        clickSignificance: Double? = nil,
+        conversionSignificance: Double? = nil,
+        addToCartSignificance: Double? = nil,
+        purchaseSignificance: Double? = nil,
+        revenueSignificance: [String: Double]? = nil,
         updatedAt: String,
         createdAt: String,
         endAt: String,
@@ -79,11 +79,11 @@ public struct ABTest: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.abTestID, forKey: .abTestID)
-        try container.encode(self.clickSignificance, forKey: .clickSignificance)
-        try container.encode(self.conversionSignificance, forKey: .conversionSignificance)
-        try container.encode(self.addToCartSignificance, forKey: .addToCartSignificance)
-        try container.encode(self.purchaseSignificance, forKey: .purchaseSignificance)
-        try container.encode(self.revenueSignificance, forKey: .revenueSignificance)
+        try container.encodeIfPresent(self.clickSignificance, forKey: .clickSignificance)
+        try container.encodeIfPresent(self.conversionSignificance, forKey: .conversionSignificance)
+        try container.encodeIfPresent(self.addToCartSignificance, forKey: .addToCartSignificance)
+        try container.encodeIfPresent(self.purchaseSignificance, forKey: .purchaseSignificance)
+        try container.encodeIfPresent(self.revenueSignificance, forKey: .revenueSignificance)
         try container.encode(self.updatedAt, forKey: .updatedAt)
         try container.encode(self.createdAt, forKey: .createdAt)
         try container.encode(self.endAt, forKey: .endAt)
@@ -115,11 +115,11 @@ extension ABTest: Equatable {
 extension ABTest: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.abTestID.hashValue)
-        hasher.combine(self.clickSignificance.hashValue)
-        hasher.combine(self.conversionSignificance.hashValue)
-        hasher.combine(self.addToCartSignificance.hashValue)
-        hasher.combine(self.purchaseSignificance.hashValue)
-        hasher.combine(self.revenueSignificance.hashValue)
+        hasher.combine(self.clickSignificance?.hashValue)
+        hasher.combine(self.conversionSignificance?.hashValue)
+        hasher.combine(self.addToCartSignificance?.hashValue)
+        hasher.combine(self.purchaseSignificance?.hashValue)
+        hasher.combine(self.revenueSignificance?.hashValue)
         hasher.combine(self.updatedAt.hashValue)
         hasher.combine(self.createdAt.hashValue)
         hasher.combine(self.endAt.hashValue)

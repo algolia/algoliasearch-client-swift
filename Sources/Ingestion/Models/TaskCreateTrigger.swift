@@ -7,17 +7,17 @@ import Foundation
 #endif
 
 public enum TaskCreateTrigger: Codable, JSONEncodable, AbstractEncodable {
-    case onDemandTriggerInput(OnDemandTriggerInput)
     case scheduleTriggerInput(ScheduleTriggerInput)
+    case onDemandTriggerInput(OnDemandTriggerInput)
     case subscriptionTrigger(SubscriptionTrigger)
     case streamingTrigger(StreamingTrigger)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .onDemandTriggerInput(value):
-            try container.encode(value)
         case let .scheduleTriggerInput(value):
+            try container.encode(value)
+        case let .onDemandTriggerInput(value):
             try container.encode(value)
         case let .subscriptionTrigger(value):
             try container.encode(value)
@@ -28,10 +28,10 @@ public enum TaskCreateTrigger: Codable, JSONEncodable, AbstractEncodable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(OnDemandTriggerInput.self) {
-            self = .onDemandTriggerInput(value)
-        } else if let value = try? container.decode(ScheduleTriggerInput.self) {
+        if let value = try? container.decode(ScheduleTriggerInput.self) {
             self = .scheduleTriggerInput(value)
+        } else if let value = try? container.decode(OnDemandTriggerInput.self) {
+            self = .onDemandTriggerInput(value)
         } else if let value = try? container.decode(SubscriptionTrigger.self) {
             self = .subscriptionTrigger(value)
         } else if let value = try? container.decode(StreamingTrigger.self) {
@@ -49,10 +49,10 @@ public enum TaskCreateTrigger: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .onDemandTriggerInput(value):
-            value as OnDemandTriggerInput
         case let .scheduleTriggerInput(value):
             value as ScheduleTriggerInput
+        case let .onDemandTriggerInput(value):
+            value as OnDemandTriggerInput
         case let .subscriptionTrigger(value):
             value as SubscriptionTrigger
         case let .streamingTrigger(value):

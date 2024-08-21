@@ -7,17 +7,17 @@ import Foundation
 #endif
 
 public enum SearchHighlightResult: Codable, JSONEncodable, AbstractEncodable {
-    case dictionaryOfStringToSearchHighlightResult([String: SearchHighlightResult])
     case searchHighlightResultOption(SearchHighlightResultOption)
+    case dictionaryOfStringToSearchHighlightResult([String: SearchHighlightResult])
     case dictionaryOfStringToSearchHighlightResultOption([String: SearchHighlightResultOption])
     case arrayOfSearchHighlightResultOption([SearchHighlightResultOption])
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .dictionaryOfStringToSearchHighlightResult(value):
-            try container.encode(value)
         case let .searchHighlightResultOption(value):
+            try container.encode(value)
+        case let .dictionaryOfStringToSearchHighlightResult(value):
             try container.encode(value)
         case let .dictionaryOfStringToSearchHighlightResultOption(value):
             try container.encode(value)
@@ -28,10 +28,10 @@ public enum SearchHighlightResult: Codable, JSONEncodable, AbstractEncodable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode([String: SearchHighlightResult].self) {
-            self = .dictionaryOfStringToSearchHighlightResult(value)
-        } else if let value = try? container.decode(SearchHighlightResultOption.self) {
+        if let value = try? container.decode(SearchHighlightResultOption.self) {
             self = .searchHighlightResultOption(value)
+        } else if let value = try? container.decode([String: SearchHighlightResult].self) {
+            self = .dictionaryOfStringToSearchHighlightResult(value)
         } else if let value = try? container.decode([String: SearchHighlightResultOption].self) {
             self = .dictionaryOfStringToSearchHighlightResultOption(value)
         } else if let value = try? container.decode([SearchHighlightResultOption].self) {
@@ -49,10 +49,10 @@ public enum SearchHighlightResult: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .dictionaryOfStringToSearchHighlightResult(value):
-            value as [String: SearchHighlightResult]
         case let .searchHighlightResultOption(value):
             value as SearchHighlightResultOption
+        case let .dictionaryOfStringToSearchHighlightResult(value):
+            value as [String: SearchHighlightResult]
         case let .dictionaryOfStringToSearchHighlightResultOption(value):
             value as [String: SearchHighlightResultOption]
         case let .arrayOfSearchHighlightResultOption(value):

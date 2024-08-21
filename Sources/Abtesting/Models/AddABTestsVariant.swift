@@ -7,25 +7,25 @@ import Foundation
 #endif
 
 public enum AddABTestsVariant: Codable, JSONEncodable, AbstractEncodable {
-    case abTestsVariant(AbTestsVariant)
     case abTestsVariantSearchParams(AbTestsVariantSearchParams)
+    case abTestsVariant(AbTestsVariant)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .abTestsVariant(value):
-            try container.encode(value)
         case let .abTestsVariantSearchParams(value):
+            try container.encode(value)
+        case let .abTestsVariant(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(AbTestsVariant.self) {
-            self = .abTestsVariant(value)
-        } else if let value = try? container.decode(AbTestsVariantSearchParams.self) {
+        if let value = try? container.decode(AbTestsVariantSearchParams.self) {
             self = .abTestsVariantSearchParams(value)
+        } else if let value = try? container.decode(AbTestsVariant.self) {
+            self = .abTestsVariant(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -39,10 +39,10 @@ public enum AddABTestsVariant: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .abTestsVariant(value):
-            value as AbTestsVariant
         case let .abTestsVariantSearchParams(value):
             value as AbTestsVariantSearchParams
+        case let .abTestsVariant(value):
+            value as AbTestsVariant
         }
     }
 }

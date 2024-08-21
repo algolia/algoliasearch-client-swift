@@ -57,12 +57,12 @@ public struct Variant: Codable, JSONEncodable {
 
     public init(
         addToCartCount: Int,
-        addToCartRate: Double?,
-        averageClickPosition: Int?,
+        addToCartRate: Double? = nil,
+        averageClickPosition: Int? = nil,
         clickCount: Int,
-        clickThroughRate: Double?,
+        clickThroughRate: Double? = nil,
         conversionCount: Int,
-        conversionRate: Double?,
+        conversionRate: Double? = nil,
         currencies: [String: Currency]? = nil,
         description: String,
         estimatedSampleSize: Int? = nil,
@@ -70,7 +70,7 @@ public struct Variant: Codable, JSONEncodable {
         index: String,
         noResultCount: Int?,
         purchaseCount: Int,
-        purchaseRate: Double?,
+        purchaseRate: Double? = nil,
         searchCount: Int?,
         trackedSearchCount: Int? = nil,
         trafficPercentage: Int,
@@ -127,12 +127,12 @@ public struct Variant: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.addToCartCount, forKey: .addToCartCount)
-        try container.encode(self.addToCartRate, forKey: .addToCartRate)
-        try container.encode(self.averageClickPosition, forKey: .averageClickPosition)
+        try container.encodeIfPresent(self.addToCartRate, forKey: .addToCartRate)
+        try container.encodeIfPresent(self.averageClickPosition, forKey: .averageClickPosition)
         try container.encode(self.clickCount, forKey: .clickCount)
-        try container.encode(self.clickThroughRate, forKey: .clickThroughRate)
+        try container.encodeIfPresent(self.clickThroughRate, forKey: .clickThroughRate)
         try container.encode(self.conversionCount, forKey: .conversionCount)
-        try container.encode(self.conversionRate, forKey: .conversionRate)
+        try container.encodeIfPresent(self.conversionRate, forKey: .conversionRate)
         try container.encodeIfPresent(self.currencies, forKey: .currencies)
         try container.encode(self.description, forKey: .description)
         try container.encodeIfPresent(self.estimatedSampleSize, forKey: .estimatedSampleSize)
@@ -140,7 +140,7 @@ public struct Variant: Codable, JSONEncodable {
         try container.encode(self.index, forKey: .index)
         try container.encode(self.noResultCount, forKey: .noResultCount)
         try container.encode(self.purchaseCount, forKey: .purchaseCount)
-        try container.encode(self.purchaseRate, forKey: .purchaseRate)
+        try container.encodeIfPresent(self.purchaseRate, forKey: .purchaseRate)
         try container.encode(self.searchCount, forKey: .searchCount)
         try container.encodeIfPresent(self.trackedSearchCount, forKey: .trackedSearchCount)
         try container.encode(self.trafficPercentage, forKey: .trafficPercentage)
@@ -177,12 +177,12 @@ extension Variant: Equatable {
 extension Variant: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.addToCartCount.hashValue)
-        hasher.combine(self.addToCartRate.hashValue)
-        hasher.combine(self.averageClickPosition.hashValue)
+        hasher.combine(self.addToCartRate?.hashValue)
+        hasher.combine(self.averageClickPosition?.hashValue)
         hasher.combine(self.clickCount.hashValue)
-        hasher.combine(self.clickThroughRate.hashValue)
+        hasher.combine(self.clickThroughRate?.hashValue)
         hasher.combine(self.conversionCount.hashValue)
-        hasher.combine(self.conversionRate.hashValue)
+        hasher.combine(self.conversionRate?.hashValue)
         hasher.combine(self.currencies?.hashValue)
         hasher.combine(self.description.hashValue)
         hasher.combine(self.estimatedSampleSize?.hashValue)
@@ -190,7 +190,7 @@ extension Variant: Hashable {
         hasher.combine(self.index.hashValue)
         hasher.combine(self.noResultCount.hashValue)
         hasher.combine(self.purchaseCount.hashValue)
-        hasher.combine(self.purchaseRate.hashValue)
+        hasher.combine(self.purchaseRate?.hashValue)
         hasher.combine(self.searchCount.hashValue)
         hasher.combine(self.trackedSearchCount?.hashValue)
         hasher.combine(self.trafficPercentage.hashValue)

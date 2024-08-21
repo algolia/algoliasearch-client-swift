@@ -7,28 +7,28 @@ import Foundation
 #endif
 
 public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable {
-    case sourceBigQuery(SourceBigQuery)
     case sourceGA4BigQueryExport(SourceGA4BigQueryExport)
+    case sourceBigQuery(SourceBigQuery)
+    case sourceUpdateDocker(SourceUpdateDocker)
     case sourceUpdateCommercetools(SourceUpdateCommercetools)
     case sourceJSON(SourceJSON)
     case sourceCSV(SourceCSV)
-    case sourceUpdateDocker(SourceUpdateDocker)
     case sourceUpdateShopify(SourceUpdateShopify)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
+        case let .sourceGA4BigQueryExport(value):
+            try container.encode(value)
         case let .sourceBigQuery(value):
             try container.encode(value)
-        case let .sourceGA4BigQueryExport(value):
+        case let .sourceUpdateDocker(value):
             try container.encode(value)
         case let .sourceUpdateCommercetools(value):
             try container.encode(value)
         case let .sourceJSON(value):
             try container.encode(value)
         case let .sourceCSV(value):
-            try container.encode(value)
-        case let .sourceUpdateDocker(value):
             try container.encode(value)
         case let .sourceUpdateShopify(value):
             try container.encode(value)
@@ -37,18 +37,18 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(SourceBigQuery.self) {
-            self = .sourceBigQuery(value)
-        } else if let value = try? container.decode(SourceGA4BigQueryExport.self) {
+        if let value = try? container.decode(SourceGA4BigQueryExport.self) {
             self = .sourceGA4BigQueryExport(value)
+        } else if let value = try? container.decode(SourceBigQuery.self) {
+            self = .sourceBigQuery(value)
+        } else if let value = try? container.decode(SourceUpdateDocker.self) {
+            self = .sourceUpdateDocker(value)
         } else if let value = try? container.decode(SourceUpdateCommercetools.self) {
             self = .sourceUpdateCommercetools(value)
         } else if let value = try? container.decode(SourceJSON.self) {
             self = .sourceJSON(value)
         } else if let value = try? container.decode(SourceCSV.self) {
             self = .sourceCSV(value)
-        } else if let value = try? container.decode(SourceUpdateDocker.self) {
-            self = .sourceUpdateDocker(value)
         } else if let value = try? container.decode(SourceUpdateShopify.self) {
             self = .sourceUpdateShopify(value)
         } else {
@@ -64,18 +64,18 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .sourceBigQuery(value):
-            value as SourceBigQuery
         case let .sourceGA4BigQueryExport(value):
             value as SourceGA4BigQueryExport
+        case let .sourceBigQuery(value):
+            value as SourceBigQuery
+        case let .sourceUpdateDocker(value):
+            value as SourceUpdateDocker
         case let .sourceUpdateCommercetools(value):
             value as SourceUpdateCommercetools
         case let .sourceJSON(value):
             value as SourceJSON
         case let .sourceCSV(value):
             value as SourceCSV
-        case let .sourceUpdateDocker(value):
-            value as SourceUpdateDocker
         case let .sourceUpdateShopify(value):
             value as SourceUpdateShopify
         }

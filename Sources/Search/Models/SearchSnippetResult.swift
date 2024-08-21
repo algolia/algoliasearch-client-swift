@@ -7,17 +7,17 @@ import Foundation
 #endif
 
 public enum SearchSnippetResult: Codable, JSONEncodable, AbstractEncodable {
-    case dictionaryOfStringToSearchSnippetResult([String: SearchSnippetResult])
     case searchSnippetResultOption(SearchSnippetResultOption)
+    case dictionaryOfStringToSearchSnippetResult([String: SearchSnippetResult])
     case dictionaryOfStringToSearchSnippetResultOption([String: SearchSnippetResultOption])
     case arrayOfSearchSnippetResultOption([SearchSnippetResultOption])
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .dictionaryOfStringToSearchSnippetResult(value):
-            try container.encode(value)
         case let .searchSnippetResultOption(value):
+            try container.encode(value)
+        case let .dictionaryOfStringToSearchSnippetResult(value):
             try container.encode(value)
         case let .dictionaryOfStringToSearchSnippetResultOption(value):
             try container.encode(value)
@@ -28,10 +28,10 @@ public enum SearchSnippetResult: Codable, JSONEncodable, AbstractEncodable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode([String: SearchSnippetResult].self) {
-            self = .dictionaryOfStringToSearchSnippetResult(value)
-        } else if let value = try? container.decode(SearchSnippetResultOption.self) {
+        if let value = try? container.decode(SearchSnippetResultOption.self) {
             self = .searchSnippetResultOption(value)
+        } else if let value = try? container.decode([String: SearchSnippetResult].self) {
+            self = .dictionaryOfStringToSearchSnippetResult(value)
         } else if let value = try? container.decode([String: SearchSnippetResultOption].self) {
             self = .dictionaryOfStringToSearchSnippetResultOption(value)
         } else if let value = try? container.decode([SearchSnippetResultOption].self) {
@@ -49,10 +49,10 @@ public enum SearchSnippetResult: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .dictionaryOfStringToSearchSnippetResult(value):
-            value as [String: SearchSnippetResult]
         case let .searchSnippetResultOption(value):
             value as SearchSnippetResultOption
+        case let .dictionaryOfStringToSearchSnippetResult(value):
+            value as [String: SearchSnippetResult]
         case let .dictionaryOfStringToSearchSnippetResultOption(value):
             value as [String: SearchSnippetResultOption]
         case let .arrayOfSearchSnippetResultOption(value):

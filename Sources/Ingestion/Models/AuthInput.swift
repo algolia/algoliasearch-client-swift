@@ -7,23 +7,23 @@ import Foundation
 #endif
 
 public enum AuthInput: Codable, JSONEncodable, AbstractEncodable {
+    case authOAuth(AuthOAuth)
     case authGoogleServiceAccount(AuthGoogleServiceAccount)
     case authBasic(AuthBasic)
     case authAPIKey(AuthAPIKey)
-    case authOAuth(AuthOAuth)
     case authAlgolia(AuthAlgolia)
     case authAlgoliaInsights(AuthAlgoliaInsights)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
+        case let .authOAuth(value):
+            try container.encode(value)
         case let .authGoogleServiceAccount(value):
             try container.encode(value)
         case let .authBasic(value):
             try container.encode(value)
         case let .authAPIKey(value):
-            try container.encode(value)
-        case let .authOAuth(value):
             try container.encode(value)
         case let .authAlgolia(value):
             try container.encode(value)
@@ -34,14 +34,14 @@ public enum AuthInput: Codable, JSONEncodable, AbstractEncodable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(AuthGoogleServiceAccount.self) {
+        if let value = try? container.decode(AuthOAuth.self) {
+            self = .authOAuth(value)
+        } else if let value = try? container.decode(AuthGoogleServiceAccount.self) {
             self = .authGoogleServiceAccount(value)
         } else if let value = try? container.decode(AuthBasic.self) {
             self = .authBasic(value)
         } else if let value = try? container.decode(AuthAPIKey.self) {
             self = .authAPIKey(value)
-        } else if let value = try? container.decode(AuthOAuth.self) {
-            self = .authOAuth(value)
         } else if let value = try? container.decode(AuthAlgolia.self) {
             self = .authAlgolia(value)
         } else if let value = try? container.decode(AuthAlgoliaInsights.self) {
@@ -56,14 +56,14 @@ public enum AuthInput: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
+        case let .authOAuth(value):
+            value as AuthOAuth
         case let .authGoogleServiceAccount(value):
             value as AuthGoogleServiceAccount
         case let .authBasic(value):
             value as AuthBasic
         case let .authAPIKey(value):
             value as AuthAPIKey
-        case let .authOAuth(value):
-            value as AuthOAuth
         case let .authAlgolia(value):
             value as AuthAlgolia
         case let .authAlgoliaInsights(value):
