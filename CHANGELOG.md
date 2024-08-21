@@ -1,3 +1,11 @@
+## [9.1.1](https://github.com/algolia/algoliasearch-client-swift/compare/9.1.0...9.1.1)
+
+- [4cbbce55c](https://github.com/algolia/api-clients-automation/commit/4cbbce55c) fix(clients): highlight and snippet results e2e ([#3567](https://github.com/algolia/api-clients-automation/pull/3567)) by [@shortcuts](https://github.com/shortcuts/)
+- [7c7de04ab](https://github.com/algolia/api-clients-automation/commit/7c7de04ab) fix(specs): another wrong link ([#3570](https://github.com/algolia/api-clients-automation/pull/3570)) by [@kai687](https://github.com/kai687/)
+- [f38a9ef12](https://github.com/algolia/api-clients-automation/commit/f38a9ef12) chore(specs): breaking change method names mapping table ([#3568](https://github.com/algolia/api-clients-automation/pull/3568)) by [@shortcuts](https://github.com/shortcuts/)
+- [9dedfc90f](https://github.com/algolia/api-clients-automation/commit/9dedfc90f) fix(clients): mention `main` branch instead of `master` ([#3566](https://github.com/algolia/api-clients-automation/pull/3566)) by [@shortcuts](https://github.com/shortcuts/)
+- [0e5ffb1e8](https://github.com/algolia/api-clients-automation/commit/0e5ffb1e8) fix(specs): broken link ([#3559](https://github.com/algolia/api-clients-automation/pull/3559)) by [@kai687](https://github.com/kai687/)
+
 ## [9.1.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.2...9.1.0)
 
 - [d53060d96](https://github.com/algolia/api-clients-automation/commit/d53060d96) feat(specs): add /schedule endpoint ([#3350](https://github.com/algolia/api-clients-automation/pull/3350)) by [@febeck](https://github.com/febeck/)
