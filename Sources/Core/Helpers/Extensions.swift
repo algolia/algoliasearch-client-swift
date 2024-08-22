@@ -91,7 +91,7 @@ extension Data: JSONEncodable {
 
         let jsonData = "{\"data\":\(selfString)}".data(using: .utf8)
         guard let jsonData,
-              let json = try? CodableHelper.jsonDecoder.decode([String: String].self, from: jsonData) else {
+              let json = try? CodableHelper.jsonDecoder.decode([String: AnyCodable].self, from: jsonData) else {
             fatalError("Could not decode from data holder: `{\"data\":\(selfString)}`")
         }
 
