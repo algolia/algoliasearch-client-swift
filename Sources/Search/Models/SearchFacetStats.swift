@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct RecommendFacetsStats: Codable, JSONEncodable {
+public struct SearchFacetStats: Codable, JSONEncodable {
     /// Minimum value in the results.
     public var min: Double?
     /// Maximum value in the results.
@@ -41,8 +41,8 @@ public struct RecommendFacetsStats: Codable, JSONEncodable {
     }
 }
 
-extension RecommendFacetsStats: Equatable {
-    public static func ==(lhs: RecommendFacetsStats, rhs: RecommendFacetsStats) -> Bool {
+extension SearchFacetStats: Equatable {
+    public static func ==(lhs: SearchFacetStats, rhs: SearchFacetStats) -> Bool {
         lhs.min == rhs.min &&
             lhs.max == rhs.max &&
             lhs.avg == rhs.avg &&
@@ -50,7 +50,7 @@ extension RecommendFacetsStats: Equatable {
     }
 }
 
-extension RecommendFacetsStats: Hashable {
+extension SearchFacetStats: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.min?.hashValue)
         hasher.combine(self.max?.hashValue)

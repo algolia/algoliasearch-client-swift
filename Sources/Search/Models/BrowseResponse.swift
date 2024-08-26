@@ -28,7 +28,7 @@ public struct BrowseResponse<T: Codable>: Codable, JSONEncodable {
     /// Facet counts.
     public var facets: [String: [String: Int]]?
     /// Statistics for numerical facets.
-    public var facetsStats: [String: SearchFacetsStats]?
+    public var facetsStats: [String: SearchFacetStats]?
     /// Index name used for the query.
     public var index: String?
     /// Index name used for the query. During A/B testing, the targeted index isn't always the index used by the query.
@@ -87,7 +87,7 @@ public struct BrowseResponse<T: Codable>: Codable, JSONEncodable {
         exhaustiveNbHits: Bool? = nil,
         exhaustiveTypo: Bool? = nil,
         facets: [String: [String: Int]]? = nil,
-        facetsStats: [String: SearchFacetsStats]? = nil,
+        facetsStats: [String: SearchFacetStats]? = nil,
         index: String? = nil,
         indexUsed: String? = nil,
         message: String? = nil,

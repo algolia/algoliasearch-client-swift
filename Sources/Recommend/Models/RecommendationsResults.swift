@@ -28,7 +28,7 @@ public struct RecommendationsResults: Codable, JSONEncodable {
     /// Facet counts.
     public var facets: [String: [String: Int]]?
     /// Statistics for numerical facets.
-    public var facetsStats: [String: RecommendFacetsStats]?
+    public var facetsStats: [String: RecommendFacetStats]?
     /// Index name used for the query.
     public var index: String?
     /// Index name used for the query. During A/B testing, the targeted index isn't always the index used by the query.
@@ -78,7 +78,7 @@ public struct RecommendationsResults: Codable, JSONEncodable {
         exhaustiveNbHits: Bool? = nil,
         exhaustiveTypo: Bool? = nil,
         facets: [String: [String: Int]]? = nil,
-        facetsStats: [String: RecommendFacetsStats]? = nil,
+        facetsStats: [String: RecommendFacetStats]? = nil,
         index: String? = nil,
         indexUsed: String? = nil,
         message: String? = nil,

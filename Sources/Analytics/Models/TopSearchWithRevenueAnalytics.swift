@@ -32,7 +32,7 @@ public struct TopSearchWithRevenueAnalytics: Codable, JSONEncodable {
     /// Number of results (hits).
     public var nbHits: Int
     /// Revenue associated with this search, broken-down by currencies.
-    public var currencies: [String: CurrenciesValue]
+    public var currencies: [String: CurrencyCode]
     /// Add-to-cart rate, calculated as number of tracked searches with at least one add-to-cart event divided by the
     /// number of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to
     /// true.
@@ -56,7 +56,7 @@ public struct TopSearchWithRevenueAnalytics: Codable, JSONEncodable {
         clickCount: Int,
         conversionCount: Int,
         nbHits: Int,
-        currencies: [String: CurrenciesValue],
+        currencies: [String: CurrencyCode],
         addToCartRate: Double?,
         addToCartCount: Int,
         purchaseRate: Double?,

@@ -8,11 +8,11 @@ import Foundation
 
 public struct GetRevenue: Codable, JSONEncodable {
     /// Revenue associated with this search, broken-down by currencies.
-    public var currencies: [String: CurrenciesValue]
+    public var currencies: [String: CurrencyCode]
     /// Daily revenue.
     public var dates: [DailyRevenue]
 
-    public init(currencies: [String: CurrenciesValue], dates: [DailyRevenue]) {
+    public init(currencies: [String: CurrencyCode], dates: [DailyRevenue]) {
         self.currencies = currencies
         self.dates = dates
     }

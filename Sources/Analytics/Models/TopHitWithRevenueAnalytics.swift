@@ -36,7 +36,7 @@ public struct TopHitWithRevenueAnalytics: Codable, JSONEncodable {
     /// Number of purchase events from this search.
     public var purchaseCount: Int
     /// Revenue associated with this search, broken-down by currencies.
-    public var currencies: [String: CurrenciesValue]
+    public var currencies: [String: CurrencyCode]
 
     public init(
         hit: String,
@@ -50,7 +50,7 @@ public struct TopHitWithRevenueAnalytics: Codable, JSONEncodable {
         addToCartCount: Int,
         purchaseRate: Double?,
         purchaseCount: Int,
-        currencies: [String: CurrenciesValue]
+        currencies: [String: CurrencyCode]
     ) {
         self.hit = hit
         self.count = count

@@ -28,7 +28,7 @@ public struct SearchBaseSearchResponse: Codable, JSONEncodable {
     /// Facet counts.
     public var facets: [String: [String: Int]]?
     /// Statistics for numerical facets.
-    public var facetsStats: [String: SearchFacetsStats]?
+    public var facetsStats: [String: SearchFacetStats]?
     /// Index name used for the query.
     public var index: String?
     /// Index name used for the query. During A/B testing, the targeted index isn't always the index used by the query.
@@ -69,7 +69,7 @@ public struct SearchBaseSearchResponse: Codable, JSONEncodable {
         exhaustiveNbHits: Bool? = nil,
         exhaustiveTypo: Bool? = nil,
         facets: [String: [String: Int]]? = nil,
-        facetsStats: [String: SearchFacetsStats]? = nil,
+        facetsStats: [String: SearchFacetStats]? = nil,
         index: String? = nil,
         indexUsed: String? = nil,
         message: String? = nil,
@@ -172,7 +172,7 @@ public struct SearchBaseSearchResponse: Codable, JSONEncodable {
 
         self.facets = dictionary["facets"]?.value as? [String: [String: Int]]
 
-        self.facetsStats = dictionary["facetsStats"]?.value as? [String: SearchFacetsStats]
+        self.facetsStats = dictionary["facetsStats"]?.value as? [String: SearchFacetStats]
 
         self.index = dictionary["index"]?.value as? String
 
@@ -264,7 +264,7 @@ public struct SearchBaseSearchResponse: Codable, JSONEncodable {
         self.exhaustiveNbHits = try container.decodeIfPresent(Bool.self, forKey: .exhaustiveNbHits)
         self.exhaustiveTypo = try container.decodeIfPresent(Bool.self, forKey: .exhaustiveTypo)
         self.facets = try container.decodeIfPresent([String: [String: Int]].self, forKey: .facets)
-        self.facetsStats = try container.decodeIfPresent([String: SearchFacetsStats].self, forKey: .facetsStats)
+        self.facetsStats = try container.decodeIfPresent([String: SearchFacetStats].self, forKey: .facetsStats)
         self.index = try container.decodeIfPresent(String.self, forKey: .index)
         self.indexUsed = try container.decodeIfPresent(String.self, forKey: .indexUsed)
         self.message = try container.decodeIfPresent(String.self, forKey: .message)
