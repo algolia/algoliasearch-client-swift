@@ -16,6 +16,7 @@ public enum SourceType: String, Codable, CaseIterable {
     case json
     case shopify
     case sfcc
+    case push
 }
 
 extension SourceType: Hashable {}

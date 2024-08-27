@@ -10,11 +10,11 @@ public struct SourceCreate: Codable, JSONEncodable {
     public var type: SourceType
     /// Descriptive name of the source.
     public var name: String
-    public var input: SourceInput
+    public var input: SourceInput?
     /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String?
 
-    public init(type: SourceType, name: String, input: SourceInput, authenticationID: String? = nil) {
+    public init(type: SourceType, name: String, input: SourceInput? = nil, authenticationID: String? = nil) {
         self.type = type
         self.name = name
         self.input = input
@@ -34,7 +34,7 @@ public struct SourceCreate: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.type, forKey: .type)
         try container.encode(self.name, forKey: .name)
-        try container.encode(self.input, forKey: .input)
+        try container.encodeIfPresent(self.input, forKey: .input)
         try container.encodeIfPresent(self.authenticationID, forKey: .authenticationID)
     }
 }
@@ -52,7 +52,7 @@ extension SourceCreate: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.type.hashValue)
         hasher.combine(self.name.hashValue)
-        hasher.combine(self.input.hashValue)
+        hasher.combine(self.input?.hashValue)
         hasher.combine(self.authenticationID?.hashValue)
     }
 }
