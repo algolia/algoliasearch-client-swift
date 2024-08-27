@@ -1968,6 +1968,7 @@ open class IngestionClient {
     /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
     /// - parameter page: (query) Page number of the paginated API response. (optional)
     /// - parameter status: (query) Run status for filtering the list of task runs. (optional)
+    /// - parameter type: (query) Run type for filtering the list of task runs. (optional)
     /// - parameter taskID: (query) Task ID for filtering the list of task runs. (optional)
     /// - parameter sort: (query) Property by which to sort the list of task runs. (optional)
     /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
@@ -1981,6 +1982,7 @@ open class IngestionClient {
         itemsPerPage: Int? = nil,
         page: Int? = nil,
         status: [RunStatus]? = nil,
+        type: [RunType]? = nil,
         taskID: String? = nil,
         sort: RunSortKeys? = nil,
         order: OrderKeys? = nil,
@@ -1992,6 +1994,7 @@ open class IngestionClient {
             itemsPerPage: itemsPerPage,
             page: page,
             status: status,
+            type: type,
             taskID: taskID,
             sort: sort,
             order: order,
@@ -2019,6 +2022,8 @@ open class IngestionClient {
     //
     // - parameter status: (query) Run status for filtering the list of task runs. (optional)
     //
+    // - parameter type: (query) Run type for filtering the list of task runs. (optional)
+    //
     // - parameter taskID: (query) Task ID for filtering the list of task runs. (optional)
     //
     // - parameter sort: (query) Property by which to sort the list of task runs. (optional)
@@ -2036,6 +2041,7 @@ open class IngestionClient {
         itemsPerPage: Int? = nil,
         page: Int? = nil,
         status: [RunStatus]? = nil,
+        type: [RunType]? = nil,
         taskID: String? = nil,
         sort: RunSortKeys? = nil,
         order: OrderKeys? = nil,
@@ -2049,6 +2055,7 @@ open class IngestionClient {
             "itemsPerPage": itemsPerPage?.encodeToJSON(),
             "page": page?.encodeToJSON(),
             "status": status?.encodeToJSON(),
+            "type": type?.encodeToJSON(),
             "taskID": taskID?.encodeToJSON(),
             "sort": sort?.encodeToJSON(),
             "order": order?.encodeToJSON(),
