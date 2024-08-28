@@ -6,6 +6,7 @@ import Foundation
     import Core
 #endif
 
+@available(*, deprecated, message: "This schema is deprecated.")
 public enum AttributeToUpdate: Codable, JSONEncodable, AbstractEncodable {
     case string(String)
     case builtInOperation(BuiltInOperation)
