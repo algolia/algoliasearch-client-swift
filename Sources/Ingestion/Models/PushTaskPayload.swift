@@ -6,19 +6,18 @@ import Foundation
     import Core
 #endif
 
-public struct IngestionBatchRequest: Codable, JSONEncodable {
+public struct PushTaskPayload: Codable, JSONEncodable {
     public var action: IngestionAction
-    /// Operation arguments (varies with specified `action`).
-    public var body: AnyCodable
+    public var records: [PushTaskRecords]
 
-    public init(action: IngestionAction, body: AnyCodable) {
+    public init(action: IngestionAction, records: [PushTaskRecords]) {
         self.action = action
-        self.body = body
+        self.records = records
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case action
-        case body
+        case records
     }
 
     // Encodable protocol methods
@@ -26,20 +25,20 @@ public struct IngestionBatchRequest: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.action, forKey: .action)
-        try container.encode(self.body, forKey: .body)
+        try container.encode(self.records, forKey: .records)
     }
 }
 
-extension IngestionBatchRequest: Equatable {
-    public static func ==(lhs: IngestionBatchRequest, rhs: IngestionBatchRequest) -> Bool {
+extension PushTaskPayload: Equatable {
+    public static func ==(lhs: PushTaskPayload, rhs: PushTaskPayload) -> Bool {
         lhs.action == rhs.action &&
-            lhs.body == rhs.body
+            lhs.records == rhs.records
     }
 }
 
-extension IngestionBatchRequest: Hashable {
+extension PushTaskPayload: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.action.hashValue)
-        hasher.combine(self.body.hashValue)
+        hasher.combine(self.records.hashValue)
     }
 }
