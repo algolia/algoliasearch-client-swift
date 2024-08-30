@@ -10,12 +10,15 @@ import Foundation
 /// languages used in your index.
 public enum RecommendIgnorePlurals: Codable, JSONEncodable, AbstractEncodable {
     case arrayOfRecommendSupportedLanguage([RecommendSupportedLanguage])
+    case recommendBooleanString(RecommendBooleanString)
     case bool(Bool)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
         case let .arrayOfRecommendSupportedLanguage(value):
+            try container.encode(value)
+        case let .recommendBooleanString(value):
             try container.encode(value)
         case let .bool(value):
             try container.encode(value)
@@ -26,6 +29,8 @@ public enum RecommendIgnorePlurals: Codable, JSONEncodable, AbstractEncodable {
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode([RecommendSupportedLanguage].self) {
             self = .arrayOfRecommendSupportedLanguage(value)
+        } else if let value = try? container.decode(RecommendBooleanString.self) {
+            self = .recommendBooleanString(value)
         } else if let value = try? container.decode(Bool.self) {
             self = .bool(value)
         } else {
@@ -43,6 +48,8 @@ public enum RecommendIgnorePlurals: Codable, JSONEncodable, AbstractEncodable {
         switch self {
         case let .arrayOfRecommendSupportedLanguage(value):
             value as [RecommendSupportedLanguage]
+        case let .recommendBooleanString(value):
+            value as RecommendBooleanString
         case let .bool(value):
             value as Bool
         }

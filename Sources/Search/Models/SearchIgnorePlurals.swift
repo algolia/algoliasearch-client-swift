@@ -10,12 +10,15 @@ import Foundation
 /// languages used in your index.
 public enum SearchIgnorePlurals: Codable, JSONEncodable, AbstractEncodable {
     case arrayOfSearchSupportedLanguage([SearchSupportedLanguage])
+    case searchBooleanString(SearchBooleanString)
     case bool(Bool)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
         case let .arrayOfSearchSupportedLanguage(value):
+            try container.encode(value)
+        case let .searchBooleanString(value):
             try container.encode(value)
         case let .bool(value):
             try container.encode(value)
@@ -26,6 +29,8 @@ public enum SearchIgnorePlurals: Codable, JSONEncodable, AbstractEncodable {
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode([SearchSupportedLanguage].self) {
             self = .arrayOfSearchSupportedLanguage(value)
+        } else if let value = try? container.decode(SearchBooleanString.self) {
+            self = .searchBooleanString(value)
         } else if let value = try? container.decode(Bool.self) {
             self = .bool(value)
         } else {
@@ -43,6 +48,8 @@ public enum SearchIgnorePlurals: Codable, JSONEncodable, AbstractEncodable {
         switch self {
         case let .arrayOfSearchSupportedLanguage(value):
             value as [SearchSupportedLanguage]
+        case let .searchBooleanString(value):
+            value as SearchBooleanString
         case let .bool(value):
             value as Bool
         }
