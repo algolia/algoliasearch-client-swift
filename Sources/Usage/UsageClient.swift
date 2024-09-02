@@ -393,8 +393,8 @@ open class UsageClient {
     /// degraded queries due to all search threads being used. - `degraded_queries_max_capacity_seconds_impacted`.
     /// Percentage of seconds affected by `max_capacity` degraded queries.
     /// - parameter indexName: (path) Name of the index on which to perform the operation.
-    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format.
-    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format.
+    /// - parameter startDate: (query) Start date of the period to analyze, in RFC 3339 format.
+    /// - parameter endDate: (query) End date of the period to analyze, in RFC 3339 format.
     /// - parameter granularity: (query) Granularity of the aggregated metrics.  - `hourly`: the maximum time range for
     /// hourly metrics is 7 days. - `daily`: the maximum time range for daily metrics is 365 days.  (optional)
     /// - returns: IndexUsage
@@ -524,9 +524,9 @@ open class UsageClient {
     //
     // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format.
+    // - parameter startDate: (query) Start date of the period to analyze, in RFC 3339 format.
     //
-    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format.
+    // - parameter endDate: (query) End date of the period to analyze, in RFC 3339 format.
     //
     // - parameter granularity: (query) Granularity of the aggregated metrics.  - `hourly`: the maximum time range for
     // hourly metrics is 7 days. - `daily`: the maximum time range for daily metrics is 365 days.  (optional)
@@ -695,8 +695,8 @@ open class UsageClient {
     /// affected by `ssd_used` degraded queries. - `degraded_queries_max_capacity_queries_impacted`. Percentage of
     /// degraded queries due to all search threads being used. - `degraded_queries_max_capacity_seconds_impacted`.
     /// Percentage of seconds affected by `max_capacity` degraded queries.
-    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format.
-    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format.
+    /// - parameter startDate: (query) Start date of the period to analyze, in RFC 3339 format.
+    /// - parameter endDate: (query) End date of the period to analyze, in RFC 3339 format.
     /// - parameter granularity: (query) Granularity of the aggregated metrics.  - `hourly`: the maximum time range for
     /// hourly metrics is 7 days. - `daily`: the maximum time range for daily metrics is 365 days.  (optional)
     /// - returns: IndexUsage
@@ -822,9 +822,9 @@ open class UsageClient {
     // degraded queries due to all search threads being used. - `degraded_queries_max_capacity_seconds_impacted`.
     // Percentage of seconds affected by `max_capacity` degraded queries.
     //
-    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format.
+    // - parameter startDate: (query) Start date of the period to analyze, in RFC 3339 format.
     //
-    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format.
+    // - parameter endDate: (query) End date of the period to analyze, in RFC 3339 format.
     //
     // - parameter granularity: (query) Granularity of the aggregated metrics.  - `hourly`: the maximum time range for
     // hourly metrics is 7 days. - `daily`: the maximum time range for daily metrics is 365 days.  (optional)

@@ -50,7 +50,6 @@ public struct UsageClientConfiguration: BaseConfiguration, Credentials {
         guard let hosts else {
             self.hosts = [
                 .init(url: URL(string: "https://usage.algolia.com")!),
-                .init(url: URL(string: "https://usage-dev.algolia.com")!),
             ]
             return
         }
