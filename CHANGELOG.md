@@ -1,3 +1,8 @@
+## [9.2.4](https://github.com/algolia/algoliasearch-client-swift/compare/9.2.3...9.2.4)
+
+- [a9405b168](https://github.com/algolia/api-clients-automation/commit/a9405b168) fix(specs): usage api ([#3624](https://github.com/algolia/api-clients-automation/pull/3624)) by [@kai687](https://github.com/kai687/)
+- [e3af9554e](https://github.com/algolia/api-clients-automation/commit/e3af9554e) fix(specs): no links across API specs ([#3643](https://github.com/algolia/api-clients-automation/pull/3643)) by [@kai687](https://github.com/kai687/)
+
 ## [9.2.3](https://github.com/algolia/algoliasearch-client-swift/compare/9.2.2...9.2.3)
 
 - [3d07a1e4f](https://github.com/algolia/api-clients-automation/commit/3d07a1e4f) fix(specs): ignorePlurals can be a boolean string ([#3620](https://github.com/algolia/api-clients-automation/pull/3620)) by [@millotp](https://github.com/millotp/)
