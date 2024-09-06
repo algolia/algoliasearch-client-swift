@@ -27,6 +27,11 @@ open class SearchClient {
         try self.init(configuration: SearchClientConfiguration(appID: appID, apiKey: apiKey))
     }
 
+    open func setClientApiKey(apiKey: String) {
+        self.configuration.apiKey = apiKey
+        self.transporter.setClientApiKey(apiKey: apiKey)
+    }
+
     /// - parameter apiKey: (body)
     /// - returns: AddApiKeyResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)

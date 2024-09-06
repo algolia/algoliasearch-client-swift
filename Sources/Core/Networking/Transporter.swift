@@ -12,7 +12,7 @@ import Foundation
 // MARK: - Transporter
 
 open class Transporter {
-    let configuration: BaseConfiguration
+    var configuration: BaseConfiguration
     let retryStrategy: RetryStrategy
     let requestBuilder: RequestBuilder
     let exposeIntermediateErrors: Bool
@@ -41,6 +41,10 @@ open class Transporter {
         }
 
         self.requestBuilder = requestBuilder
+    }
+
+    public func setClientApiKey(apiKey: String) {
+        self.configuration.defaultHeaders?.updateValue(apiKey, forKey: "X-Algolia-API-Key")
     }
 
     public func send<T: Decodable>(

@@ -27,6 +27,11 @@ open class AbtestingClient {
         try self.init(configuration: AbtestingClientConfiguration(appID: appID, apiKey: apiKey, region: region))
     }
 
+    open func setClientApiKey(apiKey: String) {
+        self.configuration.apiKey = apiKey
+        self.transporter.setClientApiKey(apiKey: apiKey)
+    }
+
     /// - parameter addABTestsRequest: (body)
     /// - returns: ABTestResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)

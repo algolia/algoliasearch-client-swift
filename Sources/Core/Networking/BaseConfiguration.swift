@@ -23,7 +23,7 @@ public protocol BaseConfiguration {
     var hosts: [RetryableHost] { get }
 
     /// Default headers that should be applied to every request.
-    var defaultHeaders: [String: String]? { get }
+    var defaultHeaders: [String: String]? { get set }
 
     /// Compression type
     var compression: CompressionAlgorithm { get }
@@ -48,7 +48,7 @@ public struct DefaultConfiguration: BaseConfiguration {
     public let writeTimeout: TimeInterval = 30
     public let readTimeout: TimeInterval = 5
     public let logLevel: LogLevel = .info
-    public let defaultHeaders: [String: String]? = [:]
+    public var defaultHeaders: [String: String]? = [:]
     public var hosts: [RetryableHost] = []
     public let compression: CompressionAlgorithm = .none
 }

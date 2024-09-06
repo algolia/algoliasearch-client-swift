@@ -27,6 +27,11 @@ open class RecommendClient {
         try self.init(configuration: RecommendClientConfiguration(appID: appID, apiKey: apiKey))
     }
 
+    open func setClientApiKey(apiKey: String) {
+        self.configuration.apiKey = apiKey
+        self.transporter.setClientApiKey(apiKey: apiKey)
+    }
+
     /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - returns: AnyCodable

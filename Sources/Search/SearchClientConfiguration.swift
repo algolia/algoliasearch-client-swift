@@ -8,7 +8,7 @@ import Foundation
 
 public struct SearchClientConfiguration: BaseConfiguration, Credentials {
     public let appID: String
-    public let apiKey: String
+    public var apiKey: String
     public var writeTimeout: TimeInterval
     public var readTimeout: TimeInterval
     public var logLevel: LogLevel
