@@ -64,7 +64,6 @@ products.append(
     "QuerySuggestions",
     "Recommend",
     "Search",
-    "Usage",
 ].enumerated().forEach { _, library in
     targets.append(
         .target(
