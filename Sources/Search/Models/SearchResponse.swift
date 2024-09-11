@@ -58,6 +58,8 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
     /// Unique identifier for the query. This is used for [click
     /// analytics](https://www.algolia.com/doc/guides/analytics/click-analytics/).
     public var queryID: String?
+    /// Whether automatic events collection is enabled for the application.
+    public var automaticInsights: Bool?
     /// Page of search results to retrieve.
     public var page: Int
     /// Number of results (hits).
@@ -99,6 +101,7 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         serverUsed: String? = nil,
         userData: AnyCodable? = nil,
         queryID: String? = nil,
+        automaticInsights: Bool? = nil,
         page: Int,
         nbHits: Int,
         nbPages: Int,
@@ -131,6 +134,7 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         self.serverUsed = serverUsed
         self.userData = userData
         self.queryID = queryID
+        self.automaticInsights = automaticInsights
         self.page = page
         self.nbHits = nbHits
         self.nbPages = nbPages
@@ -165,6 +169,7 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         case serverUsed
         case userData
         case queryID
+        case automaticInsights = "_automaticInsights"
         case page
         case nbHits
         case nbPages
@@ -240,6 +245,8 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
 
         self.queryID = dictionary["queryID"]?.value as? String
 
+        self.automaticInsights = dictionary["automaticInsights"]?.value as? Bool
+
         guard let page = dictionary["page"]?.value as? Int else {
             throw GenericError(description: "Failed to cast")
         }
@@ -274,7 +281,7 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
                  "exhaustiveFacetsCount", "exhaustiveNbHits", "exhaustiveTypo", "facets", "facetsStats", "index",
                  "indexUsed", "message", "nbSortedHits", "parsedQuery", "processingTimeMS", "processingTimingsMS",
                  "queryAfterRemoval", "redirect", "renderingContent", "serverTimeMS", "serverUsed", "userData",
-                 "queryID", "page", "nbHits", "nbPages", "hitsPerPage", "hits", "query", "params":
+                 "queryID", "automaticInsights", "page", "nbHits", "nbPages", "hitsPerPage", "hits", "query", "params":
                 continue
             default:
                 self.additionalProperties[key] = value
@@ -310,6 +317,7 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         try container.encodeIfPresent(self.serverUsed, forKey: .serverUsed)
         try container.encodeIfPresent(self.userData, forKey: .userData)
         try container.encodeIfPresent(self.queryID, forKey: .queryID)
+        try container.encodeIfPresent(self.automaticInsights, forKey: .automaticInsights)
         try container.encode(self.page, forKey: .page)
         try container.encode(self.nbHits, forKey: .nbHits)
         try container.encode(self.nbPages, forKey: .nbPages)
@@ -350,6 +358,7 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         self.serverUsed = try container.decodeIfPresent(String.self, forKey: .serverUsed)
         self.userData = try container.decodeIfPresent(AnyCodable.self, forKey: .userData)
         self.queryID = try container.decodeIfPresent(String.self, forKey: .queryID)
+        self.automaticInsights = try container.decodeIfPresent(Bool.self, forKey: .automaticInsights)
         self.page = try container.decode(Int.self, forKey: .page)
         self.nbHits = try container.decode(Int.self, forKey: .nbHits)
         self.nbPages = try container.decode(Int.self, forKey: .nbPages)
@@ -382,6 +391,7 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         nonAdditionalPropertyKeys.insert("serverUsed")
         nonAdditionalPropertyKeys.insert("userData")
         nonAdditionalPropertyKeys.insert("queryID")
+        nonAdditionalPropertyKeys.insert("_automaticInsights")
         nonAdditionalPropertyKeys.insert("page")
         nonAdditionalPropertyKeys.insert("nbHits")
         nonAdditionalPropertyKeys.insert("nbPages")
@@ -423,6 +433,7 @@ extension SearchResponse: Equatable where T: Equatable {
             lhs.serverUsed == rhs.serverUsed &&
             lhs.userData == rhs.userData &&
             lhs.queryID == rhs.queryID &&
+            lhs.automaticInsights == rhs.automaticInsights &&
             lhs.page == rhs.page &&
             lhs.nbHits == rhs.nbHits &&
             lhs.nbPages == rhs.nbPages &&
@@ -460,6 +471,7 @@ extension SearchResponse: Hashable where T: Hashable {
         hasher.combine(self.serverUsed?.hashValue)
         hasher.combine(self.userData?.hashValue)
         hasher.combine(self.queryID?.hashValue)
+        hasher.combine(self.automaticInsights?.hashValue)
         hasher.combine(self.page.hashValue)
         hasher.combine(self.nbHits.hashValue)
         hasher.combine(self.nbPages.hashValue)
