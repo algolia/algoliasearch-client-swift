@@ -1,3 +1,8 @@
+## [9.3.1](https://github.com/algolia/algoliasearch-client-swift/compare/9.3.0...9.3.1)
+
+- [d4df544d6](https://github.com/algolia/api-clients-automation/commit/d4df544d6) fix(specs): remove usage [skip-bc] ([#3691](https://github.com/algolia/api-clients-automation/pull/3691)) by [@kai687](https://github.com/kai687/)
+- [46d9d8fd0](https://github.com/algolia/api-clients-automation/commit/46d9d8fd0) feat(specs): add (optional) _automaticInsights to search result ([#3688](https://github.com/algolia/api-clients-automation/pull/3688)) by [@raed667](https://github.com/raed667/)
+
 ## [9.3.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.2.4...9.3.0)
 
 - [2c65a8d11](https://github.com/algolia/api-clients-automation/commit/2c65a8d11) feat(clients): helper to switch API key in use ([#3616](https://github.com/algolia/api-clients-automation/pull/3616)) by [@Fluf22](https://github.com/Fluf22/)
