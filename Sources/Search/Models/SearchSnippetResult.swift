@@ -9,8 +9,7 @@ import Foundation
 public enum SearchSnippetResult: Codable, JSONEncodable, AbstractEncodable {
     case searchSnippetResultOption(SearchSnippetResultOption)
     case dictionaryOfStringToSearchSnippetResult([String: SearchSnippetResult])
-    case dictionaryOfStringToSearchSnippetResultOption([String: SearchSnippetResultOption])
-    case arrayOfSearchSnippetResultOption([SearchSnippetResultOption])
+    case arrayOfSearchSnippetResult([SearchSnippetResult])
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -19,9 +18,7 @@ public enum SearchSnippetResult: Codable, JSONEncodable, AbstractEncodable {
             try container.encode(value)
         case let .dictionaryOfStringToSearchSnippetResult(value):
             try container.encode(value)
-        case let .dictionaryOfStringToSearchSnippetResultOption(value):
-            try container.encode(value)
-        case let .arrayOfSearchSnippetResultOption(value):
+        case let .arrayOfSearchSnippetResult(value):
             try container.encode(value)
         }
     }
@@ -32,10 +29,8 @@ public enum SearchSnippetResult: Codable, JSONEncodable, AbstractEncodable {
             self = .searchSnippetResultOption(value)
         } else if let value = try? container.decode([String: SearchSnippetResult].self) {
             self = .dictionaryOfStringToSearchSnippetResult(value)
-        } else if let value = try? container.decode([String: SearchSnippetResultOption].self) {
-            self = .dictionaryOfStringToSearchSnippetResultOption(value)
-        } else if let value = try? container.decode([SearchSnippetResultOption].self) {
-            self = .arrayOfSearchSnippetResultOption(value)
+        } else if let value = try? container.decode([SearchSnippetResult].self) {
+            self = .arrayOfSearchSnippetResult(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -53,10 +48,8 @@ public enum SearchSnippetResult: Codable, JSONEncodable, AbstractEncodable {
             value as SearchSnippetResultOption
         case let .dictionaryOfStringToSearchSnippetResult(value):
             value as [String: SearchSnippetResult]
-        case let .dictionaryOfStringToSearchSnippetResultOption(value):
-            value as [String: SearchSnippetResultOption]
-        case let .arrayOfSearchSnippetResultOption(value):
-            value as [SearchSnippetResultOption]
+        case let .arrayOfSearchSnippetResult(value):
+            value as [SearchSnippetResult]
         }
     }
 }

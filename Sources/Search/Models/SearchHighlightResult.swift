@@ -9,8 +9,7 @@ import Foundation
 public enum SearchHighlightResult: Codable, JSONEncodable, AbstractEncodable {
     case searchHighlightResultOption(SearchHighlightResultOption)
     case dictionaryOfStringToSearchHighlightResult([String: SearchHighlightResult])
-    case dictionaryOfStringToSearchHighlightResultOption([String: SearchHighlightResultOption])
-    case arrayOfSearchHighlightResultOption([SearchHighlightResultOption])
+    case arrayOfSearchHighlightResult([SearchHighlightResult])
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -19,9 +18,7 @@ public enum SearchHighlightResult: Codable, JSONEncodable, AbstractEncodable {
             try container.encode(value)
         case let .dictionaryOfStringToSearchHighlightResult(value):
             try container.encode(value)
-        case let .dictionaryOfStringToSearchHighlightResultOption(value):
-            try container.encode(value)
-        case let .arrayOfSearchHighlightResultOption(value):
+        case let .arrayOfSearchHighlightResult(value):
             try container.encode(value)
         }
     }
@@ -32,10 +29,8 @@ public enum SearchHighlightResult: Codable, JSONEncodable, AbstractEncodable {
             self = .searchHighlightResultOption(value)
         } else if let value = try? container.decode([String: SearchHighlightResult].self) {
             self = .dictionaryOfStringToSearchHighlightResult(value)
-        } else if let value = try? container.decode([String: SearchHighlightResultOption].self) {
-            self = .dictionaryOfStringToSearchHighlightResultOption(value)
-        } else if let value = try? container.decode([SearchHighlightResultOption].self) {
-            self = .arrayOfSearchHighlightResultOption(value)
+        } else if let value = try? container.decode([SearchHighlightResult].self) {
+            self = .arrayOfSearchHighlightResult(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -53,10 +48,8 @@ public enum SearchHighlightResult: Codable, JSONEncodable, AbstractEncodable {
             value as SearchHighlightResultOption
         case let .dictionaryOfStringToSearchHighlightResult(value):
             value as [String: SearchHighlightResult]
-        case let .dictionaryOfStringToSearchHighlightResultOption(value):
-            value as [String: SearchHighlightResultOption]
-        case let .arrayOfSearchHighlightResultOption(value):
-            value as [SearchHighlightResultOption]
+        case let .arrayOfSearchHighlightResult(value):
+            value as [SearchHighlightResult]
         }
     }
 }

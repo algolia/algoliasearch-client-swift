@@ -61,13 +61,13 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
     /// Whether automatic events collection is enabled for the application.
     public var automaticInsights: Bool?
     /// Page of search results to retrieve.
-    public var page: Int
+    public var page: Int?
     /// Number of results (hits).
-    public var nbHits: Int
+    public var nbHits: Int?
     /// Number of pages of results.
-    public var nbPages: Int
+    public var nbPages: Int?
     /// Number of hits per page.
-    public var hitsPerPage: Int
+    public var hitsPerPage: Int?
     /// Search results (hits).  Hits are records from your index that match the search criteria, augmented with
     /// additional attributes, such as, for highlighting.
     public var hits: [T]
@@ -102,10 +102,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         userData: AnyCodable? = nil,
         queryID: String? = nil,
         automaticInsights: Bool? = nil,
-        page: Int,
-        nbHits: Int,
-        nbPages: Int,
-        hitsPerPage: Int,
+        page: Int? = nil,
+        nbHits: Int? = nil,
+        nbPages: Int? = nil,
+        hitsPerPage: Int? = nil,
         hits: [T],
         query: String,
         params: String
@@ -247,22 +247,14 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
 
         self.automaticInsights = dictionary["automaticInsights"]?.value as? Bool
 
-        guard let page = dictionary["page"]?.value as? Int else {
-            throw GenericError(description: "Failed to cast")
-        }
-        self.page = page
-        guard let nbHits = dictionary["nbHits"]?.value as? Int else {
-            throw GenericError(description: "Failed to cast")
-        }
-        self.nbHits = nbHits
-        guard let nbPages = dictionary["nbPages"]?.value as? Int else {
-            throw GenericError(description: "Failed to cast")
-        }
-        self.nbPages = nbPages
-        guard let hitsPerPage = dictionary["hitsPerPage"]?.value as? Int else {
-            throw GenericError(description: "Failed to cast")
-        }
-        self.hitsPerPage = hitsPerPage
+        self.page = dictionary["page"]?.value as? Int
+
+        self.nbHits = dictionary["nbHits"]?.value as? Int
+
+        self.nbPages = dictionary["nbPages"]?.value as? Int
+
+        self.hitsPerPage = dictionary["hitsPerPage"]?.value as? Int
+
         guard let hits = dictionary["hits"]?.value as? [T] else {
             throw GenericError(description: "Failed to cast")
         }
@@ -318,10 +310,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         try container.encodeIfPresent(self.userData, forKey: .userData)
         try container.encodeIfPresent(self.queryID, forKey: .queryID)
         try container.encodeIfPresent(self.automaticInsights, forKey: .automaticInsights)
-        try container.encode(self.page, forKey: .page)
-        try container.encode(self.nbHits, forKey: .nbHits)
-        try container.encode(self.nbPages, forKey: .nbPages)
-        try container.encode(self.hitsPerPage, forKey: .hitsPerPage)
+        try container.encodeIfPresent(self.page, forKey: .page)
+        try container.encodeIfPresent(self.nbHits, forKey: .nbHits)
+        try container.encodeIfPresent(self.nbPages, forKey: .nbPages)
+        try container.encodeIfPresent(self.hitsPerPage, forKey: .hitsPerPage)
         try container.encode(self.hits, forKey: .hits)
         try container.encode(self.query, forKey: .query)
         try container.encode(self.params, forKey: .params)
@@ -359,10 +351,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         self.userData = try container.decodeIfPresent(AnyCodable.self, forKey: .userData)
         self.queryID = try container.decodeIfPresent(String.self, forKey: .queryID)
         self.automaticInsights = try container.decodeIfPresent(Bool.self, forKey: .automaticInsights)
-        self.page = try container.decode(Int.self, forKey: .page)
-        self.nbHits = try container.decode(Int.self, forKey: .nbHits)
-        self.nbPages = try container.decode(Int.self, forKey: .nbPages)
-        self.hitsPerPage = try container.decode(Int.self, forKey: .hitsPerPage)
+        self.page = try container.decodeIfPresent(Int.self, forKey: .page)
+        self.nbHits = try container.decodeIfPresent(Int.self, forKey: .nbHits)
+        self.nbPages = try container.decodeIfPresent(Int.self, forKey: .nbPages)
+        self.hitsPerPage = try container.decodeIfPresent(Int.self, forKey: .hitsPerPage)
         self.hits = try container.decode([T].self, forKey: .hits)
         self.query = try container.decode(String.self, forKey: .query)
         self.params = try container.decode(String.self, forKey: .params)
@@ -472,10 +464,10 @@ extension SearchResponse: Hashable where T: Hashable {
         hasher.combine(self.userData?.hashValue)
         hasher.combine(self.queryID?.hashValue)
         hasher.combine(self.automaticInsights?.hashValue)
-        hasher.combine(self.page.hashValue)
-        hasher.combine(self.nbHits.hashValue)
-        hasher.combine(self.nbPages.hashValue)
-        hasher.combine(self.hitsPerPage.hashValue)
+        hasher.combine(self.page?.hashValue)
+        hasher.combine(self.nbHits?.hashValue)
+        hasher.combine(self.nbPages?.hashValue)
+        hasher.combine(self.hitsPerPage?.hashValue)
         hasher.combine(self.hits.hashValue)
         hasher.combine(self.query.hashValue)
         hasher.combine(self.params.hashValue)

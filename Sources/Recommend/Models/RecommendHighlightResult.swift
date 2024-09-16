@@ -9,8 +9,7 @@ import Foundation
 public enum RecommendHighlightResult: Codable, JSONEncodable, AbstractEncodable {
     case recommendHighlightResultOption(RecommendHighlightResultOption)
     case dictionaryOfStringToRecommendHighlightResult([String: RecommendHighlightResult])
-    case dictionaryOfStringToRecommendHighlightResultOption([String: RecommendHighlightResultOption])
-    case arrayOfRecommendHighlightResultOption([RecommendHighlightResultOption])
+    case arrayOfRecommendHighlightResult([RecommendHighlightResult])
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -19,9 +18,7 @@ public enum RecommendHighlightResult: Codable, JSONEncodable, AbstractEncodable 
             try container.encode(value)
         case let .dictionaryOfStringToRecommendHighlightResult(value):
             try container.encode(value)
-        case let .dictionaryOfStringToRecommendHighlightResultOption(value):
-            try container.encode(value)
-        case let .arrayOfRecommendHighlightResultOption(value):
+        case let .arrayOfRecommendHighlightResult(value):
             try container.encode(value)
         }
     }
@@ -32,10 +29,8 @@ public enum RecommendHighlightResult: Codable, JSONEncodable, AbstractEncodable 
             self = .recommendHighlightResultOption(value)
         } else if let value = try? container.decode([String: RecommendHighlightResult].self) {
             self = .dictionaryOfStringToRecommendHighlightResult(value)
-        } else if let value = try? container.decode([String: RecommendHighlightResultOption].self) {
-            self = .dictionaryOfStringToRecommendHighlightResultOption(value)
-        } else if let value = try? container.decode([RecommendHighlightResultOption].self) {
-            self = .arrayOfRecommendHighlightResultOption(value)
+        } else if let value = try? container.decode([RecommendHighlightResult].self) {
+            self = .arrayOfRecommendHighlightResult(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -53,10 +48,8 @@ public enum RecommendHighlightResult: Codable, JSONEncodable, AbstractEncodable 
             value as RecommendHighlightResultOption
         case let .dictionaryOfStringToRecommendHighlightResult(value):
             value as [String: RecommendHighlightResult]
-        case let .dictionaryOfStringToRecommendHighlightResultOption(value):
-            value as [String: RecommendHighlightResultOption]
-        case let .arrayOfRecommendHighlightResultOption(value):
-            value as [RecommendHighlightResultOption]
+        case let .arrayOfRecommendHighlightResult(value):
+            value as [RecommendHighlightResult]
         }
     }
 }

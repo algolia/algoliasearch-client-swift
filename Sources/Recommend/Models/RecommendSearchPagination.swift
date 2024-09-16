@@ -8,15 +8,15 @@ import Foundation
 
 public struct RecommendSearchPagination: Codable, JSONEncodable {
     /// Page of search results to retrieve.
-    public var page: Int
+    public var page: Int?
     /// Number of results (hits).
-    public var nbHits: Int
+    public var nbHits: Int?
     /// Number of pages of results.
-    public var nbPages: Int
+    public var nbPages: Int?
     /// Number of hits per page.
-    public var hitsPerPage: Int
+    public var hitsPerPage: Int?
 
-    public init(page: Int, nbHits: Int, nbPages: Int, hitsPerPage: Int) {
+    public init(page: Int? = nil, nbHits: Int? = nil, nbPages: Int? = nil, hitsPerPage: Int? = nil) {
         self.page = page
         self.nbHits = nbHits
         self.nbPages = nbPages
@@ -34,10 +34,10 @@ public struct RecommendSearchPagination: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.page, forKey: .page)
-        try container.encode(self.nbHits, forKey: .nbHits)
-        try container.encode(self.nbPages, forKey: .nbPages)
-        try container.encode(self.hitsPerPage, forKey: .hitsPerPage)
+        try container.encodeIfPresent(self.page, forKey: .page)
+        try container.encodeIfPresent(self.nbHits, forKey: .nbHits)
+        try container.encodeIfPresent(self.nbPages, forKey: .nbPages)
+        try container.encodeIfPresent(self.hitsPerPage, forKey: .hitsPerPage)
     }
 }
 
@@ -52,9 +52,9 @@ extension RecommendSearchPagination: Equatable {
 
 extension RecommendSearchPagination: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.page.hashValue)
-        hasher.combine(self.nbHits.hashValue)
-        hasher.combine(self.nbPages.hashValue)
-        hasher.combine(self.hitsPerPage.hashValue)
+        hasher.combine(self.page?.hashValue)
+        hasher.combine(self.nbHits?.hashValue)
+        hasher.combine(self.nbPages?.hashValue)
+        hasher.combine(self.hitsPerPage?.hashValue)
     }
 }
