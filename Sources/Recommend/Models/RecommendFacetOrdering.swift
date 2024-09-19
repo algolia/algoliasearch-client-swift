@@ -8,11 +8,11 @@ import Foundation
 
 /// Order of facet names and facet values in your UI.
 public struct RecommendFacetOrdering: Codable, JSONEncodable {
-    public var facets: RecommendFacets?
+    public var facets: IndexSettingsFacets?
     /// Order of facet values. One object for each facet.
     public var values: [String: RecommendValue]?
 
-    public init(facets: RecommendFacets? = nil, values: [String: RecommendValue]? = nil) {
+    public init(facets: IndexSettingsFacets? = nil, values: [String: RecommendValue]? = nil) {
         self.facets = facets
         self.values = values
     }

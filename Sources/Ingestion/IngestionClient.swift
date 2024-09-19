@@ -1154,54 +1154,6 @@ open class IngestionClient {
         )
     }
 
-    /// - parameter generateTransformationCodePayload: (body)
-    /// - returns: GenerateTransformationCodeResponse
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func generateTransformationCode(
-        generateTransformationCodePayload: GenerateTransformationCodePayload,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> GenerateTransformationCodeResponse {
-        let response: Response<GenerateTransformationCodeResponse> = try await generateTransformationCodeWithHTTPInfo(
-            generateTransformationCodePayload: generateTransformationCodePayload,
-            requestOptions: requestOptions
-        )
-
-        guard let body = response.body else {
-            throw AlgoliaError.missingData
-        }
-
-        return body
-    }
-
-    // Generates code for the selected model based on the given prompt.
-    // Required API Key ACLs:
-    //  - addObject
-    //  - deleteIndex
-    //  - editSettings
-    //
-    // - parameter generateTransformationCodePayload: (body)
-    // - returns: RequestBuilder<GenerateTransformationCodeResponse>
-
-    open func generateTransformationCodeWithHTTPInfo(
-        generateTransformationCodePayload: GenerateTransformationCodePayload,
-        requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<GenerateTransformationCodeResponse> {
-        let resourcePath = "/1/transformations/models"
-        let body = generateTransformationCodePayload
-        let queryParameters: [String: Any?]? = nil
-
-        let nillableHeaders: [String: Any?]? = nil
-
-        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
-
-        return try await self.transporter.send(
-            method: "POST",
-            path: resourcePath,
-            data: body,
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
-        )
-    }
-
     /// - parameter authenticationID: (path) Unique identifier of an authentication resource.
     /// - returns: Authentication
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -2366,46 +2318,6 @@ open class IngestionClient {
             "sort": sort?.encodeToJSON(),
             "order": order?.encodeToJSON(),
         ]
-
-        let nillableHeaders: [String: Any?]? = nil
-
-        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
-
-        return try await self.transporter.send(
-            method: "GET",
-            path: resourcePath,
-            data: body,
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
-        )
-    }
-
-    /// - returns: TransformationModels
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func listTransformationModels(requestOptions: RequestOptions? = nil) async throws -> TransformationModels {
-        let response: Response<TransformationModels> =
-            try await listTransformationModelsWithHTTPInfo(requestOptions: requestOptions)
-
-        guard let body = response.body else {
-            throw AlgoliaError.missingData
-        }
-
-        return body
-    }
-
-    // Retrieves a list of existing LLM transformation helpers.
-    // Required API Key ACLs:
-    //  - addObject
-    //  - deleteIndex
-    //  - editSettings
-    //     - returns: RequestBuilder<TransformationModels>
-
-    open func listTransformationModelsWithHTTPInfo(
-        requestOptions userRequestOptions: RequestOptions? =
-            nil
-    ) async throws -> Response<TransformationModels> {
-        let resourcePath = "/1/transformations/models"
-        let body: AnyCodable? = nil
-        let queryParameters: [String: Any?]? = nil
 
         let nillableHeaders: [String: Any?]? = nil
 

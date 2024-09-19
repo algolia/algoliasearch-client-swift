@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct BaseIndexSettings: Codable, JSONEncodable {
+public struct RecommendBaseIndexSettings: Codable, JSONEncodable {
     /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/). 
     /// Facets are attributes that let you categorize search results. They can be used for filtering search results. By
     /// default, no attribute is used for faceting. Attribute names are case-sensitive.  **Modifiers**  -
@@ -61,7 +61,7 @@ public struct BaseIndexSettings: Codable, JSONEncodable {
     /// [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/),
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
     /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/).
-    public var indexLanguages: [SearchSupportedLanguage]?
+    public var indexLanguages: [RecommendSupportedLanguage]?
     /// Searchable attributes for which you want to turn off [prefix matching](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/#adjusting-prefix-search).
     /// Attribute names are case-sensitive.
     public var disablePrefixOnAttributes: [String]?
@@ -108,7 +108,7 @@ public struct BaseIndexSettings: Codable, JSONEncodable {
         attributesToTransliterate: [String]? = nil,
         camelCaseAttributes: [String]? = nil,
         decompoundedAttributes: AnyCodable? = nil,
-        indexLanguages: [SearchSupportedLanguage]? = nil,
+        indexLanguages: [RecommendSupportedLanguage]? = nil,
         disablePrefixOnAttributes: [String]? = nil,
         allowCompressionOfIntegerArray: Bool? = nil,
         numericAttributesForFiltering: [String]? = nil,
@@ -181,8 +181,8 @@ public struct BaseIndexSettings: Codable, JSONEncodable {
     }
 }
 
-extension BaseIndexSettings: Equatable {
-    public static func ==(lhs: BaseIndexSettings, rhs: BaseIndexSettings) -> Bool {
+extension RecommendBaseIndexSettings: Equatable {
+    public static func ==(lhs: RecommendBaseIndexSettings, rhs: RecommendBaseIndexSettings) -> Bool {
         lhs.attributesForFaceting == rhs.attributesForFaceting &&
             lhs.replicas == rhs.replicas &&
             lhs.paginationLimitedTo == rhs.paginationLimitedTo &&
@@ -203,7 +203,7 @@ extension BaseIndexSettings: Equatable {
     }
 }
 
-extension BaseIndexSettings: Hashable {
+extension RecommendBaseIndexSettings: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.attributesForFaceting?.hashValue)
         hasher.combine(self.replicas?.hashValue)

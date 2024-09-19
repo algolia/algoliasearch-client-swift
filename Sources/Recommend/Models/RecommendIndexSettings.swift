@@ -6,104 +6,99 @@ import Foundation
     import Core
 #endif
 
-/// Each parameter value, including the &#x60;query&#x60; must not be larger than 512 bytes.
-public struct RecommendSearchParamsObject: Codable, JSONEncodable {
-    /// Search query.
-    public var query: String?
-    /// Keywords to be used instead of the search query to conduct a more broader search.  Using the `similarQuery`
-    /// parameter changes other settings:  - `queryType` is set to `prefixNone`. - `removeStopWords` is set to true. -
-    /// `words` is set as the first ranking criterion. - All remaining words are treated as `optionalWords`.  Since the
-    /// `similarQuery` is supposed to do a broad search, they usually return many results. Combine it with `filters` to
-    /// narrow down the list of results.
-    public var similarQuery: String?
-    /// Filter expression to only include items that match the filter criteria in the response.  You can use these
-    /// filter expressions:  - **Numeric filters.** `<facet> <op> <number>`, where `<op>` is one of `<`, `<=`, `=`,
-    /// `!=`, `>`, `>=`. - **Ranges.** `<facet>:<lower> TO <upper>` where `<lower>` and `<upper>` are the lower and
-    /// upper limits of the range (inclusive). - **Facet filters.** `<facet>:<value>` where `<facet>` is a facet
-    /// attribute (case-sensitive) and `<value>` a facet value. - **Tag filters.** `_tags:<value>` or just `<value>`
-    /// (case-sensitive). - **Boolean filters.** `<facet>: true | false`.  You can combine filters with `AND`, `OR`, and
-    /// `NOT` operators with the following restrictions:  - You can only combine filters of the same type with `OR`.  
-    /// **Not supported:** `facet:value OR num > 3`. - You can't use `NOT` with combinations of filters.   **Not
-    /// supported:** `NOT(facet:value OR facet:value)` - You can't combine conjunctions (`AND`) with `OR`.   **Not
-    /// supported:** `facet:value OR (facet:value AND facet:value)`  Use quotes around your filters, if the facet
-    /// attribute name or facet value has spaces, keywords (`OR`, `AND`, `NOT`), or quotes. If a facet attribute is an
-    /// array, the filter matches if it matches at least one element of the array.  For more information, see
-    /// [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/).
-    public var filters: String?
-    public var facetFilters: RecommendFacetFilters?
-    public var optionalFilters: RecommendOptionalFilters?
-    public var numericFilters: RecommendNumericFilters?
-    public var tagFilters: RecommendTagFilters?
-    /// Whether to sum all filter scores.  If true, all filter scores are summed. Otherwise, the maximum filter score is
-    /// kept. For more information, see [filter scores](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/in-depth/filter-scoring/#accumulating-scores-with-sumorfiltersscores).
-    public var sumOrFiltersScores: Bool?
-    /// Restricts a search to a subset of your searchable attributes. Attribute names are case-sensitive.
-    public var restrictSearchableAttributes: [String]?
-    /// Facets for which to retrieve facet values that match the search criteria and the number of matching facet
-    /// values.  To retrieve all facets, use the wildcard character `*`. For more information, see [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts).
-    public var facets: [String]?
-    /// Whether faceting should be applied after deduplication with `distinct`.  This leads to accurate facet counts
-    /// when using faceting in combination with `distinct`. It's usually better to use `afterDistinct` modifiers in the
-    /// `attributesForFaceting` setting, as `facetingAfterDistinct` only computes correct facet counts if all records
-    /// have the same facet values for the `attributeForDistinct`.
-    public var facetingAfterDistinct: Bool?
-    /// Page of search results to retrieve.
-    public var page: Int?
-    /// Position of the first hit to retrieve.
-    public var offset: Int?
-    /// Number of hits to retrieve (used in combination with `offset`).
-    public var length: Int?
-    /// Coordinates for the center of a circle, expressed as a comma-separated string of latitude and longitude.  Only
-    /// records included within circle around this central location are included in the results. The radius of the
-    /// circle is determined by the `aroundRadius` and `minimumAroundRadius` settings. This parameter is ignored if you
-    /// also specify `insidePolygon` or `insideBoundingBox`.
-    public var aroundLatLng: String?
-    /// Whether to obtain the coordinates from the request's IP address.
-    public var aroundLatLngViaIP: Bool?
-    public var aroundRadius: RecommendAroundRadius?
-    public var aroundPrecision: RecommendAroundPrecision?
-    /// Minimum radius (in meters) for a search around a location when `aroundRadius` isn't set.
-    public var minimumAroundRadius: Int?
-    /// Coordinates for a rectangular area in which to search.  Each bounding box is defined by the two opposite points
-    /// of its diagonal, and expressed as latitude and longitude pair: `[p1 lat, p1 long, p2 lat, p2 long]`. Provide
-    /// multiple bounding boxes as nested arrays. For more information, see [rectangular area](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filtering-inside-rectangular-or-polygonal-areas).
-    public var insideBoundingBox: [[Double]]?
-    /// Coordinates of a polygon in which to search.  Polygons are defined by 3 to 10,000 points. Each point is
-    /// represented by its latitude and longitude. Provide multiple polygons as nested arrays. For more information, see
-    /// [filtering inside polygons](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filtering-inside-rectangular-or-polygonal-areas).
-    /// This parameter is ignored if you also specify `insideBoundingBox`.
-    public var insidePolygon: [[Double]]?
-    /// ISO language codes that adjust settings that are useful for processing natural language queries (as opposed to
-    /// keyword searches):  - Sets `removeStopWords` and `ignorePlurals` to the list of provided languages. - Sets
-    /// `removeWordsIfNoResults` to `allOptional`. - Adds a `natural_language` attribute to `ruleContexts` and
-    /// `analyticsTags`.
-    public var naturalLanguages: [RecommendSupportedLanguage]?
-    /// Assigns a rule context to the search query.  [Rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#whats-a-context)
-    /// are strings that you can use to trigger matching rules.
-    public var ruleContexts: [String]?
-    /// Impact that Personalization should have on this search.  The higher this value is, the more Personalization
-    /// determines the ranking compared to other factors. For more information, see [Understanding Personalization impact](https://www.algolia.com/doc/guides/personalization/personalizing-results/in-depth/configuring-personalization/#understanding-personalization-impact).
-    public var personalizationImpact: Int?
-    /// Unique pseudonymous or anonymous user identifier.  This helps with analytics and click and conversion events.
-    /// For more information, see [user token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/).
-    public var userToken: String?
-    /// Whether the search response should include detailed ranking information.
-    public var getRankingInfo: Bool?
-    /// Whether to take into account an index's synonyms for this search.
-    public var synonyms: Bool?
-    /// Whether to include a `queryID` attribute in the response.  The query ID is a unique identifier for a search
-    /// query and is required for tracking [click and conversion
-    /// events](https://www.algolia.com/guides/sending-events/getting-started/).
-    public var clickAnalytics: Bool?
-    /// Whether this search will be included in Analytics.
-    public var analytics: Bool?
-    /// Tags to apply to the query for [segmenting analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).
-    public var analyticsTags: [String]?
-    /// Whether to include this search when calculating processing-time percentiles.
-    public var percentileComputation: Bool?
-    /// Whether to enable A/B testing for this search.
-    public var enableABTest: Bool?
+/// Index settings.
+public struct RecommendIndexSettings: Codable, JSONEncodable {
+    /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/). 
+    /// Facets are attributes that let you categorize search results. They can be used for filtering search results. By
+    /// default, no attribute is used for faceting. Attribute names are case-sensitive.  **Modifiers**  -
+    /// `filterOnly(\"ATTRIBUTE\")`.   Allows using this attribute as a filter, but doesn't evalue the facet values.  -
+    /// `searchable(\"ATTRIBUTE\")`.   Allows searching for facet values.  - `afterDistinct(\"ATTRIBUTE\")`.   Evaluates
+    /// the facet count _after_ deduplication with `distinct`.   This ensures accurate facet counts.   You can apply
+    /// this modifier to searchable facets: `afterDistinct(searchable(ATTRIBUTE))`.
+    public var attributesForFaceting: [String]?
+    /// Creates [replica
+    /// indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/). 
+    /// Replicas are copies of a primary index with the same records but different settings, synonyms, or rules. If you
+    /// want to offer a different ranking or sorting of your search results, you'll use replica indices. All index
+    /// operations on a primary index are automatically forwarded to its replicas. To add a replica index, you must
+    /// provide the complete set of replicas to this parameter. If you omit a replica from this list, the replica turns
+    /// into a regular, standalone index that will no longer by synced with the primary index.  **Modifier**  -
+    /// `virtual(\"REPLICA\")`.   Create a virtual replica,   Virtual replicas don't increase the number of records and
+    /// are optimized for [Relevant
+    /// sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/relevant-sort/).
+    public var replicas: [String]?
+    /// Maximum number of search results that can be obtained through pagination.  Higher pagination limits might slow
+    /// down your search. For pagination limits above 1,000, the sorting of results beyond the 1,000th hit can't be
+    /// guaranteed.
+    public var paginationLimitedTo: Int?
+    /// Attributes that can't be retrieved at query time.  This can be useful if you want to use an attribute for
+    /// ranking or to [restrict
+    /// access](https://www.algolia.com/doc/guides/security/api-keys/how-to/user-restricted-access-to-data/), but don't
+    /// want to include it in the search results. Attribute names are case-sensitive.
+    public var unretrievableAttributes: [String]?
+    /// Words for which you want to turn off [typo
+    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/). This
+    /// also turns off [word splitting and concatenation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/splitting-and-concatenation/)
+    /// for the specified words.
+    public var disableTypoToleranceOnWords: [String]?
+    /// Attributes, for which you want to support [Japanese transliteration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#japanese-transliteration-and-type-ahead).
+    ///  Transliteration supports searching in any of the Japanese writing systems. To support transliteration, you must
+    /// set the indexing language to Japanese. Attribute names are case-sensitive.
+    public var attributesToTransliterate: [String]?
+    /// Attributes for which to split [camel case](https://wikipedia.org/wiki/Camel_case) words. Attribute names are
+    /// case-sensitive.
+    public var camelCaseAttributes: [String]?
+    /// Searchable attributes to which Algolia should apply [word segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-segmentation/)
+    /// (decompounding). Attribute names are case-sensitive.  Compound words are formed by combining two or more
+    /// individual words, and are particularly prevalent in Germanic languages—for example, \"firefighter\". With
+    /// decompounding, the individual components are indexed separately.  You can specify different lists for different
+    /// languages. Decompounding is supported for these languages: Dutch (`nl`), German (`de`), Finnish (`fi`), Danish
+    /// (`da`), Swedish (`sv`), and Norwegian (`no`). Decompounding doesn't work for words with [non-spacing mark
+    /// Unicode characters](https://www.charactercodes.net/category/non-spacing_mark). For example, `Gartenstühle` won't
+    /// be decompounded if the `ü` consists of `u` (U+0075) and `◌̈` (U+0308).
+    public var decompoundedAttributes: AnyCodable?
+    /// Languages for language-specific processing steps, such as word detection and dictionary settings.  **You should
+    /// always specify an indexing language.** If you don't specify an indexing language, the search engine uses all
+    /// [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/),
+    /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
+    /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/).
+    public var indexLanguages: [RecommendSupportedLanguage]?
+    /// Searchable attributes for which you want to turn off [prefix matching](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/#adjusting-prefix-search).
+    /// Attribute names are case-sensitive.
+    public var disablePrefixOnAttributes: [String]?
+    /// Whether arrays with exclusively non-negative integers should be compressed for better performance. If true, the
+    /// compressed arrays may be reordered.
+    public var allowCompressionOfIntegerArray: Bool?
+    /// Numeric attributes that can be used as [numerical filters](https://www.algolia.com/doc/guides/managing-results/rules/detecting-intent/how-to/applying-a-custom-filter-for-a-specific-query/#numerical-filters).
+    /// Attribute names are case-sensitive.  By default, all numeric attributes are available as numerical filters. For
+    /// faster indexing, reduce the number of numeric attributes.  If you want to turn off filtering for all numeric
+    /// attributes, specifiy an attribute that doesn't exist in your index, such as `NO_NUMERIC_FILTERING`. 
+    /// **Modifier**  - `equalOnly(\"ATTRIBUTE\")`.   Support only filtering based on equality comparisons `=` and `!=`.
+    public var numericAttributesForFiltering: [String]?
+    /// Controls which separators are indexed.  Separators are all non-letter characters except spaces and currency
+    /// characters, such as $€£¥. By default, separator characters aren't indexed. With `separatorsToIndex`, Algolia
+    /// treats separator characters as separate words. For example, a search for `C#` would report two matches.
+    public var separatorsToIndex: String?
+    /// Attributes used for searching. Attribute names are case-sensitive.  By default, all attributes are searchable
+    /// and the [Attribute](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/#attribute)
+    /// ranking criterion is turned off. With a non-empty list, Algolia only returns results with matches in the
+    /// selected attributes. In addition, the Attribute ranking criterion is turned on: matches in attributes that are
+    /// higher in the list of `searchableAttributes` rank first. To make matches in two attributes rank equally, include
+    /// them in a comma-separated string, such as `\"title,alternate_title\"`. Attributes with the same priority are
+    /// always unordered.  For more information, see [Searchable attributes](https://www.algolia.com/doc/guides/sending-and-managing-data/prepare-your-data/how-to/setting-searchable-attributes/).
+    ///  **Modifier**  - `unordered(\"ATTRIBUTE\")`.   Ignore the position of a match within the attribute.  Without
+    /// modifier, matches at the beginning of an attribute rank higer than matches at the end.
+    public var searchableAttributes: [String]?
+    /// An object with custom data.  You can store up to 32kB as custom data.
+    public var userData: AnyCodable?
+    /// Characters and their normalized replacements. This overrides Algolia's default [normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/).
+    public var customNormalization: [String: [String: String]]?
+    /// Attribute that should be used to establish groups of results. Attribute names are case-sensitive.  All records
+    /// with the same value for this attribute are considered a group. You can combine `attributeForDistinct` with the
+    /// `distinct` search parameter to control how many items per group are included in the search results.  If you want
+    /// to use the same attribute also for faceting, use the `afterDistinct` modifier of the `attributesForFaceting`
+    /// setting. This applies faceting _after_ deduplication, which will result in accurate facet counts.
+    public var attributeForDistinct: String?
     /// Attributes to include in the API response.  To reduce the size of your response, you can retrieve only some of
     /// the attributes. Attribute names are case-sensitive.  - `*` retrieves all attributes, except attributes included
     /// in the `customRanking` and `unretrievableAttributes` settings. - To retrieve all attributes except a specific
@@ -119,15 +114,6 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
     /// attribute, in descending order.  Before you modify the default setting, you should test your changes in the
     /// dashboard, and by [A/B testing](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing/).
     public var ranking: [String]?
-    /// Attributes to use as [custom
-    /// ranking](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/). Attribute names are
-    /// case-sensitive.  The custom ranking attributes decide which items are shown first if the other ranking criteria
-    /// are equal.  Records with missing values for your selected custom ranking attributes are always sorted last.
-    /// Boolean attributes are sorted based on their alphabetical order.  **Modifiers**  - `asc(\"ATTRIBUTE\")`.   Sort
-    /// the index by the values of an attribute, in ascending order.  - `desc(\"ATTRIBUTE\")`.   Sort the index by the
-    /// values of an attribute, in descending order.  If you use two or more custom ranking attributes, [reduce the precision](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/how-to/controlling-custom-ranking-metrics-precision/)
-    /// of your first attributes, or the other attributes will never be applied.
-    public var customRanking: [String]?
     /// Relevancy threshold below which less relevant results aren't included in the results.  You can only set
     /// `relevancyStrictness` on [virtual replica indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/#what-are-virtual-replicas).
     /// Use this setting to strike a balance between the relevance and number of returned results.
@@ -152,8 +138,6 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
     /// Whether to restrict highlighting and snippeting to items that at least partially matched the search query. By
     /// default, all items are highlighted and snippeted.
     public var restrictHighlightAndSnippetArrays: Bool?
-    /// Number of hits per page.
-    public var hitsPerPage: Int?
     /// Minimum number of characters a word in the search query must contain to accept matches with [one typo](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configuring-word-length-for-typos).
     public var minWordSizefor1Typo: Int?
     /// Minimum number of characters a word in the search query must contain to accept matches with [two typos](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configuring-word-length-for-typos).
@@ -171,10 +155,6 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
     public var disableTypoToleranceOnAttributes: [String]?
     public var ignorePlurals: RecommendIgnorePlurals?
     public var removeStopWords: RecommendRemoveStopWords?
-    /// Characters for which diacritics should be preserved.  By default, Algolia removes diacritics from letters. For
-    /// example, `é` becomes `e`. If this causes issues in your search, you can specify characters that should keep
-    /// their diacritics.
-    public var keepDiacriticsOnCharacters: String?
     /// Languages for language-specific query processing steps such as plurals, stop-word removal, and word-detection
     /// dictionaries.  This setting sets a default list of languages used by the `removeStopWords` and `ignorePlurals`
     /// settings. This setting also sets a dictionary for word detection in the logogram-based [CJK](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/#normalization-for-logogram-based-languages-cjk)
@@ -195,8 +175,6 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
     public var enablePersonalization: Bool?
     public var queryType: RecommendQueryType?
     public var removeWordsIfNoResults: RecommendRemoveWordsIfNoResults?
-    public var mode: RecommendMode?
-    public var semanticSearch: RecommendSemanticSearch?
     /// Whether to support phrase matching and excluding words from search queries.  Use the `advancedSyntaxFeatures`
     /// parameter to control which feature is supported.
     public var advancedSyntax: Bool?
@@ -271,41 +249,25 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
     public var reRankingApplyFilter: RecommendReRankingApplyFilter?
 
     public init(
-        query: String? = nil,
-        similarQuery: String? = nil,
-        filters: String? = nil,
-        facetFilters: RecommendFacetFilters? = nil,
-        optionalFilters: RecommendOptionalFilters? = nil,
-        numericFilters: RecommendNumericFilters? = nil,
-        tagFilters: RecommendTagFilters? = nil,
-        sumOrFiltersScores: Bool? = nil,
-        restrictSearchableAttributes: [String]? = nil,
-        facets: [String]? = nil,
-        facetingAfterDistinct: Bool? = nil,
-        page: Int? = nil,
-        offset: Int? = nil,
-        length: Int? = nil,
-        aroundLatLng: String? = nil,
-        aroundLatLngViaIP: Bool? = nil,
-        aroundRadius: RecommendAroundRadius? = nil,
-        aroundPrecision: RecommendAroundPrecision? = nil,
-        minimumAroundRadius: Int? = nil,
-        insideBoundingBox: [[Double]]? = nil,
-        insidePolygon: [[Double]]? = nil,
-        naturalLanguages: [RecommendSupportedLanguage]? = nil,
-        ruleContexts: [String]? = nil,
-        personalizationImpact: Int? = nil,
-        userToken: String? = nil,
-        getRankingInfo: Bool? = nil,
-        synonyms: Bool? = nil,
-        clickAnalytics: Bool? = nil,
-        analytics: Bool? = nil,
-        analyticsTags: [String]? = nil,
-        percentileComputation: Bool? = nil,
-        enableABTest: Bool? = nil,
+        attributesForFaceting: [String]? = nil,
+        replicas: [String]? = nil,
+        paginationLimitedTo: Int? = nil,
+        unretrievableAttributes: [String]? = nil,
+        disableTypoToleranceOnWords: [String]? = nil,
+        attributesToTransliterate: [String]? = nil,
+        camelCaseAttributes: [String]? = nil,
+        decompoundedAttributes: AnyCodable? = nil,
+        indexLanguages: [RecommendSupportedLanguage]? = nil,
+        disablePrefixOnAttributes: [String]? = nil,
+        allowCompressionOfIntegerArray: Bool? = nil,
+        numericAttributesForFiltering: [String]? = nil,
+        separatorsToIndex: String? = nil,
+        searchableAttributes: [String]? = nil,
+        userData: AnyCodable? = nil,
+        customNormalization: [String: [String: String]]? = nil,
+        attributeForDistinct: String? = nil,
         attributesToRetrieve: [String]? = nil,
         ranking: [String]? = nil,
-        customRanking: [String]? = nil,
         relevancyStrictness: Int? = nil,
         attributesToHighlight: [String]? = nil,
         attributesToSnippet: [String]? = nil,
@@ -313,7 +275,6 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
         highlightPostTag: String? = nil,
         snippetEllipsisText: String? = nil,
         restrictHighlightAndSnippetArrays: Bool? = nil,
-        hitsPerPage: Int? = nil,
         minWordSizefor1Typo: Int? = nil,
         minWordSizefor2Typos: Int? = nil,
         typoTolerance: RecommendTypoTolerance? = nil,
@@ -321,15 +282,12 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
         disableTypoToleranceOnAttributes: [String]? = nil,
         ignorePlurals: RecommendIgnorePlurals? = nil,
         removeStopWords: RecommendRemoveStopWords? = nil,
-        keepDiacriticsOnCharacters: String? = nil,
         queryLanguages: [RecommendSupportedLanguage]? = nil,
         decompoundQuery: Bool? = nil,
         enableRules: Bool? = nil,
         enablePersonalization: Bool? = nil,
         queryType: RecommendQueryType? = nil,
         removeWordsIfNoResults: RecommendRemoveWordsIfNoResults? = nil,
-        mode: RecommendMode? = nil,
-        semanticSearch: RecommendSemanticSearch? = nil,
         advancedSyntax: Bool? = nil,
         optionalWords: [String]? = nil,
         disableExactOnAttributes: [String]? = nil,
@@ -348,41 +306,25 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
         enableReRanking: Bool? = nil,
         reRankingApplyFilter: RecommendReRankingApplyFilter? = nil
     ) {
-        self.query = query
-        self.similarQuery = similarQuery
-        self.filters = filters
-        self.facetFilters = facetFilters
-        self.optionalFilters = optionalFilters
-        self.numericFilters = numericFilters
-        self.tagFilters = tagFilters
-        self.sumOrFiltersScores = sumOrFiltersScores
-        self.restrictSearchableAttributes = restrictSearchableAttributes
-        self.facets = facets
-        self.facetingAfterDistinct = facetingAfterDistinct
-        self.page = page
-        self.offset = offset
-        self.length = length
-        self.aroundLatLng = aroundLatLng
-        self.aroundLatLngViaIP = aroundLatLngViaIP
-        self.aroundRadius = aroundRadius
-        self.aroundPrecision = aroundPrecision
-        self.minimumAroundRadius = minimumAroundRadius
-        self.insideBoundingBox = insideBoundingBox
-        self.insidePolygon = insidePolygon
-        self.naturalLanguages = naturalLanguages
-        self.ruleContexts = ruleContexts
-        self.personalizationImpact = personalizationImpact
-        self.userToken = userToken
-        self.getRankingInfo = getRankingInfo
-        self.synonyms = synonyms
-        self.clickAnalytics = clickAnalytics
-        self.analytics = analytics
-        self.analyticsTags = analyticsTags
-        self.percentileComputation = percentileComputation
-        self.enableABTest = enableABTest
+        self.attributesForFaceting = attributesForFaceting
+        self.replicas = replicas
+        self.paginationLimitedTo = paginationLimitedTo
+        self.unretrievableAttributes = unretrievableAttributes
+        self.disableTypoToleranceOnWords = disableTypoToleranceOnWords
+        self.attributesToTransliterate = attributesToTransliterate
+        self.camelCaseAttributes = camelCaseAttributes
+        self.decompoundedAttributes = decompoundedAttributes
+        self.indexLanguages = indexLanguages
+        self.disablePrefixOnAttributes = disablePrefixOnAttributes
+        self.allowCompressionOfIntegerArray = allowCompressionOfIntegerArray
+        self.numericAttributesForFiltering = numericAttributesForFiltering
+        self.separatorsToIndex = separatorsToIndex
+        self.searchableAttributes = searchableAttributes
+        self.userData = userData
+        self.customNormalization = customNormalization
+        self.attributeForDistinct = attributeForDistinct
         self.attributesToRetrieve = attributesToRetrieve
         self.ranking = ranking
-        self.customRanking = customRanking
         self.relevancyStrictness = relevancyStrictness
         self.attributesToHighlight = attributesToHighlight
         self.attributesToSnippet = attributesToSnippet
@@ -390,7 +332,6 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
         self.highlightPostTag = highlightPostTag
         self.snippetEllipsisText = snippetEllipsisText
         self.restrictHighlightAndSnippetArrays = restrictHighlightAndSnippetArrays
-        self.hitsPerPage = hitsPerPage
         self.minWordSizefor1Typo = minWordSizefor1Typo
         self.minWordSizefor2Typos = minWordSizefor2Typos
         self.typoTolerance = typoTolerance
@@ -398,15 +339,12 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
         self.disableTypoToleranceOnAttributes = disableTypoToleranceOnAttributes
         self.ignorePlurals = ignorePlurals
         self.removeStopWords = removeStopWords
-        self.keepDiacriticsOnCharacters = keepDiacriticsOnCharacters
         self.queryLanguages = queryLanguages
         self.decompoundQuery = decompoundQuery
         self.enableRules = enableRules
         self.enablePersonalization = enablePersonalization
         self.queryType = queryType
         self.removeWordsIfNoResults = removeWordsIfNoResults
-        self.mode = mode
-        self.semanticSearch = semanticSearch
         self.advancedSyntax = advancedSyntax
         self.optionalWords = optionalWords
         self.disableExactOnAttributes = disableExactOnAttributes
@@ -427,41 +365,25 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case query
-        case similarQuery
-        case filters
-        case facetFilters
-        case optionalFilters
-        case numericFilters
-        case tagFilters
-        case sumOrFiltersScores
-        case restrictSearchableAttributes
-        case facets
-        case facetingAfterDistinct
-        case page
-        case offset
-        case length
-        case aroundLatLng
-        case aroundLatLngViaIP
-        case aroundRadius
-        case aroundPrecision
-        case minimumAroundRadius
-        case insideBoundingBox
-        case insidePolygon
-        case naturalLanguages
-        case ruleContexts
-        case personalizationImpact
-        case userToken
-        case getRankingInfo
-        case synonyms
-        case clickAnalytics
-        case analytics
-        case analyticsTags
-        case percentileComputation
-        case enableABTest
+        case attributesForFaceting
+        case replicas
+        case paginationLimitedTo
+        case unretrievableAttributes
+        case disableTypoToleranceOnWords
+        case attributesToTransliterate
+        case camelCaseAttributes
+        case decompoundedAttributes
+        case indexLanguages
+        case disablePrefixOnAttributes
+        case allowCompressionOfIntegerArray
+        case numericAttributesForFiltering
+        case separatorsToIndex
+        case searchableAttributes
+        case userData
+        case customNormalization
+        case attributeForDistinct
         case attributesToRetrieve
         case ranking
-        case customRanking
         case relevancyStrictness
         case attributesToHighlight
         case attributesToSnippet
@@ -469,7 +391,6 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
         case highlightPostTag
         case snippetEllipsisText
         case restrictHighlightAndSnippetArrays
-        case hitsPerPage
         case minWordSizefor1Typo
         case minWordSizefor2Typos
         case typoTolerance
@@ -477,15 +398,12 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
         case disableTypoToleranceOnAttributes
         case ignorePlurals
         case removeStopWords
-        case keepDiacriticsOnCharacters
         case queryLanguages
         case decompoundQuery
         case enableRules
         case enablePersonalization
         case queryType
         case removeWordsIfNoResults
-        case mode
-        case semanticSearch
         case advancedSyntax
         case optionalWords
         case disableExactOnAttributes
@@ -509,41 +427,25 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.query, forKey: .query)
-        try container.encodeIfPresent(self.similarQuery, forKey: .similarQuery)
-        try container.encodeIfPresent(self.filters, forKey: .filters)
-        try container.encodeIfPresent(self.facetFilters, forKey: .facetFilters)
-        try container.encodeIfPresent(self.optionalFilters, forKey: .optionalFilters)
-        try container.encodeIfPresent(self.numericFilters, forKey: .numericFilters)
-        try container.encodeIfPresent(self.tagFilters, forKey: .tagFilters)
-        try container.encodeIfPresent(self.sumOrFiltersScores, forKey: .sumOrFiltersScores)
-        try container.encodeIfPresent(self.restrictSearchableAttributes, forKey: .restrictSearchableAttributes)
-        try container.encodeIfPresent(self.facets, forKey: .facets)
-        try container.encodeIfPresent(self.facetingAfterDistinct, forKey: .facetingAfterDistinct)
-        try container.encodeIfPresent(self.page, forKey: .page)
-        try container.encodeIfPresent(self.offset, forKey: .offset)
-        try container.encodeIfPresent(self.length, forKey: .length)
-        try container.encodeIfPresent(self.aroundLatLng, forKey: .aroundLatLng)
-        try container.encodeIfPresent(self.aroundLatLngViaIP, forKey: .aroundLatLngViaIP)
-        try container.encodeIfPresent(self.aroundRadius, forKey: .aroundRadius)
-        try container.encodeIfPresent(self.aroundPrecision, forKey: .aroundPrecision)
-        try container.encodeIfPresent(self.minimumAroundRadius, forKey: .minimumAroundRadius)
-        try container.encodeIfPresent(self.insideBoundingBox, forKey: .insideBoundingBox)
-        try container.encodeIfPresent(self.insidePolygon, forKey: .insidePolygon)
-        try container.encodeIfPresent(self.naturalLanguages, forKey: .naturalLanguages)
-        try container.encodeIfPresent(self.ruleContexts, forKey: .ruleContexts)
-        try container.encodeIfPresent(self.personalizationImpact, forKey: .personalizationImpact)
-        try container.encodeIfPresent(self.userToken, forKey: .userToken)
-        try container.encodeIfPresent(self.getRankingInfo, forKey: .getRankingInfo)
-        try container.encodeIfPresent(self.synonyms, forKey: .synonyms)
-        try container.encodeIfPresent(self.clickAnalytics, forKey: .clickAnalytics)
-        try container.encodeIfPresent(self.analytics, forKey: .analytics)
-        try container.encodeIfPresent(self.analyticsTags, forKey: .analyticsTags)
-        try container.encodeIfPresent(self.percentileComputation, forKey: .percentileComputation)
-        try container.encodeIfPresent(self.enableABTest, forKey: .enableABTest)
+        try container.encodeIfPresent(self.attributesForFaceting, forKey: .attributesForFaceting)
+        try container.encodeIfPresent(self.replicas, forKey: .replicas)
+        try container.encodeIfPresent(self.paginationLimitedTo, forKey: .paginationLimitedTo)
+        try container.encodeIfPresent(self.unretrievableAttributes, forKey: .unretrievableAttributes)
+        try container.encodeIfPresent(self.disableTypoToleranceOnWords, forKey: .disableTypoToleranceOnWords)
+        try container.encodeIfPresent(self.attributesToTransliterate, forKey: .attributesToTransliterate)
+        try container.encodeIfPresent(self.camelCaseAttributes, forKey: .camelCaseAttributes)
+        try container.encodeIfPresent(self.decompoundedAttributes, forKey: .decompoundedAttributes)
+        try container.encodeIfPresent(self.indexLanguages, forKey: .indexLanguages)
+        try container.encodeIfPresent(self.disablePrefixOnAttributes, forKey: .disablePrefixOnAttributes)
+        try container.encodeIfPresent(self.allowCompressionOfIntegerArray, forKey: .allowCompressionOfIntegerArray)
+        try container.encodeIfPresent(self.numericAttributesForFiltering, forKey: .numericAttributesForFiltering)
+        try container.encodeIfPresent(self.separatorsToIndex, forKey: .separatorsToIndex)
+        try container.encodeIfPresent(self.searchableAttributes, forKey: .searchableAttributes)
+        try container.encodeIfPresent(self.userData, forKey: .userData)
+        try container.encodeIfPresent(self.customNormalization, forKey: .customNormalization)
+        try container.encodeIfPresent(self.attributeForDistinct, forKey: .attributeForDistinct)
         try container.encodeIfPresent(self.attributesToRetrieve, forKey: .attributesToRetrieve)
         try container.encodeIfPresent(self.ranking, forKey: .ranking)
-        try container.encodeIfPresent(self.customRanking, forKey: .customRanking)
         try container.encodeIfPresent(self.relevancyStrictness, forKey: .relevancyStrictness)
         try container.encodeIfPresent(self.attributesToHighlight, forKey: .attributesToHighlight)
         try container.encodeIfPresent(self.attributesToSnippet, forKey: .attributesToSnippet)
@@ -554,7 +456,6 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
             self.restrictHighlightAndSnippetArrays,
             forKey: .restrictHighlightAndSnippetArrays
         )
-        try container.encodeIfPresent(self.hitsPerPage, forKey: .hitsPerPage)
         try container.encodeIfPresent(self.minWordSizefor1Typo, forKey: .minWordSizefor1Typo)
         try container.encodeIfPresent(self.minWordSizefor2Typos, forKey: .minWordSizefor2Typos)
         try container.encodeIfPresent(self.typoTolerance, forKey: .typoTolerance)
@@ -562,15 +463,12 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
         try container.encodeIfPresent(self.disableTypoToleranceOnAttributes, forKey: .disableTypoToleranceOnAttributes)
         try container.encodeIfPresent(self.ignorePlurals, forKey: .ignorePlurals)
         try container.encodeIfPresent(self.removeStopWords, forKey: .removeStopWords)
-        try container.encodeIfPresent(self.keepDiacriticsOnCharacters, forKey: .keepDiacriticsOnCharacters)
         try container.encodeIfPresent(self.queryLanguages, forKey: .queryLanguages)
         try container.encodeIfPresent(self.decompoundQuery, forKey: .decompoundQuery)
         try container.encodeIfPresent(self.enableRules, forKey: .enableRules)
         try container.encodeIfPresent(self.enablePersonalization, forKey: .enablePersonalization)
         try container.encodeIfPresent(self.queryType, forKey: .queryType)
         try container.encodeIfPresent(self.removeWordsIfNoResults, forKey: .removeWordsIfNoResults)
-        try container.encodeIfPresent(self.mode, forKey: .mode)
-        try container.encodeIfPresent(self.semanticSearch, forKey: .semanticSearch)
         try container.encodeIfPresent(self.advancedSyntax, forKey: .advancedSyntax)
         try container.encodeIfPresent(self.optionalWords, forKey: .optionalWords)
         try container.encodeIfPresent(self.disableExactOnAttributes, forKey: .disableExactOnAttributes)
@@ -594,43 +492,27 @@ public struct RecommendSearchParamsObject: Codable, JSONEncodable {
     }
 }
 
-extension RecommendSearchParamsObject: Equatable {
-    public static func ==(lhs: RecommendSearchParamsObject, rhs: RecommendSearchParamsObject) -> Bool {
-        lhs.query == rhs.query &&
-            lhs.similarQuery == rhs.similarQuery &&
-            lhs.filters == rhs.filters &&
-            lhs.facetFilters == rhs.facetFilters &&
-            lhs.optionalFilters == rhs.optionalFilters &&
-            lhs.numericFilters == rhs.numericFilters &&
-            lhs.tagFilters == rhs.tagFilters &&
-            lhs.sumOrFiltersScores == rhs.sumOrFiltersScores &&
-            lhs.restrictSearchableAttributes == rhs.restrictSearchableAttributes &&
-            lhs.facets == rhs.facets &&
-            lhs.facetingAfterDistinct == rhs.facetingAfterDistinct &&
-            lhs.page == rhs.page &&
-            lhs.offset == rhs.offset &&
-            lhs.length == rhs.length &&
-            lhs.aroundLatLng == rhs.aroundLatLng &&
-            lhs.aroundLatLngViaIP == rhs.aroundLatLngViaIP &&
-            lhs.aroundRadius == rhs.aroundRadius &&
-            lhs.aroundPrecision == rhs.aroundPrecision &&
-            lhs.minimumAroundRadius == rhs.minimumAroundRadius &&
-            lhs.insideBoundingBox == rhs.insideBoundingBox &&
-            lhs.insidePolygon == rhs.insidePolygon &&
-            lhs.naturalLanguages == rhs.naturalLanguages &&
-            lhs.ruleContexts == rhs.ruleContexts &&
-            lhs.personalizationImpact == rhs.personalizationImpact &&
-            lhs.userToken == rhs.userToken &&
-            lhs.getRankingInfo == rhs.getRankingInfo &&
-            lhs.synonyms == rhs.synonyms &&
-            lhs.clickAnalytics == rhs.clickAnalytics &&
-            lhs.analytics == rhs.analytics &&
-            lhs.analyticsTags == rhs.analyticsTags &&
-            lhs.percentileComputation == rhs.percentileComputation &&
-            lhs.enableABTest == rhs.enableABTest &&
+extension RecommendIndexSettings: Equatable {
+    public static func ==(lhs: RecommendIndexSettings, rhs: RecommendIndexSettings) -> Bool {
+        lhs.attributesForFaceting == rhs.attributesForFaceting &&
+            lhs.replicas == rhs.replicas &&
+            lhs.paginationLimitedTo == rhs.paginationLimitedTo &&
+            lhs.unretrievableAttributes == rhs.unretrievableAttributes &&
+            lhs.disableTypoToleranceOnWords == rhs.disableTypoToleranceOnWords &&
+            lhs.attributesToTransliterate == rhs.attributesToTransliterate &&
+            lhs.camelCaseAttributes == rhs.camelCaseAttributes &&
+            lhs.decompoundedAttributes == rhs.decompoundedAttributes &&
+            lhs.indexLanguages == rhs.indexLanguages &&
+            lhs.disablePrefixOnAttributes == rhs.disablePrefixOnAttributes &&
+            lhs.allowCompressionOfIntegerArray == rhs.allowCompressionOfIntegerArray &&
+            lhs.numericAttributesForFiltering == rhs.numericAttributesForFiltering &&
+            lhs.separatorsToIndex == rhs.separatorsToIndex &&
+            lhs.searchableAttributes == rhs.searchableAttributes &&
+            lhs.userData == rhs.userData &&
+            lhs.customNormalization == rhs.customNormalization &&
+            lhs.attributeForDistinct == rhs.attributeForDistinct &&
             lhs.attributesToRetrieve == rhs.attributesToRetrieve &&
             lhs.ranking == rhs.ranking &&
-            lhs.customRanking == rhs.customRanking &&
             lhs.relevancyStrictness == rhs.relevancyStrictness &&
             lhs.attributesToHighlight == rhs.attributesToHighlight &&
             lhs.attributesToSnippet == rhs.attributesToSnippet &&
@@ -638,7 +520,6 @@ extension RecommendSearchParamsObject: Equatable {
             lhs.highlightPostTag == rhs.highlightPostTag &&
             lhs.snippetEllipsisText == rhs.snippetEllipsisText &&
             lhs.restrictHighlightAndSnippetArrays == rhs.restrictHighlightAndSnippetArrays &&
-            lhs.hitsPerPage == rhs.hitsPerPage &&
             lhs.minWordSizefor1Typo == rhs.minWordSizefor1Typo &&
             lhs.minWordSizefor2Typos == rhs.minWordSizefor2Typos &&
             lhs.typoTolerance == rhs.typoTolerance &&
@@ -646,15 +527,12 @@ extension RecommendSearchParamsObject: Equatable {
             lhs.disableTypoToleranceOnAttributes == rhs.disableTypoToleranceOnAttributes &&
             lhs.ignorePlurals == rhs.ignorePlurals &&
             lhs.removeStopWords == rhs.removeStopWords &&
-            lhs.keepDiacriticsOnCharacters == rhs.keepDiacriticsOnCharacters &&
             lhs.queryLanguages == rhs.queryLanguages &&
             lhs.decompoundQuery == rhs.decompoundQuery &&
             lhs.enableRules == rhs.enableRules &&
             lhs.enablePersonalization == rhs.enablePersonalization &&
             lhs.queryType == rhs.queryType &&
             lhs.removeWordsIfNoResults == rhs.removeWordsIfNoResults &&
-            lhs.mode == rhs.mode &&
-            lhs.semanticSearch == rhs.semanticSearch &&
             lhs.advancedSyntax == rhs.advancedSyntax &&
             lhs.optionalWords == rhs.optionalWords &&
             lhs.disableExactOnAttributes == rhs.disableExactOnAttributes &&
@@ -675,43 +553,27 @@ extension RecommendSearchParamsObject: Equatable {
     }
 }
 
-extension RecommendSearchParamsObject: Hashable {
+extension RecommendIndexSettings: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.query?.hashValue)
-        hasher.combine(self.similarQuery?.hashValue)
-        hasher.combine(self.filters?.hashValue)
-        hasher.combine(self.facetFilters?.hashValue)
-        hasher.combine(self.optionalFilters?.hashValue)
-        hasher.combine(self.numericFilters?.hashValue)
-        hasher.combine(self.tagFilters?.hashValue)
-        hasher.combine(self.sumOrFiltersScores?.hashValue)
-        hasher.combine(self.restrictSearchableAttributes?.hashValue)
-        hasher.combine(self.facets?.hashValue)
-        hasher.combine(self.facetingAfterDistinct?.hashValue)
-        hasher.combine(self.page?.hashValue)
-        hasher.combine(self.offset?.hashValue)
-        hasher.combine(self.length?.hashValue)
-        hasher.combine(self.aroundLatLng?.hashValue)
-        hasher.combine(self.aroundLatLngViaIP?.hashValue)
-        hasher.combine(self.aroundRadius?.hashValue)
-        hasher.combine(self.aroundPrecision?.hashValue)
-        hasher.combine(self.minimumAroundRadius?.hashValue)
-        hasher.combine(self.insideBoundingBox?.hashValue)
-        hasher.combine(self.insidePolygon?.hashValue)
-        hasher.combine(self.naturalLanguages?.hashValue)
-        hasher.combine(self.ruleContexts?.hashValue)
-        hasher.combine(self.personalizationImpact?.hashValue)
-        hasher.combine(self.userToken?.hashValue)
-        hasher.combine(self.getRankingInfo?.hashValue)
-        hasher.combine(self.synonyms?.hashValue)
-        hasher.combine(self.clickAnalytics?.hashValue)
-        hasher.combine(self.analytics?.hashValue)
-        hasher.combine(self.analyticsTags?.hashValue)
-        hasher.combine(self.percentileComputation?.hashValue)
-        hasher.combine(self.enableABTest?.hashValue)
+        hasher.combine(self.attributesForFaceting?.hashValue)
+        hasher.combine(self.replicas?.hashValue)
+        hasher.combine(self.paginationLimitedTo?.hashValue)
+        hasher.combine(self.unretrievableAttributes?.hashValue)
+        hasher.combine(self.disableTypoToleranceOnWords?.hashValue)
+        hasher.combine(self.attributesToTransliterate?.hashValue)
+        hasher.combine(self.camelCaseAttributes?.hashValue)
+        hasher.combine(self.decompoundedAttributes?.hashValue)
+        hasher.combine(self.indexLanguages?.hashValue)
+        hasher.combine(self.disablePrefixOnAttributes?.hashValue)
+        hasher.combine(self.allowCompressionOfIntegerArray?.hashValue)
+        hasher.combine(self.numericAttributesForFiltering?.hashValue)
+        hasher.combine(self.separatorsToIndex?.hashValue)
+        hasher.combine(self.searchableAttributes?.hashValue)
+        hasher.combine(self.userData?.hashValue)
+        hasher.combine(self.customNormalization?.hashValue)
+        hasher.combine(self.attributeForDistinct?.hashValue)
         hasher.combine(self.attributesToRetrieve?.hashValue)
         hasher.combine(self.ranking?.hashValue)
-        hasher.combine(self.customRanking?.hashValue)
         hasher.combine(self.relevancyStrictness?.hashValue)
         hasher.combine(self.attributesToHighlight?.hashValue)
         hasher.combine(self.attributesToSnippet?.hashValue)
@@ -719,7 +581,6 @@ extension RecommendSearchParamsObject: Hashable {
         hasher.combine(self.highlightPostTag?.hashValue)
         hasher.combine(self.snippetEllipsisText?.hashValue)
         hasher.combine(self.restrictHighlightAndSnippetArrays?.hashValue)
-        hasher.combine(self.hitsPerPage?.hashValue)
         hasher.combine(self.minWordSizefor1Typo?.hashValue)
         hasher.combine(self.minWordSizefor2Typos?.hashValue)
         hasher.combine(self.typoTolerance?.hashValue)
@@ -727,15 +588,12 @@ extension RecommendSearchParamsObject: Hashable {
         hasher.combine(self.disableTypoToleranceOnAttributes?.hashValue)
         hasher.combine(self.ignorePlurals?.hashValue)
         hasher.combine(self.removeStopWords?.hashValue)
-        hasher.combine(self.keepDiacriticsOnCharacters?.hashValue)
         hasher.combine(self.queryLanguages?.hashValue)
         hasher.combine(self.decompoundQuery?.hashValue)
         hasher.combine(self.enableRules?.hashValue)
         hasher.combine(self.enablePersonalization?.hashValue)
         hasher.combine(self.queryType?.hashValue)
         hasher.combine(self.removeWordsIfNoResults?.hashValue)
-        hasher.combine(self.mode?.hashValue)
-        hasher.combine(self.semanticSearch?.hashValue)
         hasher.combine(self.advancedSyntax?.hashValue)
         hasher.combine(self.optionalWords?.hashValue)
         hasher.combine(self.disableExactOnAttributes?.hashValue)

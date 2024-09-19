@@ -14,13 +14,13 @@ public struct TrendingItems: Codable, JSONEncodable {
     /// filter will be returned.
     public var facetValue: String?
     public var model: TrendingItemsModel
-    public var fallbackParameters: RecommendSearchParamsObject?
+    public var fallbackParameters: FallbackParams?
 
     public init(
         facetName: String? = nil,
         facetValue: String? = nil,
         model: TrendingItemsModel,
-        fallbackParameters: RecommendSearchParamsObject? = nil
+        fallbackParameters: FallbackParams? = nil
     ) {
         self.facetName = facetName
         self.facetValue = facetValue

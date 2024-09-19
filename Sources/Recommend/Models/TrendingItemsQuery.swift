@@ -23,7 +23,7 @@ public struct TrendingItemsQuery: Codable, JSONEncodable {
     /// filter will be returned.
     public var facetValue: String?
     public var model: TrendingItemsModel
-    public var fallbackParameters: RecommendSearchParamsObject?
+    public var fallbackParameters: FallbackParams?
 
     public init(
         indexName: String,
@@ -33,7 +33,7 @@ public struct TrendingItemsQuery: Codable, JSONEncodable {
         facetName: String? = nil,
         facetValue: String? = nil,
         model: TrendingItemsModel,
-        fallbackParameters: RecommendSearchParamsObject? = nil
+        fallbackParameters: FallbackParams? = nil
     ) {
         self.indexName = indexName
         self.threshold = threshold

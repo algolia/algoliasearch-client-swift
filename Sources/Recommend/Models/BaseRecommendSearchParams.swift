@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct RecommendBaseSearchParamsWithoutQuery: Codable, JSONEncodable {
+public struct BaseRecommendSearchParams: Codable, JSONEncodable {
     /// Keywords to be used instead of the search query to conduct a more broader search.  Using the `similarQuery`
     /// parameter changes other settings:  - `queryType` is set to `prefixNone`. - `removeStopWords` is set to true. -
     /// `words` is set as the first ranking criterion. - All remaining words are treated as `optionalWords`.  Since the
@@ -44,12 +44,6 @@ public struct RecommendBaseSearchParamsWithoutQuery: Codable, JSONEncodable {
     /// `attributesForFaceting` setting, as `facetingAfterDistinct` only computes correct facet counts if all records
     /// have the same facet values for the `attributeForDistinct`.
     public var facetingAfterDistinct: Bool?
-    /// Page of search results to retrieve.
-    public var page: Int?
-    /// Position of the first hit to retrieve.
-    public var offset: Int?
-    /// Number of hits to retrieve (used in combination with `offset`).
-    public var length: Int?
     /// Coordinates for the center of a circle, expressed as a comma-separated string of latitude and longitude.  Only
     /// records included within circle around this central location are included in the results. The radius of the
     /// circle is determined by the `aroundRadius` and `minimumAroundRadius` settings. This parameter is ignored if you
@@ -113,9 +107,6 @@ public struct RecommendBaseSearchParamsWithoutQuery: Codable, JSONEncodable {
         restrictSearchableAttributes: [String]? = nil,
         facets: [String]? = nil,
         facetingAfterDistinct: Bool? = nil,
-        page: Int? = nil,
-        offset: Int? = nil,
-        length: Int? = nil,
         aroundLatLng: String? = nil,
         aroundLatLngViaIP: Bool? = nil,
         aroundRadius: RecommendAroundRadius? = nil,
@@ -145,9 +136,6 @@ public struct RecommendBaseSearchParamsWithoutQuery: Codable, JSONEncodable {
         self.restrictSearchableAttributes = restrictSearchableAttributes
         self.facets = facets
         self.facetingAfterDistinct = facetingAfterDistinct
-        self.page = page
-        self.offset = offset
-        self.length = length
         self.aroundLatLng = aroundLatLng
         self.aroundLatLngViaIP = aroundLatLngViaIP
         self.aroundRadius = aroundRadius
@@ -179,9 +167,6 @@ public struct RecommendBaseSearchParamsWithoutQuery: Codable, JSONEncodable {
         case restrictSearchableAttributes
         case facets
         case facetingAfterDistinct
-        case page
-        case offset
-        case length
         case aroundLatLng
         case aroundLatLngViaIP
         case aroundRadius
@@ -216,9 +201,6 @@ public struct RecommendBaseSearchParamsWithoutQuery: Codable, JSONEncodable {
         try container.encodeIfPresent(self.restrictSearchableAttributes, forKey: .restrictSearchableAttributes)
         try container.encodeIfPresent(self.facets, forKey: .facets)
         try container.encodeIfPresent(self.facetingAfterDistinct, forKey: .facetingAfterDistinct)
-        try container.encodeIfPresent(self.page, forKey: .page)
-        try container.encodeIfPresent(self.offset, forKey: .offset)
-        try container.encodeIfPresent(self.length, forKey: .length)
         try container.encodeIfPresent(self.aroundLatLng, forKey: .aroundLatLng)
         try container.encodeIfPresent(self.aroundLatLngViaIP, forKey: .aroundLatLngViaIP)
         try container.encodeIfPresent(self.aroundRadius, forKey: .aroundRadius)
@@ -240,11 +222,8 @@ public struct RecommendBaseSearchParamsWithoutQuery: Codable, JSONEncodable {
     }
 }
 
-extension RecommendBaseSearchParamsWithoutQuery: Equatable {
-    public static func ==(
-        lhs: RecommendBaseSearchParamsWithoutQuery,
-        rhs: RecommendBaseSearchParamsWithoutQuery
-    ) -> Bool {
+extension BaseRecommendSearchParams: Equatable {
+    public static func ==(lhs: BaseRecommendSearchParams, rhs: BaseRecommendSearchParams) -> Bool {
         lhs.similarQuery == rhs.similarQuery &&
             lhs.filters == rhs.filters &&
             lhs.facetFilters == rhs.facetFilters &&
@@ -255,9 +234,6 @@ extension RecommendBaseSearchParamsWithoutQuery: Equatable {
             lhs.restrictSearchableAttributes == rhs.restrictSearchableAttributes &&
             lhs.facets == rhs.facets &&
             lhs.facetingAfterDistinct == rhs.facetingAfterDistinct &&
-            lhs.page == rhs.page &&
-            lhs.offset == rhs.offset &&
-            lhs.length == rhs.length &&
             lhs.aroundLatLng == rhs.aroundLatLng &&
             lhs.aroundLatLngViaIP == rhs.aroundLatLngViaIP &&
             lhs.aroundRadius == rhs.aroundRadius &&
@@ -279,7 +255,7 @@ extension RecommendBaseSearchParamsWithoutQuery: Equatable {
     }
 }
 
-extension RecommendBaseSearchParamsWithoutQuery: Hashable {
+extension BaseRecommendSearchParams: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.similarQuery?.hashValue)
         hasher.combine(self.filters?.hashValue)
@@ -291,9 +267,6 @@ extension RecommendBaseSearchParamsWithoutQuery: Hashable {
         hasher.combine(self.restrictSearchableAttributes?.hashValue)
         hasher.combine(self.facets?.hashValue)
         hasher.combine(self.facetingAfterDistinct?.hashValue)
-        hasher.combine(self.page?.hashValue)
-        hasher.combine(self.offset?.hashValue)
-        hasher.combine(self.length?.hashValue)
         hasher.combine(self.aroundLatLng?.hashValue)
         hasher.combine(self.aroundLatLngViaIP?.hashValue)
         hasher.combine(self.aroundRadius?.hashValue)
