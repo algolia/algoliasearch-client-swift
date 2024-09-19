@@ -637,4 +637,39 @@ public extension SearchClient {
 
         return true
     }
+
+    /// Method used for perform search with disjunctive facets.
+    ///
+    /// - Parameter indexName: The name of the index in which the search queries should be performed
+    /// - Parameter searchParamsObject: The search query params.
+    /// - Parameter refinements: Refinements to apply to the search in form of dictionary with
+    ///  facet attribute as a key and a list of facet values for the designated attribute.
+    ///  Any facet in this list not present in the `disjunctiveFacets` set will be filtered conjunctively.
+    /// - Parameter disjunctiveFacets: Set of facets attributes applied disjunctively (with OR operator)
+    /// - Parameter keepSelectedEmptyFacets: Whether the selected facet values might be preserved even
+    ///  in case of their absence in the search response
+    /// - Parameter requestOptions: Configure request locally with RequestOptions.
+    /// - Returns: SearchDisjunctiveFacetingResponse<T> - a struct containing the merge response from all the
+    /// disjunctive faceting search queries,
+    ///  and a list of disjunctive facets
+    func searchDisjunctiveFaceting<T: Codable>(
+        indexName: String,
+        searchParamsObject: SearchSearchParamsObject,
+        refinements: [String: [String]],
+        disjunctiveFacets: Set<String>,
+        keepSelectedEmptyFacets: Bool = true,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SearchDisjunctiveFacetingResponse<T> {
+        let helper = DisjunctiveFacetingHelper(
+            query: SearchForHits(from: searchParamsObject, indexName: indexName),
+            refinements: refinements,
+            disjunctiveFacets: disjunctiveFacets
+        )
+        let queries = helper.makeQueries()
+        let responses: [SearchResponse<T>] = try await self.searchForHitsWithResponse(
+            searchMethodParams: SearchMethodParams(requests: queries),
+            requestOptions: requestOptions
+        )
+        return try helper.mergeResponses(responses, keepSelectedEmptyFacets: keepSelectedEmptyFacets)
+    }
 }
