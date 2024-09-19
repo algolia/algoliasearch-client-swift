@@ -1,3 +1,8 @@
+## [9.3.3](https://github.com/algolia/algoliasearch-client-swift/compare/9.3.2...9.3.3)
+
+- [1a73994ff](https://github.com/algolia/api-clients-automation/commit/1a73994ff) fix(specs): recommend remove unsupported query parameters [RECO-2345] [skip-bc] ([#3692](https://github.com/algolia/api-clients-automation/pull/3692)) by [@raed667](https://github.com/raed667/)
+- [92438873c](https://github.com/algolia/api-clients-automation/commit/92438873c) fix(specs): remove models from ingestion specs [skip-bc] ([#3774](https://github.com/algolia/api-clients-automation/pull/3774)) by [@shortcuts](https://github.com/shortcuts/)
+
 ## [9.3.2](https://github.com/algolia/algoliasearch-client-swift/compare/9.3.1...9.3.2)
 
 - [638058eae](https://github.com/algolia/api-clients-automation/commit/638058eae) fix(specs): update search api specs [skip-bc] ([#3760](https://github.com/algolia/api-clients-automation/pull/3760)) by [@Fluf22](https://github.com/Fluf22/)
