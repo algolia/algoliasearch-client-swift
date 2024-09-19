@@ -1,3 +1,7 @@
+## [9.4.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.3.3...9.4.0)
+
+- [92aeb2790](https://github.com/algolia/api-clients-automation/commit/92aeb2790) feat(swift): add disjunctive faceting ([#3778](https://github.com/algolia/api-clients-automation/pull/3778)) by [@Fluf22](https://github.com/Fluf22/)
+
 ## [9.3.3](https://github.com/algolia/algoliasearch-client-swift/compare/9.3.2...9.3.3)
 
 - [1a73994ff](https://github.com/algolia/api-clients-automation/commit/1a73994ff) fix(specs): recommend remove unsupported query parameters [RECO-2345] [skip-bc] ([#3692](https://github.com/algolia/api-clients-automation/pull/3692)) by [@raed667](https://github.com/raed667/)
