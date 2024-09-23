@@ -7,25 +7,25 @@ import Foundation
 #endif
 
 public enum RecommendationsHit: Codable, JSONEncodable, AbstractEncodable {
-    case recommendHit(RecommendHit)
     case trendingFacetHit(TrendingFacetHit)
+    case recommendHit(RecommendHit)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .recommendHit(value):
-            try container.encode(value)
         case let .trendingFacetHit(value):
+            try container.encode(value)
+        case let .recommendHit(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(RecommendHit.self) {
-            self = .recommendHit(value)
-        } else if let value = try? container.decode(TrendingFacetHit.self) {
+        if let value = try? container.decode(TrendingFacetHit.self) {
             self = .trendingFacetHit(value)
+        } else if let value = try? container.decode(RecommendHit.self) {
+            self = .recommendHit(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -39,10 +39,10 @@ public enum RecommendationsHit: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .recommendHit(value):
-            value as RecommendHit
         case let .trendingFacetHit(value):
             value as TrendingFacetHit
+        case let .recommendHit(value):
+            value as RecommendHit
         }
     }
 }
