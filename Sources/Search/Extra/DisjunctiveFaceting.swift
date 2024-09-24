@@ -42,7 +42,7 @@ struct DisjunctiveFacetingHelper {
 
     /// Build search queries to fetch the necessary facets information for disjunctive faceting
     /// If the disjunctive facets set is empty, makes a single request with applied conjunctive filters
-    func makeQueries() -> [SearchQuery] {
+    func buildQueries() -> [SearchQuery] {
         var queries = [SearchQuery]()
 
         var mainQuery = self.query
@@ -89,8 +89,7 @@ struct DisjunctiveFacetingHelper {
 
     /// Merge received search responses into single one with combined facets information
     func mergeResponses<T: Codable>(
-        _ responses: [SearchResponse<T>],
-        keepSelectedEmptyFacets _: Bool = true
+        _ responses: [SearchResponse<T>]
     ) throws -> SearchDisjunctiveFacetingResponse<T> {
         guard var mainResponse = responses.first else {
             throw DisjunctiveFacetingError.emptyResponses

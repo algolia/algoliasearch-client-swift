@@ -644,7 +644,8 @@ public extension SearchClient {
     /// - Parameter searchParamsObject: The search query params.
     /// - Parameter refinements: Refinements to apply to the search in form of dictionary with
     ///  facet attribute as a key and a list of facet values for the designated attribute.
-    ///  Any facet in this list not present in the `disjunctiveFacets` set will be filtered conjunctively.
+    ///  Any facet in this list not present in the `disjunctiveFacets` set will be filtered conjunctively (with AND
+    /// operator).
     /// - Parameter disjunctiveFacets: Set of facets attributes applied disjunctively (with OR operator)
     /// - Parameter keepSelectedEmptyFacets: Whether the selected facet values might be preserved even
     ///  in case of their absence in the search response
@@ -657,7 +658,6 @@ public extension SearchClient {
         searchParamsObject: SearchSearchParamsObject,
         refinements: [String: [String]],
         disjunctiveFacets: Set<String>,
-        keepSelectedEmptyFacets: Bool = true,
         requestOptions: RequestOptions? = nil
     ) async throws -> SearchDisjunctiveFacetingResponse<T> {
         let helper = DisjunctiveFacetingHelper(
@@ -665,11 +665,11 @@ public extension SearchClient {
             refinements: refinements,
             disjunctiveFacets: disjunctiveFacets
         )
-        let queries = helper.makeQueries()
+        let queries = helper.buildQueries()
         let responses: [SearchResponse<T>] = try await self.searchForHitsWithResponse(
             searchMethodParams: SearchMethodParams(requests: queries),
             requestOptions: requestOptions
         )
-        return try helper.mergeResponses(responses, keepSelectedEmptyFacets: keepSelectedEmptyFacets)
+        return try helper.mergeResponses(responses)
     }
 }
