@@ -1,3 +1,8 @@
+## [9.5.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.4.0...9.5.0)
+
+- [4e8275165](https://github.com/algolia/api-clients-automation/commit/4e8275165) fix(clients): deserialization ([#3822](https://github.com/algolia/api-clients-automation/pull/3822)) by [@Fluf22](https://github.com/Fluf22/)
+- [22ae41660](https://github.com/algolia/api-clients-automation/commit/22ae41660) feat(clients): add disjunctive faceting ([#3789](https://github.com/algolia/api-clients-automation/pull/3789)) by [@Fluf22](https://github.com/Fluf22/)
+
 ## [9.4.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.3.3...9.4.0)
 
 - [92aeb2790](https://github.com/algolia/api-clients-automation/commit/92aeb2790) feat(swift): add disjunctive faceting ([#3778](https://github.com/algolia/api-clients-automation/pull/3778)) by [@Fluf22](https://github.com/Fluf22/)
