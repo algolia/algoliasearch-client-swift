@@ -6,12 +6,11 @@ import Foundation
     import Core
 #endif
 
-/// Property by which to sort the list.
-public enum SortKeys: String, Codable, CaseIterable {
+/// Property by which to sort the list of transformations.
+public enum TransformationSortKeys: String, Codable, CaseIterable {
     case name
-    case type
     case updatedAt
     case createdAt
 }
 
-extension SortKeys: Hashable {}
+extension TransformationSortKeys: Hashable {}

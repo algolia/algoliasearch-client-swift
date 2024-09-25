@@ -6,10 +6,10 @@ import Foundation
     import Core
 #endif
 
-/// Property by which to sort the list of authentication resources.
+/// Property by which to sort the list of authentications.
 public enum AuthenticationSortKeys: String, Codable, CaseIterable {
     case name
-    case authType = "auth_type"
+    case type
     case platform
     case updatedAt
     case createdAt
