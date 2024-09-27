@@ -1483,7 +1483,7 @@ open class SearchClient {
 
     // Gets the permissions and restrictions of an API key.  When authenticating with the admin API key, you can request
     // information for any of your application's keys. When authenticating with other API keys, you can only retrieve
-    // information for that key.
+    // information for that key, with the description replaced by `<redacted>`.
     //
     //
     // - parameter key: (path) API key.
