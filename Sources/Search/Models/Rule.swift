@@ -20,7 +20,7 @@ public struct Rule: Codable, JSONEncodable {
     /// Whether the rule is active.
     public var enabled: Bool?
     /// Time periods when the rule is active.
-    public var validity: [TimeRange]?
+    public var validity: [SearchTimeRange]?
 
     public init(
         objectID: String,
@@ -28,7 +28,7 @@ public struct Rule: Codable, JSONEncodable {
         consequence: SearchConsequence? = nil,
         description: String? = nil,
         enabled: Bool? = nil,
-        validity: [TimeRange]? = nil
+        validity: [SearchTimeRange]? = nil
     ) {
         self.objectID = objectID
         self.conditions = conditions

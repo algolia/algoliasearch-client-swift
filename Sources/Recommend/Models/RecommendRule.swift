@@ -17,6 +17,8 @@ public struct RecommendRule: Codable, JSONEncodable {
     public var description: String?
     /// Indicates whether to enable the rule. If it isn't enabled, it isn't applied at query time.
     public var enabled: Bool?
+    /// Time periods when the rule is active.
+    public var validity: [RecommendTimeRange]?
 
     public init(
         metadata: RuleMetadata? = nil,
@@ -24,7 +26,8 @@ public struct RecommendRule: Codable, JSONEncodable {
         condition: RecommendCondition? = nil,
         consequence: RecommendConsequence? = nil,
         description: String? = nil,
-        enabled: Bool? = nil
+        enabled: Bool? = nil,
+        validity: [RecommendTimeRange]? = nil
     ) {
         self.metadata = metadata
         self.objectID = objectID
@@ -32,6 +35,7 @@ public struct RecommendRule: Codable, JSONEncodable {
         self.consequence = consequence
         self.description = description
         self.enabled = enabled
+        self.validity = validity
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -41,6 +45,7 @@ public struct RecommendRule: Codable, JSONEncodable {
         case consequence
         case description
         case enabled
+        case validity
     }
 
     // Encodable protocol methods
@@ -53,6 +58,7 @@ public struct RecommendRule: Codable, JSONEncodable {
         try container.encodeIfPresent(self.consequence, forKey: .consequence)
         try container.encodeIfPresent(self.description, forKey: .description)
         try container.encodeIfPresent(self.enabled, forKey: .enabled)
+        try container.encodeIfPresent(self.validity, forKey: .validity)
     }
 }
 
@@ -63,7 +69,8 @@ extension RecommendRule: Equatable {
             lhs.condition == rhs.condition &&
             lhs.consequence == rhs.consequence &&
             lhs.description == rhs.description &&
-            lhs.enabled == rhs.enabled
+            lhs.enabled == rhs.enabled &&
+            lhs.validity == rhs.validity
     }
 }
 
@@ -75,5 +82,6 @@ extension RecommendRule: Hashable {
         hasher.combine(self.consequence?.hashValue)
         hasher.combine(self.description?.hashValue)
         hasher.combine(self.enabled?.hashValue)
+        hasher.combine(self.validity?.hashValue)
     }
 }

@@ -32,6 +32,92 @@ open class RecommendClient {
         self.transporter.setClientApiKey(apiKey: apiKey)
     }
 
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
+    /// - parameter model: (path) [Recommend
+    /// model](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
+    /// - parameter recommendRule: (body)  (optional)
+    /// - returns: RecommendUpdatedAtResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func batchRecommendRules(
+        indexName: String,
+        model: RecommendModels,
+        recommendRule: [RecommendRule]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> RecommendUpdatedAtResponse {
+        let response: Response<RecommendUpdatedAtResponse> = try await batchRecommendRulesWithHTTPInfo(
+            indexName: indexName,
+            model: model,
+            recommendRule: recommendRule,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Create or update a batch of Recommend Rules  Each Recommend Rule is created or updated, depending on whether a
+    // Recommend Rule with the same `objectID` already exists. You may also specify `true` for `clearExistingRules`, in
+    // which case the batch will atomically replace all the existing Recommend Rules.  Recommend Rules are similar to
+    // Search Rules, except that the conditions and consequences apply to a [source
+    // item](/doc/guides/algolia-recommend/overview/#recommend-models) instead of a query. The main differences are the
+    // following: - Conditions `pattern` and `anchoring` are unavailable. - Condition `filters` triggers if the source item matches the specified filters. - Condition `filters` accepts numeric filters. - Consequence `params` only covers filtering parameters. - Consequence `automaticFacetFilters` doesn't require a facet value placeholder (it tries to match the data source item's attributes instead).
+    // Required API Key ACLs:
+    //  - editSettings
+    //
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
+    //
+    // - parameter model: (path) [Recommend
+    // model](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
+    //
+    // - parameter recommendRule: (body)  (optional)
+    // - returns: RequestBuilder<RecommendUpdatedAtResponse>
+
+    open func batchRecommendRulesWithHTTPInfo(
+        indexName: String,
+        model: RecommendModels,
+        recommendRule: [RecommendRule]? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<RecommendUpdatedAtResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "batchRecommendRules")
+        }
+
+        var resourcePath = "/1/indexes/{indexName}/{model}/recommend/rules/batch"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{indexName}",
+            with: indexNamePostEscape,
+            options: .literal,
+            range: nil
+        )
+        let modelPreEscape = "\(APIHelper.mapValueToPathItem(model))"
+        let modelPostEscape = modelPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{model}",
+            with: modelPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body = recommendRule
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body ?? AnyCodable(),
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
     /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - returns: AnyCodable
