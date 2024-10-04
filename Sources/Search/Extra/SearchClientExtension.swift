@@ -319,7 +319,7 @@ public extension SearchClient {
         aggregator: @escaping (SearchSynonymsResponse) -> Void,
         requestOptions: RequestOptions? = nil
     ) async throws -> SearchSynonymsResponse {
-        let hitsPerPage = searchSynonymsParams.hitsPerPage ?? 1000
+        let hitsPerPage = 1000
 
         var updatedSearchSynonymsParams = searchSynonymsParams
         if updatedSearchSynonymsParams.page == nil {
