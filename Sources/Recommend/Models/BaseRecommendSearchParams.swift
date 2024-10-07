@@ -45,7 +45,7 @@ public struct BaseRecommendSearchParams: Codable, JSONEncodable {
     /// have the same facet values for the `attributeForDistinct`.
     public var facetingAfterDistinct: Bool?
     /// Coordinates for the center of a circle, expressed as a comma-separated string of latitude and longitude.  Only
-    /// records included within circle around this central location are included in the results. The radius of the
+    /// records included within a circle around this central location are included in the results. The radius of the
     /// circle is determined by the `aroundRadius` and `minimumAroundRadius` settings. This parameter is ignored if you
     /// also specify `insidePolygon` or `insideBoundingBox`.
     public var aroundLatLng: String?

@@ -30,8 +30,7 @@ public struct GetApiKeyResponse: Codable, JSONEncodable {
     public var maxQueriesPerIPPerHour: Int?
     /// Query parameters to add when making API requests with this API key.  To restrict this API key to specific IP
     /// addresses, add the `restrictSources` parameter. You can only add a single source, but you can provide a range of
-    /// IP addresses.  Creating an API key fails if the request is made from an IP address that's outside the restricted
-    /// range.
+    /// IP addresses.  Creating an API key fails if the request is made from an IP address outside the restricted range.
     public var queryParameters: String?
     /// Allowed HTTP referrers for this API key.  By default, all referrers are allowed. You can use leading and
     /// trailing wildcard characters (`*`):  - `https://algolia.com/_*` allows all referrers starting with

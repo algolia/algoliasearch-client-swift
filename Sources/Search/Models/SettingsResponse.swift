@@ -10,10 +10,10 @@ public struct SettingsResponse: Codable, JSONEncodable {
     /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/). 
     /// Facets are attributes that let you categorize search results. They can be used for filtering search results. By
     /// default, no attribute is used for faceting. Attribute names are case-sensitive.  **Modifiers**  -
-    /// `filterOnly(\"ATTRIBUTE\")`.   Allows using this attribute as a filter, but doesn't evalue the facet values.  -
-    /// `searchable(\"ATTRIBUTE\")`.   Allows searching for facet values.  - `afterDistinct(\"ATTRIBUTE\")`.   Evaluates
-    /// the facet count _after_ deduplication with `distinct`.   This ensures accurate facet counts.   You can apply
-    /// this modifier to searchable facets: `afterDistinct(searchable(ATTRIBUTE))`.
+    /// `filterOnly(\"ATTRIBUTE\")`.   Allows the attribute to be used as a filter but doesn't evaluate the facet
+    /// values.  - `searchable(\"ATTRIBUTE\")`.   Allows searching for facet values.  - `afterDistinct(\"ATTRIBUTE\")`. 
+    ///  Evaluates the facet count _after_ deduplication with `distinct`.   This ensures accurate facet counts.   You
+    /// can apply this modifier to searchable facets: `afterDistinct(searchable(ATTRIBUTE))`.
     public var attributesForFaceting: [String]?
     /// Creates [replica
     /// indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/). 
@@ -21,7 +21,7 @@ public struct SettingsResponse: Codable, JSONEncodable {
     /// want to offer a different ranking or sorting of your search results, you'll use replica indices. All index
     /// operations on a primary index are automatically forwarded to its replicas. To add a replica index, you must
     /// provide the complete set of replicas to this parameter. If you omit a replica from this list, the replica turns
-    /// into a regular, standalone index that will no longer by synced with the primary index.  **Modifier**  -
+    /// into a regular, standalone index that will no longer be synced with the primary index.  **Modifier**  -
     /// `virtual(\"REPLICA\")`.   Create a virtual replica,   Virtual replicas don't increase the number of records and
     /// are optimized for [Relevant
     /// sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/relevant-sort/).
@@ -70,9 +70,9 @@ public struct SettingsResponse: Codable, JSONEncodable {
     public var allowCompressionOfIntegerArray: Bool?
     /// Numeric attributes that can be used as [numerical filters](https://www.algolia.com/doc/guides/managing-results/rules/detecting-intent/how-to/applying-a-custom-filter-for-a-specific-query/#numerical-filters).
     /// Attribute names are case-sensitive.  By default, all numeric attributes are available as numerical filters. For
-    /// faster indexing, reduce the number of numeric attributes.  If you want to turn off filtering for all numeric
-    /// attributes, specifiy an attribute that doesn't exist in your index, such as `NO_NUMERIC_FILTERING`. 
-    /// **Modifier**  - `equalOnly(\"ATTRIBUTE\")`.   Support only filtering based on equality comparisons `=` and `!=`.
+    /// faster indexing, reduce the number of numeric attributes.  To turn off filtering for all numeric attributes,
+    /// specify an attribute that doesn't exist in your index, such as `NO_NUMERIC_FILTERING`.  **Modifier**  -
+    /// `equalOnly(\"ATTRIBUTE\")`.   Support only filtering based on equality comparisons `=` and `!=`.
     public var numericAttributesForFiltering: [String]?
     /// Controls which separators are indexed.  Separators are all non-letter characters except spaces and currency
     /// characters, such as $€£¥. By default, separator characters aren't indexed. With `separatorsToIndex`, Algolia
@@ -85,8 +85,8 @@ public struct SettingsResponse: Codable, JSONEncodable {
     /// higher in the list of `searchableAttributes` rank first. To make matches in two attributes rank equally, include
     /// them in a comma-separated string, such as `\"title,alternate_title\"`. Attributes with the same priority are
     /// always unordered.  For more information, see [Searchable attributes](https://www.algolia.com/doc/guides/sending-and-managing-data/prepare-your-data/how-to/setting-searchable-attributes/).
-    ///  **Modifier**  - `unordered(\"ATTRIBUTE\")`.   Ignore the position of a match within the attribute.  Without
-    /// modifier, matches at the beginning of an attribute rank higer than matches at the end.
+    ///  **Modifier**  - `unordered(\"ATTRIBUTE\")`.   Ignore the position of a match within the attribute.  Without a
+    /// modifier, matches at the beginning of an attribute rank higher than matches at the end.
     public var searchableAttributes: [String]?
     /// An object with custom data.  You can store up to 32kB as custom data.
     public var userData: AnyCodable?
@@ -203,12 +203,12 @@ public struct SettingsResponse: Codable, JSONEncodable {
     /// included in the search results increases for every 1,000 records:  - If `optionalWords` has less than 10 words,
     /// the required number of matched words increases by 1:   results 1 to 1,000 require 1 matched word, results 1,001
     /// to 2000 need 2 matched words. - If `optionalWords` has 10 or more words, the number of required matched words
-    /// increases by the number of optional words dividied by 5 (rounded down).   For example, with 18 optional words:
+    /// increases by the number of optional words divided by 5 (rounded down).   For example, with 18 optional words:
     /// results 1 to 1,000 require 1 matched word, results 1,001 to 2000 need 4 matched words.  For more information,
     /// see [Optional words](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/empty-or-insufficient-results/#creating-a-list-of-optional-words).
     public var optionalWords: [String]?
     /// Searchable attributes for which you want to [turn off the Exact ranking criterion](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/in-depth/adjust-exact-settings/#turn-off-exact-for-some-attributes).
-    /// Attribute names are case-sensitive.  This can be useful for attributes with long values, where the likelyhood of
+    /// Attribute names are case-sensitive.  This can be useful for attributes with long values, where the likelihood of
     /// an exact match is high, such as product descriptions. Turning off the Exact ranking criterion for these
     /// attributes favors exact matching on other attributes. This reduces the impact of individual attributes with a
     /// lot of content on ranking.
@@ -230,7 +230,7 @@ public struct SettingsResponse: Codable, JSONEncodable {
     /// even if a synonym matches. For example, with `home` as a synonym for `house` and a search for `home`, records
     /// matching either \"home\" or \"house\" are included in the search results, and either \"home\" or \"house\" are
     /// highlighted.  With `replaceSynonymsInHighlight` set to `true`, a search for `home` still matches the same
-    /// records, but all occurences of \"house\" are replaced by \"home\" in the highlighted response.
+    /// records, but all occurrences of \"house\" are replaced by \"home\" in the highlighted response.
     public var replaceSynonymsInHighlight: Bool?
     /// Minimum proximity score for two matching words.  This adjusts the [Proximity ranking criterion](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/#proximity)
     /// by equally scoring matches that are farther apart.  For example, if `minProximity` is 2, neighboring matches and

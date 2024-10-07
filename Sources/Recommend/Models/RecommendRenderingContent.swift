@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Extra data that can be used in the search UI.  You can use this to control aspects of your search UI, such as, the
+/// Extra data that can be used in the search UI.  You can use this to control aspects of your search UI, such as the
 /// order of facet names and values without changing your frontend code.
 public struct RecommendRenderingContent: Codable, JSONEncodable {
     public var facetOrdering: RecommendFacetOrdering?
