@@ -1,3 +1,11 @@
+## [9.7.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.6.0...9.7.0)
+
+- [ad8e3d224](https://github.com/algolia/api-clients-automation/commit/ad8e3d224) fix(specs): update analytics and abtesting max pagination query limit ([#3696](https://github.com/algolia/api-clients-automation/pull/3696)) by [@febeck](https://github.com/febeck/)
+- [6b42a2601](https://github.com/algolia/api-clients-automation/commit/6b42a2601) chore(clients): proper type hinting ([#3839](https://github.com/algolia/api-clients-automation/pull/3839)) by [@Fluf22](https://github.com/Fluf22/)
+- [bed119166](https://github.com/algolia/api-clients-automation/commit/bed119166) feat(specs): add support for widgets / banners in search for the csharp client ([#3870](https://github.com/algolia/api-clients-automation/pull/3870)) by [@Kalmar99](https://github.com/Kalmar99/)
+- [844e57f35](https://github.com/algolia/api-clients-automation/commit/844e57f35) fix(specs): correct typos is Search API ([#3898](https://github.com/algolia/api-clients-automation/pull/3898)) by [@gazconroy](https://github.com/gazconroy/)
+- [3c4c87619](https://github.com/algolia/api-clients-automation/commit/3c4c87619) chore(deps): dependencies 2024-10-07 ([#3876](https://github.com/algolia/api-clients-automation/pull/3876)) by [@algolia-bot](https://github.com/algolia-bot/)
+
 ## [9.6.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.5.1...9.6.0)
 
 - [788483537](https://github.com/algolia/api-clients-automation/commit/788483537) chore(clients): add workflow to auto-close PR ([#3834](https://github.com/algolia/api-clients-automation/pull/3834)) by [@shortcuts](https://github.com/shortcuts/)
