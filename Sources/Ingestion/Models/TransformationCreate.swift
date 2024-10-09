@@ -14,7 +14,7 @@ public struct TransformationCreate: Codable, JSONEncodable {
     public var name: String
     /// A descriptive name for your transformation of what it does.
     public var description: String?
-    /// The authentications associated for the current transformation.
+    /// The authentications associated with the current transformation.
     public var authenticationIDs: [String]?
 
     public init(code: String, name: String, description: String? = nil, authenticationIDs: [String]? = nil) {

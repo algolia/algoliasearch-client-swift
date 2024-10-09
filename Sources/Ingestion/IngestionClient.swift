@@ -1853,7 +1853,7 @@ open class IngestionClient {
         return body
     }
 
-    // Retrieves a list of events for a task run, identified by it's ID.
+    // Retrieves a list of events for a task run, identified by its ID.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex

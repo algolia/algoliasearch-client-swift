@@ -292,7 +292,7 @@ open class MonitoringClient {
         )
     }
 
-    /// - parameter clusters: (path) Subset of clusters, separated by comma.
+    /// - parameter clusters: (path) Subset of clusters, separated by commas.
     /// - returns: IncidentsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getClusterIncidents(
@@ -314,7 +314,7 @@ open class MonitoringClient {
     // Retrieves known incidents for the selected clusters.
     //
     //
-    // - parameter clusters: (path) Subset of clusters, separated by comma.
+    // - parameter clusters: (path) Subset of clusters, separated by commas.
     // - returns: RequestBuilder<IncidentsResponse>
 
     open func getClusterIncidentsWithHTTPInfo(
@@ -350,7 +350,7 @@ open class MonitoringClient {
         )
     }
 
-    /// - parameter clusters: (path) Subset of clusters, separated by comma.
+    /// - parameter clusters: (path) Subset of clusters, separated by commas.
     /// - returns: StatusResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getClusterStatus(clusters: String, requestOptions: RequestOptions? = nil) async throws -> StatusResponse {
@@ -369,7 +369,7 @@ open class MonitoringClient {
     // Retrieves the status of selected clusters.
     //
     //
-    // - parameter clusters: (path) Subset of clusters, separated by comma.
+    // - parameter clusters: (path) Subset of clusters, separated by commas.
     // - returns: RequestBuilder<StatusResponse>
 
     open func getClusterStatusWithHTTPInfo(
@@ -439,7 +439,7 @@ open class MonitoringClient {
         )
     }
 
-    /// - parameter clusters: (path) Subset of clusters, separated by comma.
+    /// - parameter clusters: (path) Subset of clusters, separated by commas.
     /// - returns: IndexingTimeResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getIndexingTime(
@@ -461,7 +461,7 @@ open class MonitoringClient {
     // Retrieves average times for indexing operations for selected clusters.
     //
     //
-    // - parameter clusters: (path) Subset of clusters, separated by comma.
+    // - parameter clusters: (path) Subset of clusters, separated by commas.
     // - returns: RequestBuilder<IndexingTimeResponse>
 
     open func getIndexingTimeWithHTTPInfo(
@@ -497,7 +497,7 @@ open class MonitoringClient {
         )
     }
 
-    /// - parameter clusters: (path) Subset of clusters, separated by comma.
+    /// - parameter clusters: (path) Subset of clusters, separated by commas.
     /// - returns: LatencyResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getLatency(clusters: String, requestOptions: RequestOptions? = nil) async throws -> LatencyResponse {
@@ -516,7 +516,7 @@ open class MonitoringClient {
     // Retrieves the average latency for search requests for selected clusters.
     //
     //
-    // - parameter clusters: (path) Subset of clusters, separated by comma.
+    // - parameter clusters: (path) Subset of clusters, separated by commas.
     // - returns: RequestBuilder<LatencyResponse>
 
     open func getLatencyWithHTTPInfo(
@@ -634,7 +634,7 @@ open class MonitoringClient {
         )
     }
 
-    /// - parameter clusters: (path) Subset of clusters, separated by comma.
+    /// - parameter clusters: (path) Subset of clusters, separated by commas.
     /// - returns: [String: [String: Bool]]
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getReachability(
@@ -656,7 +656,7 @@ open class MonitoringClient {
     // Test whether clusters are reachable or not.
     //
     //
-    // - parameter clusters: (path) Subset of clusters, separated by comma.
+    // - parameter clusters: (path) Subset of clusters, separated by commas.
     // - returns: RequestBuilder<[String: [String: Bool]]>
 
     open func getReachabilityWithHTTPInfo(

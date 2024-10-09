@@ -9,7 +9,7 @@ import Foundation
 public struct Transformation: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of a transformation.
     public var transformationID: String
-    /// The authentications associated for the current transformation.
+    /// The authentications associated with the current transformation.
     public var authenticationIDs: [String]?
     /// The source code of the transformation.
     public var code: String
