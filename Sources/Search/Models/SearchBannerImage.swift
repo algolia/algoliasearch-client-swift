@@ -8,10 +8,10 @@ import Foundation
 
 /// image of a search banner.
 public struct SearchBannerImage: Codable, JSONEncodable {
-    public var urls: SearchBannerImageUrl?
+    public var urls: [SearchBannerImageUrl]?
     public var title: String?
 
-    public init(urls: SearchBannerImageUrl? = nil, title: String? = nil) {
+    public init(urls: [SearchBannerImageUrl]? = nil, title: String? = nil) {
         self.urls = urls
         self.title = title
     }

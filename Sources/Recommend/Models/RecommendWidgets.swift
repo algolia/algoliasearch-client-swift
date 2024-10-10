@@ -8,9 +8,10 @@ import Foundation
 
 /// widgets returned from any rules that are applied to the current search.
 public struct RecommendWidgets: Codable, JSONEncodable {
-    public var banners: RecommendBanners?
+    /// banners defined in the merchandising studio for the given search.
+    public var banners: [RecommendBanner]?
 
-    public init(banners: RecommendBanners? = nil) {
+    public init(banners: [RecommendBanner]? = nil) {
         self.banners = banners
     }
 
