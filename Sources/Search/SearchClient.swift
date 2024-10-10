@@ -515,7 +515,8 @@ open class SearchClient {
             method: "POST",
             path: resourcePath,
             data: body ?? AnyCodable(),
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions,
+            useReadTransporter: true
         )
     }
 
