@@ -17,7 +17,7 @@ public struct RecommendHit: Codable, JSONEncodable {
     public var rankingInfo: RecommendRankingInfo?
     public var distinctSeqID: Int?
     /// Recommendation score.
-    public var score: Double
+    public var score: Double?
 
     public init(
         objectID: String,
@@ -25,7 +25,7 @@ public struct RecommendHit: Codable, JSONEncodable {
         snippetResult: [String: RecommendSnippetResult]? = nil,
         rankingInfo: RecommendRankingInfo? = nil,
         distinctSeqID: Int? = nil,
-        score: Double
+        score: Double? = nil
     ) {
         self.objectID = objectID
         self.highlightResult = highlightResult
@@ -72,10 +72,8 @@ public struct RecommendHit: Codable, JSONEncodable {
 
         self.distinctSeqID = dictionary["distinctSeqID"]?.value as? Int
 
-        guard let score = dictionary["score"]?.value as? Double else {
-            throw GenericError(description: "Failed to cast")
-        }
-        self.score = score
+        self.score = dictionary["score"]?.value as? Double
+
         for (key, value) in dictionary {
             switch key {
             case "objectID", "highlightResult", "snippetResult", "rankingInfo", "distinctSeqID", "score":
@@ -95,7 +93,7 @@ public struct RecommendHit: Codable, JSONEncodable {
         try container.encodeIfPresent(self.snippetResult, forKey: .snippetResult)
         try container.encodeIfPresent(self.rankingInfo, forKey: .rankingInfo)
         try container.encodeIfPresent(self.distinctSeqID, forKey: .distinctSeqID)
-        try container.encode(self.score, forKey: .score)
+        try container.encodeIfPresent(self.score, forKey: .score)
         var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
         try additionalPropertiesContainer.encodeMap(self.additionalProperties)
     }
@@ -116,7 +114,7 @@ public struct RecommendHit: Codable, JSONEncodable {
         )
         self.rankingInfo = try container.decodeIfPresent(RecommendRankingInfo.self, forKey: .rankingInfo)
         self.distinctSeqID = try container.decodeIfPresent(Int.self, forKey: .distinctSeqID)
-        self.score = try container.decode(Double.self, forKey: .score)
+        self.score = try container.decodeIfPresent(Double.self, forKey: .score)
         var nonAdditionalPropertyKeys = Set<String>()
         nonAdditionalPropertyKeys.insert("objectID")
         nonAdditionalPropertyKeys.insert("_highlightResult")
@@ -151,7 +149,7 @@ extension RecommendHit: Hashable {
         hasher.combine(self.snippetResult?.hashValue)
         hasher.combine(self.rankingInfo?.hashValue)
         hasher.combine(self.distinctSeqID?.hashValue)
-        hasher.combine(self.score.hashValue)
+        hasher.combine(self.score?.hashValue)
         hasher.combine(self.additionalProperties.hashValue)
     }
 }

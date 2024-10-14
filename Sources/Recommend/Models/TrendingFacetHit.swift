@@ -9,7 +9,7 @@ import Foundation
 /// Trending facet hit.
 public struct TrendingFacetHit: Codable, JSONEncodable {
     /// Recommendation score.
-    public var score: Double
+    public var score: Double?
     /// Facet attribute. To be used in combination with `facetValue`. If specified, only recommendations matching the
     /// facet filter will be returned.
     public var facetName: String
@@ -17,7 +17,7 @@ public struct TrendingFacetHit: Codable, JSONEncodable {
     /// filter will be returned.
     public var facetValue: String
 
-    public init(score: Double, facetName: String, facetValue: String) {
+    public init(score: Double? = nil, facetName: String, facetValue: String) {
         self.score = score
         self.facetName = facetName
         self.facetValue = facetValue
@@ -33,7 +33,7 @@ public struct TrendingFacetHit: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.score, forKey: .score)
+        try container.encodeIfPresent(self.score, forKey: .score)
         try container.encode(self.facetName, forKey: .facetName)
         try container.encode(self.facetValue, forKey: .facetValue)
     }
@@ -49,7 +49,7 @@ extension TrendingFacetHit: Equatable {
 
 extension TrendingFacetHit: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.score.hashValue)
+        hasher.combine(self.score?.hashValue)
         hasher.combine(self.facetName.hashValue)
         hasher.combine(self.facetValue.hashValue)
     }
