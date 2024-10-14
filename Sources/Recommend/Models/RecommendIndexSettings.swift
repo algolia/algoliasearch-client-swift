@@ -36,9 +36,8 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
     /// access](https://www.algolia.com/doc/guides/security/api-keys/how-to/user-restricted-access-to-data/), but don't
     /// want to include it in the search results. Attribute names are case-sensitive.
     public var unretrievableAttributes: [String]?
-    /// Words for which you want to turn off [typo
-    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/). This
-    /// also turns off [word splitting and concatenation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/splitting-and-concatenation/)
+    /// Creates a list of [words which require exact matches](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#turn-off-typo-tolerance-for-certain-words).
+    /// This also turns off [word splitting and concatenation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/splitting-and-concatenation/)
     /// for the specified words.
     public var disableTypoToleranceOnWords: [String]?
     /// Attributes, for which you want to support [Japanese transliteration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#japanese-transliteration-and-type-ahead).
