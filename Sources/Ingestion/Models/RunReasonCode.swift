@@ -6,8 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// A code for the task run&#39;s outcome. A readable description of the code is included in the &#x60;reason&#x60;
-/// response property.
+/// A code for the task run's outcome. A readable description of the code is included in the `reason` response property.
 public enum RunReasonCode: String, Codable, CaseIterable {
     case `internal`
     case critical

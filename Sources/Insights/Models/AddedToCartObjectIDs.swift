@@ -7,8 +7,8 @@ import Foundation
 #endif
 
 /// Use this event to track when users add items to their shopping cart unrelated to a previous Algolia request. For
-/// example, if you don&#39;t use Algolia to build your category pages, use this event.  To track add-to-cart events
-/// related to Algolia requests, use the \&quot;Added to cart object IDs after search\&quot; event.
+/// example, if you don't use Algolia to build your category pages, use this event.  To track add-to-cart events related
+/// to Algolia requests, use the \"Added to cart object IDs after search\" event.
 public struct AddedToCartObjectIDs: Codable, JSONEncodable {
     /// Event name, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework)
     /// framework.

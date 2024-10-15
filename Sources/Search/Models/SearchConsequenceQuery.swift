@@ -6,8 +6,8 @@ import Foundation
     import Core
 #endif
 
-/// Replace or edit the search query.  If &#x60;consequenceQuery&#x60; is a string, the entire search query is replaced
-/// with that string. If &#x60;consequenceQuery&#x60; is an object, it describes incremental edits made to the query.
+/// Replace or edit the search query.  If `consequenceQuery` is a string, the entire search query is replaced with that
+/// string. If `consequenceQuery` is an object, it describes incremental edits made to the query.
 public enum SearchConsequenceQuery: Codable, JSONEncodable, AbstractEncodable {
     case searchConsequenceQueryObject(SearchConsequenceQueryObject)
     case string(String)

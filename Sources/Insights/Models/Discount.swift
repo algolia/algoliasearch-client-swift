@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Absolute value of the discount for this product, in units of &#x60;currency&#x60;.
+/// Absolute value of the discount for this product, in units of `currency`.
 public enum Discount: Codable, JSONEncodable, AbstractEncodable {
     case double(Double)
     case string(String)

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// The V1 task object, please use methods and types that don&#39;t contain the V1 suffix.
+/// The V1 task object, please use methods and types that don't contain the V1 suffix.
 @available(*, deprecated, message: "This schema is deprecated.")
 public struct TaskV1: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of a task.

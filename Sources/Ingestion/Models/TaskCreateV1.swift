@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// API request body for creating a task using the V1 shape, please use methods and types that don&#39;t contain the V1
+/// API request body for creating a task using the V1 shape, please use methods and types that don't contain the V1
 /// suffix.
 @available(*, deprecated, message: "This schema is deprecated.")
 public struct TaskCreateV1: Codable, JSONEncodable {

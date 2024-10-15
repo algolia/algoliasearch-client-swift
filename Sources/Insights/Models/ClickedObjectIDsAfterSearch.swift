@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Click event after an Algolia request.  Use this event to track when users click items in the search results. If
-/// you&#39;re building your category pages with Algolia, you&#39;ll also use this event.
+/// you're building your category pages with Algolia, you'll also use this event.
 public struct ClickedObjectIDsAfterSearch: Codable, JSONEncodable {
     /// Event name, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework)
     /// framework.

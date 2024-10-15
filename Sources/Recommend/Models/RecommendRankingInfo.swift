@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Object with detailed information about the record&#39;s ranking.
+/// Object with detailed information about the record's ranking.
 public struct RecommendRankingInfo: Codable, JSONEncodable {
     /// Whether a filter matched the query.
     public var filters: Int?

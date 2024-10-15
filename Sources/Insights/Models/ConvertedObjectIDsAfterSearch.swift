@@ -8,7 +8,7 @@ import Foundation
 
 /// Use this event to track when users convert after a previous Algolia request. For example, a user clicks on an item
 /// in the search results to view the product detail page. Then, the user adds the item to their shopping cart.  If
-/// you&#39;re building your category pages with Algolia, you&#39;ll also use this event.
+/// you're building your category pages with Algolia, you'll also use this event.
 public struct ConvertedObjectIDsAfterSearch: Codable, JSONEncodable {
     /// Event name, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework)
     /// framework.

@@ -6,8 +6,8 @@ import Foundation
     import Core
 #endif
 
-/// Use this event to track when users add items to their shopping cart after a previous Algolia request. If you&#39;re
-/// building your category pages with Algolia, you&#39;ll also use this event.
+/// Use this event to track when users add items to their shopping cart after a previous Algolia request. If you're
+/// building your category pages with Algolia, you'll also use this event.
 public struct AddedToCartObjectIDsAfterSearch: Codable, JSONEncodable {
     /// Event name, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework)
     /// framework.

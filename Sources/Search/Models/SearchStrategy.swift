@@ -6,8 +6,8 @@ import Foundation
     import Core
 #endif
 
-/// Strategy for multiple search queries:  - &#x60;none&#x60;. Run all queries. - &#x60;stopIfEnoughMatches&#x60;. Run
-/// the queries one by one, stopping as soon as a query matches at least the &#x60;hitsPerPage&#x60; number of results.
+/// Strategy for multiple search queries:  - `none`. Run all queries. - `stopIfEnoughMatches`. Run the queries one by
+/// one, stopping as soon as a query matches at least the `hitsPerPage` number of results.
 public enum SearchStrategy: String, Codable, CaseIterable {
     case `none`
     case stopIfEnoughMatches

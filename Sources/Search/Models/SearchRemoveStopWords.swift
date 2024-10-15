@@ -7,8 +7,8 @@ import Foundation
 #endif
 
 /// Removes stop words from the search query.  Stop words are common words like articles, conjunctions, prepositions, or
-/// pronouns that have little or no meaning on their own. In English, \&quot;the\&quot;, \&quot;a\&quot;, or
-/// \&quot;and\&quot; are stop words.  You should only use this feature for the languages used in your index.
+/// pronouns that have little or no meaning on their own. In English, \"the\", \"a\", or \"and\" are stop words.  You
+/// should only use this feature for the languages used in your index.
 public enum SearchRemoveStopWords: Codable, JSONEncodable, AbstractEncodable {
     case arrayOfSearchSupportedLanguage([SearchSupportedLanguage])
     case bool(Bool)

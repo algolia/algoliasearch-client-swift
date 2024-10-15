@@ -6,8 +6,8 @@ import Foundation
     import Core
 #endif
 
-/// Input for a &#x60;streaming&#x60; task whose source is of type &#x60;ga4BigqueryExport&#x60; and for which extracted
-/// data is continuously streamed.
+/// Input for a `streaming` task whose source is of type `ga4BigqueryExport` and for which extracted data is
+/// continuously streamed.
 public struct StreamingInput: Codable, JSONEncodable {
     public var mapping: MappingInput
 

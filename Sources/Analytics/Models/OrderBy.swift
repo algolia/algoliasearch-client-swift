@@ -6,8 +6,8 @@ import Foundation
     import Core
 #endif
 
-/// Attribute by which to order the response items.  If the &#x60;clickAnalytics&#x60; parameter is false, only
-/// &#x60;searchCount&#x60; is available.
+/// Attribute by which to order the response items.  If the `clickAnalytics` parameter is false, only `searchCount` is
+/// available.
 public enum OrderBy: String, Codable, CaseIterable {
     case searchCount
     case clickThroughRate

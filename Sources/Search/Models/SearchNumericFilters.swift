@@ -6,12 +6,10 @@ import Foundation
     import Core
 #endif
 
-/// Filter by numeric facets.  **Prefer using the &#x60;filters&#x60; parameter, which supports all filter types and
-/// combinations with boolean operators.**  You can use numeric comparison operators: &#x60;&lt;&#x60;,
-/// &#x60;&lt;&#x3D;&#x60;, &#x60;&#x3D;&#x60;, &#x60;!&#x3D;&#x60;, &#x60;&gt;&#x60;, &#x60;&gt;&#x3D;&#x60;.
-/// Comparisons are precise up to 3 decimals. You can also provide ranges: &#x60;facet:&lt;lower&gt; TO
-/// &lt;upper&gt;&#x60;. The range includes the lower and upper boundaries. The same combination rules apply as for
-/// &#x60;facetFilters&#x60;.
+/// Filter by numeric facets.  **Prefer using the `filters` parameter, which supports all filter types and combinations
+/// with boolean operators.**  You can use numeric comparison operators: `<`, `<=`, `=`, `!=`, `>`, `>=`. Comparisons
+/// are precise up to 3 decimals. You can also provide ranges: `facet:<lower> TO <upper>`. The range includes the lower
+/// and upper boundaries. The same combination rules apply as for `facetFilters`.
 public enum SearchNumericFilters: Codable, JSONEncodable, AbstractEncodable {
     case arrayOfSearchNumericFilters([SearchNumericFilters])
     case string(String)

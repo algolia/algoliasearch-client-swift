@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Each parameter value, including the &#x60;query&#x60; must not be larger than 512 bytes.
+/// Each parameter value, including the `query` must not be larger than 512 bytes.
 public struct SearchSearchParamsObject: Codable, JSONEncodable {
     /// Search query.
     public var query: String?

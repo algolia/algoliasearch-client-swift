@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// \&quot;Recommened for you\&quot; model.
+/// \"Recommened for you\" model.
 public enum RecommendedForYouModel: String, Codable, CaseIterable {
     case recommendedForYou = "recommended-for-you"
 }

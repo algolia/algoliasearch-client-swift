@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Represents the required elements of the task input when using a &#x60;shopify&#x60; source.
+/// Represents the required elements of the task input when using a `shopify` source.
 public struct ShopifyInput: Codable, JSONEncodable {
     public var metafields: [ShopifyMetafield]
     public var market: ShopifyMarket

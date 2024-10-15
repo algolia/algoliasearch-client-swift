@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// - &#x60;default&#x60;: perform a search query - &#x60;facet&#x60; [searches for facet
+/// - `default`: perform a search query - `facet` [searches for facet
 /// values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values).
 public enum SearchTypeFacet: String, Codable, CaseIterable {
     case facet

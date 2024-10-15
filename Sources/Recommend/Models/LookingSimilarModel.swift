@@ -6,8 +6,8 @@ import Foundation
     import Core
 #endif
 
-/// Looking similar model.  This model recommends items that look similar to the item with the ID &#x60;objectID&#x60;
-/// based on image attributes in your index.
+/// Looking similar model.  This model recommends items that look similar to the item with the ID `objectID` based on
+/// image attributes in your index.
 public enum LookingSimilarModel: String, Codable, CaseIterable {
     case lookingSimilar = "looking-similar"
 }

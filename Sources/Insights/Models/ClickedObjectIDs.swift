@@ -6,9 +6,9 @@ import Foundation
     import Core
 #endif
 
-/// Use this event to track when users click items unrelated to a previous Algolia request. For example, if you
-/// don&#39;t use Algolia to build your category pages, use this event.  To track click events related to Algolia
-/// requests, use the \&quot;Clicked object IDs after search\&quot; event.
+/// Use this event to track when users click items unrelated to a previous Algolia request. For example, if you don't
+/// use Algolia to build your category pages, use this event.  To track click events related to Algolia requests, use
+/// the \"Clicked object IDs after search\" event.
 public struct ClickedObjectIDs: Codable, JSONEncodable {
     /// Event name, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework)
     /// framework.

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Frequently bought together model.  This model recommends items that have been purchased within 1 day with the item
-/// with the ID &#x60;objectID&#x60;.
+/// with the ID `objectID`.
 public enum FbtModel: String, Codable, CaseIterable {
     case boughtTogether = "bought-together"
 }

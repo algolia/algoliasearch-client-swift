@@ -6,8 +6,8 @@ import Foundation
     import Core
 #endif
 
-/// Parameters to apply to this search.  You can use all search parameters, plus special
-/// &#x60;automaticFacetFilters&#x60;, &#x60;automaticOptionalFacetFilters&#x60;, and &#x60;query&#x60;.
+/// Parameters to apply to this search.  You can use all search parameters, plus special `automaticFacetFilters`,
+/// `automaticOptionalFacetFilters`, and `query`.
 public struct SearchParams: Codable, JSONEncodable {
     public var query: SearchConsequenceQuery?
     public var automaticFacetFilters: SearchAutomaticFacetFilters?

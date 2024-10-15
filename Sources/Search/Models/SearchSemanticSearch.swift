@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Settings for the semantic search part of NeuralSearch. Only used when &#x60;mode&#x60; is &#x60;neuralSearch&#x60;.
+/// Settings for the semantic search part of NeuralSearch. Only used when `mode` is `neuralSearch`.
 public struct SearchSemanticSearch: Codable, JSONEncodable {
     /// Indices from which to collect click and conversion events.  If null, the current index and all its replicas are
     /// used.

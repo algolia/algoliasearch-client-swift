@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Related products or similar content model.  This model recommends items that are similar to the item with the ID
-/// &#x60;objectID&#x60;. Similarity is determined from the user interactions and attributes.
+/// `objectID`. Similarity is determined from the user interactions and attributes.
 public enum RelatedModel: String, Codable, CaseIterable {
     case relatedProducts = "related-products"
 }

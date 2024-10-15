@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Type of authentication. This determines the type of credentials required in the &#x60;input&#x60; object.
+/// Type of authentication. This determines the type of credentials required in the `input` object.
 public enum AuthenticationType: String, Codable, CaseIterable {
     case googleServiceAccount
     case basic

@@ -7,8 +7,8 @@ import Foundation
 #endif
 
 /// Use this event to track when users make a purchase unrelated to a previous Algolia request. For example, if you
-/// don&#39;t use Algolia to build your category pages, use this event.  To track purchase events related to Algolia
-/// requests, use the \&quot;Purchased object IDs after search\&quot; event.
+/// don't use Algolia to build your category pages, use this event.  To track purchase events related to Algolia
+/// requests, use the \"Purchased object IDs after search\" event.
 public struct PurchasedObjectIDs: Codable, JSONEncodable {
     /// Event name, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework)
     /// framework.
