@@ -73,9 +73,11 @@ public struct SearchBaseIndexSettings: Codable, JSONEncodable {
     /// specify an attribute that doesn't exist in your index, such as `NO_NUMERIC_FILTERING`.  **Modifier**  -
     /// `equalOnly(\"ATTRIBUTE\")`.   Support only filtering based on equality comparisons `=` and `!=`.
     public var numericAttributesForFiltering: [String]?
-    /// Controls which separators are indexed.  Separators are all non-letter characters except spaces and currency
-    /// characters, such as $€£¥. By default, separator characters aren't indexed. With `separatorsToIndex`, Algolia
-    /// treats separator characters as separate words. For example, a search for `C#` would report two matches.
+    /// Control which non-alphanumeric characters are indexed.  By default, Algolia ignores [non-alphanumeric characters](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/how-to/how-to-search-in-hyphenated-attributes/#handling-non-alphanumeric-characters)
+    /// like hyphen (`-`), plus (`+`), and parentheses (`(`,`)`). To include such characters, define them with
+    /// `separatorsToIndex`.  Separators are all non-letter characters except spaces and currency characters, such as
+    /// $€£¥.  With `separatorsToIndex`, Algolia treats separator characters as separate words. For example, in a search
+    /// for \"Disney+\", Algolia considers \"Disney\" and \"+\" as two separate words.
     public var separatorsToIndex: String?
     /// Attributes used for searching. Attribute names are case-sensitive.  By default, all attributes are searchable
     /// and the [Attribute](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/#attribute)
