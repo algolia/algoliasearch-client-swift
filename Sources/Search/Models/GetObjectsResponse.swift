@@ -8,9 +8,9 @@ import Foundation
 
 public struct GetObjectsResponse<T: Codable>: Codable, JSONEncodable {
     /// Retrieved records.
-    public var results: [T]
+    public var results: [T]?
 
-    public init(results: [T]) {
+    public init(results: [T]? = nil) {
         self.results = results
     }
 
@@ -22,7 +22,7 @@ public struct GetObjectsResponse<T: Codable>: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.results, forKey: .results)
+        try container.encodeIfPresent(self.results, forKey: .results)
     }
 }
 
@@ -34,6 +34,6 @@ extension GetObjectsResponse: Equatable where T: Equatable {
 
 extension GetObjectsResponse: Hashable where T: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.results.hashValue)
+        hasher.combine(self.results?.hashValue)
     }
 }

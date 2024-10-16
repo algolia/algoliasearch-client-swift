@@ -28,7 +28,7 @@ public struct Variant: Codable, JSONEncodable {
     /// A/B test currencies.
     public var currencies: [String: Currency]?
     /// Description for this variant.
-    public var description: String
+    public var description: String?
     /// Estimated number of searches required to achieve the desired statistical significance.  The A/B test
     /// configuration must include a `mininmumDetectableEffect` setting for this number to be included in the response.
     public var estimatedSampleSize: Int?
@@ -64,7 +64,7 @@ public struct Variant: Codable, JSONEncodable {
         conversionCount: Int,
         conversionRate: Double? = nil,
         currencies: [String: Currency]? = nil,
-        description: String,
+        description: String? = nil,
         estimatedSampleSize: Int? = nil,
         filterEffects: FilterEffects? = nil,
         index: String,
@@ -134,7 +134,7 @@ public struct Variant: Codable, JSONEncodable {
         try container.encode(self.conversionCount, forKey: .conversionCount)
         try container.encodeIfPresent(self.conversionRate, forKey: .conversionRate)
         try container.encodeIfPresent(self.currencies, forKey: .currencies)
-        try container.encode(self.description, forKey: .description)
+        try container.encodeIfPresent(self.description, forKey: .description)
         try container.encodeIfPresent(self.estimatedSampleSize, forKey: .estimatedSampleSize)
         try container.encodeIfPresent(self.filterEffects, forKey: .filterEffects)
         try container.encode(self.index, forKey: .index)
@@ -184,7 +184,7 @@ extension Variant: Hashable {
         hasher.combine(self.conversionCount.hashValue)
         hasher.combine(self.conversionRate?.hashValue)
         hasher.combine(self.currencies?.hashValue)
-        hasher.combine(self.description.hashValue)
+        hasher.combine(self.description?.hashValue)
         hasher.combine(self.estimatedSampleSize?.hashValue)
         hasher.combine(self.filterEffects?.hashValue)
         hasher.combine(self.index.hashValue)

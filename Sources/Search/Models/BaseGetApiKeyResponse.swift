@@ -8,11 +8,11 @@ import Foundation
 
 public struct BaseGetApiKeyResponse: Codable, JSONEncodable {
     /// API key.
-    public var value: String?
+    public var value: String
     /// Timestamp when the object was created, in milliseconds since the Unix epoch.
     public var createdAt: Int64
 
-    public init(value: String? = nil, createdAt: Int64) {
+    public init(value: String, createdAt: Int64) {
         self.value = value
         self.createdAt = createdAt
     }
@@ -26,7 +26,7 @@ public struct BaseGetApiKeyResponse: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.value, forKey: .value)
+        try container.encode(self.value, forKey: .value)
         try container.encode(self.createdAt, forKey: .createdAt)
     }
 }
@@ -40,7 +40,7 @@ extension BaseGetApiKeyResponse: Equatable {
 
 extension BaseGetApiKeyResponse: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.value?.hashValue)
+        hasher.combine(self.value.hashValue)
         hasher.combine(self.createdAt.hashValue)
     }
 }

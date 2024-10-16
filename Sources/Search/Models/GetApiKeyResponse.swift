@@ -8,7 +8,7 @@ import Foundation
 
 public struct GetApiKeyResponse: Codable, JSONEncodable {
     /// API key.
-    public var value: String?
+    public var value: String
     /// Timestamp when the object was created, in milliseconds since the Unix epoch.
     public var createdAt: Int64
     /// Permissions that determine the type of API requests this key can make. The required ACL is listed in each
@@ -43,7 +43,7 @@ public struct GetApiKeyResponse: Codable, JSONEncodable {
     public var validity: Int?
 
     public init(
-        value: String? = nil,
+        value: String,
         createdAt: Int64,
         acl: [Acl],
         description: String? = nil,
@@ -83,7 +83,7 @@ public struct GetApiKeyResponse: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.value, forKey: .value)
+        try container.encode(self.value, forKey: .value)
         try container.encode(self.createdAt, forKey: .createdAt)
         try container.encode(self.acl, forKey: .acl)
         try container.encodeIfPresent(self.description, forKey: .description)
@@ -113,7 +113,7 @@ extension GetApiKeyResponse: Equatable {
 
 extension GetApiKeyResponse: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.value?.hashValue)
+        hasher.combine(self.value.hashValue)
         hasher.combine(self.createdAt.hashValue)
         hasher.combine(self.acl.hashValue)
         hasher.combine(self.description?.hashValue)

@@ -8,12 +8,12 @@ import Foundation
 
 /// A/B test configuration.
 public struct ABTestConfiguration: Codable, JSONEncodable {
-    public var outliers: Outliers
+    public var outliers: Outliers?
     public var emptySearch: EmptySearch?
     public var minimumDetectableEffect: MinimumDetectableEffect?
 
     public init(
-        outliers: Outliers,
+        outliers: Outliers? = nil,
         emptySearch: EmptySearch? = nil,
         minimumDetectableEffect: MinimumDetectableEffect? = nil
     ) {
@@ -32,7 +32,7 @@ public struct ABTestConfiguration: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.outliers, forKey: .outliers)
+        try container.encodeIfPresent(self.outliers, forKey: .outliers)
         try container.encodeIfPresent(self.emptySearch, forKey: .emptySearch)
         try container.encodeIfPresent(self.minimumDetectableEffect, forKey: .minimumDetectableEffect)
     }
@@ -48,7 +48,7 @@ extension ABTestConfiguration: Equatable {
 
 extension ABTestConfiguration: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.outliers.hashValue)
+        hasher.combine(self.outliers?.hashValue)
         hasher.combine(self.emptySearch?.hashValue)
         hasher.combine(self.minimumDetectableEffect?.hashValue)
     }
