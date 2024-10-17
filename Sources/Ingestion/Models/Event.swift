@@ -12,8 +12,6 @@ public struct Event: Codable, JSONEncodable {
     public var eventID: String
     /// Universally unique identifier (UUID) of a task run.
     public var runID: String
-    /// The parent event, the cause of this event.
-    public var parentID: String?
     public var status: EventStatus
     public var type: IngestionEventType
     /// The extracted record batch size.
@@ -25,7 +23,6 @@ public struct Event: Codable, JSONEncodable {
     public init(
         eventID: String,
         runID: String,
-        parentID: String? = nil,
         status: EventStatus,
         type: IngestionEventType,
         batchSize: Int,
@@ -34,7 +31,6 @@ public struct Event: Codable, JSONEncodable {
     ) {
         self.eventID = eventID
         self.runID = runID
-        self.parentID = parentID
         self.status = status
         self.type = type
         self.batchSize = batchSize
@@ -45,7 +41,6 @@ public struct Event: Codable, JSONEncodable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case eventID
         case runID
-        case parentID
         case status
         case type
         case batchSize
@@ -59,7 +54,6 @@ public struct Event: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.eventID, forKey: .eventID)
         try container.encode(self.runID, forKey: .runID)
-        try container.encodeIfPresent(self.parentID, forKey: .parentID)
         try container.encode(self.status, forKey: .status)
         try container.encode(self.type, forKey: .type)
         try container.encode(self.batchSize, forKey: .batchSize)
@@ -72,7 +66,6 @@ extension Event: Equatable {
     public static func ==(lhs: Event, rhs: Event) -> Bool {
         lhs.eventID == rhs.eventID &&
             lhs.runID == rhs.runID &&
-            lhs.parentID == rhs.parentID &&
             lhs.status == rhs.status &&
             lhs.type == rhs.type &&
             lhs.batchSize == rhs.batchSize &&
@@ -85,7 +78,6 @@ extension Event: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.eventID.hashValue)
         hasher.combine(self.runID.hashValue)
-        hasher.combine(self.parentID?.hashValue)
         hasher.combine(self.status.hashValue)
         hasher.combine(self.type.hashValue)
         hasher.combine(self.batchSize.hashValue)
