@@ -7,14 +7,18 @@ import Foundation
 #endif
 
 public struct GetObjectsResponse<T: Codable>: Codable, JSONEncodable {
+    /// An optional status message.
+    public var message: String?
     /// Retrieved records.
     public var results: [T]
 
-    public init(results: [T]) {
+    public init(message: String? = nil, results: [T]) {
+        self.message = message
         self.results = results
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case message
         case results
     }
 
@@ -22,18 +26,21 @@ public struct GetObjectsResponse<T: Codable>: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(self.message, forKey: .message)
         try container.encode(self.results, forKey: .results)
     }
 }
 
 extension GetObjectsResponse: Equatable where T: Equatable {
     public static func ==(lhs: GetObjectsResponse<T>, rhs: GetObjectsResponse<T>) -> Bool {
-        lhs.results == rhs.results
+        lhs.message == rhs.message &&
+            lhs.results == rhs.results
     }
 }
 
 extension GetObjectsResponse: Hashable where T: Hashable {
     public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.message?.hashValue)
         hasher.combine(self.results.hashValue)
     }
 }

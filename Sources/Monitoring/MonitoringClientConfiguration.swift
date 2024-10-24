@@ -16,7 +16,7 @@ public struct MonitoringClientConfiguration: BaseConfiguration, Credentials {
     public var hosts: [RetryableHost]
     public let compression: CompressionAlgorithm
 
-    init(
+    public init(
         appID: String,
         apiKey: String,
         writeTimeout: TimeInterval = DefaultConfiguration.default.writeTimeout,

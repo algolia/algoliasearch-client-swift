@@ -20,7 +20,7 @@ public struct AnalyticsClientConfiguration: BaseConfiguration, Credentials {
     public var hosts: [RetryableHost]
     public let compression: CompressionAlgorithm
 
-    init(
+    public init(
         appID: String,
         apiKey: String,
         region: Region? = nil,
