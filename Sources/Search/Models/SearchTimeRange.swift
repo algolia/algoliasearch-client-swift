@@ -8,11 +8,11 @@ import Foundation
 
 public struct SearchTimeRange: Codable, JSONEncodable {
     /// When the rule should start to be active, in Unix epoch time.
-    public var from: Int
+    public var from: Int64
     /// When the rule should stop to be active, in Unix epoch time.
-    public var until: Int
+    public var until: Int64
 
-    public init(from: Int, until: Int) {
+    public init(from: Int64, until: Int64) {
         self.from = from
         self.until = until
     }
