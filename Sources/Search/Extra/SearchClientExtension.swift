@@ -463,18 +463,20 @@ public extension SearchClient {
     /// which creates a `batch` requests with at most 1000 objects in it.
     /// - parameter indexName: The name of the index where to save the objects
     /// - parameter objects: The new objects
+    /// - parameter waitForTasks: If we should wait for the batch task to be finished before processing the next one
     /// - parameter requestOptions: The request options
     /// - returns: [BatchResponse]
     func saveObjects(
         indexName: String,
         objects: [some Encodable],
+        waitForTasks: Bool = false,
         requestOptions: RequestOptions? = nil
     ) async throws -> [BatchResponse] {
         try await self.chunkedBatch(
             indexName: indexName,
             objects: objects,
             action: .addObject,
-            waitForTasks: false,
+            waitForTasks: waitForTasks,
             batchSize: 1000,
             requestOptions: requestOptions
         )
@@ -484,18 +486,20 @@ public extension SearchClient {
     /// creates a `batch` requests with at most 1000 objectIDs in it.
     /// - parameter indexName: The name of the index to delete objectIDs from
     /// - parameter objectIDs: The objectIDs to delete
+    /// - parameter waitForTasks: If we should wait for the batch task to be finished before processing the next one
     /// - parameter requestOptions: The request options
     /// - returns: [BatchResponse]
     func deleteObjects(
         indexName: String,
         objectIDs: [String],
+        waitForTasks: Bool = false,
         requestOptions: RequestOptions? = nil
     ) async throws -> [BatchResponse] {
         try await self.chunkedBatch(
             indexName: indexName,
             objects: objectIDs.map { AnyCodable(["objectID": $0]) },
             action: .deleteObject,
-            waitForTasks: false,
+            waitForTasks: waitForTasks,
             batchSize: 1000,
             requestOptions: requestOptions
         )
@@ -507,19 +511,21 @@ public extension SearchClient {
     /// - parameter objects: The objects to update
     /// - parameter createIfNotExists: To be provided if non-existing objects are passed, otherwise, the call will
     /// fail..
+    /// - parameter waitForTasks: If we should wait for the batch task to be finished before processing the next one
     /// - parameter requestOptions: The request options
     /// - returns: [BatchResponse]
     func partialUpdateObjects(
         indexName: String,
         objects: [some Encodable],
         createIfNotExists: Bool = false,
+        waitForTasks: Bool = false,
         requestOptions: RequestOptions? = nil
     ) async throws -> [BatchResponse] {
         try await self.chunkedBatch(
             indexName: indexName,
             objects: objects,
             action: createIfNotExists ? .partialUpdateObject : .partialUpdateObjectNoCreate,
-            waitForTasks: false,
+            waitForTasks: waitForTasks,
             batchSize: 1000,
             requestOptions: requestOptions
         )
