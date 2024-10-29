@@ -48,5 +48,5 @@ extension Version: CustomStringConvertible {
 }
 
 public extension Version {
-    static let current: Version = .init(version: "9.7.4")
+    static let current: Version = .init(version: "9.8.0")
 }
