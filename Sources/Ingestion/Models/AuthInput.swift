@@ -13,6 +13,7 @@ public enum AuthInput: Codable, JSONEncodable, AbstractEncodable {
     case authAPIKey(AuthAPIKey)
     case authAlgolia(AuthAlgolia)
     case authAlgoliaInsights(AuthAlgoliaInsights)
+    case dictionaryOfStringToString([String: String])
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -28,6 +29,8 @@ public enum AuthInput: Codable, JSONEncodable, AbstractEncodable {
         case let .authAlgolia(value):
             try container.encode(value)
         case let .authAlgoliaInsights(value):
+            try container.encode(value)
+        case let .dictionaryOfStringToString(value):
             try container.encode(value)
         }
     }
@@ -46,6 +49,8 @@ public enum AuthInput: Codable, JSONEncodable, AbstractEncodable {
             self = .authAlgolia(value)
         } else if let value = try? container.decode(AuthAlgoliaInsights.self) {
             self = .authAlgoliaInsights(value)
+        } else if let value = try? container.decode([String: String].self) {
+            self = .dictionaryOfStringToString(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -68,6 +73,8 @@ public enum AuthInput: Codable, JSONEncodable, AbstractEncodable {
             value as AuthAlgolia
         case let .authAlgoliaInsights(value):
             value as AuthAlgoliaInsights
+        case let .dictionaryOfStringToString(value):
+            value as [String: String]
         }
     }
 }
