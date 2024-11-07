@@ -10,38 +10,38 @@ import Foundation
 public struct MinimumDetectableEffect: Codable, JSONEncodable {
     /// Smallest difference in an observable metric between variants. For example, to detect a 10% difference between
     /// variants, set this value to 0.1.
-    public var size: Double?
-    public var effect: Effect?
+    public var size: Double
+    public var metric: EffectMetric
 
-    public init(size: Double? = nil, effect: Effect? = nil) {
+    public init(size: Double, metric: EffectMetric) {
         self.size = size
-        self.effect = effect
+        self.metric = metric
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case size
-        case effect
+        case metric
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.size, forKey: .size)
-        try container.encodeIfPresent(self.effect, forKey: .effect)
+        try container.encode(self.size, forKey: .size)
+        try container.encode(self.metric, forKey: .metric)
     }
 }
 
 extension MinimumDetectableEffect: Equatable {
     public static func ==(lhs: MinimumDetectableEffect, rhs: MinimumDetectableEffect) -> Bool {
         lhs.size == rhs.size &&
-            lhs.effect == rhs.effect
+            lhs.metric == rhs.metric
     }
 }
 
 extension MinimumDetectableEffect: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.size?.hashValue)
-        hasher.combine(self.effect?.hashValue)
+        hasher.combine(self.size.hashValue)
+        hasher.combine(self.metric.hashValue)
     }
 }

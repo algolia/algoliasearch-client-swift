@@ -7,11 +7,11 @@ import Foundation
 #endif
 
 /// Metric for which you want to detect the smallest relative difference.
-public enum Effect: String, Codable, CaseIterable {
+public enum EffectMetric: String, Codable, CaseIterable {
     case addToCartRate
     case clickThroughRate
     case conversionRate
     case purchaseRate
 }
 
-extension Effect: Hashable {}
+extension EffectMetric: Hashable {}

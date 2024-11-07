@@ -384,6 +384,53 @@ open class AbtestingClient {
         )
     }
 
+    /// - parameter estimateABTestRequest: (body)
+    /// - returns: EstimateABTestResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func estimateABTest(
+        estimateABTestRequest: EstimateABTestRequest,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> EstimateABTestResponse {
+        let response: Response<EstimateABTestResponse> = try await estimateABTestWithHTTPInfo(
+            estimateABTestRequest: estimateABTestRequest,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Given the traffic percentage and the expected effect size, this endpoint estimates the sample size and duration
+    // of an A/B test based on historical traffic.
+    // Required API Key ACLs:
+    //  - analytics
+    //
+    // - parameter estimateABTestRequest: (body)
+    // - returns: RequestBuilder<EstimateABTestResponse>
+
+    open func estimateABTestWithHTTPInfo(
+        estimateABTestRequest: EstimateABTestRequest,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<EstimateABTestResponse> {
+        let resourcePath = "/2/abtests/estimate"
+        let body = estimateABTestRequest
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
     /// - parameter id: (path) Unique A/B test identifier.
     /// - returns: ABTest
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
