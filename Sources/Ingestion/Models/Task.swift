@@ -24,7 +24,7 @@ public struct Task: Codable, JSONEncodable {
     public var enabled: Bool
     /// Maximum accepted percentage of failures for a task run to finish successfully.
     public var failureThreshold: Int?
-    public var action: ActionType
+    public var action: ActionType?
     /// Date of the last cursor in RFC 3339 format.
     public var cursor: String?
     /// Date of creation in RFC 3339 format.
@@ -42,7 +42,7 @@ public struct Task: Codable, JSONEncodable {
         input: TaskInput? = nil,
         enabled: Bool,
         failureThreshold: Int? = nil,
-        action: ActionType,
+        action: ActionType? = nil,
         cursor: String? = nil,
         createdAt: String,
         updatedAt: String? = nil
@@ -91,7 +91,7 @@ public struct Task: Codable, JSONEncodable {
         try container.encodeIfPresent(self.input, forKey: .input)
         try container.encode(self.enabled, forKey: .enabled)
         try container.encodeIfPresent(self.failureThreshold, forKey: .failureThreshold)
-        try container.encode(self.action, forKey: .action)
+        try container.encodeIfPresent(self.action, forKey: .action)
         try container.encodeIfPresent(self.cursor, forKey: .cursor)
         try container.encode(self.createdAt, forKey: .createdAt)
         try container.encodeIfPresent(self.updatedAt, forKey: .updatedAt)
@@ -127,7 +127,7 @@ extension Task: Hashable {
         hasher.combine(self.input?.hashValue)
         hasher.combine(self.enabled.hashValue)
         hasher.combine(self.failureThreshold?.hashValue)
-        hasher.combine(self.action.hashValue)
+        hasher.combine(self.action?.hashValue)
         hasher.combine(self.cursor?.hashValue)
         hasher.combine(self.createdAt.hashValue)
         hasher.combine(self.updatedAt?.hashValue)
