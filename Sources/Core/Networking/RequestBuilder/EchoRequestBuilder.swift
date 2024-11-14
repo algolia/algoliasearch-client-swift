@@ -78,7 +78,7 @@ final class EchoRequestBuilder: RequestBuilder {
             originalBodyData: urlRequest.httpBody,
             path: urlComponents?.percentEncodedPath ?? "",
             host: url.host ?? "",
-            algoliaAgent: headers["X-Algolia-Agent"] ?? "",
+            algoliaAgent: headers["User-Agent"] ?? "",
             queryParameters: queryParameters,
             headers: headers
         )
