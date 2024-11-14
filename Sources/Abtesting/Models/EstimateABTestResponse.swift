@@ -10,21 +10,18 @@ public struct EstimateABTestResponse: Codable, JSONEncodable {
     /// Estimated number of days needed to reach the sample sizes required for detecting the configured effect. This
     /// value is based on historical traffic.
     public var durationDays: Int64?
-    /// Number of tracked searches needed to be able to detect the configured effect for the control variant.
-    public var controlSampleSize: Int64?
-    /// Number of tracked searches needed to be able to detect the configured effect for the experiment variant.
-    public var experimentSampleSize: Int64?
+    /// Sample size estimates for each variant. The first element is the control variant. Each element is the estimated
+    /// number of searches required to achieve the desired statistical significance.
+    public var sampleSizes: [Int64]?
 
-    public init(durationDays: Int64? = nil, controlSampleSize: Int64? = nil, experimentSampleSize: Int64? = nil) {
+    public init(durationDays: Int64? = nil, sampleSizes: [Int64]? = nil) {
         self.durationDays = durationDays
-        self.controlSampleSize = controlSampleSize
-        self.experimentSampleSize = experimentSampleSize
+        self.sampleSizes = sampleSizes
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case durationDays
-        case controlSampleSize
-        case experimentSampleSize
+        case sampleSizes
     }
 
     // Encodable protocol methods
@@ -32,23 +29,20 @@ public struct EstimateABTestResponse: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.durationDays, forKey: .durationDays)
-        try container.encodeIfPresent(self.controlSampleSize, forKey: .controlSampleSize)
-        try container.encodeIfPresent(self.experimentSampleSize, forKey: .experimentSampleSize)
+        try container.encodeIfPresent(self.sampleSizes, forKey: .sampleSizes)
     }
 }
 
 extension EstimateABTestResponse: Equatable {
     public static func ==(lhs: EstimateABTestResponse, rhs: EstimateABTestResponse) -> Bool {
         lhs.durationDays == rhs.durationDays &&
-            lhs.controlSampleSize == rhs.controlSampleSize &&
-            lhs.experimentSampleSize == rhs.experimentSampleSize
+            lhs.sampleSizes == rhs.sampleSizes
     }
 }
 
 extension EstimateABTestResponse: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.durationDays?.hashValue)
-        hasher.combine(self.controlSampleSize?.hashValue)
-        hasher.combine(self.experimentSampleSize?.hashValue)
+        hasher.combine(self.sampleSizes?.hashValue)
     }
 }
