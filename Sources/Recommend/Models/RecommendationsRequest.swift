@@ -12,7 +12,6 @@ public enum RecommendationsRequest: Codable, JSONEncodable, AbstractEncodable {
     case trendingItemsQuery(TrendingItemsQuery)
     case trendingFacetsQuery(TrendingFacetsQuery)
     case lookingSimilarQuery(LookingSimilarQuery)
-    case recommendedForYouQuery(RecommendedForYouQuery)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -26,8 +25,6 @@ public enum RecommendationsRequest: Codable, JSONEncodable, AbstractEncodable {
         case let .trendingFacetsQuery(value):
             try container.encode(value)
         case let .lookingSimilarQuery(value):
-            try container.encode(value)
-        case let .recommendedForYouQuery(value):
             try container.encode(value)
         }
     }
@@ -44,8 +41,6 @@ public enum RecommendationsRequest: Codable, JSONEncodable, AbstractEncodable {
             self = .trendingFacetsQuery(value)
         } else if let value = try? container.decode(LookingSimilarQuery.self) {
             self = .lookingSimilarQuery(value)
-        } else if let value = try? container.decode(RecommendedForYouQuery.self) {
-            self = .recommendedForYouQuery(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -69,8 +64,6 @@ public enum RecommendationsRequest: Codable, JSONEncodable, AbstractEncodable {
             value as TrendingFacetsQuery
         case let .lookingSimilarQuery(value):
             value as LookingSimilarQuery
-        case let .recommendedForYouQuery(value):
-            value as RecommendedForYouQuery
         }
     }
 }
