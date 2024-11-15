@@ -1027,14 +1027,14 @@ open class SearchClient {
 
     /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter deleteByParams: (body)
-    /// - returns: SearchDeletedAtResponse
+    /// - returns: UpdatedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteBy(
         indexName: String,
         deleteByParams: DeleteByParams,
         requestOptions: RequestOptions? = nil
-    ) async throws -> SearchDeletedAtResponse {
-        let response: Response<SearchDeletedAtResponse> = try await deleteByWithHTTPInfo(
+    ) async throws -> UpdatedAtResponse {
+        let response: Response<UpdatedAtResponse> = try await deleteByWithHTTPInfo(
             indexName: indexName,
             deleteByParams: deleteByParams,
             requestOptions: requestOptions
@@ -1056,13 +1056,13 @@ open class SearchClient {
     // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter deleteByParams: (body)
-    // - returns: RequestBuilder<SearchDeletedAtResponse>
+    // - returns: RequestBuilder<UpdatedAtResponse>
 
     open func deleteByWithHTTPInfo(
         indexName: String,
         deleteByParams: DeleteByParams,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<SearchDeletedAtResponse> {
+    ) async throws -> Response<UpdatedAtResponse> {
         guard !indexName.isEmpty else {
             throw AlgoliaError.invalidArgument("indexName", "deleteBy")
         }
