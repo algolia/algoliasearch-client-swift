@@ -99,6 +99,9 @@ public struct SearchBaseIndexSettings: Codable, JSONEncodable {
     /// to use the same attribute also for faceting, use the `afterDistinct` modifier of the `attributesForFaceting`
     /// setting. This applies faceting _after_ deduplication, which will result in accurate facet counts.
     public var attributeForDistinct: String?
+    /// Maximum number of facet values to return when [searching for facet
+    /// values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values).
+    public var maxFacetHits: Int?
 
     public init(
         attributesForFaceting: [String]? = nil,
@@ -117,7 +120,8 @@ public struct SearchBaseIndexSettings: Codable, JSONEncodable {
         searchableAttributes: [String]? = nil,
         userData: AnyCodable? = nil,
         customNormalization: [String: [String: String]]? = nil,
-        attributeForDistinct: String? = nil
+        attributeForDistinct: String? = nil,
+        maxFacetHits: Int? = nil
     ) {
         self.attributesForFaceting = attributesForFaceting
         self.replicas = replicas
@@ -136,6 +140,7 @@ public struct SearchBaseIndexSettings: Codable, JSONEncodable {
         self.userData = userData
         self.customNormalization = customNormalization
         self.attributeForDistinct = attributeForDistinct
+        self.maxFacetHits = maxFacetHits
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -156,6 +161,7 @@ public struct SearchBaseIndexSettings: Codable, JSONEncodable {
         case userData
         case customNormalization
         case attributeForDistinct
+        case maxFacetHits
     }
 
     // Encodable protocol methods
@@ -179,6 +185,7 @@ public struct SearchBaseIndexSettings: Codable, JSONEncodable {
         try container.encodeIfPresent(self.userData, forKey: .userData)
         try container.encodeIfPresent(self.customNormalization, forKey: .customNormalization)
         try container.encodeIfPresent(self.attributeForDistinct, forKey: .attributeForDistinct)
+        try container.encodeIfPresent(self.maxFacetHits, forKey: .maxFacetHits)
     }
 }
 
@@ -200,7 +207,8 @@ extension SearchBaseIndexSettings: Equatable {
             lhs.searchableAttributes == rhs.searchableAttributes &&
             lhs.userData == rhs.userData &&
             lhs.customNormalization == rhs.customNormalization &&
-            lhs.attributeForDistinct == rhs.attributeForDistinct
+            lhs.attributeForDistinct == rhs.attributeForDistinct &&
+            lhs.maxFacetHits == rhs.maxFacetHits
     }
 }
 
@@ -223,5 +231,6 @@ extension SearchBaseIndexSettings: Hashable {
         hasher.combine(self.userData?.hashValue)
         hasher.combine(self.customNormalization?.hashValue)
         hasher.combine(self.attributeForDistinct?.hashValue)
+        hasher.combine(self.maxFacetHits?.hashValue)
     }
 }

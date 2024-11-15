@@ -87,7 +87,6 @@ public extension SearchForHits {
         self.replaceSynonymsInHighlight = searchParamsObject.replaceSynonymsInHighlight
         self.minProximity = searchParamsObject.minProximity
         self.responseFields = searchParamsObject.responseFields
-        self.maxFacetHits = searchParamsObject.maxFacetHits
         self.maxValuesPerFacet = searchParamsObject.maxValuesPerFacet
         self.sortFacetValuesBy = searchParamsObject.sortFacetValuesBy
         self.attributeCriteriaComputedByMinProximity = searchParamsObject.attributeCriteriaComputedByMinProximity
@@ -175,7 +174,6 @@ public extension SearchForFacets {
         self.replaceSynonymsInHighlight = searchParamsObject.replaceSynonymsInHighlight
         self.minProximity = searchParamsObject.minProximity
         self.responseFields = searchParamsObject.responseFields
-        self.maxFacetHits = searchParamsObject.maxFacetHits
         self.maxValuesPerFacet = searchParamsObject.maxValuesPerFacet
         self.sortFacetValuesBy = searchParamsObject.sortFacetValuesBy
         self.attributeCriteriaComputedByMinProximity = searchParamsObject.attributeCriteriaComputedByMinProximity

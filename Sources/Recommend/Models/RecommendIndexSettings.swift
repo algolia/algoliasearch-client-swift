@@ -100,6 +100,9 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
     /// to use the same attribute also for faceting, use the `afterDistinct` modifier of the `attributesForFaceting`
     /// setting. This applies faceting _after_ deduplication, which will result in accurate facet counts.
     public var attributeForDistinct: String?
+    /// Maximum number of facet values to return when [searching for facet
+    /// values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values).
+    public var maxFacetHits: Int?
     /// Attributes to include in the API response.  To reduce the size of your response, you can retrieve only some of
     /// the attributes. Attribute names are case-sensitive.  - `*` retrieves all attributes, except attributes included
     /// in the `customRanking` and `unretrievableAttributes` settings. - To retrieve all attributes except a specific
@@ -179,19 +182,7 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
     /// Whether to support phrase matching and excluding words from search queries.  Use the `advancedSyntaxFeatures`
     /// parameter to control which feature is supported.
     public var advancedSyntax: Bool?
-    /// Words that should be considered optional when found in the query.  By default, records must match all words in
-    /// the search query to be included in the search results. Adding optional words can help to increase the number of
-    /// search results by running an additional search query that doesn't include the optional words. For example, if
-    /// the search query is \"action video\" and \"video\" is an optional word, the search engine runs two queries. One
-    /// for \"action video\" and one for \"action\". Records that match all words are ranked higher.  For a search query
-    /// with 4 or more words **and** all its words are optional, the number of matched words required for a record to be
-    /// included in the search results increases for every 1,000 records:  - If `optionalWords` has less than 10 words,
-    /// the required number of matched words increases by 1:   results 1 to 1,000 require 1 matched word, results 1,001
-    /// to 2000 need 2 matched words. - If `optionalWords` has 10 or more words, the number of required matched words
-    /// increases by the number of optional words divided by 5 (rounded down).   For example, with 18 optional words:
-    /// results 1 to 1,000 require 1 matched word, results 1,001 to 2000 need 4 matched words.  For more information,
-    /// see [Optional words](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/empty-or-insufficient-results/#creating-a-list-of-optional-words).
-    public var optionalWords: [String]?
+    public var optionalWords: RecommendOptionalWords?
     /// Searchable attributes for which you want to [turn off the Exact ranking criterion](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/in-depth/adjust-exact-settings/#turn-off-exact-for-some-attributes).
     /// Attribute names are case-sensitive.  This can be useful for attributes with long values, where the likelihood of
     /// an exact match is high, such as product descriptions. Turning off the Exact ranking criterion for these
@@ -231,9 +222,6 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
     /// `parsedQuery`, or any property triggered by the `getRankingInfo` parameter.  Don't exclude properties that you
     /// might need in your search UI.
     public var responseFields: [String]?
-    /// Maximum number of facet values to return when [searching for facet
-    /// values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values).
-    public var maxFacetHits: Int?
     /// Maximum number of facet values to return for each facet.
     public var maxValuesPerFacet: Int?
     /// Order in which to retrieve facet values.  - `count`.   Facet values are retrieved by decreasing count.   The
@@ -271,6 +259,7 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         userData: AnyCodable? = nil,
         customNormalization: [String: [String: String]]? = nil,
         attributeForDistinct: String? = nil,
+        maxFacetHits: Int? = nil,
         attributesToRetrieve: [String]? = nil,
         ranking: [String]? = nil,
         relevancyStrictness: Int? = nil,
@@ -294,7 +283,7 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         queryType: RecommendQueryType? = nil,
         removeWordsIfNoResults: RecommendRemoveWordsIfNoResults? = nil,
         advancedSyntax: Bool? = nil,
-        optionalWords: [String]? = nil,
+        optionalWords: RecommendOptionalWords? = nil,
         disableExactOnAttributes: [String]? = nil,
         exactOnSingleWordQuery: RecommendExactOnSingleWordQuery? = nil,
         alternativesAsExact: [RecommendAlternativesAsExact]? = nil,
@@ -303,7 +292,6 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         replaceSynonymsInHighlight: Bool? = nil,
         minProximity: Int? = nil,
         responseFields: [String]? = nil,
-        maxFacetHits: Int? = nil,
         maxValuesPerFacet: Int? = nil,
         sortFacetValuesBy: String? = nil,
         attributeCriteriaComputedByMinProximity: Bool? = nil,
@@ -328,6 +316,7 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         self.userData = userData
         self.customNormalization = customNormalization
         self.attributeForDistinct = attributeForDistinct
+        self.maxFacetHits = maxFacetHits
         self.attributesToRetrieve = attributesToRetrieve
         self.ranking = ranking
         self.relevancyStrictness = relevancyStrictness
@@ -360,7 +349,6 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         self.replaceSynonymsInHighlight = replaceSynonymsInHighlight
         self.minProximity = minProximity
         self.responseFields = responseFields
-        self.maxFacetHits = maxFacetHits
         self.maxValuesPerFacet = maxValuesPerFacet
         self.sortFacetValuesBy = sortFacetValuesBy
         self.attributeCriteriaComputedByMinProximity = attributeCriteriaComputedByMinProximity
@@ -387,6 +375,7 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         case userData
         case customNormalization
         case attributeForDistinct
+        case maxFacetHits
         case attributesToRetrieve
         case ranking
         case relevancyStrictness
@@ -419,7 +408,6 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         case replaceSynonymsInHighlight
         case minProximity
         case responseFields
-        case maxFacetHits
         case maxValuesPerFacet
         case sortFacetValuesBy
         case attributeCriteriaComputedByMinProximity
@@ -449,6 +437,7 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         try container.encodeIfPresent(self.userData, forKey: .userData)
         try container.encodeIfPresent(self.customNormalization, forKey: .customNormalization)
         try container.encodeIfPresent(self.attributeForDistinct, forKey: .attributeForDistinct)
+        try container.encodeIfPresent(self.maxFacetHits, forKey: .maxFacetHits)
         try container.encodeIfPresent(self.attributesToRetrieve, forKey: .attributesToRetrieve)
         try container.encodeIfPresent(self.ranking, forKey: .ranking)
         try container.encodeIfPresent(self.relevancyStrictness, forKey: .relevancyStrictness)
@@ -484,7 +473,6 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         try container.encodeIfPresent(self.replaceSynonymsInHighlight, forKey: .replaceSynonymsInHighlight)
         try container.encodeIfPresent(self.minProximity, forKey: .minProximity)
         try container.encodeIfPresent(self.responseFields, forKey: .responseFields)
-        try container.encodeIfPresent(self.maxFacetHits, forKey: .maxFacetHits)
         try container.encodeIfPresent(self.maxValuesPerFacet, forKey: .maxValuesPerFacet)
         try container.encodeIfPresent(self.sortFacetValuesBy, forKey: .sortFacetValuesBy)
         try container.encodeIfPresent(
@@ -516,6 +504,7 @@ extension RecommendIndexSettings: Equatable {
             lhs.userData == rhs.userData &&
             lhs.customNormalization == rhs.customNormalization &&
             lhs.attributeForDistinct == rhs.attributeForDistinct &&
+            lhs.maxFacetHits == rhs.maxFacetHits &&
             lhs.attributesToRetrieve == rhs.attributesToRetrieve &&
             lhs.ranking == rhs.ranking &&
             lhs.relevancyStrictness == rhs.relevancyStrictness &&
@@ -548,7 +537,6 @@ extension RecommendIndexSettings: Equatable {
             lhs.replaceSynonymsInHighlight == rhs.replaceSynonymsInHighlight &&
             lhs.minProximity == rhs.minProximity &&
             lhs.responseFields == rhs.responseFields &&
-            lhs.maxFacetHits == rhs.maxFacetHits &&
             lhs.maxValuesPerFacet == rhs.maxValuesPerFacet &&
             lhs.sortFacetValuesBy == rhs.sortFacetValuesBy &&
             lhs.attributeCriteriaComputedByMinProximity == rhs.attributeCriteriaComputedByMinProximity &&
@@ -577,6 +565,7 @@ extension RecommendIndexSettings: Hashable {
         hasher.combine(self.userData?.hashValue)
         hasher.combine(self.customNormalization?.hashValue)
         hasher.combine(self.attributeForDistinct?.hashValue)
+        hasher.combine(self.maxFacetHits?.hashValue)
         hasher.combine(self.attributesToRetrieve?.hashValue)
         hasher.combine(self.ranking?.hashValue)
         hasher.combine(self.relevancyStrictness?.hashValue)
@@ -609,7 +598,6 @@ extension RecommendIndexSettings: Hashable {
         hasher.combine(self.replaceSynonymsInHighlight?.hashValue)
         hasher.combine(self.minProximity?.hashValue)
         hasher.combine(self.responseFields?.hashValue)
-        hasher.combine(self.maxFacetHits?.hashValue)
         hasher.combine(self.maxValuesPerFacet?.hashValue)
         hasher.combine(self.sortFacetValuesBy?.hashValue)
         hasher.combine(self.attributeCriteriaComputedByMinProximity?.hashValue)
