@@ -1,3 +1,7 @@
+## [9.10.2](https://github.com/algolia/algoliasearch-client-swift/compare/9.10.1...9.10.2)
+
+- [989a7277b](https://github.com/algolia/api-clients-automation/commit/989a7277b) fix(swift): prefix `Task` and `LogLevel` models with the client names ([#4132](https://github.com/algolia/api-clients-automation/pull/4132)) by [@Fluf22](https://github.com/Fluf22/)
+
 ## [9.10.1](https://github.com/algolia/algoliasearch-client-swift/compare/9.10.0...9.10.1)
 
 - [36d583e35](https://github.com/algolia/api-clients-automation/commit/36d583e35) fix(specs): make the searchParams compatible with v4 ([#4108](https://github.com/algolia/api-clients-automation/pull/4108)) by [@millotp](https://github.com/millotp/)
