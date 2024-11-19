@@ -8,10 +8,10 @@ import Foundation
 
 /// Configured tasks and pagination information.
 public struct ListTasksResponse: Codable, JSONEncodable {
-    public var tasks: [Task]
+    public var tasks: [IngestionTask]
     public var pagination: Pagination
 
-    public init(tasks: [Task], pagination: Pagination) {
+    public init(tasks: [IngestionTask], pagination: Pagination) {
         self.tasks = tasks
         self.pagination = pagination
     }

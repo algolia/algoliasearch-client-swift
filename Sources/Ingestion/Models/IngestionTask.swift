@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct Task: Codable, JSONEncodable {
+public struct IngestionTask: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of a task.
     public var taskID: String
     /// Universally uniqud identifier (UUID) of a source.
@@ -98,8 +98,8 @@ public struct Task: Codable, JSONEncodable {
     }
 }
 
-extension Task: Equatable {
-    public static func ==(lhs: Task, rhs: Task) -> Bool {
+extension IngestionTask: Equatable {
+    public static func ==(lhs: IngestionTask, rhs: IngestionTask) -> Bool {
         lhs.taskID == rhs.taskID &&
             lhs.sourceID == rhs.sourceID &&
             lhs.destinationID == rhs.destinationID &&
@@ -116,7 +116,7 @@ extension Task: Equatable {
     }
 }
 
-extension Task: Hashable {
+extension IngestionTask: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.taskID.hashValue)
         hasher.combine(self.sourceID.hashValue)

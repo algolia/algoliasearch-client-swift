@@ -1461,10 +1461,13 @@ open class IngestionClient {
     }
 
     /// - parameter taskID: (path) Unique identifier of a task.
-    /// - returns: Task
+    /// - returns: IngestionTask
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getTask(taskID: String, requestOptions: RequestOptions? = nil) async throws -> Task {
-        let response: Response<Task> = try await getTaskWithHTTPInfo(taskID: taskID, requestOptions: requestOptions)
+    open func getTask(taskID: String, requestOptions: RequestOptions? = nil) async throws -> IngestionTask {
+        let response: Response<IngestionTask> = try await getTaskWithHTTPInfo(
+            taskID: taskID,
+            requestOptions: requestOptions
+        )
 
         guard let body = response.body else {
             throw AlgoliaError.missingData
@@ -1480,12 +1483,12 @@ open class IngestionClient {
     //  - editSettings
     //
     // - parameter taskID: (path) Unique identifier of a task.
-    // - returns: RequestBuilder<Task>
+    // - returns: RequestBuilder<IngestionTask>
 
     open func getTaskWithHTTPInfo(
         taskID: String,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<Task> {
+    ) async throws -> Response<IngestionTask> {
         guard !taskID.isEmpty else {
             throw AlgoliaError.invalidArgument("taskID", "getTask")
         }
@@ -2808,10 +2811,13 @@ open class IngestionClient {
     }
 
     /// - parameter taskSearch: (body)
-    /// - returns: [Task]
+    /// - returns: [IngestionTask]
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func searchTasks(taskSearch: TaskSearch, requestOptions: RequestOptions? = nil) async throws -> [Task] {
-        let response: Response<[Task]> = try await searchTasksWithHTTPInfo(
+    open func searchTasks(
+        taskSearch: TaskSearch,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> [IngestionTask] {
+        let response: Response<[IngestionTask]> = try await searchTasksWithHTTPInfo(
             taskSearch: taskSearch,
             requestOptions: requestOptions
         )
@@ -2830,12 +2836,12 @@ open class IngestionClient {
     //  - editSettings
     //
     // - parameter taskSearch: (body)
-    // - returns: RequestBuilder<[Task]>
+    // - returns: RequestBuilder<[IngestionTask]>
 
     open func searchTasksWithHTTPInfo(
         taskSearch: TaskSearch,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<[Task]> {
+    ) async throws -> Response<[IngestionTask]> {
         let resourcePath = "/2/tasks/search"
         let body = taskSearch
         let queryParameters: [String: Any?]? = nil

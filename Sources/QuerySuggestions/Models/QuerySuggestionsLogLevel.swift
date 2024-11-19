@@ -9,10 +9,10 @@ import Foundation
 /// Type of log entry.  - `SKIP`. A query is skipped because it doesn't match the conditions for successful inclusion.
 /// For example, when a query doesn't generate enough search results. - `INFO`. An informative log entry. - `ERROR`. The
 /// Query Suggestions process encountered an error.
-public enum ModelLogLevel: String, Codable, CaseIterable {
+public enum QuerySuggestionsLogLevel: String, Codable, CaseIterable {
     case skip = "SKIP"
     case info = "INFO"
     case error = "ERROR"
 }
 
-extension ModelLogLevel: Hashable {}
+extension QuerySuggestionsLogLevel: Hashable {}

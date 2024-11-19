@@ -9,7 +9,7 @@ import Foundation
 public struct LogFile: Codable, JSONEncodable {
     /// Date and time of the log entry, in RFC 3339 format.
     public var timestamp: String?
-    public var level: ModelLogLevel?
+    public var level: QuerySuggestionsLogLevel?
     /// Details about this log entry.
     public var message: String?
     /// Level indicating the position of a suggestion in a hierarchy of records.  For example, a `contextLevel` of 1
@@ -18,7 +18,7 @@ public struct LogFile: Codable, JSONEncodable {
 
     public init(
         timestamp: String? = nil,
-        level: ModelLogLevel? = nil,
+        level: QuerySuggestionsLogLevel? = nil,
         message: String? = nil,
         contextLevel: Int? = nil
     ) {
