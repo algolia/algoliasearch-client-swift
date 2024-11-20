@@ -1,5 +1,12 @@
 # ChangeLog
 
+## [8.21.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.20.1...8.21.0) (2024-09-18)
+
+### Feat
+
+- Merge pull request #866 from algolia/fix/disjunctive-faceting-helper ([dc6fd5e0](https://github.com/algolia/algoliasearch-client-swift/commit/dc6fd5e0))
+- Merge pull request #862 from algolia/chore/apple-privacy-manifest ([4334c904](https://github.com/algolia/algoliasearch-client-swift/commit/4334c904))
+
 ## [8.20.1](https://github.com/algolia/algoliasearch-client-swift/compare/8.20.0...8.20.1) (2024-03-04)
 
 ### Fix
