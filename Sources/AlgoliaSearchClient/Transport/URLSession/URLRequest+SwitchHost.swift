@@ -35,7 +35,7 @@ public extension URLRequest {
     case invalidPath(String)
 
     public var errorDescription: String? {
-      let contactUs = "Please contact support@algolia.com if this problem occurs."
+      let contactUs = "Please contact Algolia Support team via https://alg.li/support if a problem occurs."
       switch self {
       case .badHost(let host):
         return "Bad host: \(host). Will retry with next host. " + contactUs
