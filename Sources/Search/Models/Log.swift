@@ -26,7 +26,7 @@ public struct Log: Codable, JSONEncodable {
     /// SHA1 signature of the log entry.
     public var sha1: String
     /// Number of API requests.
-    public var nbApiCalls: String
+    public var nbApiCalls: String?
     /// Processing time for the query in milliseconds. This doesn't include latency due to the network.
     public var processingTimeMs: String
     /// Index targeted by the query.
@@ -48,7 +48,7 @@ public struct Log: Codable, JSONEncodable {
         ip: String,
         queryHeaders: String,
         sha1: String,
-        nbApiCalls: String,
+        nbApiCalls: String? = nil,
         processingTimeMs: String,
         index: String? = nil,
         queryParams: String? = nil,
@@ -103,7 +103,7 @@ public struct Log: Codable, JSONEncodable {
         try container.encode(self.ip, forKey: .ip)
         try container.encode(self.queryHeaders, forKey: .queryHeaders)
         try container.encode(self.sha1, forKey: .sha1)
-        try container.encode(self.nbApiCalls, forKey: .nbApiCalls)
+        try container.encodeIfPresent(self.nbApiCalls, forKey: .nbApiCalls)
         try container.encode(self.processingTimeMs, forKey: .processingTimeMs)
         try container.encodeIfPresent(self.index, forKey: .index)
         try container.encodeIfPresent(self.queryParams, forKey: .queryParams)
@@ -143,7 +143,7 @@ extension Log: Hashable {
         hasher.combine(self.ip.hashValue)
         hasher.combine(self.queryHeaders.hashValue)
         hasher.combine(self.sha1.hashValue)
-        hasher.combine(self.nbApiCalls.hashValue)
+        hasher.combine(self.nbApiCalls?.hashValue)
         hasher.combine(self.processingTimeMs.hashValue)
         hasher.combine(self.index?.hashValue)
         hasher.combine(self.queryParams?.hashValue)
