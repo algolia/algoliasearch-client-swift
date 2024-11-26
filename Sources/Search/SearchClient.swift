@@ -2997,7 +2997,7 @@ open class SearchClient {
     /// - parameter objectID: (path) Unique identifier of a rule object.
     /// - parameter rule: (body)
     /// - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
-    /// - returns: UpdatedRuleResponse
+    /// - returns: UpdatedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func saveRule(
         indexName: String,
@@ -3005,8 +3005,8 @@ open class SearchClient {
         rule: Rule,
         forwardToReplicas: Bool? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> UpdatedRuleResponse {
-        let response: Response<UpdatedRuleResponse> = try await saveRuleWithHTTPInfo(
+    ) async throws -> UpdatedAtResponse {
+        let response: Response<UpdatedAtResponse> = try await saveRuleWithHTTPInfo(
             indexName: indexName,
             objectID: objectID,
             rule: rule,
@@ -3033,7 +3033,7 @@ open class SearchClient {
     // - parameter rule: (body)
     //
     // - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
-    // - returns: RequestBuilder<UpdatedRuleResponse>
+    // - returns: RequestBuilder<UpdatedAtResponse>
 
     open func saveRuleWithHTTPInfo(
         indexName: String,
@@ -3041,7 +3041,7 @@ open class SearchClient {
         rule: Rule,
         forwardToReplicas: Bool? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<UpdatedRuleResponse> {
+    ) async throws -> Response<UpdatedAtResponse> {
         guard !indexName.isEmpty else {
             throw AlgoliaError.invalidArgument("indexName", "saveRule")
         }
