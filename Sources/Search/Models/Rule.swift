@@ -14,7 +14,7 @@ public struct Rule: Codable, JSONEncodable {
     /// For more information, see
     /// [Conditions](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/#conditions).
     public var conditions: [SearchCondition]?
-    public var consequence: SearchConsequence?
+    public var consequence: SearchConsequence
     /// Description of the rule's purpose to help you distinguish between different rules.
     public var description: String?
     /// Whether the rule is active.
@@ -25,7 +25,7 @@ public struct Rule: Codable, JSONEncodable {
     public init(
         objectID: String,
         conditions: [SearchCondition]? = nil,
-        consequence: SearchConsequence? = nil,
+        consequence: SearchConsequence,
         description: String? = nil,
         enabled: Bool? = nil,
         validity: [SearchTimeRange]? = nil
@@ -53,7 +53,7 @@ public struct Rule: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.objectID, forKey: .objectID)
         try container.encodeIfPresent(self.conditions, forKey: .conditions)
-        try container.encodeIfPresent(self.consequence, forKey: .consequence)
+        try container.encode(self.consequence, forKey: .consequence)
         try container.encodeIfPresent(self.description, forKey: .description)
         try container.encodeIfPresent(self.enabled, forKey: .enabled)
         try container.encodeIfPresent(self.validity, forKey: .validity)
@@ -75,7 +75,7 @@ extension Rule: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.objectID.hashValue)
         hasher.combine(self.conditions?.hashValue)
-        hasher.combine(self.consequence?.hashValue)
+        hasher.combine(self.consequence.hashValue)
         hasher.combine(self.description?.hashValue)
         hasher.combine(self.enabled?.hashValue)
         hasher.combine(self.validity?.hashValue)
