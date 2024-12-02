@@ -15,7 +15,6 @@ public enum SourceType: String, Codable, CaseIterable {
     case ga4BigqueryExport
     case json
     case shopify
-    case sfcc
     case push
 }
 
