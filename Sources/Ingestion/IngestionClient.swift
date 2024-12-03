@@ -2134,6 +2134,7 @@ open class IngestionClient {
     /// - parameter action: (query) Actions for filtering the list of tasks. (optional)
     /// - parameter enabled: (query) Whether to filter the list of tasks by the `enabled` status. (optional)
     /// - parameter sourceID: (query) Source IDs for filtering the list of tasks. (optional)
+    /// - parameter sourceType: (query) Filters the tasks with the specified source type. (optional)
     /// - parameter destinationID: (query) Destination IDs for filtering the list of tasks. (optional)
     /// - parameter triggerType: (query) Type of task trigger for filtering the list of tasks. (optional)
     /// - parameter sort: (query) Property by which to sort the list of tasks. (optional)
@@ -2146,6 +2147,7 @@ open class IngestionClient {
         action: [ActionType]? = nil,
         enabled: Bool? = nil,
         sourceID: [String]? = nil,
+        sourceType: [SourceType]? = nil,
         destinationID: [String]? = nil,
         triggerType: [TriggerType]? = nil,
         sort: TaskSortKeys? = nil,
@@ -2158,6 +2160,7 @@ open class IngestionClient {
             action: action,
             enabled: enabled,
             sourceID: sourceID,
+            sourceType: sourceType,
             destinationID: destinationID,
             triggerType: triggerType,
             sort: sort,
@@ -2188,6 +2191,8 @@ open class IngestionClient {
     //
     // - parameter sourceID: (query) Source IDs for filtering the list of tasks. (optional)
     //
+    // - parameter sourceType: (query) Filters the tasks with the specified source type. (optional)
+    //
     // - parameter destinationID: (query) Destination IDs for filtering the list of tasks. (optional)
     //
     // - parameter triggerType: (query) Type of task trigger for filtering the list of tasks. (optional)
@@ -2203,6 +2208,7 @@ open class IngestionClient {
         action: [ActionType]? = nil,
         enabled: Bool? = nil,
         sourceID: [String]? = nil,
+        sourceType: [SourceType]? = nil,
         destinationID: [String]? = nil,
         triggerType: [TriggerType]? = nil,
         sort: TaskSortKeys? = nil,
@@ -2217,6 +2223,7 @@ open class IngestionClient {
             "action": action?.encodeToJSON(),
             "enabled": enabled?.encodeToJSON(),
             "sourceID": sourceID?.encodeToJSON(),
+            "sourceType": sourceType?.encodeToJSON(),
             "destinationID": destinationID?.encodeToJSON(),
             "triggerType": triggerType?.encodeToJSON(),
             "sort": sort?.encodeToJSON(),
