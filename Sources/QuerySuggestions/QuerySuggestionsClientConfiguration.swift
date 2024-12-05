@@ -24,8 +24,8 @@ public struct QuerySuggestionsClientConfiguration: BaseConfiguration, Credential
         appID: String,
         apiKey: String,
         region: Region,
-        writeTimeout: TimeInterval = DefaultConfiguration.default.writeTimeout,
-        readTimeout: TimeInterval = DefaultConfiguration.default.readTimeout,
+        writeTimeout: TimeInterval = 30,
+        readTimeout: TimeInterval = 5,
         logLevel: LogLevel = DefaultConfiguration.default.logLevel,
         defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders,
         hosts: [RetryableHost]? = nil

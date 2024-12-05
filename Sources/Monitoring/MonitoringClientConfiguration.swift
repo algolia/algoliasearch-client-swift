@@ -19,8 +19,8 @@ public struct MonitoringClientConfiguration: BaseConfiguration, Credentials {
     public init(
         appID: String,
         apiKey: String,
-        writeTimeout: TimeInterval = DefaultConfiguration.default.writeTimeout,
-        readTimeout: TimeInterval = DefaultConfiguration.default.readTimeout,
+        writeTimeout: TimeInterval = 30,
+        readTimeout: TimeInterval = 5,
         logLevel: LogLevel = DefaultConfiguration.default.logLevel,
         defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders,
         hosts: [RetryableHost]? = nil
