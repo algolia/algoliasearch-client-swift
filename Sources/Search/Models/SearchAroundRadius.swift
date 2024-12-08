@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Maximum radius for a search around a central location.  This parameter works in combination with the `aroundLatLng`

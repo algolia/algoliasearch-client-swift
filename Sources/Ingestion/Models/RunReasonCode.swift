@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// A code for the task run's outcome. A readable description of the code is included in the `reason` response property.

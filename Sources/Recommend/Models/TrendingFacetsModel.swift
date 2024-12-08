@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Trending facet values model.  This model recommends trending facet values for the specified facet attribute.

@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// - `min`. Return matches with the lowest number of typos.   For example, if you have matches without typos, only

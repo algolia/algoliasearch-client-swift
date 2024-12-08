@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Removes stop words from the search query.  Stop words are common words like articles, conjunctions, prepositions, or

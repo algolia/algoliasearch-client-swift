@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Type of log entry.  - `SKIP`. A query is skipped because it doesn't match the conditions for successful inclusion.

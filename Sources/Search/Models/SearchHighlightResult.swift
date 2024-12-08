@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 public enum SearchHighlightResult: Codable, JSONEncodable, AbstractEncodable {

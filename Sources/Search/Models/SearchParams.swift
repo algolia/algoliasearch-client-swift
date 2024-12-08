@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Parameters to apply to this search.  You can use all search parameters, plus special `automaticFacetFilters`,

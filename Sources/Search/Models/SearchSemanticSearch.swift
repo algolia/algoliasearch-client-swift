@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Settings for the semantic search part of NeuralSearch. Only used when `mode` is `neuralSearch`.

@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Name of an ecommerce platform with which to authenticate. This determines which authentication type you can select.

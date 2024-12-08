@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Filter by numeric facets.  **Prefer using the `filters` parameter, which supports all filter types and combinations

@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Filter the search by values of the special `_tags` attribute.  **Prefer using the `filters` parameter, which

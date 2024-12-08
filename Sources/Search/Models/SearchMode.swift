@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Search mode the index will use to query for results.  This setting only applies to indices, for which Algolia

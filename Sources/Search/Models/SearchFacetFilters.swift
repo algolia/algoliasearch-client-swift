@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Filter the search by facet values, so that only records with the same facet values are retrieved.  **Prefer using

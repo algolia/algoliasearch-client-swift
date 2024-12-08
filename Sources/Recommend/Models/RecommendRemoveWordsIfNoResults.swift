@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Strategy for removing words from the query when it doesn't return any results. This helps to avoid returning empty

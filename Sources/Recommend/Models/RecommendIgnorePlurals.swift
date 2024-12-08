@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Treat singular, plurals, and other forms of declensions as equivalent. You should only use this feature for the

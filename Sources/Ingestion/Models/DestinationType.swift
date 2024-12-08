@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Destination type.  - `search`.   Data is stored in an Algolia index.  - `insights`.   Data is recorded as user

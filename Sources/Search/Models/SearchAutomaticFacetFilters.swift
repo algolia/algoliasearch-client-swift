@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Filter to be applied to the search.  You can use this to respond to search queries that match a facet value. For

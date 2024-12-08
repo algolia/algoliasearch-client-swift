@@ -6,7 +6,7 @@
 //
 
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 import Foundation
 

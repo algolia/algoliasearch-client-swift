@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// API request body for updating a task using the V1 shape, please use methods and types that don't contain the V1

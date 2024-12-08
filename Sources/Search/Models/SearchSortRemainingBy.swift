@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Order of facet values that aren't explicitly positioned with the `order` setting.  - `count`.   Order remaining

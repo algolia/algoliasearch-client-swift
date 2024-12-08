@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Search parameters to add to the test variant. Only use this parameter if the two variants use the same index.

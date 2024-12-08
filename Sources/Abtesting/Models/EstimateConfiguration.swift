@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// A/B test configuration for estimating the sample size and duration using minimum detectable effect.

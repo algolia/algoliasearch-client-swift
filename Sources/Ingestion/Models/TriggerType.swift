@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Task trigger, describing when a task should run.  - `onDemand`.   Manually trigger the task with the `/run`

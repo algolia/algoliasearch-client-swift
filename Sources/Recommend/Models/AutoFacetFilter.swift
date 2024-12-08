@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Facet attribute. Only recommendations with the same value (or only recommendations with a different value) as the

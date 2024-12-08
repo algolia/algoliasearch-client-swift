@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Use this event to track when users make a purchase unrelated to a previous Algolia request. For example, if you

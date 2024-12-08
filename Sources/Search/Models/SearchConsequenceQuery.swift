@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Replace or edit the search query.  If `consequenceQuery` is a string, the entire search query is replaced with that

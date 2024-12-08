@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Whether certain properties of the search response are calculated exhaustive (exact) or approximated.

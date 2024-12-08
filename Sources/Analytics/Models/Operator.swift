@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Character that characterizes how the filter is applied.  For example, for a facet filter `facet:value`, `:` is the

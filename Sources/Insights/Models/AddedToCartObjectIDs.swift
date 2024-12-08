@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Use this event to track when users add items to their shopping cart unrelated to a previous Algolia request. For

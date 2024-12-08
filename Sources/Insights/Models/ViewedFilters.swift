@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Use this method to capture active filters. For example, when browsing a category page, users see content filtered on

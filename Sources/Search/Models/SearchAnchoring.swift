@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Which part of the search query the pattern should match:  - `startsWith`. The pattern must match the beginning of

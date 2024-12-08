@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Filters to promote or demote records in the search results.  Optional filters work like facet filters, but they

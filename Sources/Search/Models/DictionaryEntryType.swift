@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Whether a dictionary entry is provided by Algolia (standard), or has been added by you (custom).

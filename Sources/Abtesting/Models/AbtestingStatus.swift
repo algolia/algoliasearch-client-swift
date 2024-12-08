@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// A/B test status.  - `active`. The A/B test is live and search traffic is split between the two variants. -

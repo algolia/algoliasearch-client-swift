@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Determines if and how query words are interpreted as prefixes.  By default, only the last query word is treated as a

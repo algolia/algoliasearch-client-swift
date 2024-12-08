@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Languages for deduplicating singular and plural suggestions. If specified, only the more popular form is included.

@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Frequently bought together model.  This model recommends items that have been purchased within 1 day with the item

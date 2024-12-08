@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Custom fields from commercetools to add to the records.  For more information, see [Using Custom Types and Custom

@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Search result.  A hit is a record from your index, augmented with special attributes for highlighting, snippeting,

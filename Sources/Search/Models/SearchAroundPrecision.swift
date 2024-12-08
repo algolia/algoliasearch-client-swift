@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Precision of a coordinate-based search in meters to group results with similar distances.  The Geo ranking criterion

@@ -3,7 +3,7 @@
 
 import Foundation
 #if canImport(Core)
-    import Core
+    import AlgoliaCore
 #endif
 
 /// Condition that triggers the rule. If not specified, the rule is triggered for all recommendations.
