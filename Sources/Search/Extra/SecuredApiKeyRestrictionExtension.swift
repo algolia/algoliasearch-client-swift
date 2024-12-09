@@ -1,4 +1,4 @@
-#if canImport(Core)
+#if canImport(AlgoliaCore)
     import AlgoliaCore
 #endif
 import Foundation

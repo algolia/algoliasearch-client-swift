@@ -5,7 +5,7 @@
 //  Created by Algolia on 26/02/2024.
 //
 
-#if canImport(Core)
+#if canImport(AlgoliaCore)
     import AlgoliaCore
 #endif
 import Foundation
