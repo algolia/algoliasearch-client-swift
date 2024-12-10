@@ -103,9 +103,10 @@ open class SearchClient {
     }
 
     // If a record with the specified object ID exists, the existing record is replaced. Otherwise, a new record is
-    // added to the index.  To update _some_ attributes of an existing record, use the [`partial`
-    // operation](#tag/Records/operation/partialUpdateObject) instead. To add, update, or replace multiple records, use
-    // the [`batch` operation](#tag/Records/operation/batch).
+    // added to the index.  If you want to use auto-generated object IDs, use the [`saveObject`
+    // operation](#tag/Records/operation/saveObject). To update _some_ attributes of an existing record, use the
+    // [`partial` operation](#tag/Records/operation/partialUpdateObject) instead. To add, update, or replace multiple
+    // records, use the [`batch` operation](#tag/Records/operation/batch).
     // Required API Key ACLs:
     //  - addObject
     //
@@ -2942,7 +2943,7 @@ open class SearchClient {
         return body
     }
 
-    // Adds a record to an index or replace it.  - If the record doesn't have an object ID, a new record with an
+    // Adds a record to an index or replaces it.  - If the record doesn't have an object ID, a new record with an
     // auto-generated object ID is added to your index. - If a record with the specified object ID exists, the existing
     // record is replaced. - If a record with the specified object ID doesn't exist, a new record is added to your
     // index.
