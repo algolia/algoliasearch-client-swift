@@ -2422,16 +2422,20 @@ open class IngestionClient {
     /// - parameter taskID: (path) Unique identifier of a task.
     /// - parameter pushTaskPayload: (body) Request body of a Search API `batch` request that will be pushed in the
     /// Connectors pipeline.
+    /// - parameter watch: (query) When provided, the push operation will be synchronous and the API will wait for the
+    /// ingestion to be finished before responding. (optional)
     /// - returns: RunResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func pushTask(
         taskID: String,
         pushTaskPayload: PushTaskPayload,
+        watch: Bool? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws -> RunResponse {
         let response: Response<RunResponse> = try await pushTaskWithHTTPInfo(
             taskID: taskID,
             pushTaskPayload: pushTaskPayload,
+            watch: watch,
             requestOptions: requestOptions
         )
 
@@ -2453,11 +2457,15 @@ open class IngestionClient {
     //
     // - parameter pushTaskPayload: (body) Request body of a Search API `batch` request that will be pushed in the
     // Connectors pipeline.
+    //
+    // - parameter watch: (query) When provided, the push operation will be synchronous and the API will wait for the
+    // ingestion to be finished before responding. (optional)
     // - returns: RequestBuilder<RunResponse>
 
     open func pushTaskWithHTTPInfo(
         taskID: String,
         pushTaskPayload: PushTaskPayload,
+        watch: Bool? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<RunResponse> {
         guard !taskID.isEmpty else {
@@ -2475,7 +2483,9 @@ open class IngestionClient {
             range: nil
         )
         let body = pushTaskPayload
-        let queryParameters: [String: Any?]? = nil
+        let queryParameters: [String: Any?] = [
+            "watch": watch?.encodeToJSON(),
+        ]
 
         let nillableHeaders: [String: Any?]? = nil
 
