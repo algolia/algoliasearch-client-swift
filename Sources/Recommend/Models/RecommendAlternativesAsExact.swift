@@ -10,6 +10,7 @@ public enum RecommendAlternativesAsExact: String, Codable, CaseIterable {
     case ignorePlurals
     case singleWordSynonym
     case multiWordsSynonym
+    case ignoreConjugations
 }
 
 extension RecommendAlternativesAsExact: Hashable {}

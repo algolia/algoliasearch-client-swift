@@ -10,6 +10,7 @@ public enum SearchAlternativesAsExact: String, Codable, CaseIterable {
     case ignorePlurals
     case singleWordSynonym
     case multiWordsSynonym
+    case ignoreConjugations
 }
 
 extension SearchAlternativesAsExact: Hashable {}
