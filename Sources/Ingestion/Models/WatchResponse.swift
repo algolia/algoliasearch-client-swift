@@ -6,10 +6,10 @@ import Foundation
     import Core
 #endif
 
-public struct SourceWatchResponse: Codable, JSONEncodable {
+public struct WatchResponse: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of a task run.
     public var runID: String?
-    /// depending on the source type, the validation returns sampling data of your source (JSON, CSV, BigQuery).
+    /// when used with discovering or validating sources, the sampled data of your source is returned.
     public var data: [AnyCodable]?
     /// in case of error, observability events will be added to the response, if any.
     public var events: [Event]?
@@ -41,8 +41,8 @@ public struct SourceWatchResponse: Codable, JSONEncodable {
     }
 }
 
-extension SourceWatchResponse: Equatable {
-    public static func ==(lhs: SourceWatchResponse, rhs: SourceWatchResponse) -> Bool {
+extension WatchResponse: Equatable {
+    public static func ==(lhs: WatchResponse, rhs: WatchResponse) -> Bool {
         lhs.runID == rhs.runID &&
             lhs.data == rhs.data &&
             lhs.events == rhs.events &&
@@ -50,7 +50,7 @@ extension SourceWatchResponse: Equatable {
     }
 }
 
-extension SourceWatchResponse: Hashable {
+extension WatchResponse: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.runID?.hashValue)
         hasher.combine(self.data?.hashValue)

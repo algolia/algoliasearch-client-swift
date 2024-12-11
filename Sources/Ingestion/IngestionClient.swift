@@ -2424,15 +2424,15 @@ open class IngestionClient {
     /// Connectors pipeline.
     /// - parameter watch: (query) When provided, the push operation will be synchronous and the API will wait for the
     /// ingestion to be finished before responding. (optional)
-    /// - returns: RunResponse
+    /// - returns: WatchResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func pushTask(
         taskID: String,
         pushTaskPayload: PushTaskPayload,
         watch: Bool? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> RunResponse {
-        let response: Response<RunResponse> = try await pushTaskWithHTTPInfo(
+    ) async throws -> WatchResponse {
+        let response: Response<WatchResponse> = try await pushTaskWithHTTPInfo(
             taskID: taskID,
             pushTaskPayload: pushTaskPayload,
             watch: watch,
@@ -2460,14 +2460,14 @@ open class IngestionClient {
     //
     // - parameter watch: (query) When provided, the push operation will be synchronous and the API will wait for the
     // ingestion to be finished before responding. (optional)
-    // - returns: RequestBuilder<RunResponse>
+    // - returns: RequestBuilder<WatchResponse>
 
     open func pushTaskWithHTTPInfo(
         taskID: String,
         pushTaskPayload: PushTaskPayload,
         watch: Bool? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<RunResponse> {
+    ) async throws -> Response<WatchResponse> {
         guard !taskID.isEmpty else {
             throw AlgoliaError.invalidArgument("taskID", "pushTask")
         }
@@ -2969,13 +2969,13 @@ open class IngestionClient {
     }
 
     /// - parameter sourceID: (path) Unique identifier of a source.
-    /// - returns: SourceWatchResponse
+    /// - returns: WatchResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func triggerDockerSourceDiscover(
         sourceID: String,
         requestOptions: RequestOptions? = nil
-    ) async throws -> SourceWatchResponse {
-        let response: Response<SourceWatchResponse> = try await triggerDockerSourceDiscoverWithHTTPInfo(
+    ) async throws -> WatchResponse {
+        let response: Response<WatchResponse> = try await triggerDockerSourceDiscoverWithHTTPInfo(
             sourceID: sourceID,
             requestOptions: requestOptions
         )
@@ -2995,12 +2995,12 @@ open class IngestionClient {
     //  - editSettings
     //
     // - parameter sourceID: (path) Unique identifier of a source.
-    // - returns: RequestBuilder<SourceWatchResponse>
+    // - returns: RequestBuilder<WatchResponse>
 
     open func triggerDockerSourceDiscoverWithHTTPInfo(
         sourceID: String,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<SourceWatchResponse> {
+    ) async throws -> Response<WatchResponse> {
         guard !sourceID.isEmpty else {
             throw AlgoliaError.invalidArgument("sourceID", "triggerDockerSourceDiscover")
         }
@@ -3539,13 +3539,13 @@ open class IngestionClient {
     }
 
     /// - parameter sourceCreate: (body)  (optional)
-    /// - returns: SourceWatchResponse
+    /// - returns: WatchResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func validateSource(
         sourceCreate: SourceCreate? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> SourceWatchResponse {
-        let response: Response<SourceWatchResponse> = try await validateSourceWithHTTPInfo(
+    ) async throws -> WatchResponse {
+        let response: Response<WatchResponse> = try await validateSourceWithHTTPInfo(
             sourceCreate: sourceCreate,
             requestOptions: requestOptions
         )
@@ -3564,12 +3564,12 @@ open class IngestionClient {
     //  - editSettings
     //
     // - parameter sourceCreate: (body)  (optional)
-    // - returns: RequestBuilder<SourceWatchResponse>
+    // - returns: RequestBuilder<WatchResponse>
 
     open func validateSourceWithHTTPInfo(
         sourceCreate: SourceCreate? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<SourceWatchResponse> {
+    ) async throws -> Response<WatchResponse> {
         let resourcePath = "/1/sources/validate"
         let body = sourceCreate
         let queryParameters: [String: Any?]? = nil
@@ -3588,14 +3588,14 @@ open class IngestionClient {
 
     /// - parameter sourceID: (path) Unique identifier of a source.
     /// - parameter sourceUpdate: (body)
-    /// - returns: SourceWatchResponse
+    /// - returns: WatchResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func validateSourceBeforeUpdate(
         sourceID: String,
         sourceUpdate: SourceUpdate,
         requestOptions: RequestOptions? = nil
-    ) async throws -> SourceWatchResponse {
-        let response: Response<SourceWatchResponse> = try await validateSourceBeforeUpdateWithHTTPInfo(
+    ) async throws -> WatchResponse {
+        let response: Response<WatchResponse> = try await validateSourceBeforeUpdateWithHTTPInfo(
             sourceID: sourceID,
             sourceUpdate: sourceUpdate,
             requestOptions: requestOptions
@@ -3618,13 +3618,13 @@ open class IngestionClient {
     // - parameter sourceID: (path) Unique identifier of a source.
     //
     // - parameter sourceUpdate: (body)
-    // - returns: RequestBuilder<SourceWatchResponse>
+    // - returns: RequestBuilder<WatchResponse>
 
     open func validateSourceBeforeUpdateWithHTTPInfo(
         sourceID: String,
         sourceUpdate: SourceUpdate,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<SourceWatchResponse> {
+    ) async throws -> Response<WatchResponse> {
         guard !sourceID.isEmpty else {
             throw AlgoliaError.invalidArgument("sourceID", "validateSourceBeforeUpdate")
         }
