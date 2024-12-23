@@ -8,7 +8,6 @@ import Foundation
 
 /// Image type.
 public enum DockerImageType: String, Codable, CaseIterable {
-    case singer
     case custom
     case airbyte
 }

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// The selected streams of a singer or airbyte connector.
+/// The selected streams of an airbyte connector.
 public struct DockerStreamsInput: Codable, JSONEncodable {
     public var streams: [DockerStreams]
 

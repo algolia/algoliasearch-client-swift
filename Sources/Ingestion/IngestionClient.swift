@@ -2988,7 +2988,7 @@ open class IngestionClient {
     }
 
     // Triggers a stream-listing request for a source. Triggering stream-listing requests only works with sources with
-    // `type: docker` and `imageType: singer`.
+    // `type: docker` and `imageType: airbyte`.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex
