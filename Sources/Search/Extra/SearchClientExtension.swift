@@ -559,51 +559,57 @@ public extension SearchClient {
     ) async throws -> ReplaceAllObjectsResponse {
         let tmpIndexName = "\(indexName)_tmp_\(Int.random(in: 1_000_000 ..< 10_000_000))"
 
-        var copyOperationResponse = try await operationIndex(
-            indexName: indexName,
-            operationIndexParams: OperationIndexParams(
-                operation: .copy,
-                destination: tmpIndexName,
-                scope: [.settings, .rules, .synonyms]
-            ),
-            requestOptions: requestOptions
-        )
+        do {
+            var copyOperationResponse = try await operationIndex(
+                indexName: indexName,
+                operationIndexParams: OperationIndexParams(
+                    operation: .copy,
+                    destination: tmpIndexName,
+                    scope: [.settings, .rules, .synonyms]
+                ),
+                requestOptions: requestOptions
+            )
 
-        let batchResponses = try await self.chunkedBatch(
-            indexName: tmpIndexName,
-            objects: objects,
-            waitForTasks: true,
-            batchSize: batchSize,
-            requestOptions: requestOptions
-        )
-        try await self.waitForTask(indexName: tmpIndexName, taskID: copyOperationResponse.taskID)
+            let batchResponses = try await self.chunkedBatch(
+                indexName: tmpIndexName,
+                objects: objects,
+                waitForTasks: true,
+                batchSize: batchSize,
+                requestOptions: requestOptions
+            )
+            try await self.waitForTask(indexName: tmpIndexName, taskID: copyOperationResponse.taskID)
 
-        copyOperationResponse = try await operationIndex(
-            indexName: indexName,
-            operationIndexParams: OperationIndexParams(
-                operation: .copy,
-                destination: tmpIndexName,
-                scope: [.settings, .rules, .synonyms]
-            ),
-            requestOptions: requestOptions
-        )
-        try await self.waitForTask(indexName: tmpIndexName, taskID: copyOperationResponse.taskID)
+            copyOperationResponse = try await operationIndex(
+                indexName: indexName,
+                operationIndexParams: OperationIndexParams(
+                    operation: .copy,
+                    destination: tmpIndexName,
+                    scope: [.settings, .rules, .synonyms]
+                ),
+                requestOptions: requestOptions
+            )
+            try await self.waitForTask(indexName: tmpIndexName, taskID: copyOperationResponse.taskID)
 
-        let moveOperationResponse = try await self.operationIndex(
-            indexName: tmpIndexName,
-            operationIndexParams: OperationIndexParams(
-                operation: .move,
-                destination: indexName
-            ),
-            requestOptions: requestOptions
-        )
-        try await self.waitForTask(indexName: tmpIndexName, taskID: moveOperationResponse.taskID)
+            let moveOperationResponse = try await self.operationIndex(
+                indexName: tmpIndexName,
+                operationIndexParams: OperationIndexParams(
+                    operation: .move,
+                    destination: indexName
+                ),
+                requestOptions: requestOptions
+            )
+            try await self.waitForTask(indexName: tmpIndexName, taskID: moveOperationResponse.taskID)
 
-        return ReplaceAllObjectsResponse(
-            copyOperationResponse: copyOperationResponse,
-            batchResponses: batchResponses,
-            moveOperationResponse: moveOperationResponse
-        )
+            return ReplaceAllObjectsResponse(
+                copyOperationResponse: copyOperationResponse,
+                batchResponses: batchResponses,
+                moveOperationResponse: moveOperationResponse
+            )
+        } catch {
+            _ = try? await self.deleteIndex(indexName: tmpIndexName)
+
+            throw error
+        }
     }
 
     /// Generate a secured API key
