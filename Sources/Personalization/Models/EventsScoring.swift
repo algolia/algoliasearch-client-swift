@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct EventScoring: Codable, JSONEncodable {
+public struct EventsScoring: Codable, JSONEncodable {
     /// Event score.
     public var score: Int
     /// Event name.
@@ -35,15 +35,15 @@ public struct EventScoring: Codable, JSONEncodable {
     }
 }
 
-extension EventScoring: Equatable {
-    public static func ==(lhs: EventScoring, rhs: EventScoring) -> Bool {
+extension EventsScoring: Equatable {
+    public static func ==(lhs: EventsScoring, rhs: EventsScoring) -> Bool {
         lhs.score == rhs.score &&
             lhs.eventName == rhs.eventName &&
             lhs.eventType == rhs.eventType
     }
 }
 
-extension EventScoring: Hashable {
+extension EventsScoring: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.score.hashValue)
         hasher.combine(self.eventName.hashValue)

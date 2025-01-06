@@ -9,23 +9,23 @@ import Foundation
 public struct PersonalizationStrategyParams: Codable, JSONEncodable {
     /// Scores associated with each event.  The higher the scores, the higher the impact of those events on the
     /// personalization of search results.
-    public var eventScoring: [EventScoring]
+    public var eventsScoring: [EventsScoring]
     /// Scores associated with each facet.  The higher the scores, the higher the impact of those events on the
     /// personalization of search results.
-    public var facetScoring: [FacetScoring]
+    public var facetsScoring: [FacetsScoring]
     /// Impact of personalization on the search results.  If set to 0, personalization has no impact on the search
     /// results.
     public var personalizationImpact: Int
 
-    public init(eventScoring: [EventScoring], facetScoring: [FacetScoring], personalizationImpact: Int) {
-        self.eventScoring = eventScoring
-        self.facetScoring = facetScoring
+    public init(eventsScoring: [EventsScoring], facetsScoring: [FacetsScoring], personalizationImpact: Int) {
+        self.eventsScoring = eventsScoring
+        self.facetsScoring = facetsScoring
         self.personalizationImpact = personalizationImpact
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case eventScoring
-        case facetScoring
+        case eventsScoring
+        case facetsScoring
         case personalizationImpact
     }
 
@@ -33,24 +33,24 @@ public struct PersonalizationStrategyParams: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.eventScoring, forKey: .eventScoring)
-        try container.encode(self.facetScoring, forKey: .facetScoring)
+        try container.encode(self.eventsScoring, forKey: .eventsScoring)
+        try container.encode(self.facetsScoring, forKey: .facetsScoring)
         try container.encode(self.personalizationImpact, forKey: .personalizationImpact)
     }
 }
 
 extension PersonalizationStrategyParams: Equatable {
     public static func ==(lhs: PersonalizationStrategyParams, rhs: PersonalizationStrategyParams) -> Bool {
-        lhs.eventScoring == rhs.eventScoring &&
-            lhs.facetScoring == rhs.facetScoring &&
+        lhs.eventsScoring == rhs.eventsScoring &&
+            lhs.facetsScoring == rhs.facetsScoring &&
             lhs.personalizationImpact == rhs.personalizationImpact
     }
 }
 
 extension PersonalizationStrategyParams: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.eventScoring.hashValue)
-        hasher.combine(self.facetScoring.hashValue)
+        hasher.combine(self.eventsScoring.hashValue)
+        hasher.combine(self.facetsScoring.hashValue)
         hasher.combine(self.personalizationImpact.hashValue)
     }
 }
