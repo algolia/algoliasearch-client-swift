@@ -17,19 +17,25 @@ public struct TaskUpdate: Codable, JSONEncodable {
     public var enabled: Bool?
     /// Maximum accepted percentage of failures for a task run to finish successfully.
     public var failureThreshold: Int?
+    public var notifications: Notifications?
+    public var policies: Policies?
 
     public init(
         destinationID: String? = nil,
         cron: String? = nil,
         input: TaskInput? = nil,
         enabled: Bool? = nil,
-        failureThreshold: Int? = nil
+        failureThreshold: Int? = nil,
+        notifications: Notifications? = nil,
+        policies: Policies? = nil
     ) {
         self.destinationID = destinationID
         self.cron = cron
         self.input = input
         self.enabled = enabled
         self.failureThreshold = failureThreshold
+        self.notifications = notifications
+        self.policies = policies
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -38,6 +44,8 @@ public struct TaskUpdate: Codable, JSONEncodable {
         case input
         case enabled
         case failureThreshold
+        case notifications
+        case policies
     }
 
     // Encodable protocol methods
@@ -49,6 +57,8 @@ public struct TaskUpdate: Codable, JSONEncodable {
         try container.encodeIfPresent(self.input, forKey: .input)
         try container.encodeIfPresent(self.enabled, forKey: .enabled)
         try container.encodeIfPresent(self.failureThreshold, forKey: .failureThreshold)
+        try container.encodeIfPresent(self.notifications, forKey: .notifications)
+        try container.encodeIfPresent(self.policies, forKey: .policies)
     }
 }
 
@@ -58,7 +68,9 @@ extension TaskUpdate: Equatable {
             lhs.cron == rhs.cron &&
             lhs.input == rhs.input &&
             lhs.enabled == rhs.enabled &&
-            lhs.failureThreshold == rhs.failureThreshold
+            lhs.failureThreshold == rhs.failureThreshold &&
+            lhs.notifications == rhs.notifications &&
+            lhs.policies == rhs.policies
     }
 }
 
@@ -69,5 +81,7 @@ extension TaskUpdate: Hashable {
         hasher.combine(self.input?.hashValue)
         hasher.combine(self.enabled?.hashValue)
         hasher.combine(self.failureThreshold?.hashValue)
+        hasher.combine(self.notifications?.hashValue)
+        hasher.combine(self.policies?.hashValue)
     }
 }

@@ -27,6 +27,8 @@ public struct IngestionTask: Codable, JSONEncodable {
     public var action: ActionType?
     /// Date of the last cursor in RFC 3339 format.
     public var cursor: String?
+    public var notifications: Notifications?
+    public var policies: Policies?
     /// Date of creation in RFC 3339 format.
     public var createdAt: String
     /// Date of last update in RFC 3339 format.
@@ -44,6 +46,8 @@ public struct IngestionTask: Codable, JSONEncodable {
         failureThreshold: Int? = nil,
         action: ActionType? = nil,
         cursor: String? = nil,
+        notifications: Notifications? = nil,
+        policies: Policies? = nil,
         createdAt: String,
         updatedAt: String? = nil
     ) {
@@ -58,6 +62,8 @@ public struct IngestionTask: Codable, JSONEncodable {
         self.failureThreshold = failureThreshold
         self.action = action
         self.cursor = cursor
+        self.notifications = notifications
+        self.policies = policies
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
@@ -74,6 +80,8 @@ public struct IngestionTask: Codable, JSONEncodable {
         case failureThreshold
         case action
         case cursor
+        case notifications
+        case policies
         case createdAt
         case updatedAt
     }
@@ -93,6 +101,8 @@ public struct IngestionTask: Codable, JSONEncodable {
         try container.encodeIfPresent(self.failureThreshold, forKey: .failureThreshold)
         try container.encodeIfPresent(self.action, forKey: .action)
         try container.encodeIfPresent(self.cursor, forKey: .cursor)
+        try container.encodeIfPresent(self.notifications, forKey: .notifications)
+        try container.encodeIfPresent(self.policies, forKey: .policies)
         try container.encode(self.createdAt, forKey: .createdAt)
         try container.encodeIfPresent(self.updatedAt, forKey: .updatedAt)
     }
@@ -111,6 +121,8 @@ extension IngestionTask: Equatable {
             lhs.failureThreshold == rhs.failureThreshold &&
             lhs.action == rhs.action &&
             lhs.cursor == rhs.cursor &&
+            lhs.notifications == rhs.notifications &&
+            lhs.policies == rhs.policies &&
             lhs.createdAt == rhs.createdAt &&
             lhs.updatedAt == rhs.updatedAt
     }
@@ -129,6 +141,8 @@ extension IngestionTask: Hashable {
         hasher.combine(self.failureThreshold?.hashValue)
         hasher.combine(self.action?.hashValue)
         hasher.combine(self.cursor?.hashValue)
+        hasher.combine(self.notifications?.hashValue)
+        hasher.combine(self.policies?.hashValue)
         hasher.combine(self.createdAt.hashValue)
         hasher.combine(self.updatedAt?.hashValue)
     }

@@ -2137,6 +2137,8 @@ open class IngestionClient {
     /// - parameter sourceType: (query) Filters the tasks with the specified source type. (optional)
     /// - parameter destinationID: (query) Destination IDs for filtering the list of tasks. (optional)
     /// - parameter triggerType: (query) Type of task trigger for filtering the list of tasks. (optional)
+    /// - parameter withEmailNotifications: (query) If specified, the response only includes tasks with
+    /// notifications.email.enabled set to this value. (optional)
     /// - parameter sort: (query) Property by which to sort the list of tasks. (optional)
     /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     /// - returns: ListTasksResponse
@@ -2150,6 +2152,7 @@ open class IngestionClient {
         sourceType: [SourceType]? = nil,
         destinationID: [String]? = nil,
         triggerType: [TriggerType]? = nil,
+        withEmailNotifications: Bool? = nil,
         sort: TaskSortKeys? = nil,
         order: OrderKeys? = nil,
         requestOptions: RequestOptions? = nil
@@ -2163,6 +2166,7 @@ open class IngestionClient {
             sourceType: sourceType,
             destinationID: destinationID,
             triggerType: triggerType,
+            withEmailNotifications: withEmailNotifications,
             sort: sort,
             order: order,
             requestOptions: requestOptions
@@ -2197,6 +2201,9 @@ open class IngestionClient {
     //
     // - parameter triggerType: (query) Type of task trigger for filtering the list of tasks. (optional)
     //
+    // - parameter withEmailNotifications: (query) If specified, the response only includes tasks with
+    // notifications.email.enabled set to this value. (optional)
+    //
     // - parameter sort: (query) Property by which to sort the list of tasks. (optional)
     //
     // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
@@ -2211,6 +2218,7 @@ open class IngestionClient {
         sourceType: [SourceType]? = nil,
         destinationID: [String]? = nil,
         triggerType: [TriggerType]? = nil,
+        withEmailNotifications: Bool? = nil,
         sort: TaskSortKeys? = nil,
         order: OrderKeys? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
@@ -2226,6 +2234,7 @@ open class IngestionClient {
             "sourceType": sourceType?.encodeToJSON(),
             "destinationID": destinationID?.encodeToJSON(),
             "triggerType": triggerType?.encodeToJSON(),
+            "withEmailNotifications": withEmailNotifications?.encodeToJSON(),
             "sort": sort?.encodeToJSON(),
             "order": order?.encodeToJSON(),
         ]

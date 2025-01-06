@@ -22,6 +22,8 @@ public struct TaskCreate: Codable, JSONEncodable {
     public var input: TaskInput?
     /// Date of the last cursor in RFC 3339 format.
     public var cursor: String?
+    public var notifications: Notifications?
+    public var policies: Policies?
 
     public init(
         sourceID: String,
@@ -31,7 +33,9 @@ public struct TaskCreate: Codable, JSONEncodable {
         enabled: Bool? = nil,
         failureThreshold: Int? = nil,
         input: TaskInput? = nil,
-        cursor: String? = nil
+        cursor: String? = nil,
+        notifications: Notifications? = nil,
+        policies: Policies? = nil
     ) {
         self.sourceID = sourceID
         self.destinationID = destinationID
@@ -41,6 +45,8 @@ public struct TaskCreate: Codable, JSONEncodable {
         self.failureThreshold = failureThreshold
         self.input = input
         self.cursor = cursor
+        self.notifications = notifications
+        self.policies = policies
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -52,6 +58,8 @@ public struct TaskCreate: Codable, JSONEncodable {
         case failureThreshold
         case input
         case cursor
+        case notifications
+        case policies
     }
 
     // Encodable protocol methods
@@ -66,6 +74,8 @@ public struct TaskCreate: Codable, JSONEncodable {
         try container.encodeIfPresent(self.failureThreshold, forKey: .failureThreshold)
         try container.encodeIfPresent(self.input, forKey: .input)
         try container.encodeIfPresent(self.cursor, forKey: .cursor)
+        try container.encodeIfPresent(self.notifications, forKey: .notifications)
+        try container.encodeIfPresent(self.policies, forKey: .policies)
     }
 }
 
@@ -78,7 +88,9 @@ extension TaskCreate: Equatable {
             lhs.enabled == rhs.enabled &&
             lhs.failureThreshold == rhs.failureThreshold &&
             lhs.input == rhs.input &&
-            lhs.cursor == rhs.cursor
+            lhs.cursor == rhs.cursor &&
+            lhs.notifications == rhs.notifications &&
+            lhs.policies == rhs.policies
     }
 }
 
@@ -92,5 +104,7 @@ extension TaskCreate: Hashable {
         hasher.combine(self.failureThreshold?.hashValue)
         hasher.combine(self.input?.hashValue)
         hasher.combine(self.cursor?.hashValue)
+        hasher.combine(self.notifications?.hashValue)
+        hasher.combine(self.policies?.hashValue)
     }
 }
