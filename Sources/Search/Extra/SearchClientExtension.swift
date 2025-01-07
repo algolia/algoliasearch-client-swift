@@ -548,6 +548,7 @@ public extension SearchClient {
     /// - parameter indexName: The name of the index where to replace the objects
     /// - parameter objects: The new objects
     /// - parameter batchSize: The maximum number of objects to include in a batch
+    /// - parameter scopes: The `scopes` to keep from the index. Defaults to ['settings', 'rules', 'synonyms']
     /// - parameter requestOptions: The request options
     /// - returns: ReplaceAllObjectsResponse
     @discardableResult
@@ -555,6 +556,7 @@ public extension SearchClient {
         indexName: String,
         objects: [some Encodable],
         batchSize: Int = 1000,
+        scopes: [ScopeType] = [.settings, .rules, .synonyms],
         requestOptions: RequestOptions? = nil
     ) async throws -> ReplaceAllObjectsResponse {
         let tmpIndexName = "\(indexName)_tmp_\(Int.random(in: 1_000_000 ..< 10_000_000))"
@@ -565,7 +567,7 @@ public extension SearchClient {
                 operationIndexParams: OperationIndexParams(
                     operation: .copy,
                     destination: tmpIndexName,
-                    scope: [.settings, .rules, .synonyms]
+                    scope: scopes
                 ),
                 requestOptions: requestOptions
             )
@@ -584,7 +586,7 @@ public extension SearchClient {
                 operationIndexParams: OperationIndexParams(
                     operation: .copy,
                     destination: tmpIndexName,
-                    scope: [.settings, .rules, .synonyms]
+                    scope: scopes
                 ),
                 requestOptions: requestOptions
             )
