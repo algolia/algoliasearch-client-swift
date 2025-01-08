@@ -7,34 +7,18 @@ import Foundation
 #endif
 
 public struct SourceDocker: Codable, JSONEncodable {
-    public var imageType: DockerImageType
-    public var registry: DockerRegistry
-    /// Docker image name.
+    /// Shortname of the image, as returned by the referential.
     public var image: String
-    /// Docker image version.
-    public var version: String?
     /// Configuration of the spec.
     public var configuration: AnyCodable
 
-    public init(
-        imageType: DockerImageType,
-        registry: DockerRegistry,
-        image: String,
-        version: String? = nil,
-        configuration: AnyCodable
-    ) {
-        self.imageType = imageType
-        self.registry = registry
+    public init(image: String, configuration: AnyCodable) {
         self.image = image
-        self.version = version
         self.configuration = configuration
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case imageType
-        case registry
         case image
-        case version
         case configuration
     }
 
@@ -42,30 +26,21 @@ public struct SourceDocker: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.imageType, forKey: .imageType)
-        try container.encode(self.registry, forKey: .registry)
         try container.encode(self.image, forKey: .image)
-        try container.encodeIfPresent(self.version, forKey: .version)
         try container.encode(self.configuration, forKey: .configuration)
     }
 }
 
 extension SourceDocker: Equatable {
     public static func ==(lhs: SourceDocker, rhs: SourceDocker) -> Bool {
-        lhs.imageType == rhs.imageType &&
-            lhs.registry == rhs.registry &&
-            lhs.image == rhs.image &&
-            lhs.version == rhs.version &&
+        lhs.image == rhs.image &&
             lhs.configuration == rhs.configuration
     }
 }
 
 extension SourceDocker: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.imageType.hashValue)
-        hasher.combine(self.registry.hashValue)
         hasher.combine(self.image.hashValue)
-        hasher.combine(self.version?.hashValue)
         hasher.combine(self.configuration.hashValue)
     }
 }

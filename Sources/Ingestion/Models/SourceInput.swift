@@ -7,8 +7,8 @@ import Foundation
 #endif
 
 public enum SourceInput: Codable, JSONEncodable, AbstractEncodable {
-    case sourceDocker(SourceDocker)
     case sourceGA4BigQueryExport(SourceGA4BigQueryExport)
+    case sourceDocker(SourceDocker)
     case sourceCommercetools(SourceCommercetools)
     case sourceBigCommerce(SourceBigCommerce)
     case sourceBigQuery(SourceBigQuery)
@@ -19,9 +19,9 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .sourceDocker(value):
-            try container.encode(value)
         case let .sourceGA4BigQueryExport(value):
+            try container.encode(value)
+        case let .sourceDocker(value):
             try container.encode(value)
         case let .sourceCommercetools(value):
             try container.encode(value)
@@ -40,10 +40,10 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(SourceDocker.self) {
-            self = .sourceDocker(value)
-        } else if let value = try? container.decode(SourceGA4BigQueryExport.self) {
+        if let value = try? container.decode(SourceGA4BigQueryExport.self) {
             self = .sourceGA4BigQueryExport(value)
+        } else if let value = try? container.decode(SourceDocker.self) {
+            self = .sourceDocker(value)
         } else if let value = try? container.decode(SourceCommercetools.self) {
             self = .sourceCommercetools(value)
         } else if let value = try? container.decode(SourceBigCommerce.self) {
@@ -66,10 +66,10 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .sourceDocker(value):
-            value as SourceDocker
         case let .sourceGA4BigQueryExport(value):
             value as SourceGA4BigQueryExport
+        case let .sourceDocker(value):
+            value as SourceDocker
         case let .sourceCommercetools(value):
             value as SourceCommercetools
         case let .sourceBigCommerce(value):

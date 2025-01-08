@@ -7,30 +7,14 @@ import Foundation
 #endif
 
 public struct SourceUpdateDocker: Codable, JSONEncodable {
-    public var registry: DockerRegistry?
-    /// Docker image name.
-    public var image: String?
-    /// Docker image version.
-    public var version: String?
     /// Configuration of the spec.
     public var configuration: AnyCodable
 
-    public init(
-        registry: DockerRegistry? = nil,
-        image: String? = nil,
-        version: String? = nil,
-        configuration: AnyCodable
-    ) {
-        self.registry = registry
-        self.image = image
-        self.version = version
+    public init(configuration: AnyCodable) {
         self.configuration = configuration
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case registry
-        case image
-        case version
         case configuration
     }
 
@@ -38,27 +22,18 @@ public struct SourceUpdateDocker: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.registry, forKey: .registry)
-        try container.encodeIfPresent(self.image, forKey: .image)
-        try container.encodeIfPresent(self.version, forKey: .version)
         try container.encode(self.configuration, forKey: .configuration)
     }
 }
 
 extension SourceUpdateDocker: Equatable {
     public static func ==(lhs: SourceUpdateDocker, rhs: SourceUpdateDocker) -> Bool {
-        lhs.registry == rhs.registry &&
-            lhs.image == rhs.image &&
-            lhs.version == rhs.version &&
-            lhs.configuration == rhs.configuration
+        lhs.configuration == rhs.configuration
     }
 }
 
 extension SourceUpdateDocker: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.registry?.hashValue)
-        hasher.combine(self.image?.hashValue)
-        hasher.combine(self.version?.hashValue)
         hasher.combine(self.configuration.hashValue)
     }
 }
