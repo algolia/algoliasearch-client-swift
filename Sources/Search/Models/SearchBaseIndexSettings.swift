@@ -102,6 +102,19 @@ public struct SearchBaseIndexSettings: Codable, JSONEncodable {
     /// Maximum number of facet values to return when [searching for facet
     /// values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values).
     public var maxFacetHits: Int?
+    /// Characters for which diacritics should be preserved.  By default, Algolia removes diacritics from letters. For
+    /// example, `é` becomes `e`. If this causes issues in your search, you can specify characters that should keep
+    /// their diacritics.
+    public var keepDiacriticsOnCharacters: String?
+    /// Attributes to use as [custom
+    /// ranking](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/). Attribute names are
+    /// case-sensitive.  The custom ranking attributes decide which items are shown first if the other ranking criteria
+    /// are equal.  Records with missing values for your selected custom ranking attributes are always sorted last.
+    /// Boolean attributes are sorted based on their alphabetical order.  **Modifiers**  - `asc(\"ATTRIBUTE\")`.   Sort
+    /// the index by the values of an attribute, in ascending order.  - `desc(\"ATTRIBUTE\")`.   Sort the index by the
+    /// values of an attribute, in descending order.  If you use two or more custom ranking attributes, [reduce the precision](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/how-to/controlling-custom-ranking-metrics-precision/)
+    /// of your first attributes, or the other attributes will never be applied.
+    public var customRanking: [String]?
 
     public init(
         attributesForFaceting: [String]? = nil,
@@ -121,7 +134,9 @@ public struct SearchBaseIndexSettings: Codable, JSONEncodable {
         userData: AnyCodable? = nil,
         customNormalization: [String: [String: String]]? = nil,
         attributeForDistinct: String? = nil,
-        maxFacetHits: Int? = nil
+        maxFacetHits: Int? = nil,
+        keepDiacriticsOnCharacters: String? = nil,
+        customRanking: [String]? = nil
     ) {
         self.attributesForFaceting = attributesForFaceting
         self.replicas = replicas
@@ -141,6 +156,8 @@ public struct SearchBaseIndexSettings: Codable, JSONEncodable {
         self.customNormalization = customNormalization
         self.attributeForDistinct = attributeForDistinct
         self.maxFacetHits = maxFacetHits
+        self.keepDiacriticsOnCharacters = keepDiacriticsOnCharacters
+        self.customRanking = customRanking
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -162,6 +179,8 @@ public struct SearchBaseIndexSettings: Codable, JSONEncodable {
         case customNormalization
         case attributeForDistinct
         case maxFacetHits
+        case keepDiacriticsOnCharacters
+        case customRanking
     }
 
     // Encodable protocol methods
@@ -186,6 +205,8 @@ public struct SearchBaseIndexSettings: Codable, JSONEncodable {
         try container.encodeIfPresent(self.customNormalization, forKey: .customNormalization)
         try container.encodeIfPresent(self.attributeForDistinct, forKey: .attributeForDistinct)
         try container.encodeIfPresent(self.maxFacetHits, forKey: .maxFacetHits)
+        try container.encodeIfPresent(self.keepDiacriticsOnCharacters, forKey: .keepDiacriticsOnCharacters)
+        try container.encodeIfPresent(self.customRanking, forKey: .customRanking)
     }
 }
 
@@ -208,7 +229,9 @@ extension SearchBaseIndexSettings: Equatable {
             lhs.userData == rhs.userData &&
             lhs.customNormalization == rhs.customNormalization &&
             lhs.attributeForDistinct == rhs.attributeForDistinct &&
-            lhs.maxFacetHits == rhs.maxFacetHits
+            lhs.maxFacetHits == rhs.maxFacetHits &&
+            lhs.keepDiacriticsOnCharacters == rhs.keepDiacriticsOnCharacters &&
+            lhs.customRanking == rhs.customRanking
     }
 }
 
@@ -232,5 +255,7 @@ extension SearchBaseIndexSettings: Hashable {
         hasher.combine(self.customNormalization?.hashValue)
         hasher.combine(self.attributeForDistinct?.hashValue)
         hasher.combine(self.maxFacetHits?.hashValue)
+        hasher.combine(self.keepDiacriticsOnCharacters?.hashValue)
+        hasher.combine(self.customRanking?.hashValue)
     }
 }

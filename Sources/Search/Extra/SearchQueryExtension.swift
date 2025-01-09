@@ -52,7 +52,6 @@ public extension SearchForHits {
         self.enableABTest = searchParamsObject.enableABTest
         self.attributesToRetrieve = searchParamsObject.attributesToRetrieve
         self.ranking = searchParamsObject.ranking
-        self.customRanking = searchParamsObject.customRanking
         self.relevancyStrictness = searchParamsObject.relevancyStrictness
         self.attributesToHighlight = searchParamsObject.attributesToHighlight
         self.attributesToSnippet = searchParamsObject.attributesToSnippet
@@ -68,7 +67,6 @@ public extension SearchForHits {
         self.disableTypoToleranceOnAttributes = searchParamsObject.disableTypoToleranceOnAttributes
         self.ignorePlurals = searchParamsObject.ignorePlurals
         self.removeStopWords = searchParamsObject.removeStopWords
-        self.keepDiacriticsOnCharacters = searchParamsObject.keepDiacriticsOnCharacters
         self.queryLanguages = searchParamsObject.queryLanguages
         self.decompoundQuery = searchParamsObject.decompoundQuery
         self.enableRules = searchParamsObject.enableRules
@@ -139,7 +137,6 @@ public extension SearchForFacets {
         self.enableABTest = searchParamsObject.enableABTest
         self.attributesToRetrieve = searchParamsObject.attributesToRetrieve
         self.ranking = searchParamsObject.ranking
-        self.customRanking = searchParamsObject.customRanking
         self.relevancyStrictness = searchParamsObject.relevancyStrictness
         self.attributesToHighlight = searchParamsObject.attributesToHighlight
         self.attributesToSnippet = searchParamsObject.attributesToSnippet
@@ -155,7 +152,6 @@ public extension SearchForFacets {
         self.disableTypoToleranceOnAttributes = searchParamsObject.disableTypoToleranceOnAttributes
         self.ignorePlurals = searchParamsObject.ignorePlurals
         self.removeStopWords = searchParamsObject.removeStopWords
-        self.keepDiacriticsOnCharacters = searchParamsObject.keepDiacriticsOnCharacters
         self.queryLanguages = searchParamsObject.queryLanguages
         self.decompoundQuery = searchParamsObject.decompoundQuery
         self.enableRules = searchParamsObject.enableRules

@@ -117,15 +117,6 @@ public struct SearchForFacets: Codable, JSONEncodable {
     /// attribute, in descending order.  Before you modify the default setting, you should test your changes in the
     /// dashboard, and by [A/B testing](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing/).
     public var ranking: [String]?
-    /// Attributes to use as [custom
-    /// ranking](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/). Attribute names are
-    /// case-sensitive.  The custom ranking attributes decide which items are shown first if the other ranking criteria
-    /// are equal.  Records with missing values for your selected custom ranking attributes are always sorted last.
-    /// Boolean attributes are sorted based on their alphabetical order.  **Modifiers**  - `asc(\"ATTRIBUTE\")`.   Sort
-    /// the index by the values of an attribute, in ascending order.  - `desc(\"ATTRIBUTE\")`.   Sort the index by the
-    /// values of an attribute, in descending order.  If you use two or more custom ranking attributes, [reduce the precision](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/how-to/controlling-custom-ranking-metrics-precision/)
-    /// of your first attributes, or the other attributes will never be applied.
-    public var customRanking: [String]?
     /// Relevancy threshold below which less relevant results aren't included in the results.  You can only set
     /// `relevancyStrictness` on [virtual replica indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/#what-are-virtual-replicas).
     /// Use this setting to strike a balance between the relevance and number of returned results.
@@ -169,10 +160,6 @@ public struct SearchForFacets: Codable, JSONEncodable {
     public var disableTypoToleranceOnAttributes: [String]?
     public var ignorePlurals: SearchIgnorePlurals?
     public var removeStopWords: SearchRemoveStopWords?
-    /// Characters for which diacritics should be preserved.  By default, Algolia removes diacritics from letters. For
-    /// example, `é` becomes `e`. If this causes issues in your search, you can specify characters that should keep
-    /// their diacritics.
-    public var keepDiacriticsOnCharacters: String?
     /// Languages for language-specific query processing steps such as plurals, stop-word removal, and word-detection
     /// dictionaries.  This setting sets a default list of languages used by the `removeStopWords` and `ignorePlurals`
     /// settings. This setting also sets a dictionary for word detection in the logogram-based [CJK](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/#normalization-for-logogram-based-languages-cjk)
@@ -303,7 +290,6 @@ public struct SearchForFacets: Codable, JSONEncodable {
         enableABTest: Bool? = nil,
         attributesToRetrieve: [String]? = nil,
         ranking: [String]? = nil,
-        customRanking: [String]? = nil,
         relevancyStrictness: Int? = nil,
         attributesToHighlight: [String]? = nil,
         attributesToSnippet: [String]? = nil,
@@ -319,7 +305,6 @@ public struct SearchForFacets: Codable, JSONEncodable {
         disableTypoToleranceOnAttributes: [String]? = nil,
         ignorePlurals: SearchIgnorePlurals? = nil,
         removeStopWords: SearchRemoveStopWords? = nil,
-        keepDiacriticsOnCharacters: String? = nil,
         queryLanguages: [SearchSupportedLanguage]? = nil,
         decompoundQuery: Bool? = nil,
         enableRules: Bool? = nil,
@@ -385,7 +370,6 @@ public struct SearchForFacets: Codable, JSONEncodable {
         self.enableABTest = enableABTest
         self.attributesToRetrieve = attributesToRetrieve
         self.ranking = ranking
-        self.customRanking = customRanking
         self.relevancyStrictness = relevancyStrictness
         self.attributesToHighlight = attributesToHighlight
         self.attributesToSnippet = attributesToSnippet
@@ -401,7 +385,6 @@ public struct SearchForFacets: Codable, JSONEncodable {
         self.disableTypoToleranceOnAttributes = disableTypoToleranceOnAttributes
         self.ignorePlurals = ignorePlurals
         self.removeStopWords = removeStopWords
-        self.keepDiacriticsOnCharacters = keepDiacriticsOnCharacters
         self.queryLanguages = queryLanguages
         self.decompoundQuery = decompoundQuery
         self.enableRules = enableRules
@@ -469,7 +452,6 @@ public struct SearchForFacets: Codable, JSONEncodable {
         case enableABTest
         case attributesToRetrieve
         case ranking
-        case customRanking
         case relevancyStrictness
         case attributesToHighlight
         case attributesToSnippet
@@ -485,7 +467,6 @@ public struct SearchForFacets: Codable, JSONEncodable {
         case disableTypoToleranceOnAttributes
         case ignorePlurals
         case removeStopWords
-        case keepDiacriticsOnCharacters
         case queryLanguages
         case decompoundQuery
         case enableRules
@@ -556,7 +537,6 @@ public struct SearchForFacets: Codable, JSONEncodable {
         try container.encodeIfPresent(self.enableABTest, forKey: .enableABTest)
         try container.encodeIfPresent(self.attributesToRetrieve, forKey: .attributesToRetrieve)
         try container.encodeIfPresent(self.ranking, forKey: .ranking)
-        try container.encodeIfPresent(self.customRanking, forKey: .customRanking)
         try container.encodeIfPresent(self.relevancyStrictness, forKey: .relevancyStrictness)
         try container.encodeIfPresent(self.attributesToHighlight, forKey: .attributesToHighlight)
         try container.encodeIfPresent(self.attributesToSnippet, forKey: .attributesToSnippet)
@@ -575,7 +555,6 @@ public struct SearchForFacets: Codable, JSONEncodable {
         try container.encodeIfPresent(self.disableTypoToleranceOnAttributes, forKey: .disableTypoToleranceOnAttributes)
         try container.encodeIfPresent(self.ignorePlurals, forKey: .ignorePlurals)
         try container.encodeIfPresent(self.removeStopWords, forKey: .removeStopWords)
-        try container.encodeIfPresent(self.keepDiacriticsOnCharacters, forKey: .keepDiacriticsOnCharacters)
         try container.encodeIfPresent(self.queryLanguages, forKey: .queryLanguages)
         try container.encodeIfPresent(self.decompoundQuery, forKey: .decompoundQuery)
         try container.encodeIfPresent(self.enableRules, forKey: .enableRules)
@@ -648,7 +627,6 @@ extension SearchForFacets: Equatable {
             lhs.enableABTest == rhs.enableABTest &&
             lhs.attributesToRetrieve == rhs.attributesToRetrieve &&
             lhs.ranking == rhs.ranking &&
-            lhs.customRanking == rhs.customRanking &&
             lhs.relevancyStrictness == rhs.relevancyStrictness &&
             lhs.attributesToHighlight == rhs.attributesToHighlight &&
             lhs.attributesToSnippet == rhs.attributesToSnippet &&
@@ -664,7 +642,6 @@ extension SearchForFacets: Equatable {
             lhs.disableTypoToleranceOnAttributes == rhs.disableTypoToleranceOnAttributes &&
             lhs.ignorePlurals == rhs.ignorePlurals &&
             lhs.removeStopWords == rhs.removeStopWords &&
-            lhs.keepDiacriticsOnCharacters == rhs.keepDiacriticsOnCharacters &&
             lhs.queryLanguages == rhs.queryLanguages &&
             lhs.decompoundQuery == rhs.decompoundQuery &&
             lhs.enableRules == rhs.enableRules &&
@@ -734,7 +711,6 @@ extension SearchForFacets: Hashable {
         hasher.combine(self.enableABTest?.hashValue)
         hasher.combine(self.attributesToRetrieve?.hashValue)
         hasher.combine(self.ranking?.hashValue)
-        hasher.combine(self.customRanking?.hashValue)
         hasher.combine(self.relevancyStrictness?.hashValue)
         hasher.combine(self.attributesToHighlight?.hashValue)
         hasher.combine(self.attributesToSnippet?.hashValue)
@@ -750,7 +726,6 @@ extension SearchForFacets: Hashable {
         hasher.combine(self.disableTypoToleranceOnAttributes?.hashValue)
         hasher.combine(self.ignorePlurals?.hashValue)
         hasher.combine(self.removeStopWords?.hashValue)
-        hasher.combine(self.keepDiacriticsOnCharacters?.hashValue)
         hasher.combine(self.queryLanguages?.hashValue)
         hasher.combine(self.decompoundQuery?.hashValue)
         hasher.combine(self.enableRules?.hashValue)

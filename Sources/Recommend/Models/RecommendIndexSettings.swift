@@ -103,6 +103,19 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
     /// Maximum number of facet values to return when [searching for facet
     /// values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values).
     public var maxFacetHits: Int?
+    /// Characters for which diacritics should be preserved.  By default, Algolia removes diacritics from letters. For
+    /// example, `é` becomes `e`. If this causes issues in your search, you can specify characters that should keep
+    /// their diacritics.
+    public var keepDiacriticsOnCharacters: String?
+    /// Attributes to use as [custom
+    /// ranking](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/). Attribute names are
+    /// case-sensitive.  The custom ranking attributes decide which items are shown first if the other ranking criteria
+    /// are equal.  Records with missing values for your selected custom ranking attributes are always sorted last.
+    /// Boolean attributes are sorted based on their alphabetical order.  **Modifiers**  - `asc(\"ATTRIBUTE\")`.   Sort
+    /// the index by the values of an attribute, in ascending order.  - `desc(\"ATTRIBUTE\")`.   Sort the index by the
+    /// values of an attribute, in descending order.  If you use two or more custom ranking attributes, [reduce the precision](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/how-to/controlling-custom-ranking-metrics-precision/)
+    /// of your first attributes, or the other attributes will never be applied.
+    public var customRanking: [String]?
     /// Attributes to include in the API response.  To reduce the size of your response, you can retrieve only some of
     /// the attributes. Attribute names are case-sensitive.  - `*` retrieves all attributes, except attributes included
     /// in the `customRanking` and `unretrievableAttributes` settings. - To retrieve all attributes except a specific
@@ -260,6 +273,8 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         customNormalization: [String: [String: String]]? = nil,
         attributeForDistinct: String? = nil,
         maxFacetHits: Int? = nil,
+        keepDiacriticsOnCharacters: String? = nil,
+        customRanking: [String]? = nil,
         attributesToRetrieve: [String]? = nil,
         ranking: [String]? = nil,
         relevancyStrictness: Int? = nil,
@@ -317,6 +332,8 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         self.customNormalization = customNormalization
         self.attributeForDistinct = attributeForDistinct
         self.maxFacetHits = maxFacetHits
+        self.keepDiacriticsOnCharacters = keepDiacriticsOnCharacters
+        self.customRanking = customRanking
         self.attributesToRetrieve = attributesToRetrieve
         self.ranking = ranking
         self.relevancyStrictness = relevancyStrictness
@@ -376,6 +393,8 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         case customNormalization
         case attributeForDistinct
         case maxFacetHits
+        case keepDiacriticsOnCharacters
+        case customRanking
         case attributesToRetrieve
         case ranking
         case relevancyStrictness
@@ -438,6 +457,8 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         try container.encodeIfPresent(self.customNormalization, forKey: .customNormalization)
         try container.encodeIfPresent(self.attributeForDistinct, forKey: .attributeForDistinct)
         try container.encodeIfPresent(self.maxFacetHits, forKey: .maxFacetHits)
+        try container.encodeIfPresent(self.keepDiacriticsOnCharacters, forKey: .keepDiacriticsOnCharacters)
+        try container.encodeIfPresent(self.customRanking, forKey: .customRanking)
         try container.encodeIfPresent(self.attributesToRetrieve, forKey: .attributesToRetrieve)
         try container.encodeIfPresent(self.ranking, forKey: .ranking)
         try container.encodeIfPresent(self.relevancyStrictness, forKey: .relevancyStrictness)
@@ -505,6 +526,8 @@ extension RecommendIndexSettings: Equatable {
             lhs.customNormalization == rhs.customNormalization &&
             lhs.attributeForDistinct == rhs.attributeForDistinct &&
             lhs.maxFacetHits == rhs.maxFacetHits &&
+            lhs.keepDiacriticsOnCharacters == rhs.keepDiacriticsOnCharacters &&
+            lhs.customRanking == rhs.customRanking &&
             lhs.attributesToRetrieve == rhs.attributesToRetrieve &&
             lhs.ranking == rhs.ranking &&
             lhs.relevancyStrictness == rhs.relevancyStrictness &&
@@ -566,6 +589,8 @@ extension RecommendIndexSettings: Hashable {
         hasher.combine(self.customNormalization?.hashValue)
         hasher.combine(self.attributeForDistinct?.hashValue)
         hasher.combine(self.maxFacetHits?.hashValue)
+        hasher.combine(self.keepDiacriticsOnCharacters?.hashValue)
+        hasher.combine(self.customRanking?.hashValue)
         hasher.combine(self.attributesToRetrieve?.hashValue)
         hasher.combine(self.ranking?.hashValue)
         hasher.combine(self.relevancyStrictness?.hashValue)
