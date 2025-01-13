@@ -10,6 +10,8 @@ import Foundation
 /// don't exclude records from the search results. Records that match the optional filter rank before records that don't
 /// match. If you're using a negative filter `facet:-value`, matching records rank after records that don't match.  -
 /// Optional filters don't work on virtual replicas. - Optional filters are applied _after_ sort-by attributes. -
+/// Optional filters are applied _before_ custom ranking attributes (in the default
+/// [ranking](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/)). -
 /// Optional filters don't work with numeric attributes.
 public enum RecommendOptionalFilters: Codable, JSONEncodable, AbstractEncodable {
     case arrayOfRecommendOptionalFilters([RecommendOptionalFilters])
