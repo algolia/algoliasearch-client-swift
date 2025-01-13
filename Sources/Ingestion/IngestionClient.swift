@@ -235,6 +235,7 @@ open class IngestionClient {
 
     /// - parameter taskCreate: (body) Request body for creating a task.
     /// - returns: TaskCreateResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func createTaskV1(
         taskCreate: TaskCreateV1,
@@ -252,11 +253,12 @@ open class IngestionClient {
         return body
     }
 
-    // Creates a new task using the v1 endpoint, please use `createTask` instead.
-    //
-    //
-    // - parameter taskCreate: (body) Request body for creating a task.
-    // - returns: RequestBuilder<TaskCreateResponse>
+    /// Creates a new task using the v1 endpoint, please use `createTask` instead.
+    ///
+    ///
+    /// - parameter taskCreate: (body) Request body for creating a task.
+    /// - returns: RequestBuilder<TaskCreateResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func createTaskV1WithHTTPInfo(
         taskCreate: TaskCreateV1,
@@ -851,6 +853,7 @@ open class IngestionClient {
 
     /// - parameter taskID: (path) Unique identifier of a task.
     /// - returns: DeleteResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteTaskV1(taskID: String, requestOptions: RequestOptions? = nil) async throws -> DeleteResponse {
         let response: Response<DeleteResponse> = try await deleteTaskV1WithHTTPInfo(
@@ -865,11 +868,12 @@ open class IngestionClient {
         return body
     }
 
-    // Deletes a task by its ID using the v1 endpoint, please use `deleteTask` instead.
-    //
-    //
-    // - parameter taskID: (path) Unique identifier of a task.
-    // - returns: RequestBuilder<DeleteResponse>
+    /// Deletes a task by its ID using the v1 endpoint, please use `deleteTask` instead.
+    ///
+    ///
+    /// - parameter taskID: (path) Unique identifier of a task.
+    /// - returns: RequestBuilder<DeleteResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func deleteTaskV1WithHTTPInfo(
         taskID: String,
@@ -1155,6 +1159,7 @@ open class IngestionClient {
 
     /// - parameter taskID: (path) Unique identifier of a task.
     /// - returns: TaskUpdateResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func enableTaskV1(taskID: String, requestOptions: RequestOptions? = nil) async throws -> TaskUpdateResponse {
         let response: Response<TaskUpdateResponse> = try await enableTaskV1WithHTTPInfo(
@@ -1169,14 +1174,15 @@ open class IngestionClient {
         return body
     }
 
-    // Enables a task using the v1 endpoint, please use `enableTask` instead.
-    // Required API Key ACLs:
-    //  - addObject
-    //  - deleteIndex
-    //  - editSettings
-    //
-    // - parameter taskID: (path) Unique identifier of a task.
-    // - returns: RequestBuilder<TaskUpdateResponse>
+    /// Enables a task using the v1 endpoint, please use `enableTask` instead.
+    /// Required API Key ACLs:
+    ///  - addObject
+    ///  - deleteIndex
+    ///  - editSettings
+    ///
+    /// - parameter taskID: (path) Unique identifier of a task.
+    /// - returns: RequestBuilder<TaskUpdateResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func enableTaskV1WithHTTPInfo(
         taskID: String,
@@ -1598,6 +1604,7 @@ open class IngestionClient {
 
     /// - parameter taskID: (path) Unique identifier of a task.
     /// - returns: TaskV1
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTaskV1(taskID: String, requestOptions: RequestOptions? = nil) async throws -> TaskV1 {
         let response: Response<TaskV1> = try await getTaskV1WithHTTPInfo(taskID: taskID, requestOptions: requestOptions)
@@ -1609,14 +1616,15 @@ open class IngestionClient {
         return body
     }
 
-    // Retrieves a task by its ID using the v1 endpoint, please use `getTask` instead.
-    // Required API Key ACLs:
-    //  - addObject
-    //  - deleteIndex
-    //  - editSettings
-    //
-    // - parameter taskID: (path) Unique identifier of a task.
-    // - returns: RequestBuilder<TaskV1>
+    /// Retrieves a task by its ID using the v1 endpoint, please use `getTask` instead.
+    /// Required API Key ACLs:
+    ///  - addObject
+    ///  - deleteIndex
+    ///  - editSettings
+    ///
+    /// - parameter taskID: (path) Unique identifier of a task.
+    /// - returns: RequestBuilder<TaskV1>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func getTaskV1WithHTTPInfo(
         taskID: String,
@@ -2363,6 +2371,7 @@ open class IngestionClient {
     /// - parameter sort: (query) Property by which to sort the list of tasks. (optional)
     /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     /// - returns: ListTasksResponseV1
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func listTasksV1(
         itemsPerPage: Int? = nil,
@@ -2396,30 +2405,31 @@ open class IngestionClient {
         return body
     }
 
-    // Retrieves a list of tasks using the v1 endpoint, please use `getTasks` instead.
-    // Required API Key ACLs:
-    //  - addObject
-    //  - deleteIndex
-    //  - editSettings
-    //
-    // - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
-    //
-    // - parameter page: (query) Page number of the paginated API response. (optional)
-    //
-    // - parameter action: (query) Actions for filtering the list of tasks. (optional)
-    //
-    // - parameter enabled: (query) Whether to filter the list of tasks by the `enabled` status. (optional)
-    //
-    // - parameter sourceID: (query) Source IDs for filtering the list of tasks. (optional)
-    //
-    // - parameter destinationID: (query) Destination IDs for filtering the list of tasks. (optional)
-    //
-    // - parameter triggerType: (query) Type of task trigger for filtering the list of tasks. (optional)
-    //
-    // - parameter sort: (query) Property by which to sort the list of tasks. (optional)
-    //
-    // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
-    // - returns: RequestBuilder<ListTasksResponseV1>
+    /// Retrieves a list of tasks using the v1 endpoint, please use `getTasks` instead.
+    /// Required API Key ACLs:
+    ///  - addObject
+    ///  - deleteIndex
+    ///  - editSettings
+    ///
+    /// - parameter itemsPerPage: (query) Number of items per page. (optional, default to 10)
+    ///
+    /// - parameter page: (query) Page number of the paginated API response. (optional)
+    ///
+    /// - parameter action: (query) Actions for filtering the list of tasks. (optional)
+    ///
+    /// - parameter enabled: (query) Whether to filter the list of tasks by the `enabled` status. (optional)
+    ///
+    /// - parameter sourceID: (query) Source IDs for filtering the list of tasks. (optional)
+    ///
+    /// - parameter destinationID: (query) Destination IDs for filtering the list of tasks. (optional)
+    ///
+    /// - parameter triggerType: (query) Type of task trigger for filtering the list of tasks. (optional)
+    ///
+    /// - parameter sort: (query) Property by which to sort the list of tasks. (optional)
+    ///
+    /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    /// - returns: RequestBuilder<ListTasksResponseV1>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func listTasksV1WithHTTPInfo(
         itemsPerPage: Int? = nil,
@@ -2754,6 +2764,7 @@ open class IngestionClient {
 
     /// - parameter taskID: (path) Unique identifier of a task.
     /// - returns: RunResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func runTaskV1(taskID: String, requestOptions: RequestOptions? = nil) async throws -> RunResponse {
         let response: Response<RunResponse> = try await runTaskV1WithHTTPInfo(
@@ -2768,15 +2779,16 @@ open class IngestionClient {
         return body
     }
 
-    // Runs a task using the v1 endpoint, please use `runTask` instead. You can check the status of task runs with the
-    // observability endpoints.
-    // Required API Key ACLs:
-    //  - addObject
-    //  - deleteIndex
-    //  - editSettings
-    //
-    // - parameter taskID: (path) Unique identifier of a task.
-    // - returns: RequestBuilder<RunResponse>
+    /// Runs a task using the v1 endpoint, please use `runTask` instead. You can check the status of task runs with the
+    /// observability endpoints.
+    /// Required API Key ACLs:
+    ///  - addObject
+    ///  - deleteIndex
+    ///  - editSettings
+    ///
+    /// - parameter taskID: (path) Unique identifier of a task.
+    /// - returns: RequestBuilder<RunResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func runTaskV1WithHTTPInfo(
         taskID: String,
@@ -3020,6 +3032,7 @@ open class IngestionClient {
 
     /// - parameter taskSearch: (body)
     /// - returns: [TaskV1]
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func searchTasksV1(taskSearch: TaskSearch, requestOptions: RequestOptions? = nil) async throws -> [TaskV1] {
         let response: Response<[TaskV1]> = try await searchTasksV1WithHTTPInfo(
@@ -3034,14 +3047,15 @@ open class IngestionClient {
         return body
     }
 
-    // Searches for tasks using the v1 endpoint, please use `searchTasks` instead.
-    // Required API Key ACLs:
-    //  - addObject
-    //  - deleteIndex
-    //  - editSettings
-    //
-    // - parameter taskSearch: (body)
-    // - returns: RequestBuilder<[TaskV1]>
+    /// Searches for tasks using the v1 endpoint, please use `searchTasks` instead.
+    /// Required API Key ACLs:
+    ///  - addObject
+    ///  - deleteIndex
+    ///  - editSettings
+    ///
+    /// - parameter taskSearch: (body)
+    /// - returns: RequestBuilder<[TaskV1]>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func searchTasksV1WithHTTPInfo(
         taskSearch: TaskSearch,
@@ -3585,6 +3599,7 @@ open class IngestionClient {
     /// - parameter taskID: (path) Unique identifier of a task.
     /// - parameter taskUpdate: (body)
     /// - returns: TaskUpdateResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func updateTaskV1(
         taskID: String,
@@ -3604,13 +3619,14 @@ open class IngestionClient {
         return body
     }
 
-    // Updates a task by its ID using the v1 endpoint, please use `updateTask` instead.
-    //
-    //
-    // - parameter taskID: (path) Unique identifier of a task.
-    //
-    // - parameter taskUpdate: (body)
-    // - returns: RequestBuilder<TaskUpdateResponse>
+    /// Updates a task by its ID using the v1 endpoint, please use `updateTask` instead.
+    ///
+    ///
+    /// - parameter taskID: (path) Unique identifier of a task.
+    ///
+    /// - parameter taskUpdate: (body)
+    /// - returns: RequestBuilder<TaskUpdateResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func updateTaskV1WithHTTPInfo(
         taskID: String,
