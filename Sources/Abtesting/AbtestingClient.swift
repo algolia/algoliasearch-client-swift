@@ -74,7 +74,10 @@ open class AbtestingClient {
             method: "POST",
             path: resourcePath,
             data: body,
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
         )
     }
 
@@ -136,7 +139,10 @@ open class AbtestingClient {
             method: "DELETE",
             path: resourcePath,
             data: body,
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
         )
     }
 
@@ -198,7 +204,10 @@ open class AbtestingClient {
             method: "GET",
             path: resourcePath,
             data: body,
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
         )
     }
 
@@ -266,7 +275,10 @@ open class AbtestingClient {
             method: "POST",
             path: resourcePath,
             data: body ?? AnyCodable(),
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
         )
     }
 
@@ -334,7 +346,10 @@ open class AbtestingClient {
             method: "PUT",
             path: resourcePath,
             data: body ?? AnyCodable(),
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
         )
     }
 
@@ -380,7 +395,10 @@ open class AbtestingClient {
             method: "DELETE",
             path: resourcePath,
             data: body,
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
         )
     }
 
@@ -427,7 +445,10 @@ open class AbtestingClient {
             method: "POST",
             path: resourcePath,
             data: body,
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
         )
     }
 
@@ -470,7 +491,10 @@ open class AbtestingClient {
             method: "GET",
             path: resourcePath,
             data: body,
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
         )
     }
 
@@ -543,7 +567,10 @@ open class AbtestingClient {
             method: "GET",
             path: resourcePath,
             data: body,
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
         )
     }
 
@@ -589,7 +616,10 @@ open class AbtestingClient {
             method: "POST",
             path: resourcePath,
             data: body,
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
         )
     }
 
@@ -635,7 +665,10 @@ open class AbtestingClient {
             method: "POST",
             path: resourcePath,
             data: body,
-            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
         )
     }
 }
