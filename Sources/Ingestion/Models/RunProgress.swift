@@ -7,10 +7,10 @@ import Foundation
 #endif
 
 public struct RunProgress: Codable, JSONEncodable {
-    public var expectedNbOfEvents: Int?
-    public var receivedNbOfEvents: Int?
+    public var expectedNbOfEvents: Int
+    public var receivedNbOfEvents: Int
 
-    public init(expectedNbOfEvents: Int? = nil, receivedNbOfEvents: Int? = nil) {
+    public init(expectedNbOfEvents: Int, receivedNbOfEvents: Int) {
         self.expectedNbOfEvents = expectedNbOfEvents
         self.receivedNbOfEvents = receivedNbOfEvents
     }
@@ -24,8 +24,8 @@ public struct RunProgress: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.expectedNbOfEvents, forKey: .expectedNbOfEvents)
-        try container.encodeIfPresent(self.receivedNbOfEvents, forKey: .receivedNbOfEvents)
+        try container.encode(self.expectedNbOfEvents, forKey: .expectedNbOfEvents)
+        try container.encode(self.receivedNbOfEvents, forKey: .receivedNbOfEvents)
     }
 }
 
@@ -38,7 +38,7 @@ extension RunProgress: Equatable {
 
 extension RunProgress: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.expectedNbOfEvents?.hashValue)
-        hasher.combine(self.receivedNbOfEvents?.hashValue)
+        hasher.combine(self.expectedNbOfEvents.hashValue)
+        hasher.combine(self.receivedNbOfEvents.hashValue)
     }
 }
