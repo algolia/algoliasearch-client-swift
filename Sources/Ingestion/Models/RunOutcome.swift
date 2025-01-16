@@ -10,7 +10,6 @@ import Foundation
 public enum RunOutcome: String, Codable, CaseIterable {
     case success
     case failure
-    case processing
 }
 
 extension RunOutcome: Hashable {}
