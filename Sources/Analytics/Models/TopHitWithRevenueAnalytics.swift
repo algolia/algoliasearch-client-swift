@@ -7,14 +7,15 @@ import Foundation
 #endif
 
 public struct TopHitWithRevenueAnalytics: Codable, JSONEncodable {
-    /// Object ID of a record that's returned as a search result.
+    /// Object ID of a record returned as a search result.
     public var hit: String
     /// Number of occurrences.
     public var count: Int
-    /// Click-through rate, calculated as number of tracked searches with at least one click event divided by the number
-    /// of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to true.
+    /// Click-through rate: calculated as the number of tracked searches with at least one click event divided by the
+    /// number of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to
+    /// true.
     public var clickThroughRate: Double?
-    /// Conversion rate, calculated as number of tracked searches with at least one conversion event divided by the
+    /// Conversion rate: calculated as the number of tracked searches with at least one conversion event divided by the
     /// number of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to
     /// true.
     public var conversionRate: Double?
@@ -24,18 +25,19 @@ public struct TopHitWithRevenueAnalytics: Codable, JSONEncodable {
     public var clickCount: Int
     /// Number of conversions from this search.
     public var conversionCount: Int
-    /// Add-to-cart rate, calculated as number of tracked searches with at least one add-to-cart event divided by the
-    /// number of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to
+    /// Add-to-cart rate: calculated as the number of tracked searches with at least one add-to-cart event divided by
+    /// the number of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to
     /// true.
     public var addToCartRate: Double?
     /// Number of add-to-cart events from this search.
     public var addToCartCount: Int
-    /// Purchase rate, calculated as number of tracked searches with at least one purchase event divided by the number
-    /// of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to true.
+    /// Purchase rate: calculated as the number of tracked searches with at least one purchase event divided by the
+    /// number of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to
+    /// true.
     public var purchaseRate: Double?
     /// Number of purchase events from this search.
     public var purchaseCount: Int
-    /// Revenue associated with this search, broken-down by currencies.
+    /// Revenue associated with this search: broken down by currency.
     public var currencies: [String: CurrencyCode]
 
     public init(

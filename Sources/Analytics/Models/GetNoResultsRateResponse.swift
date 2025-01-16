@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct GetNoResultsRateResponse: Codable, JSONEncodable {
-    /// No results rate, calculated as number of searches with zero results divided by the total number of searches.
+    /// No results rate: calculated as the number of searches with zero results divided by the total number of searches.
     public var rate: Double
     /// Number of searches.
     public var count: Int

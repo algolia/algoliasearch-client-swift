@@ -7,8 +7,8 @@ import Foundation
 #endif
 
 public struct GetAddToCartRateResponse: Codable, JSONEncodable {
-    /// Add-to-cart rate, calculated as number of tracked searches with at least one add-to-cart event divided by the
-    /// number of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to
+    /// Add-to-cart rate: calculated as the number of tracked searches with at least one add-to-cart event divided by
+    /// the number of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to
     /// true.
     public var rate: Double?
     /// Number of tracked searches. Tracked searches are search requests where the `clickAnalytics` parameter is true.

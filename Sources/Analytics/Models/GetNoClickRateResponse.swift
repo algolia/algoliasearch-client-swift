@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct GetNoClickRateResponse: Codable, JSONEncodable {
-    /// No click rate, calculated as number of tracked searches without any click divided by the number of tracked
+    /// No click rate: calculated as the number of tracked searches without clicks divided by the number of tracked
     /// searches.
     public var rate: Double
     /// Number of tracked searches. Tracked searches are search requests where the `clickAnalytics` parameter is true.

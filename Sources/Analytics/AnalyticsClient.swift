@@ -334,8 +334,14 @@ open class AnalyticsClient {
         return body
     }
 
-    // Retrieves the add-to-cart rate for all of your searches with at least one add-to-cart event, including a daily
-    // breakdown.  By default, the analyzed period includes the last eight days including the current day.
+    // Retrieves the add-to-cart rate for all your searches with at least one add-to-cart event, including a daily
+    // breakdown.  By default, the analyzed period includes the last eight days including the current day.  The rate is
+    // the number of add-to-cart conversion events divided by the number of tracked searches. A search is tracked if it
+    // returns a queryID (`clickAnalytics` is `true`). This differs from the response's `count`, which shows the overall
+    // number of searches, including those where `clickAnalytics` is `false`.  **There's a difference between a 0 and
+    // null add-to-cart rate when `clickAnalytics` is enabled:**  - **Null** means there were no queries: since Algolia
+    // didn't receive any events, the add-to-cart rate is null. - **0** mean there _were_ queries but no [add-to-cart
+    // events](https://www.algolia.com/doc/guides/sending-events/getting-started/) were received.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -416,9 +422,12 @@ open class AnalyticsClient {
     }
 
     // Retrieves the average click position of your search results, including a daily breakdown.  The average click
-    // position is the average of all clicked search results' positions. For example, if users only ever click on the
-    // first result for any search, the average click position is 1. By default, the analyzed period includes the last
-    // eight days including the current day.
+    // position is the average of all clicked search result positions. For example, if users only ever click on the
+    // first
+    // result for any search, the average click position is 1. By default, the analyzed period includes the last eight
+    // days including the current day.  An average of `null` when `clickAnalytics` is enabled means Algolia didn't
+    // receive any [click events](https://www.algolia.com/doc/guides/sending-events/getting-started/) for the queries.
+    // The average is `null` until Algolia receives at least one click event.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -499,7 +508,9 @@ open class AnalyticsClient {
     }
 
     // Retrieves the positions in the search results and their associated number of clicks.  This lets you check how
-    // many clicks the first, second, or tenth search results receive.
+    // many clicks the first, second, or tenth search results receive.  An average of `0` when `clickAnalytics` is
+    // enabled means Algolia didn't receive any [click
+    // events](https://www.algolia.com/doc/guides/sending-events/getting-started/) for the queries.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -579,8 +590,11 @@ open class AnalyticsClient {
         return body
     }
 
-    // Retrieves the click-through rate for all of your searches with at least one click event, including a daily
-    // breakdown  By default, the analyzed period includes the last eight days including the current day.
+    // Retrieves the click-through rate (CTR) for all your searches with at least one click event, including a daily
+    // breakdown.  By default, the analyzed period includes the last eight days including the current day.  **There's a
+    // difference between a 0 and null CTR when `clickAnalytics` is enabled:**  - **Null** means there were no queries:
+    // since Algolia didn't receive any events, CTR is null. - **0** mean there _were_ queries but no [click
+    // events](https://www.algolia.com/doc/guides/sending-events/getting-started/) were received.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -660,8 +674,11 @@ open class AnalyticsClient {
         return body
     }
 
-    // Retrieves the conversion rate for all of your searches with at least one conversion event, including a daily
-    // breakdown.  By default, the analyzed period includes the last eight days including the current day.
+    // Retrieves the conversion rate (CR) for all your searches with at least one conversion event, including a daily
+    // breakdown.  By default, the analyzed period includes the last eight days including the current day.  **There's a
+    // difference between a 0 and null CR when `clickAnalytics` is enabled:**  - **Null** means there were no queries:
+    // since Algolia didn't receive any events, CR is null. - **0** mean there _were_ queries but no [conversion
+    // events](https://www.algolia.com/doc/guides/sending-events/getting-started/) were received.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -742,7 +759,8 @@ open class AnalyticsClient {
     }
 
     // Retrieves the fraction of searches that didn't lead to any click within a time range, including a daily
-    // breakdown.  By default, the analyzed period includes the last eight days including the current day.
+    // breakdown. It also returns the number of tracked searches and tracked searches without clicks.  By default, the
+    // analyzed period includes the last eight days including the current day.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -823,7 +841,8 @@ open class AnalyticsClient {
     }
 
     // Retrieves the fraction of searches that didn't return any results within a time range, including a daily
-    // breakdown.  By default, the analyzed period includes the last eight days including the current day.
+    // breakdown. It also returns the count of searches and searches without results used to compute the rates.  By
+    // default, the analyzed period includes the last eight days including the current day.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -903,8 +922,18 @@ open class AnalyticsClient {
         return body
     }
 
-    // Retrieves the purchase rate for all of your searches with at least one purchase event, including a daily
-    // breakdown.  By default, the analyzed period includes the last eight days including the current day.
+    // Retrieves the purchase rate for all your searches with at least one purchase event, including a daily breakdown. 
+    // By default, the analyzed period includes the last eight days including the current day.  The rate is the number
+    // of
+    // purchase conversion events divided by the number of tracked searches. A search is tracked if it returns a query
+    // ID
+    // (`clickAnalytics` is `true`). This differs from the response's `count`, which shows the overall number of
+    // searches, including those where `clickAnalytics` is `false`.  **There's a difference between a 0 and null
+    // purchase
+    // rate when `clickAnalytics` is enabled:**  - **Null** means there were no queries: since Algolia didn't receive
+    // any
+    // events, the purchase rate is null. - **0** mean there _were_ queries but no [purchase conversion
+    // events](https://www.algolia.com/doc/guides/sending-events/getting-started/) were received.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -985,8 +1014,10 @@ open class AnalyticsClient {
     }
 
     // Retrieves revenue-related metrics, such as the total revenue or the average order value.  To retrieve
-    // revenue-related metrics, sent purchase events. By default, the analyzed period includes the last eight days
-    // including the current day.
+    // revenue-related metrics, send purchase events. By default, the analyzed period includes the last eight days
+    // including the current day.  Revenue is based on purchase conversion events (a conversion event with an
+    // `eventSubtype` attribute of `purchase`). The revenue is the `price` attribute multiplied by the `quantity`
+    // attribute for each object in the event's `objectData` array.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -1153,7 +1184,8 @@ open class AnalyticsClient {
         return body
     }
 
-    // Retrieves the most popular searches that didn't lead to any clicks, from the 1,000 most frequent searches.
+    // Retrieves the most popular searches that didn't lead to any clicks, from the 1,000 most frequent searches.  For
+    // each search, it also returns the number of displayed search results that remained unclicked.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -1247,7 +1279,7 @@ open class AnalyticsClient {
         return body
     }
 
-    // Retrieves the most popular searches that didn't return any results.
+    // Retrieves the 1,000 most frequent searches that produced zero results.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -1321,8 +1353,9 @@ open class AnalyticsClient {
         return body
     }
 
-    // Retrieves the time when the Analytics data for the specified index was last updated.  The Analytics data is
-    // updated every 5 minutes.
+    // Retrieves the time when the Analytics data for the specified index was last updated.  If the index has been
+    // recently created or no search has been performed yet the updated time is `null`.  The Analytics data is updated
+    // every 5&nbsp;minutes.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -1394,7 +1427,7 @@ open class AnalyticsClient {
         return body
     }
 
-    // Retrieves the countries with the most searches to your index.
+    // Retrieves the countries with the most searches in your index.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -1491,8 +1524,8 @@ open class AnalyticsClient {
         return body
     }
 
-    // Retrieves the most frequently used filter attributes.  These are attributes of your records that you included in
-    // the `attributesForFaceting` setting.
+    // Retrieves the 1,000 most frequently used filter attributes.  These are attributes of your records that you
+    // included in the `attributesForFaceting` setting.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -1596,8 +1629,8 @@ open class AnalyticsClient {
         return body
     }
 
-    // Retrieves the most frequent filter (facet) values for a filter attribute.  These are attributes of your records
-    // that you included in the `attributesForFaceting` setting.
+    // Retrieves the 1,000 most frequent filter (facet) values for a filter attribute.  These are attributes of your
+    // records that you included in the `attributesForFaceting` setting.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -1714,9 +1747,9 @@ open class AnalyticsClient {
         return body
     }
 
-    // Retrieves the most frequently used filters for a search that didn't return any results.  To get the most frequent
-    // searches without results, use the [Retrieve searches without results](#tag/search/operation/getSearchesNoResults)
-    // operation.
+    // Retrieves the 1,000 most frequently used filters for a search that didn't return any results.  To get the most
+    // frequent searches without results, use the [Retrieve searches without
+    // results](#tag/search/operation/getSearchesNoResults) operation.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -1782,8 +1815,8 @@ open class AnalyticsClient {
     /// - parameter search: (query) Search query. (optional)
     /// - parameter clickAnalytics: (query) Whether to include metrics related to click and conversion events in the
     /// response. (optional, default to false)
-    /// - parameter revenueAnalytics: (query) Whether to include revenue-related metrics in the response.  If true,
-    /// metrics related to click and conversion events are also included in the response.  (optional, default to false)
+    /// - parameter revenueAnalytics: (query) Whether to include metrics related to revenue events in the response.
+    /// (optional, default to false)
     /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter limit: (query) Number of items to return.  (optional, default to 10)
@@ -1825,7 +1858,18 @@ open class AnalyticsClient {
         return body
     }
 
-    // Retrieves the object IDs of the most frequent search results.
+    // Retrieves the object IDs of the 1,000 most frequent search results.  If you set the `clickAnalytics` query
+    // parameter to true, the response also includes:  - Tracked searches count. Tracked searches are Search API
+    // requests
+    // with the `clickAnalytics` parameter set to `true`. This differs from the response's `count`, which shows the
+    // overall number of searches, including those where `clickAnalytics` is `false`. - Click count - Click-through rate
+    // (CTR) - Conversion count - Conversion rate (CR) - Average click position  If you set the `revenueAnalytics`
+    // parameter to `true`, the response also includes:  - Add-to-cart count - Add-to-cart rate (ATCR) - Purchase count
+    // -
+    // Purchase rate - Revenue details for each currency  **There's a difference between 0% rates and null rates:**  -
+    // **Null** means there were no queries: since Algolia didn't receive any events, the rates (CTR, CR, ATCR, purchase
+    // rate) are null. - **0% rates** mean there _were_ queries but no [click or conversion
+    // events](https://www.algolia.com/doc/guides/sending-events/getting-started/) were received.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -1836,8 +1880,8 @@ open class AnalyticsClient {
     // - parameter clickAnalytics: (query) Whether to include metrics related to click and conversion events in the
     // response. (optional, default to false)
     //
-    // - parameter revenueAnalytics: (query) Whether to include revenue-related metrics in the response.  If true,
-    // metrics related to click and conversion events are also included in the response.  (optional, default to false)
+    // - parameter revenueAnalytics: (query) Whether to include metrics related to revenue events in the response.
+    // (optional, default to false)
     //
     // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
@@ -1900,8 +1944,8 @@ open class AnalyticsClient {
     /// - parameter index: (query) Index name.
     /// - parameter clickAnalytics: (query) Whether to include metrics related to click and conversion events in the
     /// response. (optional, default to false)
-    /// - parameter revenueAnalytics: (query) Whether to include revenue-related metrics in the response.  If true,
-    /// metrics related to click and conversion events are also included in the response.  (optional, default to false)
+    /// - parameter revenueAnalytics: (query) Whether to include metrics related to revenue events in the response.
+    /// (optional, default to false)
     /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter orderBy: (query) Attribute by which to order the response items.  If the `clickAnalytics` parameter
@@ -1948,7 +1992,17 @@ open class AnalyticsClient {
         return body
     }
 
-    // Returns the most popular search terms.
+    // Returns the most popular searches. For each search, it also includes the average number of hits.  If you set the
+    // `clickAnalytics` query parameter to `true`, the response also includes  - Tracked searches count. Tracked
+    // searches
+    // are Search API requests with the `clickAnalytics` parameter set to `true`. This differs from the response's
+    // `count`, which shows the overall number of searches, including those where `clickAnalytics` is `false`. - Click
+    // count - Click-through rate (CTR) - Conversion count - Conversion rate (CR) - Average click position  If you set
+    // the `revenueAnalytics` query parameter to `true`, the response also includes:  - Add-to-cart count - Add-to-cart
+    // rate (ATCR) - Purchase count - Purchase rate - Revenue details for each currency  **There's a difference between
+    // 0% rates and null rates:**  - **Null** means there were no queries: since Algolia didn't receive any events, the
+    // rates (CTR, CR, ATCR, purchase rate) are null. - **0% rates** mean there _were_ queries but no [click or
+    // conversion events](https://www.algolia.com/doc/guides/sending-events/getting-started/) were received.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -1957,8 +2011,8 @@ open class AnalyticsClient {
     // - parameter clickAnalytics: (query) Whether to include metrics related to click and conversion events in the
     // response. (optional, default to false)
     //
-    // - parameter revenueAnalytics: (query) Whether to include revenue-related metrics in the response.  If true,
-    // metrics related to click and conversion events are also included in the response.  (optional, default to false)
+    // - parameter revenueAnalytics: (query) Whether to include metrics related to revenue events in the response.
+    // (optional, default to false)
     //
     // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
@@ -2055,11 +2109,11 @@ open class AnalyticsClient {
         return body
     }
 
-    // Retrieves the number of unique users within a time range, including a daily breakdown.  Since this endpoint
-    // returns the number of unique users, the sum of the daily values might be different from the total number.  By
-    // default, Algolia distinguishes search users by their IP address, _unless_ you include a pseudonymous user
-    // identifier in your search requests with the `userToken` API parameter or `x-algolia-usertoken` request header. By
-    // default, the analyzed period includes the last eight days including the current day.
+    // Retrieves the number of unique users within a time range, including a daily breakdown.  Since it returns the
+    // number of unique users, the sum of the daily values might be different from the total number.  By default:  -
+    // Algolia distinguishes search users by their IP address, _unless_ you include a pseudonymous user identifier in
+    // your search requests with the `userToken` API parameter or `x-algolia-usertoken` request header. - The analyzed
+    // period includes the last eight days including the current day.
     // Required API Key ACLs:
     //  - analytics
     //

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct DailyRevenue: Codable, JSONEncodable {
-    /// Revenue associated with this search, broken-down by currencies.
+    /// Revenue associated with this search: broken down by currency.
     public var currencies: [String: CurrencyCode]
     /// Date in the format YYYY-MM-DD.
     public var date: String

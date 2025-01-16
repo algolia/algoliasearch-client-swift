@@ -7,14 +7,15 @@ import Foundation
 #endif
 
 public struct TopHitWithAnalytics: Codable, JSONEncodable {
-    /// Object ID of a record that's returned as a search result.
+    /// Object ID of a record returned as a search result.
     public var hit: String
     /// Number of occurrences.
     public var count: Int
-    /// Click-through rate, calculated as number of tracked searches with at least one click event divided by the number
-    /// of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to true.
+    /// Click-through rate: calculated as the number of tracked searches with at least one click event divided by the
+    /// number of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to
+    /// true.
     public var clickThroughRate: Double?
-    /// Conversion rate, calculated as number of tracked searches with at least one conversion event divided by the
+    /// Conversion rate: calculated as the number of tracked searches with at least one conversion event divided by the
     /// number of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to
     /// true.
     public var conversionRate: Double?

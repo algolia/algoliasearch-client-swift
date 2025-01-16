@@ -13,7 +13,7 @@ public struct DailyNoResultsRates: Codable, JSONEncodable {
     public var noResultCount: Int
     /// Number of searches.
     public var count: Int
-    /// No results rate, calculated as number of searches with zero results divided by the total number of searches.
+    /// No results rate: calculated as the number of searches with zero results divided by the total number of searches.
     public var rate: Double
 
     public init(date: String, noResultCount: Int, count: Int, rate: Double) {

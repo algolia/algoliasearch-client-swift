@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct DailyConversionRates: Codable, JSONEncodable {
-    /// Conversion rate, calculated as number of tracked searches with at least one conversion event divided by the
+    /// Conversion rate: calculated as the number of tracked searches with at least one conversion event divided by the
     /// number of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to
     /// true.
     public var rate: Double?
