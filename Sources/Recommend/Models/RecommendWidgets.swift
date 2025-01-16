@@ -6,9 +6,9 @@ import Foundation
     import Core
 #endif
 
-/// widgets returned from any rules that are applied to the current search.
+/// Widgets returned from any rules that are applied to the current search.
 public struct RecommendWidgets: Codable, JSONEncodable {
-    /// banners defined in the merchandising studio for the given search.
+    /// Banners defined in the Merchandising Studio for a given search.
     public var banners: [RecommendBanner]?
 
     public init(banners: [RecommendBanner]? = nil) {

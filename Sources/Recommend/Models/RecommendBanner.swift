@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// a search banner with image and url.
+/// Banner with image and link to redirect users.
 public struct RecommendBanner: Codable, JSONEncodable {
     public var image: RecommendBannerImage?
     public var link: RecommendBannerLink?

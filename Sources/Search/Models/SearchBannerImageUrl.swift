@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// url for a search banner image.
+/// URL for an image to show inside a banner.
 public struct SearchBannerImageUrl: Codable, JSONEncodable {
     public var url: String?
 

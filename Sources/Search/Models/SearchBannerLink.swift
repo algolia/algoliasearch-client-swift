@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// link for a banner defined in merchandising studio.
+/// Link for a banner defined in the Merchandising Studio.
 public struct SearchBannerLink: Codable, JSONEncodable {
     public var url: String?
 
