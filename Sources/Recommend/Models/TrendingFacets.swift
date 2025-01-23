@@ -8,11 +8,11 @@ import Foundation
 
 public struct TrendingFacets: Codable, JSONEncodable {
     /// Facet attribute for which to retrieve trending facet values.
-    public var facetName: AnyCodable?
+    public var facetName: String
     public var model: TrendingFacetsModel
     public var fallbackParameters: FallbackParams?
 
-    public init(facetName: AnyCodable?, model: TrendingFacetsModel, fallbackParameters: FallbackParams? = nil) {
+    public init(facetName: String, model: TrendingFacetsModel, fallbackParameters: FallbackParams? = nil) {
         self.facetName = facetName
         self.model = model
         self.fallbackParameters = fallbackParameters
