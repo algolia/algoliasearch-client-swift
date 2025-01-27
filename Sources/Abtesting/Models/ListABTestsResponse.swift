@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct ListABTestsResponse: Codable, JSONEncodable {
-    /// A/B tests.
+    /// The list of A/B tests, null if no A/B tests are configured for this application.
     public var abtests: [ABTest]?
     /// Number of A/B tests.
     public var count: Int
