@@ -1,3 +1,9 @@
+## [9.14.1](https://github.com/algolia/algoliasearch-client-swift/compare/9.14.0...9.14.1)
+
+- [506b8a5636](https://github.com/algolia/api-clients-automation/commit/506b8a5636) fix(specs): responseFields description ([#4399](https://github.com/algolia/api-clients-automation/pull/4399)) by [@kai687](https://github.com/kai687/)
+- [09e657fa76](https://github.com/algolia/api-clients-automation/commit/09e657fa76) fix(specs): add a linter to assert that type is present ([#4393](https://github.com/algolia/api-clients-automation/pull/4393)) by [@millotp](https://github.com/millotp/)
+- [397ff172a4](https://github.com/algolia/api-clients-automation/commit/397ff172a4) fix(swift): don't overwrite decimal encoding/decoding methods ([#4428](https://github.com/algolia/api-clients-automation/pull/4428)) by [@Fluf22](https://github.com/Fluf22/)
+
 ## [9.14.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.13.0...9.14.0)
 
 - [5aa57630d6](https://github.com/algolia/api-clients-automation/commit/5aa57630d6) feat(specs): only use shortname in the source input ([#4287](https://github.com/algolia/api-clients-automation/pull/4287)) by [@millotp](https://github.com/millotp/)
