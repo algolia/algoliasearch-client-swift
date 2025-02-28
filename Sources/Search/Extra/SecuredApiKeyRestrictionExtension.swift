@@ -23,7 +23,7 @@ public extension SecuredApiKeyRestrictions {
             queryDictionary["filters"] = filters
         }
         if let validUntil {
-            queryDictionary["validUntil"] = Int(validUntil)
+            queryDictionary["validUntil"] = validUntil
         }
         if let restrictIndices {
             queryDictionary["restrictIndices"] = restrictIndices
