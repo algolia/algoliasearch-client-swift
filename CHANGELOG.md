@@ -1,3 +1,9 @@
+## [9.15.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.14.1...9.15.0)
+
+- [92bd911848](https://github.com/algolia/api-clients-automation/commit/92bd911848) chore(scripts): point jira issues to another epic ([#4505](https://github.com/algolia/api-clients-automation/pull/4505)) by [@millotp](https://github.com/millotp/)
+- [043fb81ce6](https://github.com/algolia/api-clients-automation/commit/043fb81ce6) feat(clients): missing helpers ([#4486](https://github.com/algolia/api-clients-automation/pull/4486)) by [@Fluf22](https://github.com/Fluf22/)
+- [97d2722bc9](https://github.com/algolia/api-clients-automation/commit/97d2722bc9) fix(specs): Increase optionalWords visibility in docs ([#4559](https://github.com/algolia/api-clients-automation/pull/4559)) by [@gazconroy](https://github.com/gazconroy/)
+
 ## [9.14.1](https://github.com/algolia/algoliasearch-client-swift/compare/9.14.0...9.14.1)
 
 - [506b8a5636](https://github.com/algolia/api-clients-automation/commit/506b8a5636) fix(specs): responseFields description ([#4399](https://github.com/algolia/api-clients-automation/pull/4399)) by [@kai687](https://github.com/kai687/)
