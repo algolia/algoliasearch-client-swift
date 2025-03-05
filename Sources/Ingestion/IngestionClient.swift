@@ -353,7 +353,7 @@ open class IngestionClient {
         return body
     }
 
-    // This method allow you to send requests to the Algolia REST API.
+    // This method lets you send requests to the Algolia REST API.
     //
     //
     // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
@@ -418,7 +418,7 @@ open class IngestionClient {
         return body
     }
 
-    // This method allow you to send requests to the Algolia REST API.
+    // This method lets you send requests to the Algolia REST API.
     //
     //
     // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
@@ -486,7 +486,7 @@ open class IngestionClient {
         return body
     }
 
-    // This method allow you to send requests to the Algolia REST API.
+    // This method lets you send requests to the Algolia REST API.
     //
     //
     // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
@@ -557,7 +557,7 @@ open class IngestionClient {
         return body
     }
 
-    // This method allow you to send requests to the Algolia REST API.
+    // This method lets you send requests to the Algolia REST API.
     //
     //
     // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
