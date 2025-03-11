@@ -13,6 +13,7 @@ public struct TaskCreate: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of a destination resource.
     public var destinationID: String
     public var action: ActionType
+    public var subscriptionAction: ActionType?
     /// Cron expression for the task's schedule.
     public var cron: String?
     /// Whether the task is enabled.
@@ -29,6 +30,7 @@ public struct TaskCreate: Codable, JSONEncodable {
         sourceID: String,
         destinationID: String,
         action: ActionType,
+        subscriptionAction: ActionType? = nil,
         cron: String? = nil,
         enabled: Bool? = nil,
         failureThreshold: Int? = nil,
@@ -40,6 +42,7 @@ public struct TaskCreate: Codable, JSONEncodable {
         self.sourceID = sourceID
         self.destinationID = destinationID
         self.action = action
+        self.subscriptionAction = subscriptionAction
         self.cron = cron
         self.enabled = enabled
         self.failureThreshold = failureThreshold
@@ -53,6 +56,7 @@ public struct TaskCreate: Codable, JSONEncodable {
         case sourceID
         case destinationID
         case action
+        case subscriptionAction
         case cron
         case enabled
         case failureThreshold
@@ -69,6 +73,7 @@ public struct TaskCreate: Codable, JSONEncodable {
         try container.encode(self.sourceID, forKey: .sourceID)
         try container.encode(self.destinationID, forKey: .destinationID)
         try container.encode(self.action, forKey: .action)
+        try container.encodeIfPresent(self.subscriptionAction, forKey: .subscriptionAction)
         try container.encodeIfPresent(self.cron, forKey: .cron)
         try container.encodeIfPresent(self.enabled, forKey: .enabled)
         try container.encodeIfPresent(self.failureThreshold, forKey: .failureThreshold)
@@ -84,6 +89,7 @@ extension TaskCreate: Equatable {
         lhs.sourceID == rhs.sourceID &&
             lhs.destinationID == rhs.destinationID &&
             lhs.action == rhs.action &&
+            lhs.subscriptionAction == rhs.subscriptionAction &&
             lhs.cron == rhs.cron &&
             lhs.enabled == rhs.enabled &&
             lhs.failureThreshold == rhs.failureThreshold &&
@@ -99,6 +105,7 @@ extension TaskCreate: Hashable {
         hasher.combine(self.sourceID.hashValue)
         hasher.combine(self.destinationID.hashValue)
         hasher.combine(self.action.hashValue)
+        hasher.combine(self.subscriptionAction?.hashValue)
         hasher.combine(self.cron?.hashValue)
         hasher.combine(self.enabled?.hashValue)
         hasher.combine(self.failureThreshold?.hashValue)

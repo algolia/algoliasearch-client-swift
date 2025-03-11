@@ -15,6 +15,7 @@ public struct TaskUpdate: Codable, JSONEncodable {
     public var input: TaskInput?
     /// Whether the task is enabled.
     public var enabled: Bool?
+    public var subscriptionAction: ActionType?
     /// Maximum accepted percentage of failures for a task run to finish successfully.
     public var failureThreshold: Int?
     public var notifications: Notifications?
@@ -25,6 +26,7 @@ public struct TaskUpdate: Codable, JSONEncodable {
         cron: String? = nil,
         input: TaskInput? = nil,
         enabled: Bool? = nil,
+        subscriptionAction: ActionType? = nil,
         failureThreshold: Int? = nil,
         notifications: Notifications? = nil,
         policies: Policies? = nil
@@ -33,6 +35,7 @@ public struct TaskUpdate: Codable, JSONEncodable {
         self.cron = cron
         self.input = input
         self.enabled = enabled
+        self.subscriptionAction = subscriptionAction
         self.failureThreshold = failureThreshold
         self.notifications = notifications
         self.policies = policies
@@ -43,6 +46,7 @@ public struct TaskUpdate: Codable, JSONEncodable {
         case cron
         case input
         case enabled
+        case subscriptionAction
         case failureThreshold
         case notifications
         case policies
@@ -56,6 +60,7 @@ public struct TaskUpdate: Codable, JSONEncodable {
         try container.encodeIfPresent(self.cron, forKey: .cron)
         try container.encodeIfPresent(self.input, forKey: .input)
         try container.encodeIfPresent(self.enabled, forKey: .enabled)
+        try container.encodeIfPresent(self.subscriptionAction, forKey: .subscriptionAction)
         try container.encodeIfPresent(self.failureThreshold, forKey: .failureThreshold)
         try container.encodeIfPresent(self.notifications, forKey: .notifications)
         try container.encodeIfPresent(self.policies, forKey: .policies)
@@ -68,6 +73,7 @@ extension TaskUpdate: Equatable {
             lhs.cron == rhs.cron &&
             lhs.input == rhs.input &&
             lhs.enabled == rhs.enabled &&
+            lhs.subscriptionAction == rhs.subscriptionAction &&
             lhs.failureThreshold == rhs.failureThreshold &&
             lhs.notifications == rhs.notifications &&
             lhs.policies == rhs.policies
@@ -80,6 +86,7 @@ extension TaskUpdate: Hashable {
         hasher.combine(self.cron?.hashValue)
         hasher.combine(self.input?.hashValue)
         hasher.combine(self.enabled?.hashValue)
+        hasher.combine(self.subscriptionAction?.hashValue)
         hasher.combine(self.failureThreshold?.hashValue)
         hasher.combine(self.notifications?.hashValue)
         hasher.combine(self.policies?.hashValue)
