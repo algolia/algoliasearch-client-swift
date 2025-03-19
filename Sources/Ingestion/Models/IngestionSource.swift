@@ -11,6 +11,8 @@ public struct IngestionSource: Codable, JSONEncodable {
     public var sourceID: String
     public var type: SourceType
     public var name: String
+    /// Owner of the resource.
+    public var owner: String?
     public var input: SourceInput?
     /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String?
@@ -23,6 +25,7 @@ public struct IngestionSource: Codable, JSONEncodable {
         sourceID: String,
         type: SourceType,
         name: String,
+        owner: String? = nil,
         input: SourceInput? = nil,
         authenticationID: String? = nil,
         createdAt: String,
@@ -31,6 +34,7 @@ public struct IngestionSource: Codable, JSONEncodable {
         self.sourceID = sourceID
         self.type = type
         self.name = name
+        self.owner = owner
         self.input = input
         self.authenticationID = authenticationID
         self.createdAt = createdAt
@@ -41,6 +45,7 @@ public struct IngestionSource: Codable, JSONEncodable {
         case sourceID
         case type
         case name
+        case owner
         case input
         case authenticationID
         case createdAt
@@ -54,6 +59,7 @@ public struct IngestionSource: Codable, JSONEncodable {
         try container.encode(self.sourceID, forKey: .sourceID)
         try container.encode(self.type, forKey: .type)
         try container.encode(self.name, forKey: .name)
+        try container.encodeIfPresent(self.owner, forKey: .owner)
         try container.encodeIfPresent(self.input, forKey: .input)
         try container.encodeIfPresent(self.authenticationID, forKey: .authenticationID)
         try container.encode(self.createdAt, forKey: .createdAt)
@@ -66,6 +72,7 @@ extension IngestionSource: Equatable {
         lhs.sourceID == rhs.sourceID &&
             lhs.type == rhs.type &&
             lhs.name == rhs.name &&
+            lhs.owner == rhs.owner &&
             lhs.input == rhs.input &&
             lhs.authenticationID == rhs.authenticationID &&
             lhs.createdAt == rhs.createdAt &&
@@ -78,6 +85,7 @@ extension IngestionSource: Hashable {
         hasher.combine(self.sourceID.hashValue)
         hasher.combine(self.type.hashValue)
         hasher.combine(self.name.hashValue)
+        hasher.combine(self.owner?.hashValue)
         hasher.combine(self.input?.hashValue)
         hasher.combine(self.authenticationID?.hashValue)
         hasher.combine(self.createdAt.hashValue)

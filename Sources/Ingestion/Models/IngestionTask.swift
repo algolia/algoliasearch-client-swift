@@ -19,6 +19,8 @@ public struct IngestionTask: Codable, JSONEncodable {
     public var lastRun: String?
     /// The next scheduled run of the task in RFC 3339 format.
     public var nextRun: String?
+    /// Owner of the resource.
+    public var owner: String?
     public var input: TaskInput?
     /// Whether the task is enabled.
     public var enabled: Bool
@@ -42,6 +44,7 @@ public struct IngestionTask: Codable, JSONEncodable {
         cron: String? = nil,
         lastRun: String? = nil,
         nextRun: String? = nil,
+        owner: String? = nil,
         input: TaskInput? = nil,
         enabled: Bool,
         failureThreshold: Int? = nil,
@@ -59,6 +62,7 @@ public struct IngestionTask: Codable, JSONEncodable {
         self.cron = cron
         self.lastRun = lastRun
         self.nextRun = nextRun
+        self.owner = owner
         self.input = input
         self.enabled = enabled
         self.failureThreshold = failureThreshold
@@ -78,6 +82,7 @@ public struct IngestionTask: Codable, JSONEncodable {
         case cron
         case lastRun
         case nextRun
+        case owner
         case input
         case enabled
         case failureThreshold
@@ -100,6 +105,7 @@ public struct IngestionTask: Codable, JSONEncodable {
         try container.encodeIfPresent(self.cron, forKey: .cron)
         try container.encodeIfPresent(self.lastRun, forKey: .lastRun)
         try container.encodeIfPresent(self.nextRun, forKey: .nextRun)
+        try container.encodeIfPresent(self.owner, forKey: .owner)
         try container.encodeIfPresent(self.input, forKey: .input)
         try container.encode(self.enabled, forKey: .enabled)
         try container.encodeIfPresent(self.failureThreshold, forKey: .failureThreshold)
@@ -121,6 +127,7 @@ extension IngestionTask: Equatable {
             lhs.cron == rhs.cron &&
             lhs.lastRun == rhs.lastRun &&
             lhs.nextRun == rhs.nextRun &&
+            lhs.owner == rhs.owner &&
             lhs.input == rhs.input &&
             lhs.enabled == rhs.enabled &&
             lhs.failureThreshold == rhs.failureThreshold &&
@@ -142,6 +149,7 @@ extension IngestionTask: Hashable {
         hasher.combine(self.cron?.hashValue)
         hasher.combine(self.lastRun?.hashValue)
         hasher.combine(self.nextRun?.hashValue)
+        hasher.combine(self.owner?.hashValue)
         hasher.combine(self.input?.hashValue)
         hasher.combine(self.enabled.hashValue)
         hasher.combine(self.failureThreshold?.hashValue)

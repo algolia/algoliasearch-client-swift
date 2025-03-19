@@ -14,6 +14,8 @@ public struct Authentication: Codable, JSONEncodable {
     /// Descriptive name for the resource.
     public var name: String
     public var platform: Platform?
+    /// Owner of the resource.
+    public var owner: String?
     public var input: AuthInputPartial
     /// Date of creation in RFC 3339 format.
     public var createdAt: String
@@ -25,6 +27,7 @@ public struct Authentication: Codable, JSONEncodable {
         type: AuthenticationType,
         name: String,
         platform: Platform? = nil,
+        owner: String? = nil,
         input: AuthInputPartial,
         createdAt: String,
         updatedAt: String? = nil
@@ -33,6 +36,7 @@ public struct Authentication: Codable, JSONEncodable {
         self.type = type
         self.name = name
         self.platform = platform
+        self.owner = owner
         self.input = input
         self.createdAt = createdAt
         self.updatedAt = updatedAt
@@ -43,6 +47,7 @@ public struct Authentication: Codable, JSONEncodable {
         case type
         case name
         case platform
+        case owner
         case input
         case createdAt
         case updatedAt
@@ -56,6 +61,7 @@ public struct Authentication: Codable, JSONEncodable {
         try container.encode(self.type, forKey: .type)
         try container.encode(self.name, forKey: .name)
         try container.encodeIfPresent(self.platform, forKey: .platform)
+        try container.encodeIfPresent(self.owner, forKey: .owner)
         try container.encode(self.input, forKey: .input)
         try container.encode(self.createdAt, forKey: .createdAt)
         try container.encodeIfPresent(self.updatedAt, forKey: .updatedAt)
@@ -68,6 +74,7 @@ extension Authentication: Equatable {
             lhs.type == rhs.type &&
             lhs.name == rhs.name &&
             lhs.platform == rhs.platform &&
+            lhs.owner == rhs.owner &&
             lhs.input == rhs.input &&
             lhs.createdAt == rhs.createdAt &&
             lhs.updatedAt == rhs.updatedAt
@@ -80,6 +87,7 @@ extension Authentication: Hashable {
         hasher.combine(self.type.hashValue)
         hasher.combine(self.name.hashValue)
         hasher.combine(self.platform?.hashValue)
+        hasher.combine(self.owner?.hashValue)
         hasher.combine(self.input.hashValue)
         hasher.combine(self.createdAt.hashValue)
         hasher.combine(self.updatedAt?.hashValue)

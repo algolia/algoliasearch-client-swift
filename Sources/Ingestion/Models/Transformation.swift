@@ -17,6 +17,8 @@ public struct Transformation: Codable, JSONEncodable {
     public var name: String
     /// A descriptive name for your transformation of what it does.
     public var description: String?
+    /// Owner of the resource.
+    public var owner: String?
     /// Date of creation in RFC 3339 format.
     public var createdAt: String
     /// Date of last update in RFC 3339 format.
@@ -28,6 +30,7 @@ public struct Transformation: Codable, JSONEncodable {
         code: String,
         name: String,
         description: String? = nil,
+        owner: String? = nil,
         createdAt: String,
         updatedAt: String? = nil
     ) {
@@ -36,6 +39,7 @@ public struct Transformation: Codable, JSONEncodable {
         self.code = code
         self.name = name
         self.description = description
+        self.owner = owner
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
@@ -46,6 +50,7 @@ public struct Transformation: Codable, JSONEncodable {
         case code
         case name
         case description
+        case owner
         case createdAt
         case updatedAt
     }
@@ -59,6 +64,7 @@ public struct Transformation: Codable, JSONEncodable {
         try container.encode(self.code, forKey: .code)
         try container.encode(self.name, forKey: .name)
         try container.encodeIfPresent(self.description, forKey: .description)
+        try container.encodeIfPresent(self.owner, forKey: .owner)
         try container.encode(self.createdAt, forKey: .createdAt)
         try container.encodeIfPresent(self.updatedAt, forKey: .updatedAt)
     }
@@ -71,6 +77,7 @@ extension Transformation: Equatable {
             lhs.code == rhs.code &&
             lhs.name == rhs.name &&
             lhs.description == rhs.description &&
+            lhs.owner == rhs.owner &&
             lhs.createdAt == rhs.createdAt &&
             lhs.updatedAt == rhs.updatedAt
     }
@@ -83,6 +90,7 @@ extension Transformation: Hashable {
         hasher.combine(self.code.hashValue)
         hasher.combine(self.name.hashValue)
         hasher.combine(self.description?.hashValue)
+        hasher.combine(self.owner?.hashValue)
         hasher.combine(self.createdAt.hashValue)
         hasher.combine(self.updatedAt?.hashValue)
     }
