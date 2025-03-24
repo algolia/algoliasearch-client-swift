@@ -224,7 +224,8 @@ public struct RecommendBaseSearchResponse: Codable, JSONEncodable {
                  "exhaustiveFacetsCount", "exhaustiveNbHits", "exhaustiveTypo", "facets", "facetsStats", "index",
                  "indexUsed", "message", "nbSortedHits", "parsedQuery", "processingTimeMS", "processingTimingsMS",
                  "queryAfterRemoval", "redirect", "renderingContent", "serverTimeMS", "serverUsed", "userData",
-                 "queryID", "automaticInsights":
+                 "queryID",
+                 "automaticInsights":
                 continue
             default:
                 self.additionalProperties[key] = value

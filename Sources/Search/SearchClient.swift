@@ -81,8 +81,7 @@ open class SearchClient {
     /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter objectID: (path) Unique record identifier.
     /// - parameter body: (body) The record. A schemaless object with attributes that are useful in the context of
-    /// search
-    /// and discovery.
+    /// search and discovery.
     /// - returns: UpdatedAtWithObjectIdResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func addOrUpdateObject(
@@ -3062,8 +3061,7 @@ open class SearchClient {
 
     /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter body: (body) The record. A schemaless object with attributes that are useful in the context of
-    /// search
-    /// and discovery.
+    /// search and discovery.
     /// - returns: SaveObjectResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func saveObject(

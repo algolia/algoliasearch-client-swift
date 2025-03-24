@@ -583,9 +583,8 @@ open class MonitoringClient {
     /// description of the API response. To include all metrics, use `*`.
     /// - parameter period: (path) Period over which to aggregate the metrics:  - `minute`. Aggregate the last minute. 1
     /// data point per 10 seconds. - `hour`. Aggregate the last hour. 1 data point per minute. - `day`. Aggregate the
-    /// last
-    /// day. 1 data point per 10 minutes. - `week`. Aggregate the last week. 1 data point per hour. - `month`. Aggregate
-    /// the last month. 1 data point per day.
+    /// last day. 1 data point per 10 minutes. - `week`. Aggregate the last week. 1 data point per hour. - `month`.
+    /// Aggregate the last month. 1 data point per day.
     /// - returns: InfrastructureResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getMetrics(

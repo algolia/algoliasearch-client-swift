@@ -280,7 +280,8 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
                  "exhaustiveFacetsCount", "exhaustiveNbHits", "exhaustiveTypo", "facets", "facetsStats", "index",
                  "indexUsed", "message", "nbSortedHits", "parsedQuery", "processingTimeMS", "processingTimingsMS",
                  "queryAfterRemoval", "redirect", "renderingContent", "serverTimeMS", "serverUsed", "userData",
-                 "queryID", "automaticInsights", "page", "nbHits", "nbPages", "hitsPerPage", "hits", "query", "params":
+                 "queryID",
+                 "automaticInsights", "page", "nbHits", "nbPages", "hitsPerPage", "hits", "query", "params":
                 continue
             default:
                 self.additionalProperties[key] = value
