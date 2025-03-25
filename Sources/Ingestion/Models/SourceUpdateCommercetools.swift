@@ -13,6 +13,9 @@ public struct SourceUpdateCommercetools: Codable, JSONEncodable {
     public var url: String?
     /// Whether a fallback value is stored in the Algolia record if there's no inventory information about the product.
     public var fallbackIsInStockValue: Bool?
+    /// Predicate to filter out specific products when indexing. For more information, see [Query
+    /// Predicate](https://docs.commercetools.com/api/predicates/query).
+    public var productQueryPredicate: String?
     public var customFields: CommercetoolsCustomFields?
 
     public init(
@@ -20,12 +23,14 @@ public struct SourceUpdateCommercetools: Codable, JSONEncodable {
         locales: [String]? = nil,
         url: String? = nil,
         fallbackIsInStockValue: Bool? = nil,
+        productQueryPredicate: String? = nil,
         customFields: CommercetoolsCustomFields? = nil
     ) {
         self.storeKeys = storeKeys
         self.locales = locales
         self.url = url
         self.fallbackIsInStockValue = fallbackIsInStockValue
+        self.productQueryPredicate = productQueryPredicate
         self.customFields = customFields
     }
 
@@ -34,6 +39,7 @@ public struct SourceUpdateCommercetools: Codable, JSONEncodable {
         case locales
         case url
         case fallbackIsInStockValue
+        case productQueryPredicate
         case customFields
     }
 
@@ -45,6 +51,7 @@ public struct SourceUpdateCommercetools: Codable, JSONEncodable {
         try container.encodeIfPresent(self.locales, forKey: .locales)
         try container.encodeIfPresent(self.url, forKey: .url)
         try container.encodeIfPresent(self.fallbackIsInStockValue, forKey: .fallbackIsInStockValue)
+        try container.encodeIfPresent(self.productQueryPredicate, forKey: .productQueryPredicate)
         try container.encodeIfPresent(self.customFields, forKey: .customFields)
     }
 }
@@ -55,6 +62,7 @@ extension SourceUpdateCommercetools: Equatable {
             lhs.locales == rhs.locales &&
             lhs.url == rhs.url &&
             lhs.fallbackIsInStockValue == rhs.fallbackIsInStockValue &&
+            lhs.productQueryPredicate == rhs.productQueryPredicate &&
             lhs.customFields == rhs.customFields
     }
 }
@@ -65,6 +73,7 @@ extension SourceUpdateCommercetools: Hashable {
         hasher.combine(self.locales?.hashValue)
         hasher.combine(self.url?.hashValue)
         hasher.combine(self.fallbackIsInStockValue?.hashValue)
+        hasher.combine(self.productQueryPredicate?.hashValue)
         hasher.combine(self.customFields?.hashValue)
     }
 }
