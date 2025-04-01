@@ -223,6 +223,7 @@ open class SearchClient {
     /// - parameter xAlgoliaUserID: (header) Unique identifier of the user who makes the search request.
     /// - parameter assignUserIdParams: (body)
     /// - returns: CreatedAtResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func assignUserId(
         xAlgoliaUserID: String,
@@ -242,15 +243,16 @@ open class SearchClient {
         return body
     }
 
-    // Assigns or moves a user ID to a cluster.  The time it takes to move a user is proportional to the amount of data
-    // linked to the user ID.
-    // Required API Key ACLs:
-    //  - admin
-    //
-    // - parameter xAlgoliaUserID: (header) Unique identifier of the user who makes the search request.
-    //
-    // - parameter assignUserIdParams: (body)
-    // - returns: RequestBuilder<CreatedAtResponse>
+    /// Assigns or moves a user ID to a cluster.  The time it takes to move a user is proportional to the amount of data
+    /// linked to the user ID.
+    /// Required API Key ACLs:
+    ///  - admin
+    ///
+    /// - parameter xAlgoliaUserID: (header) Unique identifier of the user who makes the search request.
+    ///
+    /// - parameter assignUserIdParams: (body)
+    /// - returns: RequestBuilder<CreatedAtResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func assignUserIdWithHTTPInfo(
         xAlgoliaUserID: String,
@@ -350,6 +352,7 @@ open class SearchClient {
     /// - parameter xAlgoliaUserID: (header) Unique identifier of the user who makes the search request.
     /// - parameter batchAssignUserIdsParams: (body)
     /// - returns: CreatedAtResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func batchAssignUserIds(
         xAlgoliaUserID: String,
@@ -369,14 +372,15 @@ open class SearchClient {
         return body
     }
 
-    // Assigns multiple user IDs to a cluster.  **You can't move users with this operation**.
-    // Required API Key ACLs:
-    //  - admin
-    //
-    // - parameter xAlgoliaUserID: (header) Unique identifier of the user who makes the search request.
-    //
-    // - parameter batchAssignUserIdsParams: (body)
-    // - returns: RequestBuilder<CreatedAtResponse>
+    /// Assigns multiple user IDs to a cluster.  **You can't move users with this operation**.
+    /// Required API Key ACLs:
+    ///  - admin
+    ///
+    /// - parameter xAlgoliaUserID: (header) Unique identifier of the user who makes the search request.
+    ///
+    /// - parameter batchAssignUserIdsParams: (body)
+    /// - returns: RequestBuilder<CreatedAtResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func batchAssignUserIdsWithHTTPInfo(
         xAlgoliaUserID: String,
@@ -2294,6 +2298,7 @@ open class SearchClient {
     }
 
     /// - returns: GetTopUserIdsResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTopUserIds(requestOptions: RequestOptions? = nil) async throws -> GetTopUserIdsResponse {
         let response: Response<GetTopUserIdsResponse> =
@@ -2306,11 +2311,12 @@ open class SearchClient {
         return body
     }
 
-    // Get the IDs of the 10 users with the highest number of records per cluster.  Since it can take a few seconds to
-    // get the data from the different clusters, the response isn't real-time.
-    // Required API Key ACLs:
-    //  - admin
-    //     - returns: RequestBuilder<GetTopUserIdsResponse>
+    /// Get the IDs of the 10 users with the highest number of records per cluster.  Since it can take a few seconds to
+    /// get the data from the different clusters, the response isn't real-time.
+    /// Required API Key ACLs:
+    ///  - admin
+    ///     - returns: RequestBuilder<GetTopUserIdsResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func getTopUserIdsWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil) async throws
     -> Response<GetTopUserIdsResponse> {
@@ -2335,6 +2341,7 @@ open class SearchClient {
 
     /// - parameter userID: (path) Unique identifier of the user who makes the search request.
     /// - returns: UserId
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getUserId(userID: String, requestOptions: RequestOptions? = nil) async throws -> UserId {
         let response: Response<UserId> = try await getUserIdWithHTTPInfo(userID: userID, requestOptions: requestOptions)
@@ -2346,13 +2353,14 @@ open class SearchClient {
         return body
     }
 
-    // Returns the user ID data stored in the mapping.  Since it can take a few seconds to get the data from the
-    // different clusters, the response isn't real-time.
-    // Required API Key ACLs:
-    //  - admin
-    //
-    // - parameter userID: (path) Unique identifier of the user who makes the search request.
-    // - returns: RequestBuilder<UserId>
+    /// Returns the user ID data stored in the mapping.  Since it can take a few seconds to get the data from the
+    /// different clusters, the response isn't real-time.
+    /// Required API Key ACLs:
+    ///  - admin
+    ///
+    /// - parameter userID: (path) Unique identifier of the user who makes the search request.
+    /// - returns: RequestBuilder<UserId>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func getUserIdWithHTTPInfo(
         userID: String,
@@ -2393,6 +2401,7 @@ open class SearchClient {
     /// - parameter getClusters: (query) Whether to include the cluster's pending mapping state in the response.
     /// (optional)
     /// - returns: HasPendingMappingsResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func hasPendingMappings(
         getClusters: Bool? = nil,
@@ -2410,14 +2419,15 @@ open class SearchClient {
         return body
     }
 
-    // To determine when the time-consuming process of creating a large batch of users or migrating users from one
-    // cluster to another is complete, this operation retrieves the status of the process.
-    // Required API Key ACLs:
-    //  - admin
-    //
-    // - parameter getClusters: (query) Whether to include the cluster's pending mapping state in the response.
-    // (optional)
-    // - returns: RequestBuilder<HasPendingMappingsResponse>
+    /// To determine when the time-consuming process of creating a large batch of users or migrating users from one
+    /// cluster to another is complete, this operation retrieves the status of the process.
+    /// Required API Key ACLs:
+    ///  - admin
+    ///
+    /// - parameter getClusters: (query) Whether to include the cluster's pending mapping state in the response.
+    /// (optional)
+    /// - returns: RequestBuilder<HasPendingMappingsResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func hasPendingMappingsWithHTTPInfo(
         getClusters: Bool? = nil,
@@ -2483,6 +2493,7 @@ open class SearchClient {
     }
 
     /// - returns: ListClustersResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func listClusters(requestOptions: RequestOptions? = nil) async throws -> ListClustersResponse {
         let response: Response<ListClustersResponse> =
@@ -2495,10 +2506,11 @@ open class SearchClient {
         return body
     }
 
-    // Lists the available clusters in a multi-cluster setup.
-    // Required API Key ACLs:
-    //  - admin
-    //     - returns: RequestBuilder<ListClustersResponse>
+    /// Lists the available clusters in a multi-cluster setup.
+    /// Required API Key ACLs:
+    ///  - admin
+    ///     - returns: RequestBuilder<ListClustersResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func listClustersWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil) async throws
     -> Response<ListClustersResponse> {
@@ -2586,6 +2598,7 @@ open class SearchClient {
     /// (optional)
     /// - parameter hitsPerPage: (query) Number of hits per page. (optional, default to 100)
     /// - returns: ListUserIdsResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func listUserIds(
         page: Int? = nil,
@@ -2605,16 +2618,17 @@ open class SearchClient {
         return body
     }
 
-    // Lists the userIDs assigned to a multi-cluster application.  Since it can take a few seconds to get the data from
-    // the different clusters, the response isn't real-time.
-    // Required API Key ACLs:
-    //  - admin
-    //
-    // - parameter page: (query) Requested page of the API response. If `null`, the API response is not paginated. 
-    // (optional)
-    //
-    // - parameter hitsPerPage: (query) Number of hits per page. (optional, default to 100)
-    // - returns: RequestBuilder<ListUserIdsResponse>
+    /// Lists the userIDs assigned to a multi-cluster application.  Since it can take a few seconds to get the data from
+    /// the different clusters, the response isn't real-time.
+    /// Required API Key ACLs:
+    ///  - admin
+    ///
+    /// - parameter page: (query) Requested page of the API response. If `null`, the API response is not paginated. 
+    /// (optional)
+    ///
+    /// - parameter hitsPerPage: (query) Number of hits per page. (optional, default to 100)
+    /// - returns: RequestBuilder<ListUserIdsResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func listUserIdsWithHTTPInfo(
         page: Int? = nil,
@@ -2894,6 +2908,7 @@ open class SearchClient {
 
     /// - parameter userID: (path) Unique identifier of the user who makes the search request.
     /// - returns: RemoveUserIdResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func removeUserId(userID: String, requestOptions: RequestOptions? = nil) async throws -> RemoveUserIdResponse {
         let response: Response<RemoveUserIdResponse> = try await removeUserIdWithHTTPInfo(
@@ -2908,12 +2923,13 @@ open class SearchClient {
         return body
     }
 
-    // Deletes a user ID and its associated data from the clusters.
-    // Required API Key ACLs:
-    //  - admin
-    //
-    // - parameter userID: (path) Unique identifier of the user who makes the search request.
-    // - returns: RequestBuilder<RemoveUserIdResponse>
+    /// Deletes a user ID and its associated data from the clusters.
+    /// Required API Key ACLs:
+    ///  - admin
+    ///
+    /// - parameter userID: (path) Unique identifier of the user who makes the search request.
+    /// - returns: RequestBuilder<RemoveUserIdResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func removeUserIdWithHTTPInfo(
         userID: String,
@@ -3924,6 +3940,7 @@ open class SearchClient {
 
     /// - parameter searchUserIdsParams: (body)
     /// - returns: SearchUserIdsResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func searchUserIds(
         searchUserIdsParams: SearchUserIdsParams,
@@ -3941,17 +3958,16 @@ open class SearchClient {
         return body
     }
 
-    // Since it can take a few seconds to get the data from the different clusters, the response isn't real-time.  To
-    // ensure rapid updates, the user IDs index isn't built at the same time as the mapping. Instead, it's built every
-    // 12
-    // hours, at the same time as the update of user ID usage. For example, if you add or move a user ID, the search
-    // will
-    // show an old value until the next time the mapping is rebuilt (every 12 hours).
-    // Required API Key ACLs:
-    //  - admin
-    //
-    // - parameter searchUserIdsParams: (body)
-    // - returns: RequestBuilder<SearchUserIdsResponse>
+    /// Since it can take a few seconds to get the data from the different clusters, the response isn't real-time.  To
+    /// ensure rapid updates, the user IDs index isn't built at the same time as the mapping. Instead, it's built every
+    /// 12 hours, at the same time as the update of user ID usage. For example, if you add or move a user ID, the search
+    /// will show an old value until the next time the mapping is rebuilt (every 12 hours).
+    /// Required API Key ACLs:
+    ///  - admin
+    ///
+    /// - parameter searchUserIdsParams: (body)
+    /// - returns: RequestBuilder<SearchUserIdsResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func searchUserIdsWithHTTPInfo(
         searchUserIdsParams: SearchUserIdsParams,
