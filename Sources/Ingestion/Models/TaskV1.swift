@@ -29,7 +29,7 @@ public struct TaskV1: Codable, JSONEncodable {
     /// Date of creation in RFC 3339 format.
     public var createdAt: String
     /// Date of last update in RFC 3339 format.
-    public var updatedAt: String?
+    public var updatedAt: String
 
     public init(
         taskID: String,
@@ -44,7 +44,7 @@ public struct TaskV1: Codable, JSONEncodable {
         notifications: Notifications? = nil,
         policies: Policies? = nil,
         createdAt: String,
-        updatedAt: String? = nil
+        updatedAt: String
     ) {
         self.taskID = taskID
         self.sourceID = sourceID
@@ -93,7 +93,7 @@ public struct TaskV1: Codable, JSONEncodable {
         try container.encodeIfPresent(self.notifications, forKey: .notifications)
         try container.encodeIfPresent(self.policies, forKey: .policies)
         try container.encode(self.createdAt, forKey: .createdAt)
-        try container.encodeIfPresent(self.updatedAt, forKey: .updatedAt)
+        try container.encode(self.updatedAt, forKey: .updatedAt)
     }
 }
 
@@ -129,6 +129,6 @@ extension TaskV1: Hashable {
         hasher.combine(self.notifications?.hashValue)
         hasher.combine(self.policies?.hashValue)
         hasher.combine(self.createdAt.hashValue)
-        hasher.combine(self.updatedAt?.hashValue)
+        hasher.combine(self.updatedAt.hashValue)
     }
 }

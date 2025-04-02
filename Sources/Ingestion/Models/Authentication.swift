@@ -20,7 +20,7 @@ public struct Authentication: Codable, JSONEncodable {
     /// Date of creation in RFC 3339 format.
     public var createdAt: String
     /// Date of last update in RFC 3339 format.
-    public var updatedAt: String?
+    public var updatedAt: String
 
     public init(
         authenticationID: String,
@@ -30,7 +30,7 @@ public struct Authentication: Codable, JSONEncodable {
         owner: String? = nil,
         input: AuthInputPartial,
         createdAt: String,
-        updatedAt: String? = nil
+        updatedAt: String
     ) {
         self.authenticationID = authenticationID
         self.type = type
@@ -64,7 +64,7 @@ public struct Authentication: Codable, JSONEncodable {
         try container.encodeIfPresent(self.owner, forKey: .owner)
         try container.encode(self.input, forKey: .input)
         try container.encode(self.createdAt, forKey: .createdAt)
-        try container.encodeIfPresent(self.updatedAt, forKey: .updatedAt)
+        try container.encode(self.updatedAt, forKey: .updatedAt)
     }
 }
 
@@ -90,6 +90,6 @@ extension Authentication: Hashable {
         hasher.combine(self.owner?.hashValue)
         hasher.combine(self.input.hashValue)
         hasher.combine(self.createdAt.hashValue)
-        hasher.combine(self.updatedAt?.hashValue)
+        hasher.combine(self.updatedAt.hashValue)
     }
 }

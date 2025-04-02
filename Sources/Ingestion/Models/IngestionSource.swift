@@ -19,7 +19,7 @@ public struct IngestionSource: Codable, JSONEncodable {
     /// Date of creation in RFC 3339 format.
     public var createdAt: String
     /// Date of last update in RFC 3339 format.
-    public var updatedAt: String?
+    public var updatedAt: String
 
     public init(
         sourceID: String,
@@ -29,7 +29,7 @@ public struct IngestionSource: Codable, JSONEncodable {
         input: SourceInput? = nil,
         authenticationID: String? = nil,
         createdAt: String,
-        updatedAt: String? = nil
+        updatedAt: String
     ) {
         self.sourceID = sourceID
         self.type = type
@@ -63,7 +63,7 @@ public struct IngestionSource: Codable, JSONEncodable {
         try container.encodeIfPresent(self.input, forKey: .input)
         try container.encodeIfPresent(self.authenticationID, forKey: .authenticationID)
         try container.encode(self.createdAt, forKey: .createdAt)
-        try container.encodeIfPresent(self.updatedAt, forKey: .updatedAt)
+        try container.encode(self.updatedAt, forKey: .updatedAt)
     }
 }
 
@@ -89,6 +89,6 @@ extension IngestionSource: Hashable {
         hasher.combine(self.input?.hashValue)
         hasher.combine(self.authenticationID?.hashValue)
         hasher.combine(self.createdAt.hashValue)
-        hasher.combine(self.updatedAt?.hashValue)
+        hasher.combine(self.updatedAt.hashValue)
     }
 }

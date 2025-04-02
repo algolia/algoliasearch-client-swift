@@ -7,11 +7,11 @@ import Foundation
 #endif
 
 public struct TransformationTryResponse: Codable, JSONEncodable {
-    /// The array of records returned by the transformation service.
-    public var payloads: [AnyCodable]
+    /// The array of stringified records returned by the transformation service.
+    public var payloads: [String]
     public var error: TransformationError?
 
-    public init(payloads: [AnyCodable], error: TransformationError? = nil) {
+    public init(payloads: [String], error: TransformationError? = nil) {
         self.payloads = payloads
         self.error = error
     }

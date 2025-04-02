@@ -22,7 +22,7 @@ public struct Transformation: Codable, JSONEncodable {
     /// Date of creation in RFC 3339 format.
     public var createdAt: String
     /// Date of last update in RFC 3339 format.
-    public var updatedAt: String?
+    public var updatedAt: String
 
     public init(
         transformationID: String,
@@ -32,7 +32,7 @@ public struct Transformation: Codable, JSONEncodable {
         description: String? = nil,
         owner: String? = nil,
         createdAt: String,
-        updatedAt: String? = nil
+        updatedAt: String
     ) {
         self.transformationID = transformationID
         self.authenticationIDs = authenticationIDs
@@ -66,7 +66,7 @@ public struct Transformation: Codable, JSONEncodable {
         try container.encodeIfPresent(self.description, forKey: .description)
         try container.encodeIfPresent(self.owner, forKey: .owner)
         try container.encode(self.createdAt, forKey: .createdAt)
-        try container.encodeIfPresent(self.updatedAt, forKey: .updatedAt)
+        try container.encode(self.updatedAt, forKey: .updatedAt)
     }
 }
 
@@ -92,6 +92,6 @@ extension Transformation: Hashable {
         hasher.combine(self.description?.hashValue)
         hasher.combine(self.owner?.hashValue)
         hasher.combine(self.createdAt.hashValue)
-        hasher.combine(self.updatedAt?.hashValue)
+        hasher.combine(self.updatedAt.hashValue)
     }
 }

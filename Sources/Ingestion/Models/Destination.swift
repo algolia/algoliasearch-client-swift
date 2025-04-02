@@ -19,7 +19,7 @@ public struct Destination: Codable, JSONEncodable {
     /// Date of creation in RFC 3339 format.
     public var createdAt: String
     /// Date of last update in RFC 3339 format.
-    public var updatedAt: String?
+    public var updatedAt: String
     /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String?
     public var transformationIDs: [String]?
@@ -31,7 +31,7 @@ public struct Destination: Codable, JSONEncodable {
         owner: String? = nil,
         input: DestinationInput,
         createdAt: String,
-        updatedAt: String? = nil,
+        updatedAt: String,
         authenticationID: String? = nil,
         transformationIDs: [String]? = nil
     ) {
@@ -68,7 +68,7 @@ public struct Destination: Codable, JSONEncodable {
         try container.encodeIfPresent(self.owner, forKey: .owner)
         try container.encode(self.input, forKey: .input)
         try container.encode(self.createdAt, forKey: .createdAt)
-        try container.encodeIfPresent(self.updatedAt, forKey: .updatedAt)
+        try container.encode(self.updatedAt, forKey: .updatedAt)
         try container.encodeIfPresent(self.authenticationID, forKey: .authenticationID)
         try container.encodeIfPresent(self.transformationIDs, forKey: .transformationIDs)
     }
@@ -96,7 +96,7 @@ extension Destination: Hashable {
         hasher.combine(self.owner?.hashValue)
         hasher.combine(self.input.hashValue)
         hasher.combine(self.createdAt.hashValue)
-        hasher.combine(self.updatedAt?.hashValue)
+        hasher.combine(self.updatedAt.hashValue)
         hasher.combine(self.authenticationID?.hashValue)
         hasher.combine(self.transformationIDs?.hashValue)
     }
