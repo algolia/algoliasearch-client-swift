@@ -8,15 +8,15 @@ import Foundation
 
 public struct WatchResponse: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of a task run.
-    public var runID: String?
+    public var runID: String
     /// when used with discovering or validating sources, the sampled data of your source is returned.
     public var data: [AnyCodable]?
     /// in case of error, observability events will be added to the response, if any.
     public var events: [Event]?
     /// a message describing the outcome of a validate run.
-    public var message: String
+    public var message: String?
 
-    public init(runID: String? = nil, data: [AnyCodable]? = nil, events: [Event]? = nil, message: String) {
+    public init(runID: String, data: [AnyCodable]? = nil, events: [Event]? = nil, message: String? = nil) {
         self.runID = runID
         self.data = data
         self.events = events
@@ -34,10 +34,10 @@ public struct WatchResponse: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.runID, forKey: .runID)
+        try container.encode(self.runID, forKey: .runID)
         try container.encodeIfPresent(self.data, forKey: .data)
         try container.encodeIfPresent(self.events, forKey: .events)
-        try container.encode(self.message, forKey: .message)
+        try container.encodeIfPresent(self.message, forKey: .message)
     }
 }
 
@@ -52,9 +52,9 @@ extension WatchResponse: Equatable {
 
 extension WatchResponse: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.runID?.hashValue)
+        hasher.combine(self.runID.hashValue)
         hasher.combine(self.data?.hashValue)
         hasher.combine(self.events?.hashValue)
-        hasher.combine(self.message.hashValue)
+        hasher.combine(self.message?.hashValue)
     }
 }
