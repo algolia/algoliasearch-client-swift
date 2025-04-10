@@ -19,9 +19,9 @@ public struct SearchCondition: Codable, JSONEncodable {
     /// parameter. For example, if `context: mobile`, the rule is only triggered when the search request has a matching
     /// `ruleContexts: mobile`. A rule context must only contain alphanumeric characters.
     public var context: String?
-    /// Filters that trigger the rule.  You can add add filters using the syntax `facet:value` so that the rule is
+    /// Filters that trigger the rule.  You can add filters using the syntax `facet:value` so that the rule is
     /// triggered, when the specific filter is selected. You can use `filters` on its own or combine it with the
-    /// `pattern` parameter.
+    /// `pattern` parameter. You can't combine multiple filters with `OR` and you can't use numeric filters.
     public var filters: String?
 
     public init(
