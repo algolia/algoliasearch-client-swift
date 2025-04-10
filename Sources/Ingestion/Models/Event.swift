@@ -12,7 +12,7 @@ public struct Event: Codable, JSONEncodable {
     public var eventID: String
     /// Universally unique identifier (UUID) of a task run.
     public var runID: String
-    public var status: EventStatus
+    public var status: EventStatus?
     public var type: IngestionEventType
     /// The extracted record batch size.
     public var batchSize: Int
@@ -23,7 +23,7 @@ public struct Event: Codable, JSONEncodable {
     public init(
         eventID: String,
         runID: String,
-        status: EventStatus,
+        status: EventStatus?,
         type: IngestionEventType,
         batchSize: Int,
         data: [String: AnyCodable]? = nil,

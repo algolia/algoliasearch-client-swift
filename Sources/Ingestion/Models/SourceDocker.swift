@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct SourceDocker: Codable, JSONEncodable {
-    /// Shortname of the image, as returned by the referential.
+    /// Name of the connector.
     public var image: String
     /// Configuration of the spec.
     public var configuration: AnyCodable
