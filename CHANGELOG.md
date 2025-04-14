@@ -1,3 +1,10 @@
+## [9.18.4](https://github.com/algolia/algoliasearch-client-swift/compare/9.18.3...9.18.4)
+
+- [369c14232](https://github.com/algolia/api-clients-automation/commit/369c14232) fix(specs): condition cant be numeric filter ([#4726](https://github.com/algolia/api-clients-automation/pull/4726)) by [@kai687](https://github.com/kai687/)
+- [1911d224b](https://github.com/algolia/api-clients-automation/commit/1911d224b) fix(specs): event.status can be null ([#4727](https://github.com/algolia/api-clients-automation/pull/4727)) by [@millotp](https://github.com/millotp/)
+- [a18b555b4](https://github.com/algolia/api-clients-automation/commit/a18b555b4) fix(specs): add missing recordType collection ([#4728](https://github.com/algolia/api-clients-automation/pull/4728)) by [@millotp](https://github.com/millotp/)
+- [4570f18b8](https://github.com/algolia/api-clients-automation/commit/4570f18b8) fix(clients): correctly deserialize SearchResult ([#4756](https://github.com/algolia/api-clients-automation/pull/4756)) by [@millotp](https://github.com/millotp/)
+
 ## [9.18.3](https://github.com/algolia/algoliasearch-client-swift/compare/9.18.2...9.18.3)
 
 - [a922dca5a](https://github.com/algolia/api-clients-automation/commit/a922dca5a) docs(partialUpdate): add note about multiple operations ([#4721](https://github.com/algolia/api-clients-automation/pull/4721)) by [@Jerska](https://github.com/Jerska/)
