@@ -10,6 +10,7 @@ import Foundation
 public enum RecordType: String, Codable, CaseIterable {
     case product
     case variant
+    case collection
 }
 
 extension RecordType: Hashable {}
