@@ -6,36 +6,53 @@ import Foundation
     import Core
 #endif
 
-public enum DestinationInput: Codable, JSONEncodable, AbstractEncodable {
-    case destinationIndexName(DestinationIndexName)
+public struct DestinationInput: Codable, JSONEncodable {
+    /// Algolia index name (case-sensitive).
+    public var indexName: String
+    public var recordType: RecordType?
+    /// Attributes from your source to exclude from Algolia records.  Not all your data attributes will be useful for
+    /// searching. Keeping your Algolia records small increases indexing and search performance.  - Exclude nested
+    /// attributes with `.` notation. For example, `foo.bar` indexes the `foo` attribute and all its children **except**
+    /// the `bar` attribute. - Exclude attributes from arrays with `[i]`, where `i` is the index of the array element.  
+    /// For example, `foo.[0].bar` only excludes the `bar` attribute from the first element of the `foo` array, but
+    /// indexes the complete `foo` attribute for all other elements.   Use `*` as wildcard: `foo.[*].bar` excludes `bar`
+    /// from all elements of the `foo` array.
+    public var attributesToExclude: [String]?
+
+    public init(indexName: String, recordType: RecordType? = nil, attributesToExclude: [String]? = nil) {
+        self.indexName = indexName
+        self.recordType = recordType
+        self.attributesToExclude = attributesToExclude
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case indexName
+        case recordType
+        case attributesToExclude
+    }
+
+    // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .destinationIndexName(value):
-            try container.encode(value)
-        }
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(DestinationIndexName.self) {
-            self = .destinationIndexName(value)
-        } else {
-            throw DecodingError.typeMismatch(
-                Self.Type.self,
-                .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of DestinationInput")
-            )
-        }
-    }
-
-    public func GetActualInstance() -> Encodable {
-        switch self {
-        case let .destinationIndexName(value):
-            value as DestinationIndexName
-        }
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.indexName, forKey: .indexName)
+        try container.encodeIfPresent(self.recordType, forKey: .recordType)
+        try container.encodeIfPresent(self.attributesToExclude, forKey: .attributesToExclude)
     }
 }
 
-extension DestinationInput: Equatable {}
-extension DestinationInput: Hashable {}
+extension DestinationInput: Equatable {
+    public static func ==(lhs: DestinationInput, rhs: DestinationInput) -> Bool {
+        lhs.indexName == rhs.indexName &&
+            lhs.recordType == rhs.recordType &&
+            lhs.attributesToExclude == rhs.attributesToExclude
+    }
+}
+
+extension DestinationInput: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.indexName.hashValue)
+        hasher.combine(self.recordType?.hashValue)
+        hasher.combine(self.attributesToExclude?.hashValue)
+    }
+}
