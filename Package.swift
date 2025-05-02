@@ -57,6 +57,7 @@ products.append(
 [
     "Abtesting",
     "Analytics",
+    "Composition",
     "Ingestion",
     "Insights",
     "Monitoring",

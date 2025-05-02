@@ -26,6 +26,10 @@ Pod::Spec.new do |s|
     subs.source_files = 'Sources/Analytics/**/*.swift'
     subs.dependency 'AlgoliaSearchClient/Core'
   end
+  s.subspec 'Composition' do |subs|
+    subs.source_files = 'Sources/Composition/**/*.swift'
+    subs.dependency 'AlgoliaSearchClient/Core'
+  end
   s.subspec 'Ingestion' do |subs|
     subs.source_files = 'Sources/Ingestion/**/*.swift'
     subs.dependency 'AlgoliaSearchClient/Core'
