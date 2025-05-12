@@ -314,7 +314,8 @@ open class InsightsClient {
     /// Deletes all events related to the specified user token from events metrics and analytics. The deletion is
     /// asynchronous, and processed within 48 hours. To delete a personalization user profile, see `Delete a user
     /// profile` in the Personalization API.
-    ///
+    /// Required API Key ACLs:
+    ///  - deleteObject
     ///
     /// - parameter userToken: (path) User token for which to delete all associated events.
     /// - returns: RequestBuilder<Void>
@@ -376,7 +377,8 @@ open class InsightsClient {
 
     // Sends a list of events to the Insights API.  You can include up to 1,000 events in a single request, but the
     // request body must be smaller than 2&nbsp;MB.
-    //
+    // Required API Key ACLs:
+    //  - search
     //
     // - parameter insightsEvents: (body)
     // - returns: RequestBuilder<EventsResponse>
