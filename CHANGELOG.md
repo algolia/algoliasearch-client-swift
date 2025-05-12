@@ -1,3 +1,9 @@
+## [9.19.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.18.5...9.19.0)
+
+- [db6e6f2d59](https://github.com/algolia/api-clients-automation/commit/db6e6f2d59) feat(swift): generate composition client ([#4801](https://github.com/algolia/api-clients-automation/pull/4801)) by [@Fluf22](https://github.com/Fluf22/)
+- [bebb56e0b9](https://github.com/algolia/api-clients-automation/commit/bebb56e0b9) fix(specs): add x-acl to insights endpoints ([#4822](https://github.com/algolia/api-clients-automation/pull/4822)) by [@kai687](https://github.com/kai687/)
+- [7e226c4559](https://github.com/algolia/api-clients-automation/commit/7e226c4559) feat(scripts): add push to mcp-node on release ([#4784](https://github.com/algolia/api-clients-automation/pull/4784)) by [@shortcuts](https://github.com/shortcuts/)
+
 ## [9.18.5](https://github.com/algolia/algoliasearch-client-swift/compare/9.18.4...9.18.5)
 
 - [53ac749807](https://github.com/algolia/api-clients-automation/commit/53ac749807) chore(deps): dependencies 2025-04-28 ([#4785](https://github.com/algolia/api-clients-automation/pull/4785)) by [@algolia-bot](https://github.com/algolia-bot/)
