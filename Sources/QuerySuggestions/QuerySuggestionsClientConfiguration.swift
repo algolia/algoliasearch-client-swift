@@ -59,8 +59,9 @@ public struct QuerySuggestionsClientConfiguration: BaseConfiguration, Credential
                 )
             }
 
-            guard let url = URL(string: "https://query-suggestions.{region}.algolia.com"
-                .replacingOccurrences(of: "{region}", with: region.rawValue)
+            guard let url = URL(
+                string: "https://query-suggestions.{region}.algolia.com"
+                    .replacingOccurrences(of: "{region}", with: region.rawValue)
             ) else {
                 throw AlgoliaError.runtimeError("Malformed URL")
             }
