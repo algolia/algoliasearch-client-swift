@@ -16,9 +16,9 @@ public struct FetchedIndex: Codable, JSONEncodable {
     /// Number of records contained in the index.
     public var entries: Int
     /// Number of bytes of the index in minified format.
-    public var dataSize: Int
+    public var dataSize: Int64
     /// Number of bytes of the index binary file.
-    public var fileSize: Int
+    public var fileSize: Int64
     /// Last build time.
     public var lastBuildTimeS: Int
     /// Number of pending indexing operations. This value is deprecated and should not be used.
@@ -37,8 +37,8 @@ public struct FetchedIndex: Codable, JSONEncodable {
         createdAt: String,
         updatedAt: String,
         entries: Int,
-        dataSize: Int,
-        fileSize: Int,
+        dataSize: Int64,
+        fileSize: Int64,
         lastBuildTimeS: Int,
         numberOfPendingTasks: Int,
         pendingTask: Bool,
