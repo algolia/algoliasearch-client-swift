@@ -60,9 +60,8 @@ public struct AbtestingClientConfiguration: BaseConfiguration, Credentials {
             }
 
             if let region {
-                guard let url = URL(
-                    string: "https://analytics.{region}.algolia.com"
-                        .replacingOccurrences(of: "{region}", with: region.rawValue)
+                guard let url = URL(string: "https://analytics.{region}.algolia.com"
+                    .replacingOccurrences(of: "{region}", with: region.rawValue)
                 ) else {
                     throw AlgoliaError.runtimeError("Malformed URL")
                 }

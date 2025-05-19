@@ -59,9 +59,8 @@ public struct IngestionClientConfiguration: BaseConfiguration, Credentials {
                 )
             }
 
-            guard let url = URL(
-                string: "https://data.{region}.algolia.com"
-                    .replacingOccurrences(of: "{region}", with: region.rawValue)
+            guard let url = URL(string: "https://data.{region}.algolia.com"
+                .replacingOccurrences(of: "{region}", with: region.rawValue)
             ) else {
                 throw AlgoliaError.runtimeError("Malformed URL")
             }

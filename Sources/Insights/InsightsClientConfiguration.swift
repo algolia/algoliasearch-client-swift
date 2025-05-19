@@ -60,9 +60,8 @@ public struct InsightsClientConfiguration: BaseConfiguration, Credentials {
             }
 
             if let region {
-                guard let url = URL(
-                    string: "https://insights.{region}.algolia.io"
-                        .replacingOccurrences(of: "{region}", with: region.rawValue)
+                guard let url = URL(string: "https://insights.{region}.algolia.io"
+                    .replacingOccurrences(of: "{region}", with: region.rawValue)
                 ) else {
                     throw AlgoliaError.runtimeError("Malformed URL")
                 }

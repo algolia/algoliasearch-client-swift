@@ -388,9 +388,8 @@ open class PersonalizationClient {
     //  - recommendation
     //     - returns: RequestBuilder<PersonalizationStrategyParams>
 
-    open func getPersonalizationStrategyWithHTTPInfo(
-        requestOptions userRequestOptions: RequestOptions? =
-            nil
+    open func getPersonalizationStrategyWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? =
+        nil
     ) async throws -> Response<PersonalizationStrategyParams> {
         let resourcePath = "/1/strategies/personalization"
         let body: AnyCodable? = nil

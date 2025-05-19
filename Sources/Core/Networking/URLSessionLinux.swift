@@ -30,7 +30,6 @@ public extension URLSession {
             try BridgedTask.checkCancellation()
 
             return try await withCheckedThrowingContinuation { continuation in
-
                 guard !BridgedTask.isCancelled else {
                     continuation.resume(throwing: CancellationError())
                     return
