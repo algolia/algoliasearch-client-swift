@@ -12,9 +12,6 @@ public enum IngestionAction: String, Codable, CaseIterable {
     case updateObject
     case partialUpdateObject
     case partialUpdateObjectNoCreate
-    case deleteObject
-    case delete
-    case clear
 }
 
 extension IngestionAction: Hashable {}
