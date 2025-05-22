@@ -9,25 +9,40 @@ import Foundation
 public struct WatchResponse: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of a task run.
     public var runID: String
+    /// Universally unique identifier (UUID) of an event.
+    public var eventID: String?
     /// when used with discovering or validating sources, the sampled data of your source is returned.
     public var data: [AnyCodable]?
     /// in case of error, observability events will be added to the response, if any.
     public var events: [Event]?
     /// a message describing the outcome of a validate run.
     public var message: String?
+    /// Date of creation in RFC 3339 format.
+    public var createdAt: String?
 
-    public init(runID: String, data: [AnyCodable]? = nil, events: [Event]? = nil, message: String? = nil) {
+    public init(
+        runID: String,
+        eventID: String? = nil,
+        data: [AnyCodable]? = nil,
+        events: [Event]? = nil,
+        message: String? = nil,
+        createdAt: String? = nil
+    ) {
         self.runID = runID
+        self.eventID = eventID
         self.data = data
         self.events = events
         self.message = message
+        self.createdAt = createdAt
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case runID
+        case eventID
         case data
         case events
         case message
+        case createdAt
     }
 
     // Encodable protocol methods
@@ -35,26 +50,32 @@ public struct WatchResponse: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.runID, forKey: .runID)
+        try container.encodeIfPresent(self.eventID, forKey: .eventID)
         try container.encodeIfPresent(self.data, forKey: .data)
         try container.encodeIfPresent(self.events, forKey: .events)
         try container.encodeIfPresent(self.message, forKey: .message)
+        try container.encodeIfPresent(self.createdAt, forKey: .createdAt)
     }
 }
 
 extension WatchResponse: Equatable {
     public static func ==(lhs: WatchResponse, rhs: WatchResponse) -> Bool {
         lhs.runID == rhs.runID &&
+            lhs.eventID == rhs.eventID &&
             lhs.data == rhs.data &&
             lhs.events == rhs.events &&
-            lhs.message == rhs.message
+            lhs.message == rhs.message &&
+            lhs.createdAt == rhs.createdAt
     }
 }
 
 extension WatchResponse: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.runID.hashValue)
+        hasher.combine(self.eventID?.hashValue)
         hasher.combine(self.data?.hashValue)
         hasher.combine(self.events?.hashValue)
         hasher.combine(self.message?.hashValue)
+        hasher.combine(self.createdAt?.hashValue)
     }
 }
