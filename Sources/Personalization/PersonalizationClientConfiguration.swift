@@ -59,9 +59,8 @@ public struct PersonalizationClientConfiguration: BaseConfiguration, Credentials
                 )
             }
 
-            guard let url = URL(
-                string: "https://personalization.{region}.algolia.com"
-                    .replacingOccurrences(of: "{region}", with: region.rawValue)
+            guard let url = URL(string: "https://personalization.{region}.algolia.com"
+                .replacingOccurrences(of: "{region}", with: region.rawValue)
             ) else {
                 throw AlgoliaError.runtimeError("Malformed URL")
             }
