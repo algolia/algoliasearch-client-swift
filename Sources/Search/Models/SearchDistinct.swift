@@ -11,25 +11,25 @@ import Foundation
 /// group are returned. This is useful for [deduplication and grouping](https://www.algolia.com/doc/guides/managing-results/refine-results/grouping/#introducing-algolias-distinct-feature).
 ///  The `distinct` setting is ignored if `attributeForDistinct` is not set.
 public enum SearchDistinct: Codable, JSONEncodable, AbstractEncodable {
-    case bool(Bool)
     case int(Int)
+    case bool(Bool)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .bool(value):
-            try container.encode(value)
         case let .int(value):
+            try container.encode(value)
+        case let .bool(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(Bool.self) {
-            self = .bool(value)
-        } else if let value = try? container.decode(Int.self) {
+        if let value = try? container.decode(Int.self) {
             self = .int(value)
+        } else if let value = try? container.decode(Bool.self) {
+            self = .bool(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -40,10 +40,10 @@ public enum SearchDistinct: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .bool(value):
-            value as Bool
         case let .int(value):
             value as Int
+        case let .bool(value):
+            value as Bool
         }
     }
 }

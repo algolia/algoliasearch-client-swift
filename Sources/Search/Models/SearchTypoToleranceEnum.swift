@@ -13,6 +13,8 @@ import Foundation
 public enum SearchTypoToleranceEnum: String, Codable, CaseIterable {
     case min
     case strict
+    case `true`
+    case `false`
 }
 
 extension SearchTypoToleranceEnum: Hashable {}

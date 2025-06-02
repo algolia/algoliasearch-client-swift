@@ -13,6 +13,8 @@ import Foundation
 public enum RecommendTypoToleranceEnum: String, Codable, CaseIterable {
     case min
     case strict
+    case `true`
+    case `false`
 }
 
 extension RecommendTypoToleranceEnum: Hashable {}

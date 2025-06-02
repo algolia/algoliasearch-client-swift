@@ -11,25 +11,25 @@ import Foundation
 /// and how it is applied.  If typo tolerance is true, `min`, or `strict`, [word splitting and concatenation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/splitting-and-concatenation/)
 /// are also active.
 public enum RecommendTypoTolerance: Codable, JSONEncodable, AbstractEncodable {
-    case bool(Bool)
     case recommendTypoToleranceEnum(RecommendTypoToleranceEnum)
+    case bool(Bool)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .bool(value):
-            try container.encode(value)
         case let .recommendTypoToleranceEnum(value):
+            try container.encode(value)
+        case let .bool(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(Bool.self) {
-            self = .bool(value)
-        } else if let value = try? container.decode(RecommendTypoToleranceEnum.self) {
+        if let value = try? container.decode(RecommendTypoToleranceEnum.self) {
             self = .recommendTypoToleranceEnum(value)
+        } else if let value = try? container.decode(Bool.self) {
+            self = .bool(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -43,10 +43,10 @@ public enum RecommendTypoTolerance: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .bool(value):
-            value as Bool
         case let .recommendTypoToleranceEnum(value):
             value as RecommendTypoToleranceEnum
+        case let .bool(value):
+            value as Bool
         }
     }
 }
