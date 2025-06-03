@@ -7,7 +7,8 @@ import Foundation
 #endif
 
 public struct TransformationTry: Codable, JSONEncodable {
-    /// The source code of the transformation.
+    /// It is deprecated. Use the `input` field with proper `type` instead to specify the transformation code.
+    @available(*, deprecated, message: "This property is deprecated.")
     public var code: String
     /// The record to apply the given code to.
     public var sampleRecord: AnyCodable

@@ -8,18 +8,30 @@ import Foundation
 
 /// API request body for creating a transformation.
 public struct TransformationCreate: Codable, JSONEncodable {
-    /// The source code of the transformation.
-    public var code: String
+    /// It is deprecated. Use the `input` field with proper `type` instead to specify the transformation code.
+    @available(*, deprecated, message: "This property is deprecated.")
+    public var code: String?
     /// The uniquely identified name of your transformation.
     public var name: String
+    public var type: TransformationType
+    public var input: TransformationInput
     /// A descriptive name for your transformation of what it does.
     public var description: String?
     /// The authentications associated with the current transformation.
     public var authenticationIDs: [String]?
 
-    public init(code: String, name: String, description: String? = nil, authenticationIDs: [String]? = nil) {
+    public init(
+        code: String? = nil,
+        name: String,
+        type: TransformationType,
+        input: TransformationInput,
+        description: String? = nil,
+        authenticationIDs: [String]? = nil
+    ) {
         self.code = code
         self.name = name
+        self.type = type
+        self.input = input
         self.description = description
         self.authenticationIDs = authenticationIDs
     }
@@ -27,6 +39,8 @@ public struct TransformationCreate: Codable, JSONEncodable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case code
         case name
+        case type
+        case input
         case description
         case authenticationIDs
     }
@@ -35,8 +49,10 @@ public struct TransformationCreate: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.code, forKey: .code)
+        try container.encodeIfPresent(self.code, forKey: .code)
         try container.encode(self.name, forKey: .name)
+        try container.encode(self.type, forKey: .type)
+        try container.encode(self.input, forKey: .input)
         try container.encodeIfPresent(self.description, forKey: .description)
         try container.encodeIfPresent(self.authenticationIDs, forKey: .authenticationIDs)
     }
@@ -46,6 +62,8 @@ extension TransformationCreate: Equatable {
     public static func ==(lhs: TransformationCreate, rhs: TransformationCreate) -> Bool {
         lhs.code == rhs.code &&
             lhs.name == rhs.name &&
+            lhs.type == rhs.type &&
+            lhs.input == rhs.input &&
             lhs.description == rhs.description &&
             lhs.authenticationIDs == rhs.authenticationIDs
     }
@@ -53,8 +71,10 @@ extension TransformationCreate: Equatable {
 
 extension TransformationCreate: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.code.hashValue)
+        hasher.combine(self.code?.hashValue)
         hasher.combine(self.name.hashValue)
+        hasher.combine(self.type.hashValue)
+        hasher.combine(self.input.hashValue)
         hasher.combine(self.description?.hashValue)
         hasher.combine(self.authenticationIDs?.hashValue)
     }
