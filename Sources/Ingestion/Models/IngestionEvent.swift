@@ -7,12 +7,12 @@ import Foundation
 #endif
 
 /// An event describe a step of the task execution flow..
-public struct Event: Codable, JSONEncodable {
+public struct IngestionEvent: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of an event.
     public var eventID: String
     /// Universally unique identifier (UUID) of a task run.
     public var runID: String
-    public var status: EventStatus?
+    public var status: IngestionEventStatus?
     public var type: IngestionEventType
     /// The extracted record batch size.
     public var batchSize: Int
@@ -23,7 +23,7 @@ public struct Event: Codable, JSONEncodable {
     public init(
         eventID: String,
         runID: String,
-        status: EventStatus?,
+        status: IngestionEventStatus?,
         type: IngestionEventType,
         batchSize: Int,
         data: [String: AnyCodable]? = nil,
@@ -62,8 +62,8 @@ public struct Event: Codable, JSONEncodable {
     }
 }
 
-extension Event: Equatable {
-    public static func ==(lhs: Event, rhs: Event) -> Bool {
+extension IngestionEvent: Equatable {
+    public static func ==(lhs: IngestionEvent, rhs: IngestionEvent) -> Bool {
         lhs.eventID == rhs.eventID &&
             lhs.runID == rhs.runID &&
             lhs.status == rhs.status &&
@@ -74,7 +74,7 @@ extension Event: Equatable {
     }
 }
 
-extension Event: Hashable {
+extension IngestionEvent: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.eventID.hashValue)
         hasher.combine(self.runID.hashValue)

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public enum EventStatus: String, Codable, CaseIterable {
+public enum IngestionEventStatus: String, Codable, CaseIterable {
     case created
     case started
     case retried
@@ -15,4 +15,4 @@ public enum EventStatus: String, Codable, CaseIterable {
     case critical
 }
 
-extension EventStatus: Hashable {}
+extension IngestionEventStatus: Hashable {}

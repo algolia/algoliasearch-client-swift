@@ -6,16 +6,17 @@ import Foundation
     import Core
 #endif
 
-public struct WatchResponse: Codable, JSONEncodable {
+public struct SearchWatchResponse: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of a task run.
     public var runID: String
     /// Universally unique identifier (UUID) of an event.
     public var eventID: String?
-    /// when used with discovering or validating sources, the sampled data of your source is returned.
+    /// This field is always null when used with the Push endpoint. When used for a source discover or source validate
+    /// run, it will include the sampled data of the source.
     public var data: [AnyCodable]?
-    /// in case of error, observability events will be added to the response, if any.
-    public var events: [Event]?
-    /// a message describing the outcome of a validate run.
+    /// in case of error, observability events will be added to the response.
+    public var events: [SearchEvent]?
+    /// a message describing the outcome of the operation that has been ran (push, discover or validate) run.
     public var message: String?
     /// Date of creation in RFC 3339 format.
     public var createdAt: String?
@@ -24,7 +25,7 @@ public struct WatchResponse: Codable, JSONEncodable {
         runID: String,
         eventID: String? = nil,
         data: [AnyCodable]? = nil,
-        events: [Event]? = nil,
+        events: [SearchEvent]? = nil,
         message: String? = nil,
         createdAt: String? = nil
     ) {
@@ -58,8 +59,8 @@ public struct WatchResponse: Codable, JSONEncodable {
     }
 }
 
-extension WatchResponse: Equatable {
-    public static func ==(lhs: WatchResponse, rhs: WatchResponse) -> Bool {
+extension SearchWatchResponse: Equatable {
+    public static func ==(lhs: SearchWatchResponse, rhs: SearchWatchResponse) -> Bool {
         lhs.runID == rhs.runID &&
             lhs.eventID == rhs.eventID &&
             lhs.data == rhs.data &&
@@ -69,7 +70,7 @@ extension WatchResponse: Equatable {
     }
 }
 
-extension WatchResponse: Hashable {
+extension SearchWatchResponse: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.runID.hashValue)
         hasher.combine(self.eventID?.hashValue)

@@ -7,11 +7,11 @@ import Foundation
 #endif
 
 public struct ListEventsResponse: Codable, JSONEncodable {
-    public var events: [Event]
+    public var events: [IngestionEvent]
     public var pagination: Pagination
     public var window: Window
 
-    public init(events: [Event], pagination: Pagination, window: Window) {
+    public init(events: [IngestionEvent], pagination: Pagination, window: Window) {
         self.events = events
         self.pagination = pagination
         self.window = window
