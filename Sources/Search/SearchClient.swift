@@ -2057,7 +2057,7 @@ open class SearchClient {
 
     // Retrieves an object with non-null index settings.
     // Required API Key ACLs:
-    //  - search
+    //  - settings
     //
     // - parameter indexName: (path) Name of the index on which to perform the operation.
     // - returns: RequestBuilder<SettingsResponse>
