@@ -13,8 +13,8 @@ public struct TransformationCreate: Codable, JSONEncodable {
     public var code: String?
     /// The uniquely identified name of your transformation.
     public var name: String
-    public var type: TransformationType
-    public var input: TransformationInput
+    public var type: TransformationType?
+    public var input: TransformationInput?
     /// A descriptive name for your transformation of what it does.
     public var description: String?
     /// The authentications associated with the current transformation.
@@ -23,8 +23,8 @@ public struct TransformationCreate: Codable, JSONEncodable {
     public init(
         code: String? = nil,
         name: String,
-        type: TransformationType,
-        input: TransformationInput,
+        type: TransformationType? = nil,
+        input: TransformationInput? = nil,
         description: String? = nil,
         authenticationIDs: [String]? = nil
     ) {
@@ -51,8 +51,8 @@ public struct TransformationCreate: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.code, forKey: .code)
         try container.encode(self.name, forKey: .name)
-        try container.encode(self.type, forKey: .type)
-        try container.encode(self.input, forKey: .input)
+        try container.encodeIfPresent(self.type, forKey: .type)
+        try container.encodeIfPresent(self.input, forKey: .input)
         try container.encodeIfPresent(self.description, forKey: .description)
         try container.encodeIfPresent(self.authenticationIDs, forKey: .authenticationIDs)
     }
@@ -73,8 +73,8 @@ extension TransformationCreate: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.code?.hashValue)
         hasher.combine(self.name.hashValue)
-        hasher.combine(self.type.hashValue)
-        hasher.combine(self.input.hashValue)
+        hasher.combine(self.type?.hashValue)
+        hasher.combine(self.input?.hashValue)
         hasher.combine(self.description?.hashValue)
         hasher.combine(self.authenticationIDs?.hashValue)
     }

@@ -9,19 +9,31 @@ import Foundation
 public struct TransformationTry: Codable, JSONEncodable {
     /// It is deprecated. Use the `input` field with proper `type` instead to specify the transformation code.
     @available(*, deprecated, message: "This property is deprecated.")
-    public var code: String
+    public var code: String?
+    public var type: TransformationType?
+    public var input: TransformationInput?
     /// The record to apply the given code to.
     public var sampleRecord: AnyCodable
     public var authentications: [AuthenticationCreate]?
 
-    public init(code: String, sampleRecord: AnyCodable, authentications: [AuthenticationCreate]? = nil) {
+    public init(
+        code: String? = nil,
+        type: TransformationType? = nil,
+        input: TransformationInput? = nil,
+        sampleRecord: AnyCodable,
+        authentications: [AuthenticationCreate]? = nil
+    ) {
         self.code = code
+        self.type = type
+        self.input = input
         self.sampleRecord = sampleRecord
         self.authentications = authentications
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case code
+        case type
+        case input
         case sampleRecord
         case authentications
     }
@@ -30,7 +42,9 @@ public struct TransformationTry: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.code, forKey: .code)
+        try container.encodeIfPresent(self.code, forKey: .code)
+        try container.encodeIfPresent(self.type, forKey: .type)
+        try container.encodeIfPresent(self.input, forKey: .input)
         try container.encode(self.sampleRecord, forKey: .sampleRecord)
         try container.encodeIfPresent(self.authentications, forKey: .authentications)
     }
@@ -39,6 +53,8 @@ public struct TransformationTry: Codable, JSONEncodable {
 extension TransformationTry: Equatable {
     public static func ==(lhs: TransformationTry, rhs: TransformationTry) -> Bool {
         lhs.code == rhs.code &&
+            lhs.type == rhs.type &&
+            lhs.input == rhs.input &&
             lhs.sampleRecord == rhs.sampleRecord &&
             lhs.authentications == rhs.authentications
     }
@@ -46,7 +62,9 @@ extension TransformationTry: Equatable {
 
 extension TransformationTry: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.code.hashValue)
+        hasher.combine(self.code?.hashValue)
+        hasher.combine(self.type?.hashValue)
+        hasher.combine(self.input?.hashValue)
         hasher.combine(self.sampleRecord.hashValue)
         hasher.combine(self.authentications?.hashValue)
     }
