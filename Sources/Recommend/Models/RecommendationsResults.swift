@@ -43,7 +43,7 @@ public struct RecommendationsResults: Codable, JSONEncodable {
     /// query string that will be searched.
     public var parsedQuery: String?
     /// Time the server took to process the request, in milliseconds.
-    public var processingTimeMS: Int
+    public var processingTimeMS: Int?
     /// Experimental. List of processing steps and their times, in milliseconds. You can use this list to investigate
     /// performance issues.
     public var processingTimingsMS: AnyCodable?
@@ -89,7 +89,7 @@ public struct RecommendationsResults: Codable, JSONEncodable {
         message: String? = nil,
         nbSortedHits: Int? = nil,
         parsedQuery: String? = nil,
-        processingTimeMS: Int,
+        processingTimeMS: Int? = nil,
         processingTimingsMS: AnyCodable? = nil,
         queryAfterRemoval: String? = nil,
         redirect: RecommendRedirect? = nil,
@@ -192,7 +192,7 @@ public struct RecommendationsResults: Codable, JSONEncodable {
         try container.encodeIfPresent(self.message, forKey: .message)
         try container.encodeIfPresent(self.nbSortedHits, forKey: .nbSortedHits)
         try container.encodeIfPresent(self.parsedQuery, forKey: .parsedQuery)
-        try container.encode(self.processingTimeMS, forKey: .processingTimeMS)
+        try container.encodeIfPresent(self.processingTimeMS, forKey: .processingTimeMS)
         try container.encodeIfPresent(self.processingTimingsMS, forKey: .processingTimingsMS)
         try container.encodeIfPresent(self.queryAfterRemoval, forKey: .queryAfterRemoval)
         try container.encodeIfPresent(self.redirect, forKey: .redirect)
@@ -264,7 +264,7 @@ extension RecommendationsResults: Hashable {
         hasher.combine(self.message?.hashValue)
         hasher.combine(self.nbSortedHits?.hashValue)
         hasher.combine(self.parsedQuery?.hashValue)
-        hasher.combine(self.processingTimeMS.hashValue)
+        hasher.combine(self.processingTimeMS?.hashValue)
         hasher.combine(self.processingTimingsMS?.hashValue)
         hasher.combine(self.queryAfterRemoval?.hashValue)
         hasher.combine(self.redirect?.hashValue)
