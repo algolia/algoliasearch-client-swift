@@ -2554,18 +2554,23 @@ open class IngestionClient {
     /// - parameter pushTaskPayload: (body)
     /// - parameter watch: (query) When provided, the push operation will be synchronous and the API will wait for the
     /// ingestion to be finished before responding. (optional)
+    /// - parameter referenceIndexName: (query) This is required when targeting an index that does not have a push
+    /// connector setup (e.g. a tmp index), but you wish to attach another index's transformation to it (e.g. the source
+    /// index name). (optional)
     /// - returns: IngestionWatchResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func push(
         indexName: String,
         pushTaskPayload: PushTaskPayload,
         watch: Bool? = nil,
+        referenceIndexName: String? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws -> IngestionWatchResponse {
         let response: Response<IngestionWatchResponse> = try await pushWithHTTPInfo(
             indexName: indexName,
             pushTaskPayload: pushTaskPayload,
             watch: watch,
+            referenceIndexName: referenceIndexName,
             requestOptions: requestOptions
         )
 
@@ -2592,12 +2597,17 @@ open class IngestionClient {
     //
     // - parameter watch: (query) When provided, the push operation will be synchronous and the API will wait for the
     // ingestion to be finished before responding. (optional)
+    //
+    // - parameter referenceIndexName: (query) This is required when targeting an index that does not have a push
+    // connector setup (e.g. a tmp index), but you wish to attach another index's transformation to it (e.g. the source
+    // index name). (optional)
     // - returns: RequestBuilder<IngestionWatchResponse>
 
     open func pushWithHTTPInfo(
         indexName: String,
         pushTaskPayload: PushTaskPayload,
         watch: Bool? = nil,
+        referenceIndexName: String? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<IngestionWatchResponse> {
         guard !indexName.isEmpty else {
@@ -2617,6 +2627,7 @@ open class IngestionClient {
         let body = pushTaskPayload
         let queryParameters: [String: Any?] = [
             "watch": watch?.encodeToJSON(),
+            "referenceIndexName": referenceIndexName?.encodeToJSON(),
         ]
 
         let nillableHeaders: [String: Any?]? = nil
