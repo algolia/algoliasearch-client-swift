@@ -748,7 +748,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
+    /// - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - returns: AnyCodable
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -773,7 +773,7 @@ open class SearchClient {
     // This method lets you send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
+    // - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     // - returns: RequestBuilder<AnyCodable>
@@ -813,7 +813,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
+    /// - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - returns: AnyCodable
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -838,7 +838,7 @@ open class SearchClient {
     // This method lets you send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
+    // - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     // - returns: RequestBuilder<AnyCodable>
@@ -878,7 +878,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
+    /// - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - parameter body: (body) Parameters to send with the custom request. (optional)
     /// - returns: AnyCodable
@@ -906,7 +906,7 @@ open class SearchClient {
     // This method lets you send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
+    // - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     //
@@ -949,7 +949,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
+    /// - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - parameter body: (body) Parameters to send with the custom request. (optional)
     /// - returns: AnyCodable
@@ -977,7 +977,7 @@ open class SearchClient {
     // This method lets you send requests to the Algolia REST API.
     //
     //
-    // - parameter path: (path) Path of the endpoint, anything after \"/1\" must be specified.
+    // - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
     //
     // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     //
