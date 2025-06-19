@@ -1,3 +1,8 @@
+## [9.23.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.22.0...9.23.0)
+
+- [a2ebbf496c](https://github.com/algolia/api-clients-automation/commit/a2ebbf496c) feat(clients): add `replaceAllObjectsWithTransformation` ([#5008](https://github.com/algolia/api-clients-automation/pull/5008)) by [@shortcuts](https://github.com/shortcuts/)
+- [5e3869931b](https://github.com/algolia/api-clients-automation/commit/5e3869931b) chore(spec): fix comment of custom path ([#5014](https://github.com/algolia/api-clients-automation/pull/5014)) by [@millotp](https://github.com/millotp/)
+
 ## [9.22.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.21.0...9.22.0)
 
 - [6031284e24](https://github.com/algolia/api-clients-automation/commit/6031284e24) feat(specs): update try transformation specs for no-code ([#4974](https://github.com/algolia/api-clients-automation/pull/4974)) by [@mehmetaligok](https://github.com/mehmetaligok/)
