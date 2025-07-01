@@ -15,17 +15,21 @@ public struct Currency: Codable, JSONEncodable {
     public var mean: Double?
     /// Standard deviation for this currency.
     public var standardDeviation: Double?
+    /// The amount of revenue for this currency that was removed after capping purchase amounts to the 95th percentile.
+    public var winsorizedAmount: Double?
 
     public init(
         currency: String? = nil,
         revenue: Double? = nil,
         mean: Double? = nil,
-        standardDeviation: Double? = nil
+        standardDeviation: Double? = nil,
+        winsorizedAmount: Double? = nil
     ) {
         self.currency = currency
         self.revenue = revenue
         self.mean = mean
         self.standardDeviation = standardDeviation
+        self.winsorizedAmount = winsorizedAmount
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -33,6 +37,7 @@ public struct Currency: Codable, JSONEncodable {
         case revenue
         case mean
         case standardDeviation
+        case winsorizedAmount
     }
 
     // Encodable protocol methods
@@ -43,6 +48,7 @@ public struct Currency: Codable, JSONEncodable {
         try container.encodeIfPresent(self.revenue, forKey: .revenue)
         try container.encodeIfPresent(self.mean, forKey: .mean)
         try container.encodeIfPresent(self.standardDeviation, forKey: .standardDeviation)
+        try container.encodeIfPresent(self.winsorizedAmount, forKey: .winsorizedAmount)
     }
 }
 
@@ -51,7 +57,8 @@ extension Currency: Equatable {
         lhs.currency == rhs.currency &&
             lhs.revenue == rhs.revenue &&
             lhs.mean == rhs.mean &&
-            lhs.standardDeviation == rhs.standardDeviation
+            lhs.standardDeviation == rhs.standardDeviation &&
+            lhs.winsorizedAmount == rhs.winsorizedAmount
     }
 }
 
@@ -61,5 +68,6 @@ extension Currency: Hashable {
         hasher.combine(self.revenue?.hashValue)
         hasher.combine(self.mean?.hashValue)
         hasher.combine(self.standardDeviation?.hashValue)
+        hasher.combine(self.winsorizedAmount?.hashValue)
     }
 }
