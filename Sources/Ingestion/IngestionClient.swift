@@ -2755,7 +2755,8 @@ open class IngestionClient {
         return body
     }
 
-    // Runs all tasks linked to a source, only available for Shopify sources. It will create 1 run per task.
+    // Runs all tasks linked to a source, only available for Shopify, BigCommerce and commercetools sources. Creates one
+    // run per task.
     // Required API Key ACLs:
     //  - addObject
     //  - deleteIndex

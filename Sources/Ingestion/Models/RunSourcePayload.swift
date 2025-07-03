@@ -7,11 +7,11 @@ import Foundation
 #endif
 
 public struct RunSourcePayload: Codable, JSONEncodable {
-    /// List of index names to include in reidexing/update.
+    /// List of index names to include in reindex/update.
     public var indexToInclude: [String]?
-    /// List of index names to exclude in reidexing/update.
+    /// List of index names to exclude in reindex/update.
     public var indexToExclude: [String]?
-    /// List of entityID to update.
+    /// List of entityIDs to update.
     public var entityIDs: [String]?
     public var entityType: EntityType?
 
