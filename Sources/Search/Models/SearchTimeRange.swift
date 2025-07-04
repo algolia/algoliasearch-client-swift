@@ -8,11 +8,11 @@ import Foundation
 
 public struct SearchTimeRange: Codable, JSONEncodable {
     /// When the rule should start to be active, in Unix epoch time.
-    public var from: Int64
+    public var from: Int64?
     /// When the rule should stop to be active, in Unix epoch time.
-    public var until: Int64
+    public var until: Int64?
 
-    public init(from: Int64, until: Int64) {
+    public init(from: Int64? = nil, until: Int64? = nil) {
         self.from = from
         self.until = until
     }
@@ -26,8 +26,8 @@ public struct SearchTimeRange: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.from, forKey: .from)
-        try container.encode(self.until, forKey: .until)
+        try container.encodeIfPresent(self.from, forKey: .from)
+        try container.encodeIfPresent(self.until, forKey: .until)
     }
 }
 
@@ -40,7 +40,7 @@ extension SearchTimeRange: Equatable {
 
 extension SearchTimeRange: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.from.hashValue)
-        hasher.combine(self.until.hashValue)
+        hasher.combine(self.from?.hashValue)
+        hasher.combine(self.until?.hashValue)
     }
 }
