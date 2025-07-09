@@ -14,17 +14,21 @@ public struct RunSourcePayload: Codable, JSONEncodable {
     /// List of entityIDs to update.
     public var entityIDs: [String]?
     public var entityType: EntityType?
+    /// Additional information that will be passed to the created runs.
+    public var runMetadata: [String: AnyCodable]?
 
     public init(
         indexToInclude: [String]? = nil,
         indexToExclude: [String]? = nil,
         entityIDs: [String]? = nil,
-        entityType: EntityType? = nil
+        entityType: EntityType? = nil,
+        runMetadata: [String: AnyCodable]? = nil
     ) {
         self.indexToInclude = indexToInclude
         self.indexToExclude = indexToExclude
         self.entityIDs = entityIDs
         self.entityType = entityType
+        self.runMetadata = runMetadata
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -32,6 +36,7 @@ public struct RunSourcePayload: Codable, JSONEncodable {
         case indexToExclude
         case entityIDs
         case entityType
+        case runMetadata
     }
 
     // Encodable protocol methods
@@ -42,6 +47,7 @@ public struct RunSourcePayload: Codable, JSONEncodable {
         try container.encodeIfPresent(self.indexToExclude, forKey: .indexToExclude)
         try container.encodeIfPresent(self.entityIDs, forKey: .entityIDs)
         try container.encodeIfPresent(self.entityType, forKey: .entityType)
+        try container.encodeIfPresent(self.runMetadata, forKey: .runMetadata)
     }
 }
 
@@ -50,7 +56,8 @@ extension RunSourcePayload: Equatable {
         lhs.indexToInclude == rhs.indexToInclude &&
             lhs.indexToExclude == rhs.indexToExclude &&
             lhs.entityIDs == rhs.entityIDs &&
-            lhs.entityType == rhs.entityType
+            lhs.entityType == rhs.entityType &&
+            lhs.runMetadata == rhs.runMetadata
     }
 }
 
@@ -60,5 +67,6 @@ extension RunSourcePayload: Hashable {
         hasher.combine(self.indexToExclude?.hashValue)
         hasher.combine(self.entityIDs?.hashValue)
         hasher.combine(self.entityType?.hashValue)
+        hasher.combine(self.runMetadata?.hashValue)
     }
 }
