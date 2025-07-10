@@ -14,7 +14,7 @@ public struct Variant: Codable, JSONEncodable {
     public var addToCartRate: Double?
     /// [Average click position](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-position)
     /// for this variant.
-    public var averageClickPosition: Int?
+    public var averageClickPosition: Double?
     /// Number of click events for this variant.
     public var clickCount: Int
     /// [Click-through rate](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate)
@@ -58,7 +58,7 @@ public struct Variant: Codable, JSONEncodable {
     public init(
         addToCartCount: Int,
         addToCartRate: Double? = nil,
-        averageClickPosition: Int? = nil,
+        averageClickPosition: Double? = nil,
         clickCount: Int,
         clickThroughRate: Double? = nil,
         conversionCount: Int,
