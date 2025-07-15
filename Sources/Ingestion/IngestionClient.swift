@@ -825,8 +825,7 @@ open class IngestionClient {
 
         var resourcePath = "/2/tasks/{taskID}"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-        let taskIDPostEscape = taskIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,
@@ -885,8 +884,7 @@ open class IngestionClient {
 
         var resourcePath = "/1/tasks/{taskID}"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-        let taskIDPostEscape = taskIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,
@@ -1007,8 +1005,7 @@ open class IngestionClient {
 
         var resourcePath = "/2/tasks/{taskID}/disable"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-        let taskIDPostEscape = taskIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,
@@ -1070,8 +1067,7 @@ open class IngestionClient {
 
         var resourcePath = "/1/tasks/{taskID}/disable"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-        let taskIDPostEscape = taskIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,
@@ -1131,8 +1127,7 @@ open class IngestionClient {
 
         var resourcePath = "/2/tasks/{taskID}/enable"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-        let taskIDPostEscape = taskIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,
@@ -1194,8 +1189,7 @@ open class IngestionClient {
 
         var resourcePath = "/1/tasks/{taskID}/enable"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-        let taskIDPostEscape = taskIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,
@@ -1580,8 +1574,7 @@ open class IngestionClient {
 
         var resourcePath = "/2/tasks/{taskID}"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-        let taskIDPostEscape = taskIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,
@@ -1640,8 +1633,7 @@ open class IngestionClient {
 
         var resourcePath = "/1/tasks/{taskID}"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-        let taskIDPostEscape = taskIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,
@@ -2703,8 +2695,7 @@ open class IngestionClient {
 
         var resourcePath = "/2/tasks/{taskID}/push"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-        let taskIDPostEscape = taskIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,
@@ -2848,8 +2839,7 @@ open class IngestionClient {
 
         var resourcePath = "/2/tasks/{taskID}/run"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-        let taskIDPostEscape = taskIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,
@@ -2921,8 +2911,7 @@ open class IngestionClient {
 
         var resourcePath = "/1/tasks/{taskID}/run"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-        let taskIDPostEscape = taskIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,
@@ -3691,8 +3680,7 @@ open class IngestionClient {
 
         var resourcePath = "/2/tasks/{taskID}"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-        let taskIDPostEscape = taskIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,
@@ -3760,8 +3748,7 @@ open class IngestionClient {
 
         var resourcePath = "/1/tasks/{taskID}"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-        let taskIDPostEscape = taskIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,

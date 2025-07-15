@@ -275,11 +275,14 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         for (key, value) in dictionary {
             switch key {
             case "abTestID", "abTestVariantID", "aroundLatLng", "automaticRadius", "exhaustive", "appliedRules",
-                 "exhaustiveFacetsCount", "exhaustiveNbHits", "exhaustiveTypo", "facets", "facetsStats", "index",
-                 "indexUsed", "message", "nbSortedHits", "parsedQuery", "processingTimeMS", "processingTimingsMS",
-                 "queryAfterRemoval", "redirect", "renderingContent", "serverTimeMS", "serverUsed", "userData",
-                 "queryID",
-                 "automaticInsights", "page", "nbHits", "nbPages", "hitsPerPage", "hits", "query", "params":
+                 "exhaustiveFacetsCount",
+                 "exhaustiveNbHits", "exhaustiveTypo", "facets", "facetsStats", "index", "indexUsed", "message",
+                 "nbSortedHits",
+                 "parsedQuery", "processingTimeMS", "processingTimingsMS", "queryAfterRemoval", "redirect",
+                 "renderingContent",
+                 "serverTimeMS", "serverUsed", "userData", "queryID", "automaticInsights", "page", "nbHits", "nbPages",
+                 "hitsPerPage",
+                 "hits", "query", "params":
                 continue
             default:
                 self.additionalProperties[key] = value

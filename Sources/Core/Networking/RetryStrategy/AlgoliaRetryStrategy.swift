@@ -117,7 +117,7 @@ class AlgoliaRetryStrategy: RetryStrategy {
 // MARK: CustomDebugStringConvertible
 
 extension AlgoliaRetryStrategy: CustomDebugStringConvertible {
-    public var debugDescription: String {
+    var debugDescription: String {
         self.hosts.map(\.debugDescription).joined(separator: "\n")
     }
 }

@@ -657,8 +657,7 @@ open class RecommendClient {
             range: nil
         )
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-        let taskIDPostEscape = taskIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,

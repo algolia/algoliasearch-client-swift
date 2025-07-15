@@ -31,11 +31,11 @@ public struct EchoResponse: Codable {
 final class EchoRequestBuilder: RequestBuilder {
     let statusCode: HTTPStatusСode
 
-    public init() {
+    init() {
         self.statusCode = 200
     }
 
-    public init(statusCode: HTTPStatusСode) {
+    init(statusCode: HTTPStatusСode) {
         self.statusCode = statusCode
     }
 

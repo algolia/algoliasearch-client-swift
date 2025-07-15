@@ -1422,8 +1422,7 @@ open class SearchClient {
 
         var resourcePath = "/1/security/sources/{source}"
         let sourcePreEscape = "\(APIHelper.mapValueToPathItem(source))"
-        let sourcePostEscape = sourcePreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let sourcePostEscape = sourcePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{source}",
             with: sourcePostEscape,
@@ -1626,8 +1625,7 @@ open class SearchClient {
     ) async throws -> Response<GetTaskResponse> {
         var resourcePath = "/1/task/{taskID}"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-        let taskIDPostEscape = taskIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,
@@ -2271,8 +2269,7 @@ open class SearchClient {
             range: nil
         )
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-        let taskIDPostEscape = taskIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{taskID}",
             with: taskIDPostEscape,
@@ -2372,8 +2369,7 @@ open class SearchClient {
 
         var resourcePath = "/1/clusters/mapping/{userID}"
         let userIDPreEscape = "\(APIHelper.mapValueToPathItem(userID))"
-        let userIDPostEscape = userIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let userIDPostEscape = userIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{userID}",
             with: userIDPostEscape,
@@ -2942,8 +2938,7 @@ open class SearchClient {
 
         var resourcePath = "/1/clusters/mapping/{userID}"
         let userIDPreEscape = "\(APIHelper.mapValueToPathItem(userID))"
-        let userIDPostEscape = userIDPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let userIDPostEscape = userIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{userID}",
             with: userIDPostEscape,

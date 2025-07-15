@@ -628,8 +628,7 @@ open class MonitoringClient {
     ) async throws -> Response<InfrastructureResponse> {
         var resourcePath = "/1/infrastructure/{metric}/period/{period}"
         let metricPreEscape = "\(APIHelper.mapValueToPathItem(metric))"
-        let metricPostEscape = metricPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let metricPostEscape = metricPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{metric}",
             with: metricPostEscape,
@@ -637,8 +636,7 @@ open class MonitoringClient {
             range: nil
         )
         let periodPreEscape = "\(APIHelper.mapValueToPathItem(period))"
-        let periodPostEscape = periodPreEscape
-            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        let periodPostEscape = periodPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(
             of: "{period}",
             with: periodPostEscape,

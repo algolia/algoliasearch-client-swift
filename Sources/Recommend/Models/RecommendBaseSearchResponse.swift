@@ -219,11 +219,12 @@ public struct RecommendBaseSearchResponse: Codable, JSONEncodable {
         for (key, value) in dictionary {
             switch key {
             case "abTestID", "abTestVariantID", "aroundLatLng", "automaticRadius", "exhaustive", "appliedRules",
-                 "exhaustiveFacetsCount", "exhaustiveNbHits", "exhaustiveTypo", "facets", "facetsStats", "index",
-                 "indexUsed", "message", "nbSortedHits", "parsedQuery", "processingTimeMS", "processingTimingsMS",
-                 "queryAfterRemoval", "redirect", "renderingContent", "serverTimeMS", "serverUsed", "userData",
-                 "queryID",
-                 "automaticInsights":
+                 "exhaustiveFacetsCount",
+                 "exhaustiveNbHits", "exhaustiveTypo", "facets", "facetsStats", "index", "indexUsed", "message",
+                 "nbSortedHits",
+                 "parsedQuery", "processingTimeMS", "processingTimingsMS", "queryAfterRemoval", "redirect",
+                 "renderingContent",
+                 "serverTimeMS", "serverUsed", "userData", "queryID", "automaticInsights":
                 continue
             default:
                 self.additionalProperties[key] = value
