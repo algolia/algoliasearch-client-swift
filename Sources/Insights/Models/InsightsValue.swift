@@ -6,7 +6,8 @@ import Foundation
     import Core
 #endif
 
-/// Total monetary value of this event in units of `currency`.
+/// Total monetary value of this event in units of `currency`. This should be equal to the sum of `price` times
+/// `quantity`.
 public enum InsightsValue: Codable, JSONEncodable, AbstractEncodable {
     case double(Double)
     case string(String)

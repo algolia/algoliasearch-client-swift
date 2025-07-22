@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Total price of a product, including any discounts, in units of `currency`.
+/// Final price of a single product, including any discounts, in units of `currency`.
 public enum Price: Codable, JSONEncodable, AbstractEncodable {
     case double(Double)
     case string(String)
