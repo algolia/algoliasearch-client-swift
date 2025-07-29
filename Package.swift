@@ -56,6 +56,7 @@ products.append(
 
 [
     "Abtesting",
+    "AbtestingV3",
     "Analytics",
     "Composition",
     "Ingestion",

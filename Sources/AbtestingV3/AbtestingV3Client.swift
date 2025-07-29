@@ -6,25 +6,25 @@ import Foundation
     import Core
 #endif
 
-open class AbtestingClient {
-    private var configuration: AbtestingClientConfiguration
+open class AbtestingV3Client {
+    private var configuration: AbtestingV3ClientConfiguration
     private var transporter: Transporter
 
     var appID: String {
         self.configuration.appID
     }
 
-    public init(configuration: AbtestingClientConfiguration, transporter: Transporter) {
+    public init(configuration: AbtestingV3ClientConfiguration, transporter: Transporter) {
         self.configuration = configuration
         self.transporter = transporter
     }
 
-    public convenience init(configuration: AbtestingClientConfiguration) {
+    public convenience init(configuration: AbtestingV3ClientConfiguration) {
         self.init(configuration: configuration, transporter: Transporter(configuration: configuration))
     }
 
     public convenience init(appID: String, apiKey: String, region: Region?) throws {
-        try self.init(configuration: AbtestingClientConfiguration(appID: appID, apiKey: apiKey, region: region))
+        try self.init(configuration: AbtestingV3ClientConfiguration(appID: appID, apiKey: apiKey, region: region))
     }
 
     open func setClientApiKey(apiKey: String) {
@@ -33,13 +33,13 @@ open class AbtestingClient {
     }
 
     /// - parameter addABTestsRequest: (body)
-    /// - returns: AbtestingABTestResponse
+    /// - returns: AbtestingV3ABTestResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func addABTests(
-        addABTestsRequest: AbtestingAddABTestsRequest,
+        addABTestsRequest: AbtestingV3AddABTestsRequest,
         requestOptions: RequestOptions? = nil
-    ) async throws -> AbtestingABTestResponse {
-        let response: Response<AbtestingABTestResponse> = try await addABTestsWithHTTPInfo(
+    ) async throws -> AbtestingV3ABTestResponse {
+        let response: Response<AbtestingV3ABTestResponse> = try await addABTestsWithHTTPInfo(
             addABTestsRequest: addABTestsRequest,
             requestOptions: requestOptions
         )
@@ -56,13 +56,13 @@ open class AbtestingClient {
     //  - editSettings
     //
     // - parameter addABTestsRequest: (body)
-    // - returns: RequestBuilder<AbtestingABTestResponse>
+    // - returns: RequestBuilder<AbtestingV3ABTestResponse>
 
     open func addABTestsWithHTTPInfo(
-        addABTestsRequest: AbtestingAddABTestsRequest,
+        addABTestsRequest: AbtestingV3AddABTestsRequest,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<AbtestingABTestResponse> {
-        let resourcePath = "/2/abtests"
+    ) async throws -> Response<AbtestingV3ABTestResponse> {
+        let resourcePath = "/3/abtests"
         let body = addABTestsRequest
         let queryParameters: [String: Any?]? = nil
 
@@ -354,10 +354,10 @@ open class AbtestingClient {
     }
 
     /// - parameter id: (path) Unique A/B test identifier.
-    /// - returns: AbtestingABTestResponse
+    /// - returns: AbtestingV3ABTestResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func deleteABTest(id: Int, requestOptions: RequestOptions? = nil) async throws -> AbtestingABTestResponse {
-        let response: Response<AbtestingABTestResponse> = try await deleteABTestWithHTTPInfo(
+    open func deleteABTest(id: Int, requestOptions: RequestOptions? = nil) async throws -> AbtestingV3ABTestResponse {
+        let response: Response<AbtestingV3ABTestResponse> = try await deleteABTestWithHTTPInfo(
             id: id,
             requestOptions: requestOptions
         )
@@ -374,13 +374,13 @@ open class AbtestingClient {
     //  - editSettings
     //
     // - parameter id: (path) Unique A/B test identifier.
-    // - returns: RequestBuilder<AbtestingABTestResponse>
+    // - returns: RequestBuilder<AbtestingV3ABTestResponse>
 
     open func deleteABTestWithHTTPInfo(
         id: Int,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<AbtestingABTestResponse> {
-        var resourcePath = "/2/abtests/{id}"
+    ) async throws -> Response<AbtestingV3ABTestResponse> {
+        var resourcePath = "/3/abtests/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
@@ -403,13 +403,13 @@ open class AbtestingClient {
     }
 
     /// - parameter estimateABTestRequest: (body)
-    /// - returns: AbtestingEstimateABTestResponse
+    /// - returns: AbtestingV3EstimateABTestResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func estimateABTest(
-        estimateABTestRequest: AbtestingEstimateABTestRequest,
+        estimateABTestRequest: AbtestingV3EstimateABTestRequest,
         requestOptions: RequestOptions? = nil
-    ) async throws -> AbtestingEstimateABTestResponse {
-        let response: Response<AbtestingEstimateABTestResponse> = try await estimateABTestWithHTTPInfo(
+    ) async throws -> AbtestingV3EstimateABTestResponse {
+        let response: Response<AbtestingV3EstimateABTestResponse> = try await estimateABTestWithHTTPInfo(
             estimateABTestRequest: estimateABTestRequest,
             requestOptions: requestOptions
         )
@@ -427,13 +427,13 @@ open class AbtestingClient {
     //  - analytics
     //
     // - parameter estimateABTestRequest: (body)
-    // - returns: RequestBuilder<AbtestingEstimateABTestResponse>
+    // - returns: RequestBuilder<AbtestingV3EstimateABTestResponse>
 
     open func estimateABTestWithHTTPInfo(
-        estimateABTestRequest: AbtestingEstimateABTestRequest,
+        estimateABTestRequest: AbtestingV3EstimateABTestRequest,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<AbtestingEstimateABTestResponse> {
-        let resourcePath = "/2/abtests/estimate"
+    ) async throws -> Response<AbtestingV3EstimateABTestResponse> {
+        let resourcePath = "/3/abtests/estimate"
         let body = estimateABTestRequest
         let queryParameters: [String: Any?]? = nil
 
@@ -453,10 +453,10 @@ open class AbtestingClient {
     }
 
     /// - parameter id: (path) Unique A/B test identifier.
-    /// - returns: AbtestingABTest
+    /// - returns: AbtestingV3ABTest
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getABTest(id: Int, requestOptions: RequestOptions? = nil) async throws -> AbtestingABTest {
-        let response: Response<AbtestingABTest> = try await getABTestWithHTTPInfo(
+    open func getABTest(id: Int, requestOptions: RequestOptions? = nil) async throws -> AbtestingV3ABTest {
+        let response: Response<AbtestingV3ABTest> = try await getABTestWithHTTPInfo(
             id: id,
             requestOptions: requestOptions
         )
@@ -473,18 +473,92 @@ open class AbtestingClient {
     //  - analytics
     //
     // - parameter id: (path) Unique A/B test identifier.
-    // - returns: RequestBuilder<AbtestingABTest>
+    // - returns: RequestBuilder<AbtestingV3ABTest>
 
     open func getABTestWithHTTPInfo(
         id: Int,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<AbtestingABTest> {
-        var resourcePath = "/2/abtests/{id}"
+    ) async throws -> Response<AbtestingV3ABTest> {
+        var resourcePath = "/3/abtests/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
         let body: AnyCodable? = nil
         let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter id: (path) Unique A/B test identifier.
+    /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    /// - parameter metric: (query) List of metrics to retrieve. If not specified, all metrics are returned. (optional)
+    /// - returns: Timeseries
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getTimeseries(
+        id: Int,
+        startDate: String? = nil,
+        endDate: String? = nil,
+        metric: [MetricName]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> Timeseries {
+        let response: Response<Timeseries> = try await getTimeseriesWithHTTPInfo(
+            id: id,
+            startDate: startDate,
+            endDate: endDate,
+            metric: metric,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieves timeseries for an A/B test by its ID.
+    // Required API Key ACLs:
+    //  - analytics
+    //
+    // - parameter id: (path) Unique A/B test identifier.
+    //
+    // - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    //
+    // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
+    //
+    // - parameter metric: (query) List of metrics to retrieve. If not specified, all metrics are returned. (optional)
+    // - returns: RequestBuilder<Timeseries>
+
+    open func getTimeseriesWithHTTPInfo(
+        id: Int,
+        startDate: String? = nil,
+        endDate: String? = nil,
+        metric: [MetricName]? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<Timeseries> {
+        var resourcePath = "/3/abtests/{id}/timeseries"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?] = [
+            "startDate": startDate?.encodeToJSON(),
+            "endDate": endDate?.encodeToJSON(),
+            "metric": metric?.encodeToJSON(),
+        ]
 
         let nillableHeaders: [String: Any?]? = nil
 
@@ -507,20 +581,24 @@ open class AbtestingClient {
     /// included in the response. (optional)
     /// - parameter indexSuffix: (query) Index name suffix. Only A/B tests for indices ending with this string are
     /// included in the response. (optional)
-    /// - returns: AbtestingListABTestsResponse
+    /// - parameter direction: (query) Sort order for A/B tests by start date. Use 'asc' for ascending or 'desc' for
+    /// descending. Active A/B tests are always listed first.  (optional)
+    /// - returns: AbtestingV3ListABTestsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func listABTests(
         offset: Int? = nil,
         limit: Int? = nil,
         indexPrefix: String? = nil,
         indexSuffix: String? = nil,
+        direction: AbtestingV3Direction? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> AbtestingListABTestsResponse {
-        let response: Response<AbtestingListABTestsResponse> = try await listABTestsWithHTTPInfo(
+    ) async throws -> AbtestingV3ListABTestsResponse {
+        let response: Response<AbtestingV3ListABTestsResponse> = try await listABTestsWithHTTPInfo(
             offset: offset,
             limit: limit,
             indexPrefix: indexPrefix,
             indexSuffix: indexSuffix,
+            direction: direction,
             requestOptions: requestOptions
         )
 
@@ -544,22 +622,27 @@ open class AbtestingClient {
     //
     // - parameter indexSuffix: (query) Index name suffix. Only A/B tests for indices ending with this string are
     // included in the response. (optional)
-    // - returns: RequestBuilder<AbtestingListABTestsResponse>
+    //
+    // - parameter direction: (query) Sort order for A/B tests by start date. Use 'asc' for ascending or 'desc' for
+    // descending. Active A/B tests are always listed first.  (optional)
+    // - returns: RequestBuilder<AbtestingV3ListABTestsResponse>
 
     open func listABTestsWithHTTPInfo(
         offset: Int? = nil,
         limit: Int? = nil,
         indexPrefix: String? = nil,
         indexSuffix: String? = nil,
+        direction: AbtestingV3Direction? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<AbtestingListABTestsResponse> {
-        let resourcePath = "/2/abtests"
+    ) async throws -> Response<AbtestingV3ListABTestsResponse> {
+        let resourcePath = "/3/abtests"
         let body: AnyCodable? = nil
         let queryParameters: [String: Any?] = [
             "offset": offset?.encodeToJSON(),
             "limit": limit?.encodeToJSON(),
             "indexPrefix": indexPrefix?.encodeToJSON(),
             "indexSuffix": indexSuffix?.encodeToJSON(),
+            "direction": direction?.encodeToJSON(),
         ]
 
         let nillableHeaders: [String: Any?]? = nil
@@ -578,13 +661,13 @@ open class AbtestingClient {
     }
 
     /// - parameter scheduleABTestsRequest: (body)
-    /// - returns: AbtestingScheduleABTestResponse
+    /// - returns: AbtestingV3ScheduleABTestResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func scheduleABTest(
-        scheduleABTestsRequest: AbtestingScheduleABTestsRequest,
+        scheduleABTestsRequest: AbtestingV3ScheduleABTestsRequest,
         requestOptions: RequestOptions? = nil
-    ) async throws -> AbtestingScheduleABTestResponse {
-        let response: Response<AbtestingScheduleABTestResponse> = try await scheduleABTestWithHTTPInfo(
+    ) async throws -> AbtestingV3ScheduleABTestResponse {
+        let response: Response<AbtestingV3ScheduleABTestResponse> = try await scheduleABTestWithHTTPInfo(
             scheduleABTestsRequest: scheduleABTestsRequest,
             requestOptions: requestOptions
         )
@@ -601,13 +684,13 @@ open class AbtestingClient {
     //  - editSettings
     //
     // - parameter scheduleABTestsRequest: (body)
-    // - returns: RequestBuilder<AbtestingScheduleABTestResponse>
+    // - returns: RequestBuilder<AbtestingV3ScheduleABTestResponse>
 
     open func scheduleABTestWithHTTPInfo(
-        scheduleABTestsRequest: AbtestingScheduleABTestsRequest,
+        scheduleABTestsRequest: AbtestingV3ScheduleABTestsRequest,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<AbtestingScheduleABTestResponse> {
-        let resourcePath = "/2/abtests/schedule"
+    ) async throws -> Response<AbtestingV3ScheduleABTestResponse> {
+        let resourcePath = "/3/abtests/schedule"
         let body = scheduleABTestsRequest
         let queryParameters: [String: Any?]? = nil
 
@@ -627,10 +710,10 @@ open class AbtestingClient {
     }
 
     /// - parameter id: (path) Unique A/B test identifier.
-    /// - returns: AbtestingABTestResponse
+    /// - returns: AbtestingV3ABTestResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func stopABTest(id: Int, requestOptions: RequestOptions? = nil) async throws -> AbtestingABTestResponse {
-        let response: Response<AbtestingABTestResponse> = try await stopABTestWithHTTPInfo(
+    open func stopABTest(id: Int, requestOptions: RequestOptions? = nil) async throws -> AbtestingV3ABTestResponse {
+        let response: Response<AbtestingV3ABTestResponse> = try await stopABTestWithHTTPInfo(
             id: id,
             requestOptions: requestOptions
         )
@@ -647,13 +730,13 @@ open class AbtestingClient {
     //  - editSettings
     //
     // - parameter id: (path) Unique A/B test identifier.
-    // - returns: RequestBuilder<AbtestingABTestResponse>
+    // - returns: RequestBuilder<AbtestingV3ABTestResponse>
 
     open func stopABTestWithHTTPInfo(
         id: Int,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<AbtestingABTestResponse> {
-        var resourcePath = "/2/abtests/{id}/stop"
+    ) async throws -> Response<AbtestingV3ABTestResponse> {
+        var resourcePath = "/3/abtests/{id}/stop"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
