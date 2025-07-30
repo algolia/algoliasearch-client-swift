@@ -547,7 +547,7 @@ public extension SearchClient {
 
     /// Replace all objects in an index
     ///
-    /// See https://api-clients-automation.netlify.app/docs/add-new-api-client#5-helpers for implementation
+    /// See https://api-clients-automation.netlify.app/docs/custom-helpers/#replaceallobjects for implementation
     /// details.
     /// - parameter indexName: The name of the index where to replace the objects
     /// - parameter objects: The new objects
