@@ -7,9 +7,9 @@ import Foundation
 #endif
 
 public struct BaseRecommendSearchParams: Codable, JSONEncodable {
-    /// Keywords to be used instead of the search query to conduct a more broader search.  Using the `similarQuery`
-    /// parameter changes other settings:  - `queryType` is set to `prefixNone`. - `removeStopWords` is set to true. -
-    /// `words` is set as the first ranking criterion. - All remaining words are treated as `optionalWords`.  Since the
+    /// Keywords to be used instead of the search query to conduct a more broader search Using the `similarQuery`
+    /// parameter changes other settings - `queryType` is set to `prefixNone`. - `removeStopWords` is set to true. -
+    /// `words` is set as the first ranking criterion. - All remaining words are treated as `optionalWords` Since the
     /// `similarQuery` is supposed to do a broad search, they usually return many results. Combine it with `filters` to
     /// narrow down the list of results.
     public var similarQuery: String?
@@ -31,16 +31,16 @@ public struct BaseRecommendSearchParams: Codable, JSONEncodable {
     public var optionalFilters: RecommendOptionalFilters?
     public var numericFilters: RecommendNumericFilters?
     public var tagFilters: RecommendTagFilters?
-    /// Whether to sum all filter scores.  If true, all filter scores are summed. Otherwise, the maximum filter score is
+    /// Whether to sum all filter scores If true, all filter scores are summed. Otherwise, the maximum filter score is
     /// kept. For more information, see [filter scores](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/in-depth/filter-scoring/#accumulating-scores-with-sumorfiltersscores).
     public var sumOrFiltersScores: Bool?
     /// Restricts a search to a subset of your searchable attributes. Attribute names are case-sensitive.
     public var restrictSearchableAttributes: [String]?
-    /// Facets for which to retrieve facet values that match the search criteria and the number of matching facet
-    /// values.  To retrieve all facets, use the wildcard character `*`. For more information, see [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts).
+    /// Facets for which to retrieve facet values that match the search criteria and the number of matching facet values
+    /// To retrieve all facets, use the wildcard character `*`. For more information, see [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts).
     public var facets: [String]?
-    /// Whether faceting should be applied after deduplication with `distinct`.  This leads to accurate facet counts
-    /// when using faceting in combination with `distinct`. It's usually better to use `afterDistinct` modifiers in the
+    /// Whether faceting should be applied after deduplication with `distinct` This leads to accurate facet counts when
+    /// using faceting in combination with `distinct`. It's usually better to use `afterDistinct` modifiers in the
     /// `attributesForFaceting` setting, as `facetingAfterDistinct` only computes correct facet counts if all records
     /// have the same facet values for the `attributeForDistinct`.
     public var facetingAfterDistinct: Bool?
@@ -62,14 +62,14 @@ public struct BaseRecommendSearchParams: Codable, JSONEncodable {
     /// This parameter is ignored if you also specify `insideBoundingBox`.
     public var insidePolygon: [[Double]]?
     /// ISO language codes that adjust settings that are useful for processing natural language queries (as opposed to
-    /// keyword searches):  - Sets `removeStopWords` and `ignorePlurals` to the list of provided languages. - Sets
+    /// keyword searches) - Sets `removeStopWords` and `ignorePlurals` to the list of provided languages. - Sets
     /// `removeWordsIfNoResults` to `allOptional`. - Adds a `natural_language` attribute to `ruleContexts` and
     /// `analyticsTags`.
     public var naturalLanguages: [RecommendSupportedLanguage]?
-    /// Assigns a rule context to the search query.  [Rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#whats-a-context)
+    /// Assigns a rule context to the search query [Rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#whats-a-context)
     /// are strings that you can use to trigger matching rules.
     public var ruleContexts: [String]?
-    /// Impact that Personalization should have on this search.  The higher this value is, the more Personalization
+    /// Impact that Personalization should have on this search The higher this value is, the more Personalization
     /// determines the ranking compared to other factors. For more information, see [Understanding Personalization impact](https://www.algolia.com/doc/guides/personalization/personalizing-results/in-depth/configuring-personalization/#understanding-personalization-impact).
     public var personalizationImpact: Int?
     /// Unique pseudonymous or anonymous user identifier.  This helps with analytics and click and conversion events.
@@ -79,8 +79,8 @@ public struct BaseRecommendSearchParams: Codable, JSONEncodable {
     public var getRankingInfo: Bool?
     /// Whether to take into account an index's synonyms for this search.
     public var synonyms: Bool?
-    /// Whether to include a `queryID` attribute in the response.  The query ID is a unique identifier for a search
-    /// query and is required for tracking [click and conversion
+    /// Whether to include a `queryID` attribute in the response The query ID is a unique identifier for a search query
+    /// and is required for tracking [click and conversion
     /// events](https://www.algolia.com/guides/sending-events/getting-started/).
     public var clickAnalytics: Bool?
     /// Whether this search will be included in Analytics.
