@@ -17,19 +17,22 @@ public struct CompositionHit: Codable, JSONEncodable {
     public var snippetResult: [String: CompositionSnippetResult]?
     public var rankingInfo: CompositionHitRankingInfo?
     public var distinctSeqID: Int?
+    public var extra: CompositionHitMetadata?
 
     public init(
         objectID: String,
         highlightResult: [String: CompositionHighlightResult]? = nil,
         snippetResult: [String: CompositionSnippetResult]? = nil,
         rankingInfo: CompositionHitRankingInfo? = nil,
-        distinctSeqID: Int? = nil
+        distinctSeqID: Int? = nil,
+        extra: CompositionHitMetadata? = nil
     ) {
         self.objectID = objectID
         self.highlightResult = highlightResult
         self.snippetResult = snippetResult
         self.rankingInfo = rankingInfo
         self.distinctSeqID = distinctSeqID
+        self.extra = extra
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -38,6 +41,7 @@ public struct CompositionHit: Codable, JSONEncodable {
         case snippetResult = "_snippetResult"
         case rankingInfo = "_rankingInfo"
         case distinctSeqID = "_distinctSeqID"
+        case extra = "_extra"
     }
 
     public var additionalProperties: [String: AnyCodable] = [:]
@@ -68,9 +72,11 @@ public struct CompositionHit: Codable, JSONEncodable {
 
         self.distinctSeqID = dictionary["distinctSeqID"]?.value as? Int
 
+        self.extra = dictionary["extra"]?.value as? CompositionHitMetadata
+
         for (key, value) in dictionary {
             switch key {
-            case "objectID", "highlightResult", "snippetResult", "rankingInfo", "distinctSeqID":
+            case "objectID", "highlightResult", "snippetResult", "rankingInfo", "distinctSeqID", "extra":
                 continue
             default:
                 self.additionalProperties[key] = value
@@ -87,6 +93,7 @@ public struct CompositionHit: Codable, JSONEncodable {
         try container.encodeIfPresent(self.snippetResult, forKey: .snippetResult)
         try container.encodeIfPresent(self.rankingInfo, forKey: .rankingInfo)
         try container.encodeIfPresent(self.distinctSeqID, forKey: .distinctSeqID)
+        try container.encodeIfPresent(self.extra, forKey: .extra)
         var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
         try additionalPropertiesContainer.encodeMap(self.additionalProperties)
     }
@@ -107,12 +114,14 @@ public struct CompositionHit: Codable, JSONEncodable {
         )
         self.rankingInfo = try container.decodeIfPresent(CompositionHitRankingInfo.self, forKey: .rankingInfo)
         self.distinctSeqID = try container.decodeIfPresent(Int.self, forKey: .distinctSeqID)
+        self.extra = try container.decodeIfPresent(CompositionHitMetadata.self, forKey: .extra)
         var nonAdditionalPropertyKeys = Set<String>()
         nonAdditionalPropertyKeys.insert("objectID")
         nonAdditionalPropertyKeys.insert("_highlightResult")
         nonAdditionalPropertyKeys.insert("_snippetResult")
         nonAdditionalPropertyKeys.insert("_rankingInfo")
         nonAdditionalPropertyKeys.insert("_distinctSeqID")
+        nonAdditionalPropertyKeys.insert("_extra")
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,
@@ -127,7 +136,8 @@ extension CompositionHit: Equatable {
             lhs.highlightResult == rhs.highlightResult &&
             lhs.snippetResult == rhs.snippetResult &&
             lhs.rankingInfo == rhs.rankingInfo &&
-            lhs.distinctSeqID == rhs.distinctSeqID
+            lhs.distinctSeqID == rhs.distinctSeqID &&
+            lhs.extra == rhs.extra
             && lhs.additionalProperties == rhs.additionalProperties
     }
 }
@@ -139,6 +149,7 @@ extension CompositionHit: Hashable {
         hasher.combine(self.snippetResult?.hashValue)
         hasher.combine(self.rankingInfo?.hashValue)
         hasher.combine(self.distinctSeqID?.hashValue)
+        hasher.combine(self.extra?.hashValue)
         hasher.combine(self.additionalProperties.hashValue)
     }
 }
