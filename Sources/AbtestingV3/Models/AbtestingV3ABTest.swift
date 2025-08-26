@@ -15,6 +15,8 @@ public struct AbtestingV3ABTest: Codable, JSONEncodable {
     public var createdAt: String
     /// End date and time of the A/B test, in RFC 3339 format.
     public var endAt: String
+    /// Date and time when the A/B test was stopped, in RFC 3339 format.
+    public var stoppedAt: String?
     /// A/B test name.
     public var name: String
     public var status: AbtestingV3Status
@@ -30,6 +32,7 @@ public struct AbtestingV3ABTest: Codable, JSONEncodable {
         updatedAt: String,
         createdAt: String,
         endAt: String,
+        stoppedAt: String? = nil,
         name: String,
         status: AbtestingV3Status,
         variants: [AbtestingV3Variant],
@@ -40,6 +43,7 @@ public struct AbtestingV3ABTest: Codable, JSONEncodable {
         self.updatedAt = updatedAt
         self.createdAt = createdAt
         self.endAt = endAt
+        self.stoppedAt = stoppedAt
         self.name = name
         self.status = status
         self.variants = variants
@@ -52,6 +56,7 @@ public struct AbtestingV3ABTest: Codable, JSONEncodable {
         case updatedAt
         case createdAt
         case endAt
+        case stoppedAt
         case name
         case status
         case variants
@@ -67,6 +72,7 @@ public struct AbtestingV3ABTest: Codable, JSONEncodable {
         try container.encode(self.updatedAt, forKey: .updatedAt)
         try container.encode(self.createdAt, forKey: .createdAt)
         try container.encode(self.endAt, forKey: .endAt)
+        try container.encodeIfPresent(self.stoppedAt, forKey: .stoppedAt)
         try container.encode(self.name, forKey: .name)
         try container.encode(self.status, forKey: .status)
         try container.encode(self.variants, forKey: .variants)
@@ -81,6 +87,7 @@ extension AbtestingV3ABTest: Equatable {
             lhs.updatedAt == rhs.updatedAt &&
             lhs.createdAt == rhs.createdAt &&
             lhs.endAt == rhs.endAt &&
+            lhs.stoppedAt == rhs.stoppedAt &&
             lhs.name == rhs.name &&
             lhs.status == rhs.status &&
             lhs.variants == rhs.variants &&
@@ -95,6 +102,7 @@ extension AbtestingV3ABTest: Hashable {
         hasher.combine(self.updatedAt.hashValue)
         hasher.combine(self.createdAt.hashValue)
         hasher.combine(self.endAt.hashValue)
+        hasher.combine(self.stoppedAt?.hashValue)
         hasher.combine(self.name.hashValue)
         hasher.combine(self.status.hashValue)
         hasher.combine(self.variants.hashValue)
