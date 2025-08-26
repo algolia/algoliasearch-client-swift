@@ -1,3 +1,11 @@
+## [9.27.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.26.0...9.27.0)
+
+- [b0a24b653a](https://github.com/algolia/api-clients-automation/commit/b0a24b653a) docs: use the correct link for replaceAllObjects ([#5185](https://github.com/algolia/api-clients-automation/pull/5185)) by [@millotp](https://github.com/millotp/)
+- [48672036c1](https://github.com/algolia/api-clients-automation/commit/48672036c1) refactor(specs): mutualise code between Search API & Comp API for search query parameters ([#5125](https://github.com/algolia/api-clients-automation/pull/5125)) by [@ClaraMuller](https://github.com/ClaraMuller/)
+- [ca6f3ca016](https://github.com/algolia/api-clients-automation/commit/ca6f3ca016) fix(specs): define batch actions ([#5242](https://github.com/algolia/api-clients-automation/pull/5242)) by [@kai687](https://github.com/kai687/)
+- [99f8174c7d](https://github.com/algolia/api-clients-automation/commit/99f8174c7d) feat(specs): add fields for metadata in composition injectedItems ([#5241](https://github.com/algolia/api-clients-automation/pull/5241)) by [@gavinwade12](https://github.com/gavinwade12/)
+- [ff178d8118](https://github.com/algolia/api-clients-automation/commit/ff178d8118) feat(specs): abtests stopped at ([#5275](https://github.com/algolia/api-clients-automation/pull/5275)) by [@stevenMevans](https://github.com/stevenMevans/)
+
 ## [9.26.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.25.1...9.26.0)
 
 - [66bc4eee9e](https://github.com/algolia/api-clients-automation/commit/66bc4eee9e) feat(clients): add new abtesting-v3 package to clients + stabilize alpha js package ([#5157](https://github.com/algolia/api-clients-automation/pull/5157)) by [@leonardogavaudan](https://github.com/leonardogavaudan/)
