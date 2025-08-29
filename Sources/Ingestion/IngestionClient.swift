@@ -2724,6 +2724,72 @@ open class IngestionClient {
         )
     }
 
+    /// - parameter taskID: (path) Unique identifier of a task.
+    /// - parameter taskReplace: (body)
+    /// - returns: TaskUpdateResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func replaceTask(
+        taskID: String,
+        taskReplace: TaskReplace,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> TaskUpdateResponse {
+        let response: Response<TaskUpdateResponse> = try await replaceTaskWithHTTPInfo(
+            taskID: taskID,
+            taskReplace: taskReplace,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Fully updates a task by its ID, use partialUpdateTask if you only want to update a subset of fields.
+    //
+    //
+    // - parameter taskID: (path) Unique identifier of a task.
+    //
+    // - parameter taskReplace: (body)
+    // - returns: RequestBuilder<TaskUpdateResponse>
+
+    open func replaceTaskWithHTTPInfo(
+        taskID: String,
+        taskReplace: TaskReplace,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TaskUpdateResponse> {
+        guard !taskID.isEmpty else {
+            throw AlgoliaError.invalidArgument("taskID", "replaceTask")
+        }
+
+        var resourcePath = "/2/tasks/{taskID}"
+        let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{taskID}",
+            with: taskIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body = taskReplace
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "PUT",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
     /// - parameter sourceID: (path) Unique identifier of a source.
     /// - parameter runSourcePayload: (body)  (optional)
     /// - returns: RunSourceResponse
@@ -3661,7 +3727,7 @@ open class IngestionClient {
         return body
     }
 
-    // Updates a task by its ID.
+    // Partially updates a task by its ID.
     //
     //
     // - parameter taskID: (path) Unique identifier of a task.

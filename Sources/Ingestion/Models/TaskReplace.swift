@@ -6,48 +6,57 @@ import Foundation
     import Core
 #endif
 
-/// API request body for partially updating a task.
-public struct TaskUpdate: Codable, JSONEncodable {
+/// API request body for updating a task.
+public struct TaskReplace: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of a destination resource.
-    public var destinationID: String?
+    public var destinationID: String
+    public var action: ActionType
+    public var subscriptionAction: ActionType?
     /// Cron expression for the task's schedule.
     public var cron: String?
-    public var input: TaskInput?
     /// Whether the task is enabled.
     public var enabled: Bool?
-    public var subscriptionAction: ActionType?
     /// Maximum accepted percentage of failures for a task run to finish successfully.
     public var failureThreshold: Int?
+    public var input: TaskInput?
+    /// Date of the last cursor in RFC 3339 format.
+    public var cursor: String?
     public var notifications: Notifications?
     public var policies: Policies?
 
     public init(
-        destinationID: String? = nil,
-        cron: String? = nil,
-        input: TaskInput? = nil,
-        enabled: Bool? = nil,
+        destinationID: String,
+        action: ActionType,
         subscriptionAction: ActionType? = nil,
+        cron: String? = nil,
+        enabled: Bool? = nil,
         failureThreshold: Int? = nil,
+        input: TaskInput? = nil,
+        cursor: String? = nil,
         notifications: Notifications? = nil,
         policies: Policies? = nil
     ) {
         self.destinationID = destinationID
-        self.cron = cron
-        self.input = input
-        self.enabled = enabled
+        self.action = action
         self.subscriptionAction = subscriptionAction
+        self.cron = cron
+        self.enabled = enabled
         self.failureThreshold = failureThreshold
+        self.input = input
+        self.cursor = cursor
         self.notifications = notifications
         self.policies = policies
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case destinationID
-        case cron
-        case input
-        case enabled
+        case action
         case subscriptionAction
+        case cron
+        case enabled
         case failureThreshold
+        case input
+        case cursor
         case notifications
         case policies
     }
@@ -56,38 +65,44 @@ public struct TaskUpdate: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.destinationID, forKey: .destinationID)
-        try container.encodeIfPresent(self.cron, forKey: .cron)
-        try container.encodeIfPresent(self.input, forKey: .input)
-        try container.encodeIfPresent(self.enabled, forKey: .enabled)
+        try container.encode(self.destinationID, forKey: .destinationID)
+        try container.encode(self.action, forKey: .action)
         try container.encodeIfPresent(self.subscriptionAction, forKey: .subscriptionAction)
+        try container.encodeIfPresent(self.cron, forKey: .cron)
+        try container.encodeIfPresent(self.enabled, forKey: .enabled)
         try container.encodeIfPresent(self.failureThreshold, forKey: .failureThreshold)
+        try container.encodeIfPresent(self.input, forKey: .input)
+        try container.encodeIfPresent(self.cursor, forKey: .cursor)
         try container.encodeIfPresent(self.notifications, forKey: .notifications)
         try container.encodeIfPresent(self.policies, forKey: .policies)
     }
 }
 
-extension TaskUpdate: Equatable {
-    public static func ==(lhs: TaskUpdate, rhs: TaskUpdate) -> Bool {
+extension TaskReplace: Equatable {
+    public static func ==(lhs: TaskReplace, rhs: TaskReplace) -> Bool {
         lhs.destinationID == rhs.destinationID &&
-            lhs.cron == rhs.cron &&
-            lhs.input == rhs.input &&
-            lhs.enabled == rhs.enabled &&
+            lhs.action == rhs.action &&
             lhs.subscriptionAction == rhs.subscriptionAction &&
+            lhs.cron == rhs.cron &&
+            lhs.enabled == rhs.enabled &&
             lhs.failureThreshold == rhs.failureThreshold &&
+            lhs.input == rhs.input &&
+            lhs.cursor == rhs.cursor &&
             lhs.notifications == rhs.notifications &&
             lhs.policies == rhs.policies
     }
 }
 
-extension TaskUpdate: Hashable {
+extension TaskReplace: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.destinationID?.hashValue)
-        hasher.combine(self.cron?.hashValue)
-        hasher.combine(self.input?.hashValue)
-        hasher.combine(self.enabled?.hashValue)
+        hasher.combine(self.destinationID.hashValue)
+        hasher.combine(self.action.hashValue)
         hasher.combine(self.subscriptionAction?.hashValue)
+        hasher.combine(self.cron?.hashValue)
+        hasher.combine(self.enabled?.hashValue)
         hasher.combine(self.failureThreshold?.hashValue)
+        hasher.combine(self.input?.hashValue)
+        hasher.combine(self.cursor?.hashValue)
         hasher.combine(self.notifications?.hashValue)
         hasher.combine(self.policies?.hashValue)
     }
