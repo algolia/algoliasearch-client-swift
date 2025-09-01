@@ -2038,11 +2038,18 @@ open class SearchClient {
     }
 
     /// - parameter indexName: (path) Name of the index on which to perform the operation.
+    /// - parameter getVersion: (query) When set to 2, the endpoint will not include `synonyms` in the response. This
+    /// parameter is here for backward compatibility. (optional, default to 1)
     /// - returns: SettingsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getSettings(indexName: String, requestOptions: RequestOptions? = nil) async throws -> SettingsResponse {
+    open func getSettings(
+        indexName: String,
+        getVersion: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SettingsResponse {
         let response: Response<SettingsResponse> = try await getSettingsWithHTTPInfo(
             indexName: indexName,
+            getVersion: getVersion,
             requestOptions: requestOptions
         )
 
@@ -2058,10 +2065,14 @@ open class SearchClient {
     //  - settings
     //
     // - parameter indexName: (path) Name of the index on which to perform the operation.
+    //
+    // - parameter getVersion: (query) When set to 2, the endpoint will not include `synonyms` in the response. This
+    // parameter is here for backward compatibility. (optional, default to 1)
     // - returns: RequestBuilder<SettingsResponse>
 
     open func getSettingsWithHTTPInfo(
         indexName: String,
+        getVersion: Int? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<SettingsResponse> {
         guard !indexName.isEmpty else {
@@ -2079,7 +2090,9 @@ open class SearchClient {
             range: nil
         )
         let body: AnyCodable? = nil
-        let queryParameters: [String: Any?]? = nil
+        let queryParameters: [String: Any?] = [
+            "getVersion": getVersion?.encodeToJSON(),
+        ]
 
         let nillableHeaders: [String: Any?]? = nil
 
