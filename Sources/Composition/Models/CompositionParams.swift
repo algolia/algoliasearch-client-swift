@@ -89,6 +89,8 @@ public struct CompositionParams: Codable, JSONEncodable {
     /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/)
     /// This setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
+    /// A list of extenrally injected objectID groups into from an external source.
+    public var injectedItems: [String: CompositionExternalInjectedItem]?
 
     public init(
         query: String? = nil,
@@ -116,7 +118,8 @@ public struct CompositionParams: Codable, JSONEncodable {
         analytics: Bool? = nil,
         analyticsTags: [String]? = nil,
         enableABTest: Bool? = nil,
-        enableReRanking: Bool? = nil
+        enableReRanking: Bool? = nil,
+        injectedItems: [String: CompositionExternalInjectedItem]? = nil
     ) {
         self.query = query
         self.filters = filters
@@ -144,6 +147,7 @@ public struct CompositionParams: Codable, JSONEncodable {
         self.analyticsTags = analyticsTags
         self.enableABTest = enableABTest
         self.enableReRanking = enableReRanking
+        self.injectedItems = injectedItems
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -173,6 +177,7 @@ public struct CompositionParams: Codable, JSONEncodable {
         case analyticsTags
         case enableABTest
         case enableReRanking
+        case injectedItems
     }
 
     // Encodable protocol methods
@@ -205,6 +210,7 @@ public struct CompositionParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.analyticsTags, forKey: .analyticsTags)
         try container.encodeIfPresent(self.enableABTest, forKey: .enableABTest)
         try container.encodeIfPresent(self.enableReRanking, forKey: .enableReRanking)
+        try container.encodeIfPresent(self.injectedItems, forKey: .injectedItems)
     }
 }
 
@@ -235,7 +241,8 @@ extension CompositionParams: Equatable {
             lhs.analytics == rhs.analytics &&
             lhs.analyticsTags == rhs.analyticsTags &&
             lhs.enableABTest == rhs.enableABTest &&
-            lhs.enableReRanking == rhs.enableReRanking
+            lhs.enableReRanking == rhs.enableReRanking &&
+            lhs.injectedItems == rhs.injectedItems
     }
 }
 
@@ -267,5 +274,6 @@ extension CompositionParams: Hashable {
         hasher.combine(self.analyticsTags?.hashValue)
         hasher.combine(self.enableABTest?.hashValue)
         hasher.combine(self.enableReRanking?.hashValue)
+        hasher.combine(self.injectedItems?.hashValue)
     }
 }
