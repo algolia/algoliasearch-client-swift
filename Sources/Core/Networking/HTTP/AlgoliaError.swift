@@ -25,7 +25,7 @@ public enum AlgoliaError: Error, LocalizedError {
         case let .httpError(error):
             "HTTP error: \(error)"
         case let .noReachableHosts(errors, exposeIntermediateErrors):
-            "All hosts are unreachable. " +
+            "All hosts are unreachable. If the error persists, please visit our help center https://alg.li/support-unreachable-hosts or reach out to the Algolia Support team: https://alg.li/support " +
                 (
                     exposeIntermediateErrors ?
                         "Intermediate errors:\n- \(errors.map(\.localizedDescription).joined(separator: "\n- "))" :
