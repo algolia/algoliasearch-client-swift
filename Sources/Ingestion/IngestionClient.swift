@@ -2472,6 +2472,8 @@ open class IngestionClient {
     /// - parameter page: (query) Page number of the paginated API response. (optional)
     /// - parameter sort: (query) Property by which to sort the list of transformations. (optional)
     /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    /// - parameter type: (query) Whether to filter the list of transformations by the type of transformation.
+    /// (optional)
     /// - returns: ListTransformationsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func listTransformations(
@@ -2479,6 +2481,7 @@ open class IngestionClient {
         page: Int? = nil,
         sort: TransformationSortKeys? = nil,
         order: OrderKeys? = nil,
+        type: TransformationType? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws -> ListTransformationsResponse {
         let response: Response<ListTransformationsResponse> = try await listTransformationsWithHTTPInfo(
@@ -2486,6 +2489,7 @@ open class IngestionClient {
             page: page,
             sort: sort,
             order: order,
+            type: type,
             requestOptions: requestOptions
         )
 
@@ -2509,6 +2513,8 @@ open class IngestionClient {
     // - parameter sort: (query) Property by which to sort the list of transformations. (optional)
     //
     // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
+    //
+    // - parameter type: (query) Whether to filter the list of transformations by the type of transformation. (optional)
     // - returns: RequestBuilder<ListTransformationsResponse>
 
     open func listTransformationsWithHTTPInfo(
@@ -2516,6 +2522,7 @@ open class IngestionClient {
         page: Int? = nil,
         sort: TransformationSortKeys? = nil,
         order: OrderKeys? = nil,
+        type: TransformationType? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<ListTransformationsResponse> {
         let resourcePath = "/1/transformations"
@@ -2525,6 +2532,7 @@ open class IngestionClient {
             "page": page?.encodeToJSON(),
             "sort": sort?.encodeToJSON(),
             "order": order?.encodeToJSON(),
+            "type": type?.encodeToJSON(),
         ]
 
         let nillableHeaders: [String: Any?]? = nil
