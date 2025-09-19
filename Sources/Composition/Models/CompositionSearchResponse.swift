@@ -7,14 +7,11 @@ import Foundation
 #endif
 
 public struct CompositionSearchResponse<T: Codable>: Codable, JSONEncodable {
-    public var compositions: CompositionCompositionsSearchResponse?
+    public var compositions: CompositionsSearchResponse?
     /// Search results.
-    public var results: [CompositionSearchResultsItem<T>]
+    public var results: [SearchResultsItem<T>]
 
-    public init(
-        compositions: CompositionCompositionsSearchResponse? = nil,
-        results: [CompositionSearchResultsItem<T>]
-    ) {
+    public init(compositions: CompositionsSearchResponse? = nil, results: [SearchResultsItem<T>]) {
         self.compositions = compositions
         self.results = results
     }
@@ -40,9 +37,9 @@ public struct CompositionSearchResponse<T: Codable>: Codable, JSONEncodable {
     }
 
     public init(from dictionary: [String: AnyCodable]) throws {
-        self.compositions = dictionary["compositions"]?.value as? CompositionCompositionsSearchResponse
+        self.compositions = dictionary["compositions"]?.value as? CompositionsSearchResponse
 
-        guard let results = dictionary["results"]?.value as? [CompositionSearchResultsItem<T>] else {
+        guard let results = dictionary["results"]?.value as? [SearchResultsItem<T>] else {
             throw GenericError(description: "Failed to cast")
         }
         self.results = results
@@ -71,11 +68,8 @@ public struct CompositionSearchResponse<T: Codable>: Codable, JSONEncodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        self.compositions = try container.decodeIfPresent(
-            CompositionCompositionsSearchResponse.self,
-            forKey: .compositions
-        )
-        self.results = try container.decode([CompositionSearchResultsItem<T>].self, forKey: .results)
+        self.compositions = try container.decodeIfPresent(CompositionsSearchResponse.self, forKey: .compositions)
+        self.results = try container.decode([SearchResultsItem<T>].self, forKey: .results)
         var nonAdditionalPropertyKeys = Set<String>()
         nonAdditionalPropertyKeys.insert("compositions")
         nonAdditionalPropertyKeys.insert("results")

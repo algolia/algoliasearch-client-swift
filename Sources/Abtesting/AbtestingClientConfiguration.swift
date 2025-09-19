@@ -28,7 +28,8 @@ public struct AbtestingClientConfiguration: BaseConfiguration, Credentials {
         readTimeout: TimeInterval = 5,
         logLevel: LogLevel = DefaultConfiguration.default.logLevel,
         defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders,
-        hosts: [RetryableHost]? = nil
+        hosts: [RetryableHost]? = nil,
+        compression: CompressionAlgorithm = .none
     ) throws {
         guard !appID.isEmpty else {
             throw AlgoliaError.invalidCredentials("appId")
@@ -48,7 +49,7 @@ public struct AbtestingClientConfiguration: BaseConfiguration, Credentials {
             "X-Algolia-API-Key": apiKey,
             "Content-Type": "application/json",
         ].merging(defaultHeaders ?? [:]) { _, new in new }
-        self.compression = .none
+        self.compression = compression
 
         UserAgentController.append(UserAgent(title: "Abtesting", version: Version.current.description))
 

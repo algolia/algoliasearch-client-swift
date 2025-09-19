@@ -7,9 +7,9 @@ import Foundation
 #endif
 
 public struct CompositionSearchForFacetValuesRequest: Codable, JSONEncodable {
-    public var params: CompositionSearchForFacetValuesParams?
+    public var params: SearchForFacetValuesParams?
 
-    public init(params: CompositionSearchForFacetValuesParams? = nil) {
+    public init(params: SearchForFacetValuesParams? = nil) {
         self.params = params
     }
 

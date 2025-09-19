@@ -15,17 +15,17 @@ public struct CompositionHit: Codable, JSONEncodable {
     public var highlightResult: [String: CompositionHighlightResult]?
     /// Snippets that show the context around a matching search query.
     public var snippetResult: [String: CompositionSnippetResult]?
-    public var rankingInfo: CompositionHitRankingInfo?
+    public var rankingInfo: HitRankingInfo?
     public var distinctSeqID: Int?
-    public var extra: CompositionHitMetadata?
+    public var extra: HitMetadata?
 
     public init(
         objectID: String,
         highlightResult: [String: CompositionHighlightResult]? = nil,
         snippetResult: [String: CompositionSnippetResult]? = nil,
-        rankingInfo: CompositionHitRankingInfo? = nil,
+        rankingInfo: HitRankingInfo? = nil,
         distinctSeqID: Int? = nil,
-        extra: CompositionHitMetadata? = nil
+        extra: HitMetadata? = nil
     ) {
         self.objectID = objectID
         self.highlightResult = highlightResult
@@ -68,11 +68,11 @@ public struct CompositionHit: Codable, JSONEncodable {
 
         self.snippetResult = dictionary["snippetResult"]?.value as? [String: CompositionSnippetResult]
 
-        self.rankingInfo = dictionary["rankingInfo"]?.value as? CompositionHitRankingInfo
+        self.rankingInfo = dictionary["rankingInfo"]?.value as? HitRankingInfo
 
         self.distinctSeqID = dictionary["distinctSeqID"]?.value as? Int
 
-        self.extra = dictionary["extra"]?.value as? CompositionHitMetadata
+        self.extra = dictionary["extra"]?.value as? HitMetadata
 
         for (key, value) in dictionary {
             switch key {
@@ -112,9 +112,9 @@ public struct CompositionHit: Codable, JSONEncodable {
             [String: CompositionSnippetResult].self,
             forKey: .snippetResult
         )
-        self.rankingInfo = try container.decodeIfPresent(CompositionHitRankingInfo.self, forKey: .rankingInfo)
+        self.rankingInfo = try container.decodeIfPresent(HitRankingInfo.self, forKey: .rankingInfo)
         self.distinctSeqID = try container.decodeIfPresent(Int.self, forKey: .distinctSeqID)
-        self.extra = try container.decodeIfPresent(CompositionHitMetadata.self, forKey: .extra)
+        self.extra = try container.decodeIfPresent(HitMetadata.self, forKey: .extra)
         var nonAdditionalPropertyKeys = Set<String>()
         nonAdditionalPropertyKeys.insert("objectID")
         nonAdditionalPropertyKeys.insert("_highlightResult")

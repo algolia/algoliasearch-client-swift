@@ -32,13 +32,984 @@ open class CompositionClient {
         self.transporter.setClientApiKey(apiKey: apiKey)
     }
 
+    /// - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
+    /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
+    /// - returns: AnyCodable
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func customDelete(
+        path: String,
+        parameters: [String: AnyCodable]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> AnyCodable {
+        let response: Response<AnyCodable> = try await customDeleteWithHTTPInfo(
+            path: path,
+            parameters: parameters,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // This method lets you send requests to the Algolia REST API.
+    //
+    //
+    // - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
+    //
+    // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
+    // - returns: RequestBuilder<AnyCodable>
+
+    open func customDeleteWithHTTPInfo(
+        path: String,
+        parameters: [String: AnyCodable]? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customDelete")
+        }
+
+        var resourcePath = "/{path}"
+        let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{path}",
+            with: pathPreEscape,
+            options: .literal,
+            range: nil
+        )
+        let body: AnyCodable? = nil
+        let queryParameters: [String: AnyCodable]? = parameters
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "DELETE",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
+    /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
+    /// - returns: AnyCodable
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func customGet(
+        path: String,
+        parameters: [String: AnyCodable]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> AnyCodable {
+        let response: Response<AnyCodable> = try await customGetWithHTTPInfo(
+            path: path,
+            parameters: parameters,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // This method lets you send requests to the Algolia REST API.
+    //
+    //
+    // - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
+    //
+    // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
+    // - returns: RequestBuilder<AnyCodable>
+
+    open func customGetWithHTTPInfo(
+        path: String,
+        parameters: [String: AnyCodable]? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customGet")
+        }
+
+        var resourcePath = "/{path}"
+        let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{path}",
+            with: pathPreEscape,
+            options: .literal,
+            range: nil
+        )
+        let body: AnyCodable? = nil
+        let queryParameters: [String: AnyCodable]? = parameters
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
+    /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
+    /// - parameter body: (body) Parameters to send with the custom request. (optional)
+    /// - returns: AnyCodable
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func customPost(
+        path: String,
+        parameters: [String: AnyCodable]? = nil,
+        body: Codable? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> AnyCodable {
+        let response: Response<AnyCodable> = try await customPostWithHTTPInfo(
+            path: path,
+            parameters: parameters,
+            body: body,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // This method lets you send requests to the Algolia REST API.
+    //
+    //
+    // - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
+    //
+    // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
+    //
+    // - parameter body: (body) Parameters to send with the custom request. (optional)
+    // - returns: RequestBuilder<AnyCodable>
+
+    open func customPostWithHTTPInfo(
+        path: String,
+        parameters: [String: AnyCodable]? = nil,
+        body: Codable? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customPost")
+        }
+
+        var resourcePath = "/{path}"
+        let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{path}",
+            with: pathPreEscape,
+            options: .literal,
+            range: nil
+        )
+        let body = body
+        let queryParameters: [String: AnyCodable]? = parameters
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body ?? AnyCodable(),
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
+    /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
+    /// - parameter body: (body) Parameters to send with the custom request. (optional)
+    /// - returns: AnyCodable
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func customPut(
+        path: String,
+        parameters: [String: AnyCodable]? = nil,
+        body: Codable? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> AnyCodable {
+        let response: Response<AnyCodable> = try await customPutWithHTTPInfo(
+            path: path,
+            parameters: parameters,
+            body: body,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // This method lets you send requests to the Algolia REST API.
+    //
+    //
+    // - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
+    //
+    // - parameter parameters: (query) Query parameters to apply to the current query. (optional)
+    //
+    // - parameter body: (body) Parameters to send with the custom request. (optional)
+    // - returns: RequestBuilder<AnyCodable>
+
+    open func customPutWithHTTPInfo(
+        path: String,
+        parameters: [String: AnyCodable]? = nil,
+        body: Codable? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customPut")
+        }
+
+        var resourcePath = "/{path}"
+        let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{path}",
+            with: pathPreEscape,
+            options: .literal,
+            range: nil
+        )
+        let body = body
+        let queryParameters: [String: AnyCodable]? = parameters
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "PUT",
+            path: resourcePath,
+            data: body ?? AnyCodable(),
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter compositionID: (path) Unique Composition ObjectID.
+    /// - returns: TaskIDResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func deleteComposition(
+        compositionID: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> TaskIDResponse {
+        let response: Response<TaskIDResponse> = try await deleteCompositionWithHTTPInfo(
+            compositionID: compositionID,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Delete a composition from the current Algolia application.
+    // Required API Key ACLs:
+    //  - editSettings
+    //
+    // - parameter compositionID: (path) Unique Composition ObjectID.
+    // - returns: RequestBuilder<TaskIDResponse>
+
+    open func deleteCompositionWithHTTPInfo(
+        compositionID: String,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TaskIDResponse> {
+        guard !compositionID.isEmpty else {
+            throw AlgoliaError.invalidArgument("compositionID", "deleteComposition")
+        }
+
+        var resourcePath = "/1/compositions/{compositionID}"
+        let compositionIDPreEscape = "\(APIHelper.mapValueToPathItem(compositionID))"
+        let compositionIDPostEscape = compositionIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{compositionID}",
+            with: compositionIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "DELETE",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter compositionID: (path) Unique Composition ObjectID.
+    /// - parameter objectID: (path) Unique identifier of a rule object.
+    /// - returns: TaskIDResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func deleteCompositionRule(
+        compositionID: String,
+        objectID: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> TaskIDResponse {
+        let response: Response<TaskIDResponse> = try await deleteCompositionRuleWithHTTPInfo(
+            compositionID: compositionID,
+            objectID: objectID,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Delete a Composition Rule from the specified Composition ID.
+    // Required API Key ACLs:
+    //  - editSettings
+    //
+    // - parameter compositionID: (path) Unique Composition ObjectID.
+    //
+    // - parameter objectID: (path) Unique identifier of a rule object.
+    // - returns: RequestBuilder<TaskIDResponse>
+
+    open func deleteCompositionRuleWithHTTPInfo(
+        compositionID: String,
+        objectID: String,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TaskIDResponse> {
+        guard !compositionID.isEmpty else {
+            throw AlgoliaError.invalidArgument("compositionID", "deleteCompositionRule")
+        }
+
+        guard !objectID.isEmpty else {
+            throw AlgoliaError.invalidArgument("objectID", "deleteCompositionRule")
+        }
+
+        var resourcePath = "/1/compositions/{compositionID}/rules/{objectID}"
+        let compositionIDPreEscape = "\(APIHelper.mapValueToPathItem(compositionID))"
+        let compositionIDPostEscape = compositionIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{compositionID}",
+            with: compositionIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
+        let objectIDPostEscape = objectIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{objectID}",
+            with: objectIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "DELETE",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter compositionID: (path) Unique Composition ObjectID.
+    /// - returns: Composition
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getComposition(compositionID: String, requestOptions: RequestOptions? = nil) async throws -> Composition {
+        let response: Response<Composition> = try await getCompositionWithHTTPInfo(
+            compositionID: compositionID,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieve a single composition in the current Algolia application.
+    // Required API Key ACLs:
+    //  - editSettings
+    //  - settings
+    //
+    // - parameter compositionID: (path) Unique Composition ObjectID.
+    // - returns: RequestBuilder<Composition>
+
+    open func getCompositionWithHTTPInfo(
+        compositionID: String,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<Composition> {
+        guard !compositionID.isEmpty else {
+            throw AlgoliaError.invalidArgument("compositionID", "getComposition")
+        }
+
+        var resourcePath = "/1/compositions/{compositionID}"
+        let compositionIDPreEscape = "\(APIHelper.mapValueToPathItem(compositionID))"
+        let compositionIDPostEscape = compositionIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{compositionID}",
+            with: compositionIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter compositionID: (path) Unique Composition ObjectID.
+    /// - parameter objectID: (path) Unique identifier of a rule object.
+    /// - returns: CompositionRule
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getRule(
+        compositionID: String,
+        objectID: String,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> CompositionRule {
+        let response: Response<CompositionRule> = try await getRuleWithHTTPInfo(
+            compositionID: compositionID,
+            objectID: objectID,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieves a rule by its ID. To find the object ID of rules, use the [`search`
+    // operation](#tag/Rules/operation/searchRules).
+    // Required API Key ACLs:
+    //  - editSettings
+    //  - settings
+    //
+    // - parameter compositionID: (path) Unique Composition ObjectID.
+    //
+    // - parameter objectID: (path) Unique identifier of a rule object.
+    // - returns: RequestBuilder<CompositionRule>
+
+    open func getRuleWithHTTPInfo(
+        compositionID: String,
+        objectID: String,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<CompositionRule> {
+        guard !compositionID.isEmpty else {
+            throw AlgoliaError.invalidArgument("compositionID", "getRule")
+        }
+
+        guard !objectID.isEmpty else {
+            throw AlgoliaError.invalidArgument("objectID", "getRule")
+        }
+
+        var resourcePath = "/1/compositions/{compositionID}/rules/{objectID}"
+        let compositionIDPreEscape = "\(APIHelper.mapValueToPathItem(compositionID))"
+        let compositionIDPostEscape = compositionIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{compositionID}",
+            with: compositionIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
+        let objectIDPostEscape = objectIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{objectID}",
+            with: objectIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter compositionID: (path) Unique Composition ObjectID.
+    /// - parameter taskID: (path) Unique task identifier.
+    /// - returns: CompositionGetTaskResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getTask(
+        compositionID: String,
+        taskID: Int64,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> CompositionGetTaskResponse {
+        let response: Response<CompositionGetTaskResponse> = try await getTaskWithHTTPInfo(
+            compositionID: compositionID,
+            taskID: taskID,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Checks the status of a given task.
+    // Required API Key ACLs:
+    //  - editSettings
+    //  - settings
+    //  - addObject
+    //  - deleteObject
+    //  - deleteIndex
+    //
+    // - parameter compositionID: (path) Unique Composition ObjectID.
+    //
+    // - parameter taskID: (path) Unique task identifier.
+    // - returns: RequestBuilder<CompositionGetTaskResponse>
+
+    open func getTaskWithHTTPInfo(
+        compositionID: String,
+        taskID: Int64,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<CompositionGetTaskResponse> {
+        guard !compositionID.isEmpty else {
+            throw AlgoliaError.invalidArgument("compositionID", "getTask")
+        }
+
+        var resourcePath = "/1/compositions/{compositionID}/task/{taskID}"
+        let compositionIDPreEscape = "\(APIHelper.mapValueToPathItem(compositionID))"
+        let compositionIDPostEscape = compositionIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{compositionID}",
+            with: compositionIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{taskID}",
+            with: taskIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter page: (query) Requested page of the API response. If `null`, the API response is not paginated. 
+    /// (optional)
+    /// - parameter hitsPerPage: (query) Number of hits per page. (optional, default to 100)
+    /// - returns: ListCompositionsResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func listCompositions(
+        page: Int? = nil,
+        hitsPerPage: Int? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> ListCompositionsResponse {
+        let response: Response<ListCompositionsResponse> = try await listCompositionsWithHTTPInfo(
+            page: page,
+            hitsPerPage: hitsPerPage,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Lists all compositions in the current Algolia application.
+    // Required API Key ACLs:
+    //  - editSettings
+    //  - settings
+    //
+    // - parameter page: (query) Requested page of the API response. If `null`, the API response is not paginated. 
+    // (optional)
+    //
+    // - parameter hitsPerPage: (query) Number of hits per page. (optional, default to 100)
+    // - returns: RequestBuilder<ListCompositionsResponse>
+
+    open func listCompositionsWithHTTPInfo(
+        page: Int? = nil,
+        hitsPerPage: Int? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<ListCompositionsResponse> {
+        let resourcePath = "/1/compositions"
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?] = [
+            "page": page?.encodeToJSON(),
+            "hitsPerPage": hitsPerPage?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter batchParams: (body)
+    /// - returns: CompositionMultipleBatchResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func multipleBatch(
+        batchParams: CompositionBatchParams,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> CompositionMultipleBatchResponse {
+        let response: Response<CompositionMultipleBatchResponse> = try await multipleBatchWithHTTPInfo(
+            batchParams: batchParams,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Adds, updates, or deletes compositions with a single API request.
+    // Required API Key ACLs:
+    //  - editSettings
+    //
+    // - parameter batchParams: (body)
+    // - returns: RequestBuilder<CompositionMultipleBatchResponse>
+
+    open func multipleBatchWithHTTPInfo(
+        batchParams: CompositionBatchParams,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<CompositionMultipleBatchResponse> {
+        let resourcePath = "/1/compositions/*/batch"
+        let body = batchParams
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter compositionID: (path) Unique Composition ObjectID.
+    /// - parameter composition: (body)
+    /// - returns: TaskIDResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func putComposition(
+        compositionID: String,
+        composition: Composition,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> TaskIDResponse {
+        let response: Response<TaskIDResponse> = try await putCompositionWithHTTPInfo(
+            compositionID: compositionID,
+            composition: composition,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Upsert a composition in the current Algolia application.
+    // Required API Key ACLs:
+    //  - editSettings
+    //
+    // - parameter compositionID: (path) Unique Composition ObjectID.
+    //
+    // - parameter composition: (body)
+    // - returns: RequestBuilder<TaskIDResponse>
+
+    open func putCompositionWithHTTPInfo(
+        compositionID: String,
+        composition: Composition,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TaskIDResponse> {
+        guard !compositionID.isEmpty else {
+            throw AlgoliaError.invalidArgument("compositionID", "putComposition")
+        }
+
+        var resourcePath = "/1/compositions/{compositionID}"
+        let compositionIDPreEscape = "\(APIHelper.mapValueToPathItem(compositionID))"
+        let compositionIDPostEscape = compositionIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{compositionID}",
+            with: compositionIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body = composition
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "PUT",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter compositionID: (path) Unique Composition ObjectID.
+    /// - parameter objectID: (path) Unique identifier of a rule object.
+    /// - parameter compositionRule: (body)
+    /// - returns: TaskIDResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func putCompositionRule(
+        compositionID: String,
+        objectID: String,
+        compositionRule: CompositionRule,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> TaskIDResponse {
+        let response: Response<TaskIDResponse> = try await putCompositionRuleWithHTTPInfo(
+            compositionID: compositionID,
+            objectID: objectID,
+            compositionRule: compositionRule,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Upsert a Composition Rule for the specified composition ID.
+    // Required API Key ACLs:
+    //  - editSettings
+    //
+    // - parameter compositionID: (path) Unique Composition ObjectID.
+    //
+    // - parameter objectID: (path) Unique identifier of a rule object.
+    //
+    // - parameter compositionRule: (body)
+    // - returns: RequestBuilder<TaskIDResponse>
+
+    open func putCompositionRuleWithHTTPInfo(
+        compositionID: String,
+        objectID: String,
+        compositionRule: CompositionRule,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TaskIDResponse> {
+        guard !compositionID.isEmpty else {
+            throw AlgoliaError.invalidArgument("compositionID", "putCompositionRule")
+        }
+
+        guard !objectID.isEmpty else {
+            throw AlgoliaError.invalidArgument("objectID", "putCompositionRule")
+        }
+
+        var resourcePath = "/1/compositions/{compositionID}/rules/{objectID}"
+        let compositionIDPreEscape = "\(APIHelper.mapValueToPathItem(compositionID))"
+        let compositionIDPostEscape = compositionIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{compositionID}",
+            with: compositionIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
+        let objectIDPostEscape = objectIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{objectID}",
+            with: objectIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body = compositionRule
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "PUT",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter compositionID: (path) Unique Composition ObjectID.
+    /// - parameter rules: (body)
+    /// - returns: RulesMultipleBatchResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func saveRules(
+        compositionID: String,
+        rules: CompositionRulesBatchParams,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> RulesMultipleBatchResponse {
+        let response: Response<RulesMultipleBatchResponse> = try await saveRulesWithHTTPInfo(
+            compositionID: compositionID,
+            rules: rules,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Create or update or delete multiple composition rules.
+    // Required API Key ACLs:
+    //  - editSettings
+    //
+    // - parameter compositionID: (path) Unique Composition ObjectID.
+    //
+    // - parameter rules: (body)
+    // - returns: RequestBuilder<RulesMultipleBatchResponse>
+
+    open func saveRulesWithHTTPInfo(
+        compositionID: String,
+        rules: CompositionRulesBatchParams,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<RulesMultipleBatchResponse> {
+        guard !compositionID.isEmpty else {
+            throw AlgoliaError.invalidArgument("compositionID", "saveRules")
+        }
+
+        var resourcePath = "/1/compositions/{compositionID}/rules/batch"
+        let compositionIDPreEscape = "\(APIHelper.mapValueToPathItem(compositionID))"
+        let compositionIDPostEscape = compositionIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{compositionID}",
+            with: compositionIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body = rules
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
     /// - parameter compositionID: (path) Unique Composition ObjectID.
     /// - parameter requestBody: (body)
     /// - returns: CompositionSearchResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func search<T: Codable>(
         compositionID: String,
-        requestBody: CompositionRequestBody,
+        requestBody: RequestBody,
         requestOptions: RequestOptions? = nil
     ) async throws -> CompositionSearchResponse<T> {
         let response: Response<CompositionSearchResponse<T>> = try await searchWithHTTPInfo(
@@ -65,7 +1036,7 @@ open class CompositionClient {
 
     open func searchWithHTTPInfo<T: Codable>(
         compositionID: String,
-        requestBody: CompositionRequestBody,
+        requestBody: RequestBody,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<CompositionSearchResponse<T>> {
         guard !compositionID.isEmpty else {
@@ -98,6 +1069,74 @@ open class CompositionClient {
                 queryParameters: queryParameters
             ) + userRequestOptions,
             useReadTransporter: true
+        )
+    }
+
+    /// - parameter compositionID: (path) Unique Composition ObjectID.
+    /// - parameter searchCompositionRulesParams: (body)  (optional)
+    /// - returns: SearchCompositionRulesResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func searchCompositionRules(
+        compositionID: String,
+        searchCompositionRulesParams: SearchCompositionRulesParams? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SearchCompositionRulesResponse {
+        let response: Response<SearchCompositionRulesResponse> = try await searchCompositionRulesWithHTTPInfo(
+            compositionID: compositionID,
+            searchCompositionRulesParams: searchCompositionRulesParams,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Searches for composition rules in your index.
+    // Required API Key ACLs:
+    //  - settings
+    //
+    // - parameter compositionID: (path) Unique Composition ObjectID.
+    //
+    // - parameter searchCompositionRulesParams: (body)  (optional)
+    // - returns: RequestBuilder<SearchCompositionRulesResponse>
+
+    open func searchCompositionRulesWithHTTPInfo(
+        compositionID: String,
+        searchCompositionRulesParams: SearchCompositionRulesParams? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<SearchCompositionRulesResponse> {
+        guard !compositionID.isEmpty else {
+            throw AlgoliaError.invalidArgument("compositionID", "searchCompositionRules")
+        }
+
+        var resourcePath = "/1/compositions/{compositionID}/rules/search"
+        let compositionIDPreEscape = "\(APIHelper.mapValueToPathItem(compositionID))"
+        let compositionIDPostEscape = compositionIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{compositionID}",
+            with: compositionIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body = searchCompositionRulesParams
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body ?? AnyCodable(),
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
         )
     }
 

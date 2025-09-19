@@ -90,7 +90,7 @@ public struct CompositionParams: Codable, JSONEncodable {
     /// This setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
     /// A list of extenrally injected objectID groups into from an external source.
-    public var injectedItems: [String: CompositionExternalInjectedItem]?
+    public var injectedItems: [String: ExternalInjectedItem]?
 
     public init(
         query: String? = nil,
@@ -119,7 +119,7 @@ public struct CompositionParams: Codable, JSONEncodable {
         analyticsTags: [String]? = nil,
         enableABTest: Bool? = nil,
         enableReRanking: Bool? = nil,
-        injectedItems: [String: CompositionExternalInjectedItem]? = nil
+        injectedItems: [String: ExternalInjectedItem]? = nil
     ) {
         self.query = query
         self.filters = filters

@@ -8,9 +8,9 @@ import Foundation
 
 public struct CompositionSearchForFacetValuesResponse: Codable, JSONEncodable {
     /// Search for facet values results.
-    public var results: [CompositionSearchForFacetValuesResults]?
+    public var results: [SearchForFacetValuesResults]?
 
-    public init(results: [CompositionSearchForFacetValuesResults]? = nil) {
+    public init(results: [SearchForFacetValuesResults]? = nil) {
         self.results = results
     }
 
