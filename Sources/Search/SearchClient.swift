@@ -476,7 +476,7 @@ open class SearchClient {
     /// - parameter browseParams: (body)  (optional)
     /// - returns: BrowseResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func browse<T: Codable>(
+    open func browse<T: Decodable>(
         indexName: String,
         browseParams: BrowseParams? = nil,
         requestOptions: RequestOptions? = nil
@@ -510,7 +510,7 @@ open class SearchClient {
     // - parameter browseParams: (body)  (optional)
     // - returns: RequestBuilder<BrowseResponse>
 
-    open func browseWithHTTPInfo<T: Codable>(
+    open func browseWithHTTPInfo<T: Decodable>(
         indexName: String,
         browseParams: BrowseParams? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
@@ -1911,7 +1911,7 @@ open class SearchClient {
     /// - parameter getObjectsParams: (body) Request object.
     /// - returns: GetObjectsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getObjects<T: Codable>(
+    open func getObjects<T: Decodable>(
         getObjectsParams: GetObjectsParams,
         requestOptions: RequestOptions? = nil
     ) async throws -> GetObjectsResponse<T> {
@@ -1935,7 +1935,7 @@ open class SearchClient {
     // - parameter getObjectsParams: (body) Request object.
     // - returns: RequestBuilder<GetObjectsResponse>
 
-    open func getObjectsWithHTTPInfo<T: Codable>(
+    open func getObjectsWithHTTPInfo<T: Decodable>(
         getObjectsParams: GetObjectsParams,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<GetObjectsResponse<T>> {
@@ -3530,7 +3530,7 @@ open class SearchClient {
     /// requests.
     /// - returns: SearchResponses
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func search<T: Codable>(
+    open func search<T: Decodable>(
         searchMethodParams: SearchMethodParams,
         requestOptions: RequestOptions? = nil
     ) async throws -> SearchResponses<T> {
@@ -3558,7 +3558,7 @@ open class SearchClient {
     // requests.
     // - returns: RequestBuilder<SearchResponses>
 
-    open func searchWithHTTPInfo<T: Codable>(
+    open func searchWithHTTPInfo<T: Decodable>(
         searchMethodParams: SearchMethodParams,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<SearchResponses<T>> {
@@ -3812,7 +3812,7 @@ open class SearchClient {
     /// - parameter searchParams: (body)  (optional)
     /// - returns: SearchResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func searchSingleIndex<T: Codable>(
+    open func searchSingleIndex<T: Decodable>(
         indexName: String,
         searchParams: SearchSearchParams? = nil,
         requestOptions: RequestOptions? = nil
@@ -3841,7 +3841,7 @@ open class SearchClient {
     // - parameter searchParams: (body)  (optional)
     // - returns: RequestBuilder<SearchResponse>
 
-    open func searchSingleIndexWithHTTPInfo<T: Codable>(
+    open func searchSingleIndexWithHTTPInfo<T: Decodable>(
         indexName: String,
         searchParams: SearchSearchParams? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
