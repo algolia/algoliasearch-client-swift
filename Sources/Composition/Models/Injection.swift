@@ -10,15 +10,18 @@ public struct Injection: Codable, JSONEncodable {
     public var main: CompositionMain
     /// list of injected items of the current Composition.
     public var injectedItems: [InjectedItem]?
+    public var deduplication: Deduplication?
 
-    public init(main: CompositionMain, injectedItems: [InjectedItem]? = nil) {
+    public init(main: CompositionMain, injectedItems: [InjectedItem]? = nil, deduplication: Deduplication? = nil) {
         self.main = main
         self.injectedItems = injectedItems
+        self.deduplication = deduplication
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case main
         case injectedItems
+        case deduplication
     }
 
     // Encodable protocol methods
@@ -27,13 +30,15 @@ public struct Injection: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.main, forKey: .main)
         try container.encodeIfPresent(self.injectedItems, forKey: .injectedItems)
+        try container.encodeIfPresent(self.deduplication, forKey: .deduplication)
     }
 }
 
 extension Injection: Equatable {
     public static func ==(lhs: Injection, rhs: Injection) -> Bool {
         lhs.main == rhs.main &&
-            lhs.injectedItems == rhs.injectedItems
+            lhs.injectedItems == rhs.injectedItems &&
+            lhs.deduplication == rhs.deduplication
     }
 }
 
@@ -41,5 +46,6 @@ extension Injection: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.main.hashValue)
         hasher.combine(self.injectedItems?.hashValue)
+        hasher.combine(self.deduplication?.hashValue)
     }
 }
