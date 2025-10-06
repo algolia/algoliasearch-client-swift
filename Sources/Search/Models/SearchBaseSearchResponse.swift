@@ -58,7 +58,7 @@ public struct SearchBaseSearchResponse: Codable, JSONEncodable {
     /// An object with custom data.  You can store up to 32kB as custom data.
     public var userData: AnyCodable?
     /// Unique identifier for the query. This is used for [click
-    /// analytics](https://www.algolia.com/doc/guides/analytics/click-analytics/).
+    /// analytics](https://www.algolia.com/doc/guides/analytics/click-analytics).
     public var queryID: String?
     /// Whether automatic events collection is enabled for the application.
     public var automaticInsights: Bool?

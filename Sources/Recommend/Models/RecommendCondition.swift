@@ -20,7 +20,7 @@ public struct RecommendCondition: Codable, JSONEncodable {
     /// supported:** `facet:value OR (facet:value AND facet:value)`  Use quotes around your filters, if the facet
     /// attribute name or facet value has spaces, keywords (`OR`, `AND`, `NOT`), or quotes. If a facet attribute is an
     /// array, the filter matches if it matches at least one element of the array.  For more information, see
-    /// [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/).
+    /// [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering).
     public var filters: String?
     /// An additional restriction that only triggers the rule, when the search has the same value as `ruleContexts`
     /// parameter. For example, if `context: mobile`, the rule is only triggered when the search request has a matching

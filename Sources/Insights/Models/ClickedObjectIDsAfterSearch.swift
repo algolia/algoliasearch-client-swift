@@ -23,13 +23,13 @@ public struct ClickedObjectIDsAfterSearch: Codable, JSONEncodable {
     /// If you add `clickAnalytics: true` as a search request parameter, the query ID is included in the API response.
     public var queryID: String
     /// Anonymous or pseudonymous user identifier.  Don't use personally identifiable information in user tokens. For
-    /// more information, see [User token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/).
+    /// more information, see [User token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken).
     public var userToken: String
     /// Identifier for authenticated users.  When the user signs in, you can get an identifier from your system and send
     /// it as `authenticatedUserToken`. This lets you keep using the `userToken` from before the user signed in, while
     /// providing a reliable way to identify users across sessions. Don't use personally identifiable information in
     /// user tokens. For more information, see [User
-    /// token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/).
+    /// token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken).
     public var authenticatedUserToken: String?
     /// Timestamp of the event, measured in milliseconds since the Unix epoch. By default, the Insights API uses the
     /// time it receives an event as its timestamp.

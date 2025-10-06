@@ -25,7 +25,7 @@ public struct GetApiKeyResponse: Codable, JSONEncodable {
     /// Maximum number of results this API key can retrieve in one query. By default, there's no limit.
     public var maxHitsPerQuery: Int?
     /// Maximum number of API requests allowed per IP address or [user
-    /// token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/) per hour.  If this limit is
+    /// token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken) per hour.  If this limit is
     /// reached, the API returns an error with status code `429`. By default, there's no limit.
     public var maxQueriesPerIPPerHour: Int?
     /// Query parameters to add when making API requests with this API key.  To restrict this API key to specific IP

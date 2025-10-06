@@ -309,7 +309,7 @@ open class AnalyticsClient {
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetAddToCartRateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getAddToCartRate(
@@ -341,7 +341,7 @@ open class AnalyticsClient {
     // number of searches, including those where `clickAnalytics` is `false`.  **There's a difference between a 0 and
     // null add-to-cart rate when `clickAnalytics` is enabled:**  - **Null** means there were no queries: since Algolia
     // didn't receive any events, the add-to-cart rate is null. - **0** mean there _were_ queries but no [add-to-cart
-    // events](https://www.algolia.com/doc/guides/sending-events/getting-started/) were received.
+    // events](https://www.algolia.com/doc/guides/sending-events/getting-started) were received.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -353,7 +353,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetAddToCartRateResponse>
 
     open func getAddToCartRateWithHTTPInfo(
@@ -396,7 +396,7 @@ open class AnalyticsClient {
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetAverageClickPositionResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getAverageClickPosition(
@@ -426,8 +426,9 @@ open class AnalyticsClient {
     // first
     // result for any search, the average click position is 1. By default, the analyzed period includes the last eight
     // days including the current day.  An average of `null` when `clickAnalytics` is enabled means Algolia didn't
-    // receive any [click events](https://www.algolia.com/doc/guides/sending-events/getting-started/) for the queries.
-    // The average is `null` until Algolia receives at least one click event.
+    // receive any [click events](https://www.algolia.com/doc/guides/sending-events/getting-started) for the queries.
+    // The
+    // average is `null` until Algolia receives at least one click event.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -439,7 +440,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetAverageClickPositionResponse>
 
     open func getAverageClickPositionWithHTTPInfo(
@@ -482,7 +483,7 @@ open class AnalyticsClient {
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetClickPositionsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getClickPositions(
@@ -510,7 +511,7 @@ open class AnalyticsClient {
     // Retrieves the positions in the search results and their associated number of clicks.  This lets you check how
     // many clicks the first, second, or tenth search results receive.  An average of `0` when `clickAnalytics` is
     // enabled means Algolia didn't receive any [click
-    // events](https://www.algolia.com/doc/guides/sending-events/getting-started/) for the queries.
+    // events](https://www.algolia.com/doc/guides/sending-events/getting-started) for the queries.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -522,7 +523,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetClickPositionsResponse>
 
     open func getClickPositionsWithHTTPInfo(
@@ -565,7 +566,7 @@ open class AnalyticsClient {
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetClickThroughRateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getClickThroughRate(
@@ -594,7 +595,7 @@ open class AnalyticsClient {
     // breakdown.  By default, the analyzed period includes the last eight days including the current day.  **There's a
     // difference between a 0 and null CTR when `clickAnalytics` is enabled:**  - **Null** means there were no queries:
     // since Algolia didn't receive any events, CTR is null. - **0** mean there _were_ queries but no [click
-    // events](https://www.algolia.com/doc/guides/sending-events/getting-started/) were received.
+    // events](https://www.algolia.com/doc/guides/sending-events/getting-started) were received.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -606,7 +607,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetClickThroughRateResponse>
 
     open func getClickThroughRateWithHTTPInfo(
@@ -649,7 +650,7 @@ open class AnalyticsClient {
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetConversionRateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getConversionRate(
@@ -678,7 +679,7 @@ open class AnalyticsClient {
     // breakdown.  By default, the analyzed period includes the last eight days including the current day.  **There's a
     // difference between a 0 and null CR when `clickAnalytics` is enabled:**  - **Null** means there were no queries:
     // since Algolia didn't receive any events, CR is null. - **0** mean there _were_ queries but no [conversion
-    // events](https://www.algolia.com/doc/guides/sending-events/getting-started/) were received.
+    // events](https://www.algolia.com/doc/guides/sending-events/getting-started) were received.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -690,7 +691,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetConversionRateResponse>
 
     open func getConversionRateWithHTTPInfo(
@@ -733,7 +734,7 @@ open class AnalyticsClient {
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetNoClickRateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getNoClickRate(
@@ -772,7 +773,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetNoClickRateResponse>
 
     open func getNoClickRateWithHTTPInfo(
@@ -815,7 +816,7 @@ open class AnalyticsClient {
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetNoResultsRateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getNoResultsRate(
@@ -854,7 +855,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetNoResultsRateResponse>
 
     open func getNoResultsRateWithHTTPInfo(
@@ -897,7 +898,7 @@ open class AnalyticsClient {
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetPurchaseRateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getPurchaseRate(
@@ -933,7 +934,7 @@ open class AnalyticsClient {
     // rate when `clickAnalytics` is enabled:**  - **Null** means there were no queries: since Algolia didn't receive
     // any
     // events, the purchase rate is null. - **0** mean there _were_ queries but no [purchase conversion
-    // events](https://www.algolia.com/doc/guides/sending-events/getting-started/) were received.
+    // events](https://www.algolia.com/doc/guides/sending-events/getting-started) were received.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -945,7 +946,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetPurchaseRateResponse>
 
     open func getPurchaseRateWithHTTPInfo(
@@ -988,7 +989,7 @@ open class AnalyticsClient {
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetRevenue
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getRevenue(
@@ -1029,7 +1030,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetRevenue>
 
     open func getRevenueWithHTTPInfo(
@@ -1072,7 +1073,7 @@ open class AnalyticsClient {
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetSearchesCountResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getSearchesCount(
@@ -1110,7 +1111,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetSearchesCountResponse>
 
     open func getSearchesCountWithHTTPInfo(
@@ -1155,7 +1156,7 @@ open class AnalyticsClient {
     /// - parameter offset: (query) Position of the first item to return.  (optional, default to 0)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetSearchesNoClicksResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getSearchesNoClicks(
@@ -1201,7 +1202,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetSearchesNoClicksResponse>
 
     open func getSearchesNoClicksWithHTTPInfo(
@@ -1250,7 +1251,7 @@ open class AnalyticsClient {
     /// - parameter offset: (query) Position of the first item to return.  (optional, default to 0)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetSearchesNoResultsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getSearchesNoResults(
@@ -1295,7 +1296,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetSearchesNoResultsResponse>
 
     open func getSearchesNoResultsWithHTTPInfo(
@@ -1398,7 +1399,7 @@ open class AnalyticsClient {
     /// - parameter offset: (query) Position of the first item to return.  (optional, default to 0)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetTopCountriesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTopCountries(
@@ -1443,7 +1444,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetTopCountriesResponse>
 
     open func getTopCountriesWithHTTPInfo(
@@ -1493,7 +1494,7 @@ open class AnalyticsClient {
     /// - parameter offset: (query) Position of the first item to return.  (optional, default to 0)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetTopFilterAttributesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTopFilterAttributes(
@@ -1543,7 +1544,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetTopFilterAttributesResponse>
 
     open func getTopFilterAttributesWithHTTPInfo(
@@ -1596,7 +1597,7 @@ open class AnalyticsClient {
     /// - parameter offset: (query) Position of the first item to return.  (optional, default to 0)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetTopFilterForAttributeResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTopFilterForAttribute(
@@ -1650,7 +1651,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetTopFilterForAttributeResponse>
 
     open func getTopFilterForAttributeWithHTTPInfo(
@@ -1716,7 +1717,7 @@ open class AnalyticsClient {
     /// - parameter offset: (query) Position of the first item to return.  (optional, default to 0)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetTopFiltersNoResultsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTopFiltersNoResults(
@@ -1749,7 +1750,7 @@ open class AnalyticsClient {
 
     // Retrieves the 1,000 most frequently used filters for a search that didn't return any results.  To get the most
     // frequent searches without results, use the [Retrieve searches without
-    // results](#tag/search/operation/getSearchesNoResults) operation.
+    // results](https://www.algolia.com/doc/rest-api/analytics/get-searches-no-results) operation.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -1767,7 +1768,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetTopFiltersNoResultsResponse>
 
     open func getTopFiltersNoResultsWithHTTPInfo(
@@ -1823,7 +1824,7 @@ open class AnalyticsClient {
     /// - parameter offset: (query) Position of the first item to return.  (optional, default to 0)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetTopHitsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTopHits(
@@ -1869,7 +1870,7 @@ open class AnalyticsClient {
     // Purchase rate - Revenue details for each currency  **There's a difference between 0% rates and null rates:**  -
     // **Null** means there were no queries: since Algolia didn't receive any events, the rates (CTR, CR, ATCR, purchase
     // rate) are null. - **0% rates** mean there _were_ queries but no [click or conversion
-    // events](https://www.algolia.com/doc/guides/sending-events/getting-started/) were received.
+    // events](https://www.algolia.com/doc/guides/sending-events/getting-started) were received.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -1893,7 +1894,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetTopHitsResponse>
 
     open func getTopHitsWithHTTPInfo(
@@ -1955,7 +1956,7 @@ open class AnalyticsClient {
     /// - parameter offset: (query) Position of the first item to return.  (optional, default to 0)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetTopSearchesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTopSearches(
@@ -2002,7 +2003,7 @@ open class AnalyticsClient {
     // rate (ATCR) - Purchase count - Purchase rate - Revenue details for each currency  **There's a difference between
     // 0% rates and null rates:**  - **Null** means there were no queries: since Algolia didn't receive any events, the
     // rates (CTR, CR, ATCR, purchase rate) are null. - **0% rates** mean there _were_ queries but no [click or
-    // conversion events](https://www.algolia.com/doc/guides/sending-events/getting-started/) were received.
+    // conversion events](https://www.algolia.com/doc/guides/sending-events/getting-started) were received.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -2029,7 +2030,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetTopSearchesResponse>
 
     open func getTopSearchesWithHTTPInfo(
@@ -2084,7 +2085,7 @@ open class AnalyticsClient {
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     /// `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     /// - returns: GetUsersCountResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getUsersCount(
@@ -2125,7 +2126,7 @@ open class AnalyticsClient {
     //
     // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with `OR` and
     // `AND`. Tags must be URL-encoded. For more information, see [Segment your analytics
-    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).  (optional)
     // - returns: RequestBuilder<GetUsersCountResponse>
 
     open func getUsersCountWithHTTPInfo(

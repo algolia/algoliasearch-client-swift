@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Restrict [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/) to records that match these
+/// Restrict [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking) to records that match these
 /// filters.
 public enum RecommendReRankingApplyFilter: Codable, JSONEncodable, AbstractEncodable {
     case arrayOfRecommendReRankingApplyFilter([RecommendReRankingApplyFilter])

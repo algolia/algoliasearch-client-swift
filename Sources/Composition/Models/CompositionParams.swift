@@ -21,7 +21,7 @@ public struct CompositionParams: Codable, JSONEncodable {
     /// supported:** `facet:value OR (facet:value AND facet:value)`  Use quotes around your filters, if the facet
     /// attribute name or facet value has spaces, keywords (`OR`, `AND`, `NOT`), or quotes. If a facet attribute is an
     /// array, the filter matches if it matches at least one element of the array.  For more information, see
-    /// [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/).
+    /// [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering).
     public var filters: String?
     /// Page of search results to retrieve.
     public var page: Int?
@@ -57,9 +57,9 @@ public struct CompositionParams: Codable, JSONEncodable {
     /// dictionaries  This setting sets a default list of languages used by the `removeStopWords` and `ignorePlurals`
     /// settings. This setting also sets a dictionary for word detection in the logogram-based [CJK](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/#normalization-for-logogram-based-languages-cjk)
     /// languages. To support this, you must place the CJK language **first**  **You should always specify a query
-    /// language.** If you don't specify an indexing language, the search engine uses all [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/),
+    /// language.** If you don't specify an indexing language, the search engine uses all [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages),
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
-    /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/).
+    /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations).
     public var queryLanguages: [CompositionSupportedLanguage]?
     /// ISO language codes that adjust settings that are useful for processing natural language queries (as opposed to
     /// keyword searches) - Sets `removeStopWords` and `ignorePlurals` to the list of provided languages. - Sets
@@ -72,22 +72,22 @@ public struct CompositionParams: Codable, JSONEncodable {
     /// are strings that you can use to trigger matching rules.
     public var ruleContexts: [String]?
     /// Unique pseudonymous or anonymous user identifier.  This helps with analytics and click and conversion events.
-    /// For more information, see [user token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/).
+    /// For more information, see [user token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken).
     public var userToken: String?
     /// Whether to include a `queryID` attribute in the response The query ID is a unique identifier for a search query
     /// and is required for tracking [click and conversion
-    /// events](https://www.algolia.com/guides/sending-events/getting-started/).
+    /// events](https://www.algolia.com/guides/sending-events/getting-started).
     public var clickAnalytics: Bool?
     /// Whether this search will be included in Analytics.
     public var analytics: Bool?
     /// Tags to apply to the query for [segmenting analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).
     public var analyticsTags: [String]?
     /// Whether to enable index level A/B testing for this run request. If the composition mixes multiple indices, the
     /// A/B test is ignored.
     public var enableABTest: Bool?
-    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/)
-    /// This setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
+    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking) This
+    /// setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
     /// A list of extenrally injected objectID groups into from an external source.
     public var injectedItems: [String: ExternalInjectedItem]?

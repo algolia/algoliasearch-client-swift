@@ -8,7 +8,7 @@ import Foundation
 
 public struct GetUserTokenResponse: Codable, JSONEncodable {
     /// Unique pseudonymous or anonymous user identifier.  This helps with analytics and click and conversion events.
-    /// For more information, see [user token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/).
+    /// For more information, see [user token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken).
     public var userToken: String
     /// Date and time of the last event from this user, in RFC 3339 format.
     public var lastEventAt: String

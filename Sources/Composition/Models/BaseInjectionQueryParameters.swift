@@ -39,7 +39,7 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
     /// attributes or use an empty array `[]` to turn off highlighting. Attribute names are case-sensitive With
     /// highlighting, strings that match the search query are surrounded by HTML tags defined by `highlightPreTag` and
     /// `highlightPostTag`. You can use this to visually highlight matching parts of a search query in your UI For more
-    /// information, see [Highlighting and snippeting](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/highlighting-snippeting/js/).
+    /// information, see [Highlighting and snippeting](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/highlighting-snippeting/js).
     public var attributesToHighlight: [String]?
     /// Attributes to include in the API response To reduce the size of your response, you can retrieve only some of the
     /// attributes. Attribute names are case-sensitive - `*` retrieves all attributes, except attributes included in the
@@ -54,7 +54,7 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
     public var attributesToSnippet: [String]?
     /// Whether to include a `queryID` attribute in the response The query ID is a unique identifier for a search query
     /// and is required for tracking [click and conversion
-    /// events](https://www.algolia.com/guides/sending-events/getting-started/).
+    /// events](https://www.algolia.com/guides/sending-events/getting-started).
     public var clickAnalytics: Bool?
     /// Whether to split compound words in the query into their building blocks For more information, see [Word segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#splitting-compound-words).
     /// Word segmentation is supported for these languages: German, Dutch, Finnish, Swedish, and Norwegian.
@@ -69,8 +69,8 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
     /// lot of content on ranking.
     public var disableExactOnAttributes: [String]?
     /// Attributes for which you want to turn off [typo
-    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/).
-    /// Attribute names are case-sensitive Returning only exact matches can help when - [Searching in hyphenated attributes](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/how-to/how-to-search-in-hyphenated-attributes/).
+    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance).
+    /// Attribute names are case-sensitive Returning only exact matches can help when - [Searching in hyphenated attributes](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/how-to/how-to-search-in-hyphenated-attributes).
     /// - Reducing the number of matches when you have too many.   This can happen with attributes that are long blocks
     /// of text, such as product descriptions Consider alternatives such as `disableTypoToleranceOnWords` or adding
     /// synonyms if your attributes have intentional unusual spellings that might look like typos.
@@ -80,8 +80,8 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
     public var enableABTest: Bool?
     /// Whether to enable Personalization.
     public var enablePersonalization: Bool?
-    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/)
-    /// This setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
+    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking) This
+    /// setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
     /// Whether to enable rules.
     public var enableRules: Bool?
@@ -99,7 +99,7 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
     /// supported:** `facet:value OR (facet:value AND facet:value)`  Use quotes around your filters, if the facet
     /// attribute name or facet value has spaces, keywords (`OR`, `AND`, `NOT`), or quotes. If a facet attribute is an
     /// array, the filter matches if it matches at least one element of the array.  For more information, see
-    /// [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/).
+    /// [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering).
     public var filters: String?
     /// Whether the search response should include detailed ranking information.
     public var getRankingInfo: Bool?
@@ -136,9 +136,9 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
     /// dictionaries  This setting sets a default list of languages used by the `removeStopWords` and `ignorePlurals`
     /// settings. This setting also sets a dictionary for word detection in the logogram-based [CJK](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/#normalization-for-logogram-based-languages-cjk)
     /// languages. To support this, you must place the CJK language **first**  **You should always specify a query
-    /// language.** If you don't specify an indexing language, the search engine uses all [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/),
+    /// language.** If you don't specify an indexing language, the search engine uses all [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages),
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
-    /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/).
+    /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations).
     public var queryLanguages: [CompositionSupportedLanguage]?
     public var queryType: CompositionQueryType?
     public var removeStopWords: CompositionRemoveStopWords?

@@ -10,8 +10,8 @@ public struct SaveObjectResponse: Codable, JSONEncodable {
     /// Date and time when the object was created, in RFC 3339 format.
     public var createdAt: String
     /// Unique identifier of a task.  A successful API response means that a task was added to a queue. It might not run
-    /// immediately. You can check the task's progress with the [`task` operation](#tag/Indices/operation/getTask) and
-    /// this `taskID`.
+    /// immediately. You can check the task's progress with the [`task`
+    /// operation](https://www.algolia.com/doc/rest-api/search/get-task) and this task ID.
     public var taskID: Int64
     /// Unique record identifier.
     public var objectID: String?

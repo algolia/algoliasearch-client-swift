@@ -25,7 +25,7 @@ public struct BaseRecommendSearchParams: Codable, JSONEncodable {
     /// supported:** `facet:value OR (facet:value AND facet:value)`  Use quotes around your filters, if the facet
     /// attribute name or facet value has spaces, keywords (`OR`, `AND`, `NOT`), or quotes. If a facet attribute is an
     /// array, the filter matches if it matches at least one element of the array.  For more information, see
-    /// [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/).
+    /// [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering).
     public var filters: String?
     public var facetFilters: RecommendFacetFilters?
     public var optionalFilters: RecommendOptionalFilters?
@@ -73,7 +73,7 @@ public struct BaseRecommendSearchParams: Codable, JSONEncodable {
     /// determines the ranking compared to other factors. For more information, see [Understanding Personalization impact](https://www.algolia.com/doc/guides/personalization/personalizing-results/in-depth/configuring-personalization/#understanding-personalization-impact).
     public var personalizationImpact: Int?
     /// Unique pseudonymous or anonymous user identifier.  This helps with analytics and click and conversion events.
-    /// For more information, see [user token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/).
+    /// For more information, see [user token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken).
     public var userToken: String?
     /// Whether the search response should include detailed ranking information.
     public var getRankingInfo: Bool?
@@ -81,12 +81,12 @@ public struct BaseRecommendSearchParams: Codable, JSONEncodable {
     public var synonyms: Bool?
     /// Whether to include a `queryID` attribute in the response The query ID is a unique identifier for a search query
     /// and is required for tracking [click and conversion
-    /// events](https://www.algolia.com/guides/sending-events/getting-started/).
+    /// events](https://www.algolia.com/guides/sending-events/getting-started).
     public var clickAnalytics: Bool?
     /// Whether this search will be included in Analytics.
     public var analytics: Bool?
     /// Tags to apply to the query for [segmenting analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).
     public var analyticsTags: [String]?
     /// Whether to include this search when calculating processing-time percentiles.
     public var percentileComputation: Bool?

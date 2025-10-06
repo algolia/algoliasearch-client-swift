@@ -20,13 +20,13 @@ public struct AddedToCartObjectIDs: Codable, JSONEncodable {
     /// Object IDs of the records that are part of the event.
     public var objectIDs: [String]
     /// Anonymous or pseudonymous user identifier.  Don't use personally identifiable information in user tokens. For
-    /// more information, see [User token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/).
+    /// more information, see [User token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken).
     public var userToken: String
     /// Identifier for authenticated users.  When the user signs in, you can get an identifier from your system and send
     /// it as `authenticatedUserToken`. This lets you keep using the `userToken` from before the user signed in, while
     /// providing a reliable way to identify users across sessions. Don't use personally identifiable information in
     /// user tokens. For more information, see [User
-    /// token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/).
+    /// token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken).
     public var authenticatedUserToken: String?
     /// Three-letter [currency code](https://www.iso.org/iso-4217-currency-codes.html).
     public var currency: String?

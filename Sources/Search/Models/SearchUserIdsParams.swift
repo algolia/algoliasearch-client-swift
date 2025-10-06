@@ -8,9 +8,6 @@ import Foundation
 
 /// OK
 public struct SearchUserIdsParams: Codable, JSONEncodable {
-    /// Query to search. The search is a prefix search with [typo
-    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/) enabled.
-    /// An empty query will retrieve all users.
     public var query: String
     /// Cluster name.
     public var clusterName: String?

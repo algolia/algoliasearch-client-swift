@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct RecommendBaseIndexSettings: Codable, JSONEncodable {
-    /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/). 
+    /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting). 
     /// Facets are attributes that let you categorize search results. They can be used for filtering search results. By
     /// default, no attribute is used for faceting. Attribute names are case-sensitive.  **Modifiers**  -
     /// `filterOnly(\"ATTRIBUTE\")`.   Allows the attribute to be used as a filter but doesn't evaluate the facet
@@ -16,7 +16,7 @@ public struct RecommendBaseIndexSettings: Codable, JSONEncodable {
     /// can apply this modifier to searchable facets: `afterDistinct(searchable(ATTRIBUTE))`.
     public var attributesForFaceting: [String]?
     /// Creates [replica
-    /// indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/). 
+    /// indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas). 
     /// Replicas are copies of a primary index with the same records but different settings, synonyms, or rules. If you
     /// want to offer a different ranking or sorting of your search results, you'll use replica indices. All index
     /// operations on a primary index are automatically forwarded to its replicas. To add a replica index, you must
@@ -24,7 +24,7 @@ public struct RecommendBaseIndexSettings: Codable, JSONEncodable {
     /// into a regular, standalone index that will no longer be synced with the primary index.  **Modifier**  -
     /// `virtual(\"REPLICA\")`.   Create a virtual replica,   Virtual replicas don't increase the number of records and
     /// are optimized for [Relevant
-    /// sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/relevant-sort/).
+    /// sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/relevant-sort).
     public var replicas: [String]?
     /// Maximum number of search results that can be obtained through pagination.  Higher pagination limits might slow
     /// down your search. For pagination limits above 1,000, the sorting of results beyond the 1,000th hit can't be
@@ -32,11 +32,11 @@ public struct RecommendBaseIndexSettings: Codable, JSONEncodable {
     public var paginationLimitedTo: Int?
     /// Attributes that can't be retrieved at query time.  This can be useful if you want to use an attribute for
     /// ranking or to [restrict
-    /// access](https://www.algolia.com/doc/guides/security/api-keys/how-to/user-restricted-access-to-data/), but don't
+    /// access](https://www.algolia.com/doc/guides/security/api-keys/how-to/user-restricted-access-to-data), but don't
     /// want to include it in the search results. Attribute names are case-sensitive.
     public var unretrievableAttributes: [String]?
     /// Creates a list of [words which require exact matches](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#turn-off-typo-tolerance-for-certain-words).
-    /// This also turns off [word splitting and concatenation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/splitting-and-concatenation/)
+    /// This also turns off [word splitting and concatenation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/splitting-and-concatenation)
     /// for the specified words.
     public var disableTypoToleranceOnWords: [String]?
     /// Attributes, for which you want to support [Japanese transliteration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#japanese-transliteration-and-type-ahead).
@@ -46,7 +46,7 @@ public struct RecommendBaseIndexSettings: Codable, JSONEncodable {
     /// Attributes for which to split [camel case](https://wikipedia.org/wiki/Camel_case) words. Attribute names are
     /// case-sensitive.
     public var camelCaseAttributes: [String]?
-    /// Searchable attributes to which Algolia should apply [word segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-segmentation/)
+    /// Searchable attributes to which Algolia should apply [word segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-segmentation)
     /// (decompounding). Attribute names are case-sensitive.  Compound words are formed by combining two or more
     /// individual words, and are particularly prevalent in Germanic languages—for example, \"firefighter\". With
     /// decompounding, the individual components are indexed separately.  You can specify different lists for different
@@ -57,9 +57,9 @@ public struct RecommendBaseIndexSettings: Codable, JSONEncodable {
     public var decompoundedAttributes: AnyCodable?
     /// Languages for language-specific processing steps, such as word detection and dictionary settings.  **You should
     /// always specify an indexing language.** If you don't specify an indexing language, the search engine uses all
-    /// [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/),
+    /// [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages),
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
-    /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/).
+    /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations).
     public var indexLanguages: [RecommendSupportedLanguage]?
     /// Searchable attributes for which you want to turn off [prefix matching](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/#adjusting-prefix-search).
     /// Attribute names are case-sensitive.
@@ -85,13 +85,13 @@ public struct RecommendBaseIndexSettings: Codable, JSONEncodable {
     /// selected attributes. In addition, the Attribute ranking criterion is turned on: matches in attributes that are
     /// higher in the list of `searchableAttributes` rank first. To make matches in two attributes rank equally, include
     /// them in a comma-separated string, such as `\"title,alternate_title\"`. Attributes with the same priority are
-    /// always unordered.  For more information, see [Searchable attributes](https://www.algolia.com/doc/guides/sending-and-managing-data/prepare-your-data/how-to/setting-searchable-attributes/).
+    /// always unordered.  For more information, see [Searchable attributes](https://www.algolia.com/doc/guides/sending-and-managing-data/prepare-your-data/how-to/setting-searchable-attributes).
     ///  **Modifier**  - `unordered(\"ATTRIBUTE\")`.   Ignore the position of a match within the attribute.  Without a
     /// modifier, matches at the beginning of an attribute rank higher than matches at the end.
     public var searchableAttributes: [String]?
     /// An object with custom data.  You can store up to 32kB as custom data.
     public var userData: AnyCodable?
-    /// Characters and their normalized replacements. This overrides Algolia's default [normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/).
+    /// Characters and their normalized replacements. This overrides Algolia's default [normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization).
     public var customNormalization: [String: [String: String]]?
     /// Attribute that should be used to establish groups of results. Attribute names are case-sensitive.  All records
     /// with the same value for this attribute are considered a group. You can combine `attributeForDistinct` with the
@@ -107,12 +107,12 @@ public struct RecommendBaseIndexSettings: Codable, JSONEncodable {
     /// their diacritics.
     public var keepDiacriticsOnCharacters: String?
     /// Attributes to use as [custom
-    /// ranking](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/). Attribute names are
+    /// ranking](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking). Attribute names are
     /// case-sensitive.  The custom ranking attributes decide which items are shown first if the other ranking criteria
     /// are equal.  Records with missing values for your selected custom ranking attributes are always sorted last.
     /// Boolean attributes are sorted based on their alphabetical order.  **Modifiers**  - `asc(\"ATTRIBUTE\")`.   Sort
     /// the index by the values of an attribute, in ascending order.  - `desc(\"ATTRIBUTE\")`.   Sort the index by the
-    /// values of an attribute, in descending order.  If you use two or more custom ranking attributes, [reduce the precision](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/how-to/controlling-custom-ranking-metrics-precision/)
+    /// values of an attribute, in descending order.  If you use two or more custom ranking attributes, [reduce the precision](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/how-to/controlling-custom-ranking-metrics-precision)
     /// of your first attributes, or the other attributes will never be applied.
     public var customRanking: [String]?
 
