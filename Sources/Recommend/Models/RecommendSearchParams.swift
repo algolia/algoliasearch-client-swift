@@ -82,7 +82,7 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
     public var synonyms: Bool?
     /// Whether to include a `queryID` attribute in the response The query ID is a unique identifier for a search query
     /// and is required for tracking [click and conversion
-    /// events](https://www.algolia.com/guides/sending-events/getting-started).
+    /// events](https://www.algolia.com/doc/guides/sending-events/getting-started).
     public var clickAnalytics: Bool?
     /// Whether this search will be included in Analytics.
     public var analytics: Bool?

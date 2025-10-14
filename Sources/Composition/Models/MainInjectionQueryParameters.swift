@@ -54,7 +54,7 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     public var attributesToSnippet: [String]?
     /// Whether to include a `queryID` attribute in the response The query ID is a unique identifier for a search query
     /// and is required for tracking [click and conversion
-    /// events](https://www.algolia.com/guides/sending-events/getting-started).
+    /// events](https://www.algolia.com/doc/guides/sending-events/getting-started).
     public var clickAnalytics: Bool?
     /// Whether to split compound words in the query into their building blocks For more information, see [Word segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#splitting-compound-words).
     /// Word segmentation is supported for these languages: German, Dutch, Finnish, Swedish, and Norwegian.

@@ -11,7 +11,7 @@ public struct FacetHits: Codable, JSONEncodable {
     public var value: String
     /// Highlighted attribute value, including HTML tags.
     public var highlighted: String
-    /// Number of records with this facet value. [The count may be approximated](https://support.algolia.com/hc/en-us/articles/4406975248145-Why-are-my-facet-and-hit-counts-not-accurate-).
+    /// Number of records with this facet value. [The count may be approximated](https://support.algolia.com/hc/articles/4406975248145-Why-are-my-facet-and-hit-counts-not-accurate).
     public var count: Int
 
     public init(value: String, highlighted: String, count: Int) {
