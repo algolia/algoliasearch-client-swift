@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// An event describe a step of the task execution flow..
+/// An event describe a step of the task execution flow.
 public struct IngestionEvent: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of an event.
     public var eventID: String

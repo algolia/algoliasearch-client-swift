@@ -13,8 +13,8 @@ public struct SearchAutomaticFacetFilter: Codable, JSONEncodable {
     public var facet: String
     /// Filter scores to give different weights to individual filters.
     public var score: Int?
-    /// Whether the filter is disjunctive or conjunctive.  If true the filter has multiple matches, multiple occurences
-    /// are combined with the logical `OR` operation. If false, multiple occurences are combined with the logical `AND`
+    /// Whether the filter is disjunctive or conjunctive.  If true the filter has multiple matches, multiple occurrences
+    /// are combined with the logical `OR` operation. If false, multiple occurrences are combined with the logical `AND`
     /// operation.
     public var disjunctive: Bool?
 
