@@ -29,7 +29,7 @@
 
 
 <p align="center">
-  <a href="https://www.algolia.com/doc/libraries/swift/" target="_blank">Documentation</a>  •
+  <a href="https://www.algolia.com/doc/libraries/sdk/install#swift" target="_blank">Documentation</a>  •
   <a href="https://discourse.algolia.com" target="_blank">Community Forum</a>  •
   <a href="http://stackoverflow.com/questions/tagged/algolia" target="_blank">Stack Overflow</a>  •
   <a href="https://github.com/algolia/algoliasearch-client-swift/issues" target="_blank">Report a bug</a>  •
@@ -132,7 +132,7 @@ let response: SearchResponses<Hit> = try await client
     ))]))
 ```
 
-For full documentation, visit the **[Algolia Swift API Client](https://www.algolia.com/doc/libraries/swift/)**.
+For full documentation, visit the **[Algolia Swift API Client](https://www.algolia.com/doc/libraries/sdk/install#swift)**.
 
 ## Notes
 
