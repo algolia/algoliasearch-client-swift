@@ -36,21 +36,6 @@ public enum APIHelper {
         }
     }
 
-    public static func convertBoolToString(_ source: [String: Any]?) -> [String: Any]? {
-        guard let source else {
-            return nil
-        }
-
-        return source.reduce(into: [String: Any]()) { result, item in
-            switch item.value {
-            case let x as Bool:
-                result[item.key] = x.description
-            default:
-                result[item.key] = item.value
-            }
-        }
-    }
-
     public static func convertAnyToString(_ value: Any?) -> String? {
         guard let value else { return nil }
         if let value = value as? any RawRepresentable {
