@@ -6,6 +6,7 @@ import Foundation
     import Core
 #endif
 
+/// Specific configuration attributes of a `csv` source.
 public struct SourceCSV: Codable, JSONEncodable {
     /// URL of the file.
     public var url: String

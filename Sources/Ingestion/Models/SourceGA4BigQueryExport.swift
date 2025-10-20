@@ -6,6 +6,7 @@ import Foundation
     import Core
 #endif
 
+/// Specific configuration attributes of a `ga4BigqueryExport` source.
 public struct SourceGA4BigQueryExport: Codable, JSONEncodable {
     /// GCP project ID that the BigQuery export writes to.
     public var projectID: String

@@ -6,6 +6,7 @@ import Foundation
     import Core
 #endif
 
+/// Specific configuration attributes of a `docker` source.
 public struct SourceDocker: Codable, JSONEncodable {
     /// Name of the connector.
     public var image: String

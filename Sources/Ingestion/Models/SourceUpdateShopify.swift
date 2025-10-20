@@ -6,6 +6,7 @@ import Foundation
     import Core
 #endif
 
+/// Specific configuration attributes of a `shopify` source.
 public struct SourceUpdateShopify: Codable, JSONEncodable {
     /// Feature flags for the Shopify source.
     public var featureFlags: [String: AnyCodable]?

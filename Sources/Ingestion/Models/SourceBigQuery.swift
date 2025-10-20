@@ -6,6 +6,7 @@ import Foundation
     import Core
 #endif
 
+/// Specific configuration attributes of a `bigquery` source.
 public struct SourceBigQuery: Codable, JSONEncodable {
     /// Project ID of the BigQuery source.
     public var projectID: String

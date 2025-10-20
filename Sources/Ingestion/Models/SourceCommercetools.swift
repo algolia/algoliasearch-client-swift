@@ -6,6 +6,7 @@ import Foundation
     import Core
 #endif
 
+/// Specific configuration attributes of a `commercetools` source.
 public struct SourceCommercetools: Codable, JSONEncodable {
     public var storeKeys: [String]?
     /// Locales for your commercetools stores.

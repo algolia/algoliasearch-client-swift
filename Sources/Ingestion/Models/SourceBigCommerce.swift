@@ -6,6 +6,7 @@ import Foundation
     import Core
 #endif
 
+/// Specific configuration attributes of a `bigcommerce` source.
 public struct SourceBigCommerce: Codable, JSONEncodable {
     /// Store hash identifying your BigCommerce store.
     public var storeHash: String

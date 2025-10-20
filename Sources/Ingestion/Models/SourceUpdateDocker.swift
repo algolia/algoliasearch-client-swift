@@ -6,6 +6,7 @@ import Foundation
     import Core
 #endif
 
+/// Specific configuration attributes of a `docker` source.
 public struct SourceUpdateDocker: Codable, JSONEncodable {
     /// Configuration of the spec.
     public var configuration: AnyCodable
