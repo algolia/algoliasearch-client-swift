@@ -31,6 +31,9 @@ public struct CompositionParams: Codable, JSONEncodable {
     /// `relevancyStrictness` on [virtual replica indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/#what-are-virtual-replicas).
     /// Use this setting to strike a balance between the relevance and number of returned results.
     public var relevancyStrictness: Int?
+    /// Facets for which to retrieve facet values that match the search criteria and the number of matching facet values
+    /// To retrieve all facets, use the wildcard character `*`. For more information, see [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts).
+    public var facets: [String]?
     public var facetFilters: CompositionFacetFilters?
     public var optionalFilters: CompositionOptionalFilters?
     public var numericFilters: CompositionNumericFilters?
@@ -98,6 +101,7 @@ public struct CompositionParams: Codable, JSONEncodable {
         page: Int? = nil,
         getRankingInfo: Bool? = nil,
         relevancyStrictness: Int? = nil,
+        facets: [String]? = nil,
         facetFilters: CompositionFacetFilters? = nil,
         optionalFilters: CompositionOptionalFilters? = nil,
         numericFilters: CompositionNumericFilters? = nil,
@@ -126,6 +130,7 @@ public struct CompositionParams: Codable, JSONEncodable {
         self.page = page
         self.getRankingInfo = getRankingInfo
         self.relevancyStrictness = relevancyStrictness
+        self.facets = facets
         self.facetFilters = facetFilters
         self.optionalFilters = optionalFilters
         self.numericFilters = numericFilters
@@ -156,6 +161,7 @@ public struct CompositionParams: Codable, JSONEncodable {
         case page
         case getRankingInfo
         case relevancyStrictness
+        case facets
         case facetFilters
         case optionalFilters
         case numericFilters
@@ -189,6 +195,7 @@ public struct CompositionParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.page, forKey: .page)
         try container.encodeIfPresent(self.getRankingInfo, forKey: .getRankingInfo)
         try container.encodeIfPresent(self.relevancyStrictness, forKey: .relevancyStrictness)
+        try container.encodeIfPresent(self.facets, forKey: .facets)
         try container.encodeIfPresent(self.facetFilters, forKey: .facetFilters)
         try container.encodeIfPresent(self.optionalFilters, forKey: .optionalFilters)
         try container.encodeIfPresent(self.numericFilters, forKey: .numericFilters)
@@ -221,6 +228,7 @@ extension CompositionParams: Equatable {
             lhs.page == rhs.page &&
             lhs.getRankingInfo == rhs.getRankingInfo &&
             lhs.relevancyStrictness == rhs.relevancyStrictness &&
+            lhs.facets == rhs.facets &&
             lhs.facetFilters == rhs.facetFilters &&
             lhs.optionalFilters == rhs.optionalFilters &&
             lhs.numericFilters == rhs.numericFilters &&
@@ -253,6 +261,7 @@ extension CompositionParams: Hashable {
         hasher.combine(self.page?.hashValue)
         hasher.combine(self.getRankingInfo?.hashValue)
         hasher.combine(self.relevancyStrictness?.hashValue)
+        hasher.combine(self.facets?.hashValue)
         hasher.combine(self.facetFilters?.hashValue)
         hasher.combine(self.optionalFilters?.hashValue)
         hasher.combine(self.numericFilters?.hashValue)
