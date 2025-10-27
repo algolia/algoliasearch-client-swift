@@ -31,10 +31,12 @@ public struct CompositionParams: Codable, JSONEncodable {
     /// `relevancyStrictness` on [virtual replica indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/#what-are-virtual-replicas).
     /// Use this setting to strike a balance between the relevance and number of returned results.
     public var relevancyStrictness: Int?
-    /// Facets for which to retrieve facet values that match the search criteria and the number of matching facet values
-    /// To retrieve all facets, use the wildcard character `*`. For more information, see [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts).
-    public var facets: [String]?
     public var facetFilters: CompositionFacetFilters?
+    /// Facets for which to retrieve facet values that match the search criteria and the number of matching facet values
+    /// To retrieve all facets, use the wildcard character `*`. To retrieve disjunctive facets lists, annotate any
+    /// facets with the `disjunctive` modifier. For more information, see [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts)
+    /// and [disjunctive faceting for Smart Groups](https://www.algolia.com/doc/guides/managing-results/compositions/search-based-groups#facets-including-disjunctive-faceting).
+    public var facets: [String]?
     public var optionalFilters: CompositionOptionalFilters?
     public var numericFilters: CompositionNumericFilters?
     /// Number of hits per page.
@@ -101,8 +103,8 @@ public struct CompositionParams: Codable, JSONEncodable {
         page: Int? = nil,
         getRankingInfo: Bool? = nil,
         relevancyStrictness: Int? = nil,
-        facets: [String]? = nil,
         facetFilters: CompositionFacetFilters? = nil,
+        facets: [String]? = nil,
         optionalFilters: CompositionOptionalFilters? = nil,
         numericFilters: CompositionNumericFilters? = nil,
         hitsPerPage: Int? = nil,
@@ -130,8 +132,8 @@ public struct CompositionParams: Codable, JSONEncodable {
         self.page = page
         self.getRankingInfo = getRankingInfo
         self.relevancyStrictness = relevancyStrictness
-        self.facets = facets
         self.facetFilters = facetFilters
+        self.facets = facets
         self.optionalFilters = optionalFilters
         self.numericFilters = numericFilters
         self.hitsPerPage = hitsPerPage
@@ -161,8 +163,8 @@ public struct CompositionParams: Codable, JSONEncodable {
         case page
         case getRankingInfo
         case relevancyStrictness
-        case facets
         case facetFilters
+        case facets
         case optionalFilters
         case numericFilters
         case hitsPerPage
@@ -195,8 +197,8 @@ public struct CompositionParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.page, forKey: .page)
         try container.encodeIfPresent(self.getRankingInfo, forKey: .getRankingInfo)
         try container.encodeIfPresent(self.relevancyStrictness, forKey: .relevancyStrictness)
-        try container.encodeIfPresent(self.facets, forKey: .facets)
         try container.encodeIfPresent(self.facetFilters, forKey: .facetFilters)
+        try container.encodeIfPresent(self.facets, forKey: .facets)
         try container.encodeIfPresent(self.optionalFilters, forKey: .optionalFilters)
         try container.encodeIfPresent(self.numericFilters, forKey: .numericFilters)
         try container.encodeIfPresent(self.hitsPerPage, forKey: .hitsPerPage)
@@ -228,8 +230,8 @@ extension CompositionParams: Equatable {
             lhs.page == rhs.page &&
             lhs.getRankingInfo == rhs.getRankingInfo &&
             lhs.relevancyStrictness == rhs.relevancyStrictness &&
-            lhs.facets == rhs.facets &&
             lhs.facetFilters == rhs.facetFilters &&
+            lhs.facets == rhs.facets &&
             lhs.optionalFilters == rhs.optionalFilters &&
             lhs.numericFilters == rhs.numericFilters &&
             lhs.hitsPerPage == rhs.hitsPerPage &&
@@ -261,8 +263,8 @@ extension CompositionParams: Hashable {
         hasher.combine(self.page?.hashValue)
         hasher.combine(self.getRankingInfo?.hashValue)
         hasher.combine(self.relevancyStrictness?.hashValue)
-        hasher.combine(self.facets?.hashValue)
         hasher.combine(self.facetFilters?.hashValue)
+        hasher.combine(self.facets?.hashValue)
         hasher.combine(self.optionalFilters?.hashValue)
         hasher.combine(self.numericFilters?.hashValue)
         hasher.combine(self.hitsPerPage?.hashValue)
