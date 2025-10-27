@@ -307,7 +307,8 @@ open class SearchClient {
     // and increases data integrity.  - Actions are applied in the order they're specified. - Actions are equivalent to
     // the individual API requests of the same name.  This operation is subject to [indexing rate
     // limits](https://support.algolia.com/hc/articles/4406975251089-Is-there-a-rate-limit-for-indexing-on-Algolia).
-    //
+    // Required API Key ACLs:
+    //  - addObject
     //
     // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
@@ -1561,7 +1562,8 @@ open class SearchClient {
     // Gets the permissions and restrictions of an API key.  When authenticating with the admin API key, you can request
     // information for any of your application's keys. When authenticating with other API keys, you can only retrieve
     // information for that key, with the description replaced by `<redacted>`.
-    //
+    // Required API Key ACLs:
+    //  - search
     //
     // - parameter key: (path) API key.
     // - returns: RequestBuilder<GetApiKeyResponse>
@@ -2694,7 +2696,8 @@ open class SearchClient {
     // order they are specified. - Actions are equivalent to the individual API requests of the same name.  This
     // operation is subject to [indexing rate
     // limits](https://support.algolia.com/hc/articles/4406975251089-Is-there-a-rate-limit-for-indexing-on-Algolia).
-    //
+    // Required API Key ACLs:
+    //  - addObject
     //
     // - parameter batchParams: (body)
     // - returns: RequestBuilder<MultipleBatchResponse>
