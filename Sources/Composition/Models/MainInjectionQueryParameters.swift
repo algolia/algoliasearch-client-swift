@@ -182,6 +182,7 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     public var hitsPerPage: Int?
     /// Maximum number of facet values to return for each facet.
     public var maxValuesPerFacet: Int?
+    public var renderingContent: CompositionRenderingContent?
     /// Order in which to retrieve facet values - `count`.   Facet values are retrieved by decreasing count.   The count
     /// is the number of matching records containing this facet value - `alpha`.   Retrieve facet values alphabetically
     /// This setting doesn't influence how facet values are displayed in your UI (see `renderingContent`). For more
@@ -244,6 +245,7 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
         facets: [String]? = nil,
         hitsPerPage: Int? = nil,
         maxValuesPerFacet: Int? = nil,
+        renderingContent: CompositionRenderingContent? = nil,
         sortFacetValuesBy: String? = nil,
         sumOrFiltersScores: Bool? = nil
     ) {
@@ -298,6 +300,7 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
         self.facets = facets
         self.hitsPerPage = hitsPerPage
         self.maxValuesPerFacet = maxValuesPerFacet
+        self.renderingContent = renderingContent
         self.sortFacetValuesBy = sortFacetValuesBy
         self.sumOrFiltersScores = sumOrFiltersScores
     }
@@ -354,6 +357,7 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
         case facets
         case hitsPerPage
         case maxValuesPerFacet
+        case renderingContent
         case sortFacetValuesBy
         case sumOrFiltersScores
     }
@@ -419,6 +423,7 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
         try container.encodeIfPresent(self.facets, forKey: .facets)
         try container.encodeIfPresent(self.hitsPerPage, forKey: .hitsPerPage)
         try container.encodeIfPresent(self.maxValuesPerFacet, forKey: .maxValuesPerFacet)
+        try container.encodeIfPresent(self.renderingContent, forKey: .renderingContent)
         try container.encodeIfPresent(self.sortFacetValuesBy, forKey: .sortFacetValuesBy)
         try container.encodeIfPresent(self.sumOrFiltersScores, forKey: .sumOrFiltersScores)
     }
@@ -477,6 +482,7 @@ extension MainInjectionQueryParameters: Equatable {
             lhs.facets == rhs.facets &&
             lhs.hitsPerPage == rhs.hitsPerPage &&
             lhs.maxValuesPerFacet == rhs.maxValuesPerFacet &&
+            lhs.renderingContent == rhs.renderingContent &&
             lhs.sortFacetValuesBy == rhs.sortFacetValuesBy &&
             lhs.sumOrFiltersScores == rhs.sumOrFiltersScores
     }
@@ -535,6 +541,7 @@ extension MainInjectionQueryParameters: Hashable {
         hasher.combine(self.facets?.hashValue)
         hasher.combine(self.hitsPerPage?.hashValue)
         hasher.combine(self.maxValuesPerFacet?.hashValue)
+        hasher.combine(self.renderingContent?.hashValue)
         hasher.combine(self.sortFacetValuesBy?.hashValue)
         hasher.combine(self.sumOrFiltersScores?.hashValue)
     }
