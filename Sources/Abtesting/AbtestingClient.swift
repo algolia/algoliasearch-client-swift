@@ -577,55 +577,6 @@ open class AbtestingClient {
         )
     }
 
-    /// - parameter scheduleABTestsRequest: (body)
-    /// - returns: AbtestingScheduleABTestResponse
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func scheduleABTest(
-        scheduleABTestsRequest: AbtestingScheduleABTestsRequest,
-        requestOptions: RequestOptions? = nil
-    ) async throws -> AbtestingScheduleABTestResponse {
-        let response: Response<AbtestingScheduleABTestResponse> = try await scheduleABTestWithHTTPInfo(
-            scheduleABTestsRequest: scheduleABTestsRequest,
-            requestOptions: requestOptions
-        )
-
-        guard let body = response.body else {
-            throw AlgoliaError.missingData
-        }
-
-        return body
-    }
-
-    // Schedule an A/B test to be started at a later time.
-    // Required API Key ACLs:
-    //  - editSettings
-    //
-    // - parameter scheduleABTestsRequest: (body)
-    // - returns: RequestBuilder<AbtestingScheduleABTestResponse>
-
-    open func scheduleABTestWithHTTPInfo(
-        scheduleABTestsRequest: AbtestingScheduleABTestsRequest,
-        requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<AbtestingScheduleABTestResponse> {
-        let resourcePath = "/2/abtests/schedule"
-        let body = scheduleABTestsRequest
-        let queryParameters: [String: Any?]? = nil
-
-        let nillableHeaders: [String: Any?]? = nil
-
-        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
-
-        return try await self.transporter.send(
-            method: "POST",
-            path: resourcePath,
-            data: body,
-            requestOptions: RequestOptions(
-                headers: headers,
-                queryParameters: queryParameters
-            ) + userRequestOptions
-        )
-    }
-
     /// - parameter id: (path) Unique A/B test identifier.
     /// - returns: AbtestingABTestResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
