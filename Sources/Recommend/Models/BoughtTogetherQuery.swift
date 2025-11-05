@@ -19,6 +19,7 @@ public struct BoughtTogetherQuery: Codable, JSONEncodable {
     public var model: FbtModel
     /// Unique record identifier.
     public var objectID: String
+    public var fallbackParameters: FallbackParams?
 
     public init(
         indexName: String,
@@ -26,7 +27,8 @@ public struct BoughtTogetherQuery: Codable, JSONEncodable {
         maxRecommendations: Int? = nil,
         queryParameters: RecommendSearchParams? = nil,
         model: FbtModel,
-        objectID: String
+        objectID: String,
+        fallbackParameters: FallbackParams? = nil
     ) {
         self.indexName = indexName
         self.threshold = threshold
@@ -34,6 +36,7 @@ public struct BoughtTogetherQuery: Codable, JSONEncodable {
         self.queryParameters = queryParameters
         self.model = model
         self.objectID = objectID
+        self.fallbackParameters = fallbackParameters
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -43,6 +46,7 @@ public struct BoughtTogetherQuery: Codable, JSONEncodable {
         case queryParameters
         case model
         case objectID
+        case fallbackParameters
     }
 
     // Encodable protocol methods
@@ -55,6 +59,7 @@ public struct BoughtTogetherQuery: Codable, JSONEncodable {
         try container.encodeIfPresent(self.queryParameters, forKey: .queryParameters)
         try container.encode(self.model, forKey: .model)
         try container.encode(self.objectID, forKey: .objectID)
+        try container.encodeIfPresent(self.fallbackParameters, forKey: .fallbackParameters)
     }
 }
 
@@ -65,7 +70,8 @@ extension BoughtTogetherQuery: Equatable {
             lhs.maxRecommendations == rhs.maxRecommendations &&
             lhs.queryParameters == rhs.queryParameters &&
             lhs.model == rhs.model &&
-            lhs.objectID == rhs.objectID
+            lhs.objectID == rhs.objectID &&
+            lhs.fallbackParameters == rhs.fallbackParameters
     }
 }
 
@@ -77,5 +83,6 @@ extension BoughtTogetherQuery: Hashable {
         hasher.combine(self.queryParameters?.hashValue)
         hasher.combine(self.model.hashValue)
         hasher.combine(self.objectID.hashValue)
+        hasher.combine(self.fallbackParameters?.hashValue)
     }
 }
