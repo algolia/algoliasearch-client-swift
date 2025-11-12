@@ -18,6 +18,8 @@ public struct SourceCommercetools: Codable, JSONEncodable {
     /// Predicate to filter out specific products when indexing. For more information, see [Query
     /// Predicate](https://docs.commercetools.com/api/predicates/query).
     public var productQueryPredicate: String?
+    /// When set to true, the connector indexes objects with all images attributes instead of only the URLs.
+    public var useImagesObjects: Bool?
     public var customFields: CommercetoolsCustomFields?
 
     public init(
@@ -27,6 +29,7 @@ public struct SourceCommercetools: Codable, JSONEncodable {
         projectKey: String,
         fallbackIsInStockValue: Bool? = nil,
         productQueryPredicate: String? = nil,
+        useImagesObjects: Bool? = nil,
         customFields: CommercetoolsCustomFields? = nil
     ) {
         self.storeKeys = storeKeys
@@ -35,6 +38,7 @@ public struct SourceCommercetools: Codable, JSONEncodable {
         self.projectKey = projectKey
         self.fallbackIsInStockValue = fallbackIsInStockValue
         self.productQueryPredicate = productQueryPredicate
+        self.useImagesObjects = useImagesObjects
         self.customFields = customFields
     }
 
@@ -45,6 +49,7 @@ public struct SourceCommercetools: Codable, JSONEncodable {
         case projectKey
         case fallbackIsInStockValue
         case productQueryPredicate
+        case useImagesObjects
         case customFields
     }
 
@@ -58,6 +63,7 @@ public struct SourceCommercetools: Codable, JSONEncodable {
         try container.encode(self.projectKey, forKey: .projectKey)
         try container.encodeIfPresent(self.fallbackIsInStockValue, forKey: .fallbackIsInStockValue)
         try container.encodeIfPresent(self.productQueryPredicate, forKey: .productQueryPredicate)
+        try container.encodeIfPresent(self.useImagesObjects, forKey: .useImagesObjects)
         try container.encodeIfPresent(self.customFields, forKey: .customFields)
     }
 }
@@ -70,6 +76,7 @@ extension SourceCommercetools: Equatable {
             lhs.projectKey == rhs.projectKey &&
             lhs.fallbackIsInStockValue == rhs.fallbackIsInStockValue &&
             lhs.productQueryPredicate == rhs.productQueryPredicate &&
+            lhs.useImagesObjects == rhs.useImagesObjects &&
             lhs.customFields == rhs.customFields
     }
 }
@@ -82,6 +89,7 @@ extension SourceCommercetools: Hashable {
         hasher.combine(self.projectKey.hashValue)
         hasher.combine(self.fallbackIsInStockValue?.hashValue)
         hasher.combine(self.productQueryPredicate?.hashValue)
+        hasher.combine(self.useImagesObjects?.hashValue)
         hasher.combine(self.customFields?.hashValue)
     }
 }
