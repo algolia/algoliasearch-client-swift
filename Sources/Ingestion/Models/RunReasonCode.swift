@@ -9,12 +9,14 @@ import Foundation
 /// A code for the task run's outcome. A readable description of the code is included in the `reason` response property.
 public enum RunReasonCode: String, Codable, CaseIterable {
     case `internal`
+    case cancelled
     case critical
     case noEvents = "no_events"
     case tooManyErrors = "too_many_errors"
+    case lackingEvents = "lacking_events"
     case ok
-    case discarded
     case blocking
+    case idle
 }
 
 extension RunReasonCode: Hashable {}

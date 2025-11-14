@@ -10,7 +10,6 @@ import Foundation
 public enum RunStatus: String, Codable, CaseIterable {
     case created
     case started
-    case idled
     case finished
     case skipped
 }
