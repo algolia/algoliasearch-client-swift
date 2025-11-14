@@ -21,6 +21,8 @@ public struct Rule: Codable, JSONEncodable {
     public var enabled: Bool?
     /// Time periods when the rule is active.
     public var validity: [SearchTimeRange]?
+    public var tags: [String]?
+    public var scope: String?
 
     public init(
         objectID: String,
@@ -28,7 +30,9 @@ public struct Rule: Codable, JSONEncodable {
         consequence: SearchConsequence,
         description: String? = nil,
         enabled: Bool? = nil,
-        validity: [SearchTimeRange]? = nil
+        validity: [SearchTimeRange]? = nil,
+        tags: [String]? = nil,
+        scope: String? = nil
     ) {
         self.objectID = objectID
         self.conditions = conditions
@@ -36,6 +40,8 @@ public struct Rule: Codable, JSONEncodable {
         self.description = description
         self.enabled = enabled
         self.validity = validity
+        self.tags = tags
+        self.scope = scope
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -45,6 +51,8 @@ public struct Rule: Codable, JSONEncodable {
         case description
         case enabled
         case validity
+        case tags
+        case scope
     }
 
     // Encodable protocol methods
@@ -57,6 +65,8 @@ public struct Rule: Codable, JSONEncodable {
         try container.encodeIfPresent(self.description, forKey: .description)
         try container.encodeIfPresent(self.enabled, forKey: .enabled)
         try container.encodeIfPresent(self.validity, forKey: .validity)
+        try container.encodeIfPresent(self.tags, forKey: .tags)
+        try container.encodeIfPresent(self.scope, forKey: .scope)
     }
 }
 
@@ -67,7 +77,9 @@ extension Rule: Equatable {
             lhs.consequence == rhs.consequence &&
             lhs.description == rhs.description &&
             lhs.enabled == rhs.enabled &&
-            lhs.validity == rhs.validity
+            lhs.validity == rhs.validity &&
+            lhs.tags == rhs.tags &&
+            lhs.scope == rhs.scope
     }
 }
 
@@ -79,5 +91,7 @@ extension Rule: Hashable {
         hasher.combine(self.description?.hashValue)
         hasher.combine(self.enabled?.hashValue)
         hasher.combine(self.validity?.hashValue)
+        hasher.combine(self.tags?.hashValue)
+        hasher.combine(self.scope?.hashValue)
     }
 }
