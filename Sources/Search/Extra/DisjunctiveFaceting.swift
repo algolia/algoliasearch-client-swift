@@ -8,8 +8,8 @@
 import Foundation
 
 public struct SearchDisjunctiveFacetingResponse<T: Codable> {
-    let response: SearchResponse<T>
-    let disjunctiveFacets: [String: [String: Int]]
+    public let response: SearchResponse<T>
+    public let disjunctiveFacets: [String: [String: Int]]
 }
 
 /// Helper making multiple queries for disjunctive faceting
