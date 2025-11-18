@@ -7,8 +7,40 @@ import Foundation
 #endif
 
 public struct CompositionParams: Codable, JSONEncodable {
-    /// Search query.
-    public var query: String?
+    /// Whether this search will be included in Analytics.
+    public var analytics: Bool?
+    /// Tags to apply to the query for [segmenting analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).
+    public var analyticsTags: [String]?
+    /// Coordinates for the center of a circle, expressed as a comma-separated string of latitude and longitude.  Only
+    /// records included within a circle around this central location are included in the results. The radius of the
+    /// circle is determined by the `aroundRadius` and `minimumAroundRadius` settings. This parameter is ignored if you
+    /// also specify `insidePolygon` or `insideBoundingBox`.
+    public var aroundLatLng: String?
+    /// Whether to obtain the coordinates from the request's IP address.
+    public var aroundLatLngViaIP: Bool?
+    public var aroundRadius: CompositionAroundRadius?
+    public var aroundPrecision: CompositionAroundPrecision?
+    /// Whether to include a `queryID` attribute in the response The query ID is a unique identifier for a search query
+    /// and is required for tracking [click and conversion
+    /// events](https://www.algolia.com/doc/guides/sending-events/getting-started).
+    public var clickAnalytics: Bool?
+    /// Whether to enable index level A/B testing for this run request. If the composition mixes multiple indices, the
+    /// A/B test is ignored.
+    public var enableABTest: Bool?
+    /// Whether to enable Personalization.
+    public var enablePersonalization: Bool?
+    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking) This
+    /// setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
+    public var enableReRanking: Bool?
+    /// Whether to enable composition rules.
+    public var enableRules: Bool?
+    public var facetFilters: CompositionFacetFilters?
+    /// Facets for which to retrieve facet values that match the search criteria and the number of matching facet values
+    /// To retrieve all facets, use the wildcard character `*`. To retrieve disjunctive facets lists, annotate any
+    /// facets with the `disjunctive` modifier. For more information, see [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts)
+    /// and [disjunctive faceting for Smart Groups](https://www.algolia.com/doc/guides/managing-results/compositions/search-based-groups#facets-including-disjunctive-faceting).
+    public var facets: [String]?
     /// Filter expression to only include items that match the filter criteria in the response.  You can use these
     /// filter expressions:  - **Numeric filters.** `<facet> <op> <number>`, where `<op>` is one of `<`, `<=`, `=`,
     /// `!=`, `>`, `>=`. - **Ranges.** `<facet>:<lower> TO <upper>` where `<lower>` and `<upper>` are the lower and
@@ -23,41 +55,35 @@ public struct CompositionParams: Codable, JSONEncodable {
     /// array, the filter matches if it matches at least one element of the array.  For more information, see
     /// [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering).
     public var filters: String?
-    /// Page of search results to retrieve.
-    public var page: Int?
     /// Whether the run response should include detailed ranking information.
     public var getRankingInfo: Bool?
-    /// Relevancy threshold below which less relevant results aren't included in the results You can only set
-    /// `relevancyStrictness` on [virtual replica indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/#what-are-virtual-replicas).
-    /// Use this setting to strike a balance between the relevance and number of returned results.
-    public var relevancyStrictness: Int?
-    public var facetFilters: CompositionFacetFilters?
-    /// Facets for which to retrieve facet values that match the search criteria and the number of matching facet values
-    /// To retrieve all facets, use the wildcard character `*`. To retrieve disjunctive facets lists, annotate any
-    /// facets with the `disjunctive` modifier. For more information, see [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts)
-    /// and [disjunctive faceting for Smart Groups](https://www.algolia.com/doc/guides/managing-results/compositions/search-based-groups#facets-including-disjunctive-faceting).
-    public var facets: [String]?
-    public var optionalFilters: CompositionOptionalFilters?
-    public var numericFilters: CompositionNumericFilters?
     /// Number of hits per page.
     public var hitsPerPage: Int?
-    /// Coordinates for the center of a circle, expressed as a comma-separated string of latitude and longitude.  Only
-    /// records included within a circle around this central location are included in the results. The radius of the
-    /// circle is determined by the `aroundRadius` and `minimumAroundRadius` settings. This parameter is ignored if you
-    /// also specify `insidePolygon` or `insideBoundingBox`.
-    public var aroundLatLng: String?
-    /// Whether to obtain the coordinates from the request's IP address.
-    public var aroundLatLngViaIP: Bool?
-    public var aroundRadius: CompositionAroundRadius?
-    public var aroundPrecision: CompositionAroundPrecision?
-    /// Minimum radius (in meters) for a search around a location when `aroundRadius` isn't set.
-    public var minimumAroundRadius: Int?
+    /// A list of extenrally injected objectID groups into from an external source.
+    public var injectedItems: [String: ExternalInjectedItem]?
     public var insideBoundingBox: CompositionInsideBoundingBox?
     /// Coordinates of a polygon in which to search.  Polygons are defined by 3 to 10,000 points. Each point is
     /// represented by its latitude and longitude. Provide multiple polygons as nested arrays. For more information, see
     /// [filtering inside polygons](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filtering-inside-rectangular-or-polygonal-areas).
     /// This parameter is ignored if you also specify `insideBoundingBox`.
     public var insidePolygon: [[Double]]?
+    /// Minimum radius (in meters) for a search around a location when `aroundRadius` isn't set.
+    public var minimumAroundRadius: Int?
+    /// ISO language codes that adjust settings that are useful for processing natural language queries (as opposed to
+    /// keyword searches) - Sets `removeStopWords` and `ignorePlurals` to the list of provided languages. - Sets
+    /// `removeWordsIfNoResults` to `allOptional`. - Adds a `natural_language` attribute to `ruleContexts` and
+    /// `analyticsTags`.
+    public var naturalLanguages: [CompositionSupportedLanguage]?
+    public var numericFilters: CompositionNumericFilters?
+    public var optionalFilters: CompositionOptionalFilters?
+    /// Page of search results to retrieve.
+    public var page: Int?
+    /// Search query.
+    public var query: String?
+    /// Relevancy threshold below which less relevant results aren't included in the results You can only set
+    /// `relevancyStrictness` on [virtual replica indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/#what-are-virtual-replicas).
+    /// Use this setting to strike a balance between the relevance and number of returned results.
+    public var relevancyStrictness: Int?
     /// Languages for language-specific query processing steps such as plurals, stop-word removal, and word-detection
     /// dictionaries  This setting sets a default list of languages used by the `removeStopWords` and `ignorePlurals`
     /// settings. This setting also sets a dictionary for word detection in the logogram-based [CJK](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/#normalization-for-logogram-based-languages-cjk)
@@ -66,225 +92,207 @@ public struct CompositionParams: Codable, JSONEncodable {
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
     /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations).
     public var queryLanguages: [CompositionSupportedLanguage]?
-    /// ISO language codes that adjust settings that are useful for processing natural language queries (as opposed to
-    /// keyword searches) - Sets `removeStopWords` and `ignorePlurals` to the list of provided languages. - Sets
-    /// `removeWordsIfNoResults` to `allOptional`. - Adds a `natural_language` attribute to `ruleContexts` and
-    /// `analyticsTags`.
-    public var naturalLanguages: [CompositionSupportedLanguage]?
-    /// Whether to enable composition rules.
-    public var enableRules: Bool?
     /// Assigns a rule context to the run query [Rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#whats-a-context)
     /// are strings that you can use to trigger matching rules.
     public var ruleContexts: [String]?
     /// Unique pseudonymous or anonymous user identifier.  This helps with analytics and click and conversion events.
     /// For more information, see [user token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken).
     public var userToken: String?
-    /// Whether to include a `queryID` attribute in the response The query ID is a unique identifier for a search query
-    /// and is required for tracking [click and conversion
-    /// events](https://www.algolia.com/doc/guides/sending-events/getting-started).
-    public var clickAnalytics: Bool?
-    /// Whether this search will be included in Analytics.
-    public var analytics: Bool?
-    /// Tags to apply to the query for [segmenting analytics
-    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).
-    public var analyticsTags: [String]?
-    /// Whether to enable index level A/B testing for this run request. If the composition mixes multiple indices, the
-    /// A/B test is ignored.
-    public var enableABTest: Bool?
-    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking) This
-    /// setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
-    public var enableReRanking: Bool?
-    /// A list of extenrally injected objectID groups into from an external source.
-    public var injectedItems: [String: ExternalInjectedItem]?
 
     public init(
-        query: String? = nil,
-        filters: String? = nil,
-        page: Int? = nil,
-        getRankingInfo: Bool? = nil,
-        relevancyStrictness: Int? = nil,
-        facetFilters: CompositionFacetFilters? = nil,
-        facets: [String]? = nil,
-        optionalFilters: CompositionOptionalFilters? = nil,
-        numericFilters: CompositionNumericFilters? = nil,
-        hitsPerPage: Int? = nil,
+        analytics: Bool? = nil,
+        analyticsTags: [String]? = nil,
         aroundLatLng: String? = nil,
         aroundLatLngViaIP: Bool? = nil,
         aroundRadius: CompositionAroundRadius? = nil,
         aroundPrecision: CompositionAroundPrecision? = nil,
-        minimumAroundRadius: Int? = nil,
+        clickAnalytics: Bool? = nil,
+        enableABTest: Bool? = nil,
+        enablePersonalization: Bool? = nil,
+        enableReRanking: Bool? = nil,
+        enableRules: Bool? = nil,
+        facetFilters: CompositionFacetFilters? = nil,
+        facets: [String]? = nil,
+        filters: String? = nil,
+        getRankingInfo: Bool? = nil,
+        hitsPerPage: Int? = nil,
+        injectedItems: [String: ExternalInjectedItem]? = nil,
         insideBoundingBox: CompositionInsideBoundingBox? = nil,
         insidePolygon: [[Double]]? = nil,
-        queryLanguages: [CompositionSupportedLanguage]? = nil,
+        minimumAroundRadius: Int? = nil,
         naturalLanguages: [CompositionSupportedLanguage]? = nil,
-        enableRules: Bool? = nil,
+        numericFilters: CompositionNumericFilters? = nil,
+        optionalFilters: CompositionOptionalFilters? = nil,
+        page: Int? = nil,
+        query: String? = nil,
+        relevancyStrictness: Int? = nil,
+        queryLanguages: [CompositionSupportedLanguage]? = nil,
         ruleContexts: [String]? = nil,
-        userToken: String? = nil,
-        clickAnalytics: Bool? = nil,
-        analytics: Bool? = nil,
-        analyticsTags: [String]? = nil,
-        enableABTest: Bool? = nil,
-        enableReRanking: Bool? = nil,
-        injectedItems: [String: ExternalInjectedItem]? = nil
+        userToken: String? = nil
     ) {
-        self.query = query
-        self.filters = filters
-        self.page = page
-        self.getRankingInfo = getRankingInfo
-        self.relevancyStrictness = relevancyStrictness
-        self.facetFilters = facetFilters
-        self.facets = facets
-        self.optionalFilters = optionalFilters
-        self.numericFilters = numericFilters
-        self.hitsPerPage = hitsPerPage
+        self.analytics = analytics
+        self.analyticsTags = analyticsTags
         self.aroundLatLng = aroundLatLng
         self.aroundLatLngViaIP = aroundLatLngViaIP
         self.aroundRadius = aroundRadius
         self.aroundPrecision = aroundPrecision
-        self.minimumAroundRadius = minimumAroundRadius
+        self.clickAnalytics = clickAnalytics
+        self.enableABTest = enableABTest
+        self.enablePersonalization = enablePersonalization
+        self.enableReRanking = enableReRanking
+        self.enableRules = enableRules
+        self.facetFilters = facetFilters
+        self.facets = facets
+        self.filters = filters
+        self.getRankingInfo = getRankingInfo
+        self.hitsPerPage = hitsPerPage
+        self.injectedItems = injectedItems
         self.insideBoundingBox = insideBoundingBox
         self.insidePolygon = insidePolygon
-        self.queryLanguages = queryLanguages
+        self.minimumAroundRadius = minimumAroundRadius
         self.naturalLanguages = naturalLanguages
-        self.enableRules = enableRules
+        self.numericFilters = numericFilters
+        self.optionalFilters = optionalFilters
+        self.page = page
+        self.query = query
+        self.relevancyStrictness = relevancyStrictness
+        self.queryLanguages = queryLanguages
         self.ruleContexts = ruleContexts
         self.userToken = userToken
-        self.clickAnalytics = clickAnalytics
-        self.analytics = analytics
-        self.analyticsTags = analyticsTags
-        self.enableABTest = enableABTest
-        self.enableReRanking = enableReRanking
-        self.injectedItems = injectedItems
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case query
-        case filters
-        case page
-        case getRankingInfo
-        case relevancyStrictness
-        case facetFilters
-        case facets
-        case optionalFilters
-        case numericFilters
-        case hitsPerPage
+        case analytics
+        case analyticsTags
         case aroundLatLng
         case aroundLatLngViaIP
         case aroundRadius
         case aroundPrecision
-        case minimumAroundRadius
+        case clickAnalytics
+        case enableABTest
+        case enablePersonalization
+        case enableReRanking
+        case enableRules
+        case facetFilters
+        case facets
+        case filters
+        case getRankingInfo
+        case hitsPerPage
+        case injectedItems
         case insideBoundingBox
         case insidePolygon
-        case queryLanguages
+        case minimumAroundRadius
         case naturalLanguages
-        case enableRules
+        case numericFilters
+        case optionalFilters
+        case page
+        case query
+        case relevancyStrictness
+        case queryLanguages
         case ruleContexts
         case userToken
-        case clickAnalytics
-        case analytics
-        case analyticsTags
-        case enableABTest
-        case enableReRanking
-        case injectedItems
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.query, forKey: .query)
-        try container.encodeIfPresent(self.filters, forKey: .filters)
-        try container.encodeIfPresent(self.page, forKey: .page)
-        try container.encodeIfPresent(self.getRankingInfo, forKey: .getRankingInfo)
-        try container.encodeIfPresent(self.relevancyStrictness, forKey: .relevancyStrictness)
-        try container.encodeIfPresent(self.facetFilters, forKey: .facetFilters)
-        try container.encodeIfPresent(self.facets, forKey: .facets)
-        try container.encodeIfPresent(self.optionalFilters, forKey: .optionalFilters)
-        try container.encodeIfPresent(self.numericFilters, forKey: .numericFilters)
-        try container.encodeIfPresent(self.hitsPerPage, forKey: .hitsPerPage)
+        try container.encodeIfPresent(self.analytics, forKey: .analytics)
+        try container.encodeIfPresent(self.analyticsTags, forKey: .analyticsTags)
         try container.encodeIfPresent(self.aroundLatLng, forKey: .aroundLatLng)
         try container.encodeIfPresent(self.aroundLatLngViaIP, forKey: .aroundLatLngViaIP)
         try container.encodeIfPresent(self.aroundRadius, forKey: .aroundRadius)
         try container.encodeIfPresent(self.aroundPrecision, forKey: .aroundPrecision)
-        try container.encodeIfPresent(self.minimumAroundRadius, forKey: .minimumAroundRadius)
+        try container.encodeIfPresent(self.clickAnalytics, forKey: .clickAnalytics)
+        try container.encodeIfPresent(self.enableABTest, forKey: .enableABTest)
+        try container.encodeIfPresent(self.enablePersonalization, forKey: .enablePersonalization)
+        try container.encodeIfPresent(self.enableReRanking, forKey: .enableReRanking)
+        try container.encodeIfPresent(self.enableRules, forKey: .enableRules)
+        try container.encodeIfPresent(self.facetFilters, forKey: .facetFilters)
+        try container.encodeIfPresent(self.facets, forKey: .facets)
+        try container.encodeIfPresent(self.filters, forKey: .filters)
+        try container.encodeIfPresent(self.getRankingInfo, forKey: .getRankingInfo)
+        try container.encodeIfPresent(self.hitsPerPage, forKey: .hitsPerPage)
+        try container.encodeIfPresent(self.injectedItems, forKey: .injectedItems)
         try container.encodeIfPresent(self.insideBoundingBox, forKey: .insideBoundingBox)
         try container.encodeIfPresent(self.insidePolygon, forKey: .insidePolygon)
-        try container.encodeIfPresent(self.queryLanguages, forKey: .queryLanguages)
+        try container.encodeIfPresent(self.minimumAroundRadius, forKey: .minimumAroundRadius)
         try container.encodeIfPresent(self.naturalLanguages, forKey: .naturalLanguages)
-        try container.encodeIfPresent(self.enableRules, forKey: .enableRules)
+        try container.encodeIfPresent(self.numericFilters, forKey: .numericFilters)
+        try container.encodeIfPresent(self.optionalFilters, forKey: .optionalFilters)
+        try container.encodeIfPresent(self.page, forKey: .page)
+        try container.encodeIfPresent(self.query, forKey: .query)
+        try container.encodeIfPresent(self.relevancyStrictness, forKey: .relevancyStrictness)
+        try container.encodeIfPresent(self.queryLanguages, forKey: .queryLanguages)
         try container.encodeIfPresent(self.ruleContexts, forKey: .ruleContexts)
         try container.encodeIfPresent(self.userToken, forKey: .userToken)
-        try container.encodeIfPresent(self.clickAnalytics, forKey: .clickAnalytics)
-        try container.encodeIfPresent(self.analytics, forKey: .analytics)
-        try container.encodeIfPresent(self.analyticsTags, forKey: .analyticsTags)
-        try container.encodeIfPresent(self.enableABTest, forKey: .enableABTest)
-        try container.encodeIfPresent(self.enableReRanking, forKey: .enableReRanking)
-        try container.encodeIfPresent(self.injectedItems, forKey: .injectedItems)
     }
 }
 
 extension CompositionParams: Equatable {
     public static func ==(lhs: CompositionParams, rhs: CompositionParams) -> Bool {
-        lhs.query == rhs.query &&
-            lhs.filters == rhs.filters &&
-            lhs.page == rhs.page &&
-            lhs.getRankingInfo == rhs.getRankingInfo &&
-            lhs.relevancyStrictness == rhs.relevancyStrictness &&
-            lhs.facetFilters == rhs.facetFilters &&
-            lhs.facets == rhs.facets &&
-            lhs.optionalFilters == rhs.optionalFilters &&
-            lhs.numericFilters == rhs.numericFilters &&
-            lhs.hitsPerPage == rhs.hitsPerPage &&
+        lhs.analytics == rhs.analytics &&
+            lhs.analyticsTags == rhs.analyticsTags &&
             lhs.aroundLatLng == rhs.aroundLatLng &&
             lhs.aroundLatLngViaIP == rhs.aroundLatLngViaIP &&
             lhs.aroundRadius == rhs.aroundRadius &&
             lhs.aroundPrecision == rhs.aroundPrecision &&
-            lhs.minimumAroundRadius == rhs.minimumAroundRadius &&
+            lhs.clickAnalytics == rhs.clickAnalytics &&
+            lhs.enableABTest == rhs.enableABTest &&
+            lhs.enablePersonalization == rhs.enablePersonalization &&
+            lhs.enableReRanking == rhs.enableReRanking &&
+            lhs.enableRules == rhs.enableRules &&
+            lhs.facetFilters == rhs.facetFilters &&
+            lhs.facets == rhs.facets &&
+            lhs.filters == rhs.filters &&
+            lhs.getRankingInfo == rhs.getRankingInfo &&
+            lhs.hitsPerPage == rhs.hitsPerPage &&
+            lhs.injectedItems == rhs.injectedItems &&
             lhs.insideBoundingBox == rhs.insideBoundingBox &&
             lhs.insidePolygon == rhs.insidePolygon &&
-            lhs.queryLanguages == rhs.queryLanguages &&
+            lhs.minimumAroundRadius == rhs.minimumAroundRadius &&
             lhs.naturalLanguages == rhs.naturalLanguages &&
-            lhs.enableRules == rhs.enableRules &&
+            lhs.numericFilters == rhs.numericFilters &&
+            lhs.optionalFilters == rhs.optionalFilters &&
+            lhs.page == rhs.page &&
+            lhs.query == rhs.query &&
+            lhs.relevancyStrictness == rhs.relevancyStrictness &&
+            lhs.queryLanguages == rhs.queryLanguages &&
             lhs.ruleContexts == rhs.ruleContexts &&
-            lhs.userToken == rhs.userToken &&
-            lhs.clickAnalytics == rhs.clickAnalytics &&
-            lhs.analytics == rhs.analytics &&
-            lhs.analyticsTags == rhs.analyticsTags &&
-            lhs.enableABTest == rhs.enableABTest &&
-            lhs.enableReRanking == rhs.enableReRanking &&
-            lhs.injectedItems == rhs.injectedItems
+            lhs.userToken == rhs.userToken
     }
 }
 
 extension CompositionParams: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.query?.hashValue)
-        hasher.combine(self.filters?.hashValue)
-        hasher.combine(self.page?.hashValue)
-        hasher.combine(self.getRankingInfo?.hashValue)
-        hasher.combine(self.relevancyStrictness?.hashValue)
-        hasher.combine(self.facetFilters?.hashValue)
-        hasher.combine(self.facets?.hashValue)
-        hasher.combine(self.optionalFilters?.hashValue)
-        hasher.combine(self.numericFilters?.hashValue)
-        hasher.combine(self.hitsPerPage?.hashValue)
+        hasher.combine(self.analytics?.hashValue)
+        hasher.combine(self.analyticsTags?.hashValue)
         hasher.combine(self.aroundLatLng?.hashValue)
         hasher.combine(self.aroundLatLngViaIP?.hashValue)
         hasher.combine(self.aroundRadius?.hashValue)
         hasher.combine(self.aroundPrecision?.hashValue)
-        hasher.combine(self.minimumAroundRadius?.hashValue)
+        hasher.combine(self.clickAnalytics?.hashValue)
+        hasher.combine(self.enableABTest?.hashValue)
+        hasher.combine(self.enablePersonalization?.hashValue)
+        hasher.combine(self.enableReRanking?.hashValue)
+        hasher.combine(self.enableRules?.hashValue)
+        hasher.combine(self.facetFilters?.hashValue)
+        hasher.combine(self.facets?.hashValue)
+        hasher.combine(self.filters?.hashValue)
+        hasher.combine(self.getRankingInfo?.hashValue)
+        hasher.combine(self.hitsPerPage?.hashValue)
+        hasher.combine(self.injectedItems?.hashValue)
         hasher.combine(self.insideBoundingBox?.hashValue)
         hasher.combine(self.insidePolygon?.hashValue)
-        hasher.combine(self.queryLanguages?.hashValue)
+        hasher.combine(self.minimumAroundRadius?.hashValue)
         hasher.combine(self.naturalLanguages?.hashValue)
-        hasher.combine(self.enableRules?.hashValue)
+        hasher.combine(self.numericFilters?.hashValue)
+        hasher.combine(self.optionalFilters?.hashValue)
+        hasher.combine(self.page?.hashValue)
+        hasher.combine(self.query?.hashValue)
+        hasher.combine(self.relevancyStrictness?.hashValue)
+        hasher.combine(self.queryLanguages?.hashValue)
         hasher.combine(self.ruleContexts?.hashValue)
         hasher.combine(self.userToken?.hashValue)
-        hasher.combine(self.clickAnalytics?.hashValue)
-        hasher.combine(self.analytics?.hashValue)
-        hasher.combine(self.analyticsTags?.hashValue)
-        hasher.combine(self.enableABTest?.hashValue)
-        hasher.combine(self.enableReRanking?.hashValue)
-        hasher.combine(self.injectedItems?.hashValue)
     }
 }
