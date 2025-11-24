@@ -1,3 +1,9 @@
+## [9.36.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.35.0...9.36.0)
+
+- [4b2cd6b577](https://github.com/algolia/api-clients-automation/commit/4b2cd6b577) fix(swift): make response and disjunctiveFacets public in SearchDisjunctiveFacetingResponse ([#5647](https://github.com/algolia/api-clients-automation/pull/5647)) by [@Fluf22](https://github.com/Fluf22/)
+- [6a48ef151a](https://github.com/algolia/api-clients-automation/commit/6a48ef151a) feat(specs): allow `enablePersonalization` query parameter at run time for Composition API ([#5651](https://github.com/algolia/api-clients-automation/pull/5651)) by [@ClaraMuller](https://github.com/ClaraMuller/)
+- [072e4d989e](https://github.com/algolia/api-clients-automation/commit/072e4d989e) fix(swift): retry strategy + cts test ([#5654](https://github.com/algolia/api-clients-automation/pull/5654)) by [@Fluf22](https://github.com/Fluf22/)
+
 ## [9.35.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.34.0...9.35.0)
 
 - [7d189e024](https://github.com/algolia/api-clients-automation/commit/7d189e024) feat(specs): add useImagesObjects property in commercetools source input ([#5586](https://github.com/algolia/api-clients-automation/pull/5586)) by [@sbellone](https://github.com/sbellone/)
