@@ -1231,4 +1231,77 @@ open class CompositionClient {
             useReadTransporter: true
         )
     }
+
+    /// - parameter compositionID: (path) Unique Composition ObjectID.
+    /// - parameter requestBody: (body)
+    /// - returns: TaskIDResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func updateSortingStrategyComposition(
+        compositionID: String,
+        requestBody: [String: String],
+        requestOptions: RequestOptions? = nil
+    ) async throws -> TaskIDResponse {
+        let response: Response<TaskIDResponse> = try await updateSortingStrategyCompositionWithHTTPInfo(
+            compositionID: compositionID,
+            requestBody: requestBody,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Updates the \"sortingStrategy\" field of an existing composition. This endpoint allows you to create a new
+    // sorting strategy mapping or replace the currently configured one. The provided sorting indices MUST be associated
+    // indices or replicas of the main targeted index.  WARNING: This endpoint cannot validate if the sort index is
+    // related to the composition's main index.   Validation will fail at runtime if the index you updated is not
+    // related!  The update is applied to the specified composition within the current Algolia application and returns a
+    // taskID that can be used to track the operation’s completion.
+    // Required API Key ACLs:
+    //  - editSettings
+    //
+    // - parameter compositionID: (path) Unique Composition ObjectID.
+    //
+    // - parameter requestBody: (body)
+    // - returns: RequestBuilder<TaskIDResponse>
+
+    open func updateSortingStrategyCompositionWithHTTPInfo(
+        compositionID: String,
+        requestBody: [String: String],
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TaskIDResponse> {
+        guard !compositionID.isEmpty else {
+            throw AlgoliaError.invalidArgument("compositionID", "updateSortingStrategyComposition")
+        }
+
+        var resourcePath = "/1/compositions/{compositionID}/sortingStrategy"
+        let compositionIDPreEscape = "\(APIHelper.mapValueToPathItem(compositionID))"
+        let compositionIDPostEscape = compositionIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{compositionID}",
+            with: compositionIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body = requestBody
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
 }

@@ -14,12 +14,26 @@ public struct Composition: Codable, JSONEncodable {
     /// Composition description.
     public var description: String?
     public var behavior: CompositionBehavior
+    /// A mapping of sorting labels to the indices (or replicas) that implement those sorting rules. The sorting indices
+    /// MUST be related to the associated main targeted index in the composition. Each key is the label your frontend
+    /// sends at runtime (for example, \"Price (asc)\"), and each value is the name of the index that should be queried
+    /// when that label is selected.  When a request includes a \"sortBy\" parameter, the platform looks up the
+    /// corresponding index in this mapping and uses it to execute the query. The main targeted index is replaced with
+    /// the sorting strategy index it is mapped to.  Up to 20 sorting strategies can be defined.
+    public var sortingStrategy: [String: String]?
 
-    public init(objectID: String, name: String, description: String? = nil, behavior: CompositionBehavior) {
+    public init(
+        objectID: String,
+        name: String,
+        description: String? = nil,
+        behavior: CompositionBehavior,
+        sortingStrategy: [String: String]? = nil
+    ) {
         self.objectID = objectID
         self.name = name
         self.description = description
         self.behavior = behavior
+        self.sortingStrategy = sortingStrategy
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -27,6 +41,7 @@ public struct Composition: Codable, JSONEncodable {
         case name
         case description
         case behavior
+        case sortingStrategy
     }
 
     // Encodable protocol methods
@@ -37,6 +52,7 @@ public struct Composition: Codable, JSONEncodable {
         try container.encode(self.name, forKey: .name)
         try container.encodeIfPresent(self.description, forKey: .description)
         try container.encode(self.behavior, forKey: .behavior)
+        try container.encodeIfPresent(self.sortingStrategy, forKey: .sortingStrategy)
     }
 }
 
@@ -45,7 +61,8 @@ extension Composition: Equatable {
         lhs.objectID == rhs.objectID &&
             lhs.name == rhs.name &&
             lhs.description == rhs.description &&
-            lhs.behavior == rhs.behavior
+            lhs.behavior == rhs.behavior &&
+            lhs.sortingStrategy == rhs.sortingStrategy
     }
 }
 
@@ -55,5 +72,6 @@ extension Composition: Hashable {
         hasher.combine(self.name.hashValue)
         hasher.combine(self.description?.hashValue)
         hasher.combine(self.behavior.hashValue)
+        hasher.combine(self.sortingStrategy?.hashValue)
     }
 }
