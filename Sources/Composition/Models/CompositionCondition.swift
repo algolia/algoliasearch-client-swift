@@ -21,17 +21,23 @@ public struct CompositionCondition: Codable, JSONEncodable {
     /// triggered, when the specific filter is selected. You can use `filters` on its own or combine it with the
     /// `pattern` parameter.
     public var filters: String?
+    /// Sort criteria that trigger the rule.  You can trigger composition rules based on the selected sorting strategy
+    /// set by the parameter `sortBy`. The rule will trigger if the value passed to `sortBy` matches the one defined in
+    /// the condition.
+    public var sortBy: String?
 
     public init(
         pattern: String? = nil,
         anchoring: CompositionAnchoring? = nil,
         context: String? = nil,
-        filters: String? = nil
+        filters: String? = nil,
+        sortBy: String? = nil
     ) {
         self.pattern = pattern
         self.anchoring = anchoring
         self.context = context
         self.filters = filters
+        self.sortBy = sortBy
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -39,6 +45,7 @@ public struct CompositionCondition: Codable, JSONEncodable {
         case anchoring
         case context
         case filters
+        case sortBy
     }
 
     // Encodable protocol methods
@@ -49,6 +56,7 @@ public struct CompositionCondition: Codable, JSONEncodable {
         try container.encodeIfPresent(self.anchoring, forKey: .anchoring)
         try container.encodeIfPresent(self.context, forKey: .context)
         try container.encodeIfPresent(self.filters, forKey: .filters)
+        try container.encodeIfPresent(self.sortBy, forKey: .sortBy)
     }
 }
 
@@ -57,7 +65,8 @@ extension CompositionCondition: Equatable {
         lhs.pattern == rhs.pattern &&
             lhs.anchoring == rhs.anchoring &&
             lhs.context == rhs.context &&
-            lhs.filters == rhs.filters
+            lhs.filters == rhs.filters &&
+            lhs.sortBy == rhs.sortBy
     }
 }
 
@@ -67,5 +76,6 @@ extension CompositionCondition: Hashable {
         hasher.combine(self.anchoring?.hashValue)
         hasher.combine(self.context?.hashValue)
         hasher.combine(self.filters?.hashValue)
+        hasher.combine(self.sortBy?.hashValue)
     }
 }
