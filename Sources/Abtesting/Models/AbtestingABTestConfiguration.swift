@@ -8,21 +8,25 @@ import Foundation
 
 /// A/B test configuration.
 public struct AbtestingABTestConfiguration: Codable, JSONEncodable {
+    public var featureFilters: FeatureFilters?
     public var outliers: Outliers?
     public var emptySearch: EmptySearch?
     public var minimumDetectableEffect: AbtestingMinimumDetectableEffect?
 
     public init(
+        featureFilters: FeatureFilters? = nil,
         outliers: Outliers? = nil,
         emptySearch: EmptySearch? = nil,
         minimumDetectableEffect: AbtestingMinimumDetectableEffect? = nil
     ) {
+        self.featureFilters = featureFilters
         self.outliers = outliers
         self.emptySearch = emptySearch
         self.minimumDetectableEffect = minimumDetectableEffect
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case featureFilters
         case outliers
         case emptySearch
         case minimumDetectableEffect
@@ -32,6 +36,7 @@ public struct AbtestingABTestConfiguration: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(self.featureFilters, forKey: .featureFilters)
         try container.encodeIfPresent(self.outliers, forKey: .outliers)
         try container.encodeIfPresent(self.emptySearch, forKey: .emptySearch)
         try container.encodeIfPresent(self.minimumDetectableEffect, forKey: .minimumDetectableEffect)
@@ -40,7 +45,8 @@ public struct AbtestingABTestConfiguration: Codable, JSONEncodable {
 
 extension AbtestingABTestConfiguration: Equatable {
     public static func ==(lhs: AbtestingABTestConfiguration, rhs: AbtestingABTestConfiguration) -> Bool {
-        lhs.outliers == rhs.outliers &&
+        lhs.featureFilters == rhs.featureFilters &&
+            lhs.outliers == rhs.outliers &&
             lhs.emptySearch == rhs.emptySearch &&
             lhs.minimumDetectableEffect == rhs.minimumDetectableEffect
     }
@@ -48,6 +54,7 @@ extension AbtestingABTestConfiguration: Equatable {
 
 extension AbtestingABTestConfiguration: Hashable {
     public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.featureFilters?.hashValue)
         hasher.combine(self.outliers?.hashValue)
         hasher.combine(self.emptySearch?.hashValue)
         hasher.combine(self.minimumDetectableEffect?.hashValue)
