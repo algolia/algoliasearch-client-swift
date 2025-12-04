@@ -1,3 +1,11 @@
+## [9.37.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.36.0...9.37.0)
+
+- [5335918a5](https://github.com/algolia/api-clients-automation/commit/5335918a5) chore(scripts): update the jira action ([#5678](https://github.com/algolia/api-clients-automation/pull/5678)) by [@millotp](https://github.com/millotp/)
+- [d6bde0f0c](https://github.com/algolia/api-clients-automation/commit/d6bde0f0c) chore(scripts): remove component from jira ticket ([#5680](https://github.com/algolia/api-clients-automation/pull/5680)) by [@millotp](https://github.com/millotp/)
+- [fe6e82c11](https://github.com/algolia/api-clients-automation/commit/fe6e82c11) feat(specs): add sortBy query param and sortingStrategy ([#5686](https://github.com/algolia/api-clients-automation/pull/5686)) by [@ben-kalmus](https://github.com/ben-kalmus/)
+- [cccfa9c86](https://github.com/algolia/api-clients-automation/commit/cccfa9c86) feat(specs): add `sortBy` trigger on Composition Rules ([#5707](https://github.com/algolia/api-clients-automation/pull/5707)) by [@ClaraMuller](https://github.com/ClaraMuller/)
+- [260d8102c](https://github.com/algolia/api-clients-automation/commit/260d8102c) docs(abtests): Added documentation for featureFilters configuration i… ([#5688](https://github.com/algolia/api-clients-automation/pull/5688)) by [@samykettani](https://github.com/samykettani/)
+
 ## [9.36.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.35.0...9.36.0)
 
 - [4b2cd6b577](https://github.com/algolia/api-clients-automation/commit/4b2cd6b577) fix(swift): make response and disjunctiveFacets public in SearchDisjunctiveFacetingResponse ([#5647](https://github.com/algolia/api-clients-automation/pull/5647)) by [@Fluf22](https://github.com/Fluf22/)
