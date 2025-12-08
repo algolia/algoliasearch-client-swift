@@ -7,13 +7,13 @@ import Foundation
 #endif
 
 public struct CompositionSearchPagination: Codable, JSONEncodable {
-    /// Page of search results to retrieve.
+    /// The current page of the results.
     public var page: Int
     /// Number of results (hits).
     public var nbHits: Int
     /// Number of pages of results.
     public var nbPages: Int
-    /// Number of hits per page.
+    /// Number of hits returned per page.
     public var hitsPerPage: Int
 
     public init(page: Int, nbHits: Int, nbPages: Int, hitsPerPage: Int) {

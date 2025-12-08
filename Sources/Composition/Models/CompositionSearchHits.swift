@@ -10,7 +10,7 @@ public struct CompositionSearchHits<T: Codable>: Codable, JSONEncodable {
     /// Search results (hits).  Hits are records from your index that match the search criteria, augmented with
     /// additional attributes, such as, for highlighting.
     public var hits: [T]
-    /// Search query.
+    /// The search query string.
     public var query: String
     /// URL-encoded string of all search parameters.
     public var params: String

@@ -62,18 +62,18 @@ public struct SearchResultsItem<T: Codable>: Codable, JSONEncodable {
     public var queryID: String?
     /// Whether automatic events collection is enabled for the application.
     public var automaticInsights: Bool?
-    /// Page of search results to retrieve.
+    /// The current page of the results.
     public var page: Int
     /// Number of results (hits).
     public var nbHits: Int
     /// Number of pages of results.
     public var nbPages: Int
-    /// Number of hits per page.
+    /// Number of hits returned per page.
     public var hitsPerPage: Int
     /// Search results (hits).  Hits are records from your index that match the search criteria, augmented with
     /// additional attributes, such as, for highlighting.
     public var hits: [T]
-    /// Search query.
+    /// The search query string.
     public var query: String
     /// URL-encoded string of all search parameters.
     public var params: String
