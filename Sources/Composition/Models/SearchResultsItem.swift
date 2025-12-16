@@ -62,21 +62,21 @@ public struct SearchResultsItem<T: Codable>: Codable, JSONEncodable {
     public var queryID: String?
     /// Whether automatic events collection is enabled for the application.
     public var automaticInsights: Bool?
-    /// The current page of the results.
-    public var page: Int
+    /// Search results (hits).  Hits are records from your index that match the search criteria, augmented with
+    /// additional attributes, such as, for highlighting.
+    public var hits: [T]
+    /// Number of hits returned per page.
+    public var hitsPerPage: Int
     /// Number of results (hits).
     public var nbHits: Int
     /// Number of pages of results.
     public var nbPages: Int
-    /// Number of hits returned per page.
-    public var hitsPerPage: Int
-    /// Search results (hits).  Hits are records from your index that match the search criteria, augmented with
-    /// additional attributes, such as, for highlighting.
-    public var hits: [T]
-    /// The search query string.
-    public var query: String
+    /// The current page of the results.
+    public var page: Int
     /// URL-encoded string of all search parameters.
     public var params: String
+    /// The search query string.
+    public var query: String
     public var compositions: [String: ResultsCompositionInfoResponse]
 
     public init(
@@ -106,13 +106,13 @@ public struct SearchResultsItem<T: Codable>: Codable, JSONEncodable {
         userData: AnyCodable? = nil,
         queryID: String? = nil,
         automaticInsights: Bool? = nil,
-        page: Int,
+        hits: [T],
+        hitsPerPage: Int,
         nbHits: Int,
         nbPages: Int,
-        hitsPerPage: Int,
-        hits: [T],
-        query: String,
+        page: Int,
         params: String,
+        query: String,
         compositions: [String: ResultsCompositionInfoResponse]
     ) {
         self.abTestID = abTestID
@@ -141,13 +141,13 @@ public struct SearchResultsItem<T: Codable>: Codable, JSONEncodable {
         self.userData = userData
         self.queryID = queryID
         self.automaticInsights = automaticInsights
-        self.page = page
+        self.hits = hits
+        self.hitsPerPage = hitsPerPage
         self.nbHits = nbHits
         self.nbPages = nbPages
-        self.hitsPerPage = hitsPerPage
-        self.hits = hits
-        self.query = query
+        self.page = page
         self.params = params
+        self.query = query
         self.compositions = compositions
     }
 
@@ -178,13 +178,13 @@ public struct SearchResultsItem<T: Codable>: Codable, JSONEncodable {
         case userData
         case queryID
         case automaticInsights = "_automaticInsights"
-        case page
+        case hits
+        case hitsPerPage
         case nbHits
         case nbPages
-        case hitsPerPage
-        case hits
-        case query
+        case page
         case params
+        case query
         case compositions
     }
 
@@ -218,13 +218,13 @@ public struct SearchResultsItem<T: Codable>: Codable, JSONEncodable {
         try container.encodeIfPresent(self.userData, forKey: .userData)
         try container.encodeIfPresent(self.queryID, forKey: .queryID)
         try container.encodeIfPresent(self.automaticInsights, forKey: .automaticInsights)
-        try container.encode(self.page, forKey: .page)
+        try container.encode(self.hits, forKey: .hits)
+        try container.encode(self.hitsPerPage, forKey: .hitsPerPage)
         try container.encode(self.nbHits, forKey: .nbHits)
         try container.encode(self.nbPages, forKey: .nbPages)
-        try container.encode(self.hitsPerPage, forKey: .hitsPerPage)
-        try container.encode(self.hits, forKey: .hits)
-        try container.encode(self.query, forKey: .query)
+        try container.encode(self.page, forKey: .page)
         try container.encode(self.params, forKey: .params)
+        try container.encode(self.query, forKey: .query)
         try container.encode(self.compositions, forKey: .compositions)
     }
 }
@@ -257,13 +257,13 @@ extension SearchResultsItem: Equatable where T: Equatable {
             lhs.userData == rhs.userData &&
             lhs.queryID == rhs.queryID &&
             lhs.automaticInsights == rhs.automaticInsights &&
-            lhs.page == rhs.page &&
+            lhs.hits == rhs.hits &&
+            lhs.hitsPerPage == rhs.hitsPerPage &&
             lhs.nbHits == rhs.nbHits &&
             lhs.nbPages == rhs.nbPages &&
-            lhs.hitsPerPage == rhs.hitsPerPage &&
-            lhs.hits == rhs.hits &&
-            lhs.query == rhs.query &&
+            lhs.page == rhs.page &&
             lhs.params == rhs.params &&
+            lhs.query == rhs.query &&
             lhs.compositions == rhs.compositions
     }
 }
@@ -296,13 +296,13 @@ extension SearchResultsItem: Hashable where T: Hashable {
         hasher.combine(self.userData?.hashValue)
         hasher.combine(self.queryID?.hashValue)
         hasher.combine(self.automaticInsights?.hashValue)
-        hasher.combine(self.page.hashValue)
+        hasher.combine(self.hits.hashValue)
+        hasher.combine(self.hitsPerPage.hashValue)
         hasher.combine(self.nbHits.hashValue)
         hasher.combine(self.nbPages.hashValue)
-        hasher.combine(self.hitsPerPage.hashValue)
-        hasher.combine(self.hits.hashValue)
-        hasher.combine(self.query.hashValue)
+        hasher.combine(self.page.hashValue)
         hasher.combine(self.params.hashValue)
+        hasher.combine(self.query.hashValue)
         hasher.combine(self.compositions.hashValue)
     }
 }

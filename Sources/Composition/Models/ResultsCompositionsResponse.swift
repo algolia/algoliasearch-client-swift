@@ -17,71 +17,22 @@ public struct ResultsCompositionsResponse: Codable, JSONEncodable {
         case compositions
     }
 
-    public var additionalProperties: [String: AnyCodable] = [:]
-
-    public subscript(key: String) -> AnyCodable? {
-        get {
-            if let value = additionalProperties[key] {
-                return value
-            }
-            return nil
-        }
-
-        set {
-            self.additionalProperties[key] = newValue
-        }
-    }
-
-    public init(from dictionary: [String: AnyCodable]) throws {
-        guard let compositions = dictionary["compositions"]?.value as? [String: ResultsCompositionInfoResponse] else {
-            throw GenericError(description: "Failed to cast")
-        }
-        self.compositions = compositions
-        for (key, value) in dictionary {
-            switch key {
-            case "compositions":
-                continue
-            default:
-                self.additionalProperties[key] = value
-            }
-        }
-    }
-
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.compositions, forKey: .compositions)
-        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
-        try additionalPropertiesContainer.encodeMap(self.additionalProperties)
-    }
-
-    // Decodable protocol methods
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        self.compositions = try container.decode([String: ResultsCompositionInfoResponse].self, forKey: .compositions)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("compositions")
-        let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
-        self.additionalProperties = try additionalPropertiesContainer.decodeMap(
-            AnyCodable.self,
-            excludedKeys: nonAdditionalPropertyKeys
-        )
     }
 }
 
 extension ResultsCompositionsResponse: Equatable {
     public static func ==(lhs: ResultsCompositionsResponse, rhs: ResultsCompositionsResponse) -> Bool {
         lhs.compositions == rhs.compositions
-            && lhs.additionalProperties == rhs.additionalProperties
     }
 }
 
 extension ResultsCompositionsResponse: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.compositions.hashValue)
-        hasher.combine(self.additionalProperties.hashValue)
     }
 }

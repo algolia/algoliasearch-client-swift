@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct CompositionRunAppliedRules: Codable, JSONEncodable {
-    /// Unique record identifier.
+    /// The objectID of the applied composition rule on this query.
     public var objectID: String
 
     public init(objectID: String) {

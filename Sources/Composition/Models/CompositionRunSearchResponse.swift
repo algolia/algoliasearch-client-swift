@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct CompositionRunSearchResponse: Codable, JSONEncodable {
-    /// Unique record identifier.
+    /// The objectID of the composition which generated this result set.
     public var objectID: String
     public var appliedRules: [CompositionRunAppliedRules]?
 

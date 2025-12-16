@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct ResultsInjectedItemAppliedRulesInfoResponse: Codable, JSONEncodable {
-    /// Unique record identifier.
+    /// The objectID of the applied index level rule on this injected group.
     public var objectID: String
 
     public init(objectID: String) {

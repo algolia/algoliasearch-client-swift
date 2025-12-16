@@ -7,6 +7,7 @@ import Foundation
 #endif
 
 public struct ResultsInjectedItemInfoResponse: Codable, JSONEncodable {
+    /// The key of the injected group.
     public var key: String
     public var appliedRules: [ResultsInjectedItemAppliedRulesInfoResponse]?
 
