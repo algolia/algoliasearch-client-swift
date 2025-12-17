@@ -23,6 +23,14 @@ public enum Acl: String, Codable, CaseIterable {
     case seeUnretrievableAttributes
     case settings
     case usage
+    case nluWriteProject
+    case nluReadProject
+    case nluWriteEntity
+    case nluReadEntity
+    case nluWriteIntent
+    case nluReadIntent
+    case nluPrediction
+    case nluReadAnswers
 }
 
 extension Acl: Hashable {}
