@@ -9,21 +9,29 @@ import Foundation
 public struct SearchFields<T: Codable>: Codable, JSONEncodable {
     /// Search results (hits).  Hits are records from your index that match the search criteria, augmented with
     /// additional attributes, such as, for highlighting.
-    public var hits: [T]
+    public var hits: [T]?
     /// Number of hits returned per page.
-    public var hitsPerPage: Int
+    public var hitsPerPage: Int?
     /// Number of results (hits).
-    public var nbHits: Int
+    public var nbHits: Int?
     /// Number of pages of results.
-    public var nbPages: Int
+    public var nbPages: Int?
     /// The current page of the results.
-    public var page: Int
+    public var page: Int?
     /// URL-encoded string of all search parameters.
-    public var params: String
+    public var params: String?
     /// The search query string.
-    public var query: String
+    public var query: String?
 
-    public init(hits: [T], hitsPerPage: Int, nbHits: Int, nbPages: Int, page: Int, params: String, query: String) {
+    public init(
+        hits: [T]? = nil,
+        hitsPerPage: Int? = nil,
+        nbHits: Int? = nil,
+        nbPages: Int? = nil,
+        page: Int? = nil,
+        params: String? = nil,
+        query: String? = nil
+    ) {
         self.hits = hits
         self.hitsPerPage = hitsPerPage
         self.nbHits = nbHits
@@ -47,13 +55,13 @@ public struct SearchFields<T: Codable>: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.hits, forKey: .hits)
-        try container.encode(self.hitsPerPage, forKey: .hitsPerPage)
-        try container.encode(self.nbHits, forKey: .nbHits)
-        try container.encode(self.nbPages, forKey: .nbPages)
-        try container.encode(self.page, forKey: .page)
-        try container.encode(self.params, forKey: .params)
-        try container.encode(self.query, forKey: .query)
+        try container.encodeIfPresent(self.hits, forKey: .hits)
+        try container.encodeIfPresent(self.hitsPerPage, forKey: .hitsPerPage)
+        try container.encodeIfPresent(self.nbHits, forKey: .nbHits)
+        try container.encodeIfPresent(self.nbPages, forKey: .nbPages)
+        try container.encodeIfPresent(self.page, forKey: .page)
+        try container.encodeIfPresent(self.params, forKey: .params)
+        try container.encodeIfPresent(self.query, forKey: .query)
     }
 }
 
@@ -71,12 +79,12 @@ extension SearchFields: Equatable where T: Equatable {
 
 extension SearchFields: Hashable where T: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.hits.hashValue)
-        hasher.combine(self.hitsPerPage.hashValue)
-        hasher.combine(self.nbHits.hashValue)
-        hasher.combine(self.nbPages.hashValue)
-        hasher.combine(self.page.hashValue)
-        hasher.combine(self.params.hashValue)
-        hasher.combine(self.query.hashValue)
+        hasher.combine(self.hits?.hashValue)
+        hasher.combine(self.hitsPerPage?.hashValue)
+        hasher.combine(self.nbHits?.hashValue)
+        hasher.combine(self.nbPages?.hashValue)
+        hasher.combine(self.page?.hashValue)
+        hasher.combine(self.params?.hashValue)
+        hasher.combine(self.query?.hashValue)
     }
 }
