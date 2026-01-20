@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name = 'AlgoliaSearchClient'
   s.module_name  = 'AlgoliaSearchClient'
-  s.version = '9.37.3'
-  s.source = { :git => 'https://github.com/algolia/algoliasearch-client-swift.git', :tag => '9.37.3' }
+  s.version = '9.37.4'
+  s.source = { :git => 'https://github.com/algolia/algoliasearch-client-swift.git', :tag => '9.37.4' }
   s.authors = { 'Algolia' => 'contact@algolia.com' }
   s.license = { :type => 'MIT', :file => 'LICENSE' }
   s.homepage = 'https://github.com/algolia/algoliasearch-client-swift/tree/main'
