@@ -6,33 +6,40 @@ import Foundation
     import Core
 #endif
 
+/// An object containing either an `injection` or `multifeed` behavior schema, but not both.
 public struct CompositionBehavior: Codable, JSONEncodable {
-    public var injection: Injection
+    public var injection: Injection?
+    public var multifeed: Multifeed?
 
-    public init(injection: Injection) {
+    public init(injection: Injection? = nil, multifeed: Multifeed? = nil) {
         self.injection = injection
+        self.multifeed = multifeed
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case injection
+        case multifeed
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.injection, forKey: .injection)
+        try container.encodeIfPresent(self.injection, forKey: .injection)
+        try container.encodeIfPresent(self.multifeed, forKey: .multifeed)
     }
 }
 
 extension CompositionBehavior: Equatable {
     public static func ==(lhs: CompositionBehavior, rhs: CompositionBehavior) -> Bool {
-        lhs.injection == rhs.injection
+        lhs.injection == rhs.injection &&
+            lhs.multifeed == rhs.multifeed
     }
 }
 
 extension CompositionBehavior: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.injection.hashValue)
+        hasher.combine(self.injection?.hashValue)
+        hasher.combine(self.multifeed?.hashValue)
     }
 }
