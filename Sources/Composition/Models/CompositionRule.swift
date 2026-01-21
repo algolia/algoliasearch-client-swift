@@ -10,7 +10,7 @@ public struct CompositionRule: Codable, JSONEncodable {
     /// Composition rule unique identifier.
     public var objectID: String
     /// Conditions that trigger a composition rule.
-    public var conditions: [CompositionCondition]
+    public var conditions: [CompositionCondition]?
     public var consequence: CompositionRuleConsequence
     /// Description of the rule's purpose to help you distinguish between different rules.
     public var description: String?
@@ -23,7 +23,7 @@ public struct CompositionRule: Codable, JSONEncodable {
 
     public init(
         objectID: String,
-        conditions: [CompositionCondition],
+        conditions: [CompositionCondition]? = nil,
         consequence: CompositionRuleConsequence,
         description: String? = nil,
         enabled: Bool? = nil,
@@ -54,7 +54,7 @@ public struct CompositionRule: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.objectID, forKey: .objectID)
-        try container.encode(self.conditions, forKey: .conditions)
+        try container.encodeIfPresent(self.conditions, forKey: .conditions)
         try container.encode(self.consequence, forKey: .consequence)
         try container.encodeIfPresent(self.description, forKey: .description)
         try container.encodeIfPresent(self.enabled, forKey: .enabled)
@@ -78,7 +78,7 @@ extension CompositionRule: Equatable {
 extension CompositionRule: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.objectID.hashValue)
-        hasher.combine(self.conditions.hashValue)
+        hasher.combine(self.conditions?.hashValue)
         hasher.combine(self.consequence.hashValue)
         hasher.combine(self.description?.hashValue)
         hasher.combine(self.enabled?.hashValue)
