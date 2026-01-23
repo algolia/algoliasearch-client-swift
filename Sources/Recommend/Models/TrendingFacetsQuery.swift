@@ -15,38 +15,30 @@ public struct TrendingFacetsQuery: Codable, JSONEncodable {
     /// request is made. Depending on the available recommendations and the other request parameters, the actual number
     /// of recommendations may be lower than this value.
     public var maxRecommendations: Int?
-    public var queryParameters: RecommendSearchParams?
     /// Facet attribute for which to retrieve trending facet values.
     public var facetName: String
     public var model: TrendingFacetsModel
-    public var fallbackParameters: FallbackParams?
 
     public init(
         indexName: String,
         threshold: Double,
         maxRecommendations: Int? = nil,
-        queryParameters: RecommendSearchParams? = nil,
         facetName: String,
-        model: TrendingFacetsModel,
-        fallbackParameters: FallbackParams? = nil
+        model: TrendingFacetsModel
     ) {
         self.indexName = indexName
         self.threshold = threshold
         self.maxRecommendations = maxRecommendations
-        self.queryParameters = queryParameters
         self.facetName = facetName
         self.model = model
-        self.fallbackParameters = fallbackParameters
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case indexName
         case threshold
         case maxRecommendations
-        case queryParameters
         case facetName
         case model
-        case fallbackParameters
     }
 
     // Encodable protocol methods
@@ -56,10 +48,8 @@ public struct TrendingFacetsQuery: Codable, JSONEncodable {
         try container.encode(self.indexName, forKey: .indexName)
         try container.encode(self.threshold, forKey: .threshold)
         try container.encodeIfPresent(self.maxRecommendations, forKey: .maxRecommendations)
-        try container.encodeIfPresent(self.queryParameters, forKey: .queryParameters)
         try container.encode(self.facetName, forKey: .facetName)
         try container.encode(self.model, forKey: .model)
-        try container.encodeIfPresent(self.fallbackParameters, forKey: .fallbackParameters)
     }
 }
 
@@ -68,10 +58,8 @@ extension TrendingFacetsQuery: Equatable {
         lhs.indexName == rhs.indexName &&
             lhs.threshold == rhs.threshold &&
             lhs.maxRecommendations == rhs.maxRecommendations &&
-            lhs.queryParameters == rhs.queryParameters &&
             lhs.facetName == rhs.facetName &&
-            lhs.model == rhs.model &&
-            lhs.fallbackParameters == rhs.fallbackParameters
+            lhs.model == rhs.model
     }
 }
 
@@ -80,9 +68,7 @@ extension TrendingFacetsQuery: Hashable {
         hasher.combine(self.indexName.hashValue)
         hasher.combine(self.threshold.hashValue)
         hasher.combine(self.maxRecommendations?.hashValue)
-        hasher.combine(self.queryParameters?.hashValue)
         hasher.combine(self.facetName.hashValue)
         hasher.combine(self.model.hashValue)
-        hasher.combine(self.fallbackParameters?.hashValue)
     }
 }

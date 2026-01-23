@@ -7,45 +7,68 @@ import Foundation
 #endif
 
 public struct TrendingFacets: Codable, JSONEncodable {
+    /// Index name (case-sensitive).
+    public var indexName: String
+    /// Minimum score a recommendation must have to be included in the response.
+    public var threshold: Double
+    /// Maximum number of recommendations to retrieve. By default, all recommendations are returned and no fallback
+    /// request is made. Depending on the available recommendations and the other request parameters, the actual number
+    /// of recommendations may be lower than this value.
+    public var maxRecommendations: Int?
     /// Facet attribute for which to retrieve trending facet values.
     public var facetName: String
     public var model: TrendingFacetsModel
-    public var fallbackParameters: FallbackParams?
 
-    public init(facetName: String, model: TrendingFacetsModel, fallbackParameters: FallbackParams? = nil) {
+    public init(
+        indexName: String,
+        threshold: Double,
+        maxRecommendations: Int? = nil,
+        facetName: String,
+        model: TrendingFacetsModel
+    ) {
+        self.indexName = indexName
+        self.threshold = threshold
+        self.maxRecommendations = maxRecommendations
         self.facetName = facetName
         self.model = model
-        self.fallbackParameters = fallbackParameters
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case indexName
+        case threshold
+        case maxRecommendations
         case facetName
         case model
-        case fallbackParameters
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.indexName, forKey: .indexName)
+        try container.encode(self.threshold, forKey: .threshold)
+        try container.encodeIfPresent(self.maxRecommendations, forKey: .maxRecommendations)
         try container.encode(self.facetName, forKey: .facetName)
         try container.encode(self.model, forKey: .model)
-        try container.encodeIfPresent(self.fallbackParameters, forKey: .fallbackParameters)
     }
 }
 
 extension TrendingFacets: Equatable {
     public static func ==(lhs: TrendingFacets, rhs: TrendingFacets) -> Bool {
-        lhs.facetName == rhs.facetName &&
-            lhs.model == rhs.model &&
-            lhs.fallbackParameters == rhs.fallbackParameters
+        lhs.indexName == rhs.indexName &&
+            lhs.threshold == rhs.threshold &&
+            lhs.maxRecommendations == rhs.maxRecommendations &&
+            lhs.facetName == rhs.facetName &&
+            lhs.model == rhs.model
     }
 }
 
 extension TrendingFacets: Hashable {
     public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.indexName.hashValue)
+        hasher.combine(self.threshold.hashValue)
+        hasher.combine(self.maxRecommendations?.hashValue)
         hasher.combine(self.facetName.hashValue)
         hasher.combine(self.model.hashValue)
-        hasher.combine(self.fallbackParameters?.hashValue)
     }
 }
