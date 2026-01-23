@@ -9,10 +9,12 @@ import Foundation
 /// Filters to promote or demote records in the search results.  Optional filters work like facet filters, but they
 /// don't exclude records from the search results. Records that match the optional filter rank before records that don't
 /// match. If you're using a negative filter `facet:-value`, matching records rank after records that don't match.  -
-/// Optional filters don't work on virtual replicas. - Optional filters are applied _after_ sort-by attributes. -
-/// Optional filters are applied _before_ custom ranking attributes (in the default
+/// Optional filters are applied _after_ sort-by attributes. - Optional filters are applied _before_ custom ranking
+/// attributes (in the default
 /// [ranking](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria)). -
-/// Optional filters don't work with numeric attributes.
+/// Optional filters don't work with numeric attributes. - On virtual replicas, optional filters are applied _after_ the
+/// replica's [relevant
+/// sort](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/relevant-sort).
 public enum RecommendOptionalFilters: Codable, JSONEncodable, AbstractEncodable {
     case arrayOfRecommendOptionalFilters([RecommendOptionalFilters])
     case string(String)
