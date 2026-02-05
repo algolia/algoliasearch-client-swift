@@ -11,16 +11,26 @@ public struct AuthOAuth: Codable, JSONEncodable {
     /// URL for the OAuth endpoint.
     public var url: String
     /// Client ID.
-    public var clientId: String
+    public var clientId: String?
     /// Client secret. This field is `null` in the API response.
-    public var clientSecret: String
+    public var clientSecret: String?
+    /// Authorization code. Used during an `authorization_code` grant type flow, to request an access_token when
+    /// creating/updating the authentication. This field is not returned in the API response.
+    public var code: String?
     /// OAuth scope.
     public var scope: String?
 
-    public init(url: String, clientId: String, clientSecret: String, scope: String? = nil) {
+    public init(
+        url: String,
+        clientId: String? = nil,
+        clientSecret: String? = nil,
+        code: String? = nil,
+        scope: String? = nil
+    ) {
         self.url = url
         self.clientId = clientId
         self.clientSecret = clientSecret
+        self.code = code
         self.scope = scope
     }
 
@@ -28,6 +38,7 @@ public struct AuthOAuth: Codable, JSONEncodable {
         case url
         case clientId = "client_id"
         case clientSecret = "client_secret"
+        case code
         case scope
     }
 
@@ -36,8 +47,9 @@ public struct AuthOAuth: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.url, forKey: .url)
-        try container.encode(self.clientId, forKey: .clientId)
-        try container.encode(self.clientSecret, forKey: .clientSecret)
+        try container.encodeIfPresent(self.clientId, forKey: .clientId)
+        try container.encodeIfPresent(self.clientSecret, forKey: .clientSecret)
+        try container.encodeIfPresent(self.code, forKey: .code)
         try container.encodeIfPresent(self.scope, forKey: .scope)
     }
 }
@@ -47,6 +59,7 @@ extension AuthOAuth: Equatable {
         lhs.url == rhs.url &&
             lhs.clientId == rhs.clientId &&
             lhs.clientSecret == rhs.clientSecret &&
+            lhs.code == rhs.code &&
             lhs.scope == rhs.scope
     }
 }
@@ -54,8 +67,9 @@ extension AuthOAuth: Equatable {
 extension AuthOAuth: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.url.hashValue)
-        hasher.combine(self.clientId.hashValue)
-        hasher.combine(self.clientSecret.hashValue)
+        hasher.combine(self.clientId?.hashValue)
+        hasher.combine(self.clientSecret?.hashValue)
+        hasher.combine(self.code?.hashValue)
         hasher.combine(self.scope?.hashValue)
     }
 }
