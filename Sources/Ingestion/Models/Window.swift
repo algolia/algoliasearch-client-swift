@@ -8,9 +8,9 @@ import Foundation
 
 /// Time window by which to filter the observability data.
 public struct Window: Codable, JSONEncodable {
-    /// Date in RFC 3339 format representing the oldest data in the time window.
+    /// Date and time representing the oldest data in the time window, in RFC 3339 format.
     public var startDate: String
-    /// Date in RFC 3339 format representing the newest data in the time window.
+    /// Date and time representing the newest data in the time window, in RFC 3339 format.
     public var endDate: String
 
     public init(startDate: String, endDate: String) {

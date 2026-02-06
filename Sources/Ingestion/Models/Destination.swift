@@ -16,9 +16,9 @@ public struct Destination: Codable, JSONEncodable {
     /// Owner of the resource.
     public var owner: String?
     public var input: DestinationInput
-    /// Date of creation in RFC 3339 format.
+    /// Date and time when the resource was created, in RFC 3339 format.
     public var createdAt: String
-    /// Date of last update in RFC 3339 format.
+    /// Date and time when the resource was last updated, in RFC 3339 format.
     public var updatedAt: String
     /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String?

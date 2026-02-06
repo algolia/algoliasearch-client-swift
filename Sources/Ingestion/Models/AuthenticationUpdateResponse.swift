@@ -12,7 +12,7 @@ public struct AuthenticationUpdateResponse: Codable, JSONEncodable {
     public var authenticationID: String
     /// Descriptive name for the resource.
     public var name: String
-    /// Date of last update in RFC 3339 format.
+    /// Date and time when the resource was last updated, in RFC 3339 format.
     public var updatedAt: String
 
     public init(authenticationID: String, name: String, updatedAt: String) {

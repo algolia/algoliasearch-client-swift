@@ -10,7 +10,7 @@ import Foundation
 public struct TaskUpdateResponse: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of a task.
     public var taskID: String
-    /// Date of last update in RFC 3339 format.
+    /// Date and time when the resource was last updated, in RFC 3339 format.
     public var updatedAt: String
 
     public init(taskID: String, updatedAt: String) {

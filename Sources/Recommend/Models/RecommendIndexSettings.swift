@@ -56,9 +56,8 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
     /// Unicode characters](https://www.charactercodes.net/category/non-spacing_mark). For example, `Gartenstühle` won't
     /// be decompounded if the `ü` consists of `u` (U+0075) and `◌̈` (U+0308).
     public var decompoundedAttributes: AnyCodable?
-    /// Languages for language-specific processing steps, such as word detection and dictionary settings.  **You should
-    /// always specify an indexing language.** If you don't specify an indexing language, the search engine uses all
-    /// [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages),
+    /// Languages for language-specific processing steps, such as word detection and dictionary settings.  **Always
+    /// specify an indexing language.** If you don't specify an indexing language, the search engine uses all [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages),
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
     /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations).
     public var indexLanguages: [RecommendSupportedLanguage]?
@@ -129,8 +128,8 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
     /// attribute](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/how-to/sort-by-attribute),
     /// you put the sorting attribute at the top of the list.  **Modifiers**  - `asc(\"ATTRIBUTE\")`.   Sort the index
     /// by the values of an attribute, in ascending order. - `desc(\"ATTRIBUTE\")`.   Sort the index by the values of an
-    /// attribute, in descending order.  Before you modify the default setting, you should test your changes in the
-    /// dashboard, and by [A/B testing](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing).
+    /// attribute, in descending order.  Before you modify the default setting, test your changes in the dashboard, and
+    /// by [A/B testing](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing).
     public var ranking: [String]?
     /// Relevancy threshold below which less relevant results aren't included in the results You can only set
     /// `relevancyStrictness` on [virtual replica indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/#what-are-virtual-replicas).
@@ -174,10 +173,10 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
     public var ignorePlurals: RecommendIgnorePlurals?
     public var removeStopWords: RecommendRemoveStopWords?
     /// Languages for language-specific query processing steps such as plurals, stop-word removal, and word-detection
-    /// dictionaries  This setting sets a default list of languages used by the `removeStopWords` and `ignorePlurals`
+    /// dictionaries. This setting sets a default list of languages used by the `removeStopWords` and `ignorePlurals`
     /// settings. This setting also sets a dictionary for word detection in the logogram-based [CJK](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/#normalization-for-logogram-based-languages-cjk)
-    /// languages. To support this, you must place the CJK language **first**  **You should always specify a query
-    /// language.** If you don't specify an indexing language, the search engine uses all [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages),
+    /// languages. To support this, place the CJK language **first**. **Always specify a query language.** If you don't
+    /// specify an indexing language, the search engine uses all [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages),
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
     /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations).
     public var queryLanguages: [RecommendSupportedLanguage]?

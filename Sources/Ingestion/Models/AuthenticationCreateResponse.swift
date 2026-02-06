@@ -12,7 +12,7 @@ public struct AuthenticationCreateResponse: Codable, JSONEncodable {
     public var authenticationID: String
     /// Descriptive name for the resource.
     public var name: String
-    /// Date of creation in RFC 3339 format.
+    /// Date and time when the resource was created, in RFC 3339 format.
     public var createdAt: String
 
     public init(authenticationID: String, name: String, createdAt: String) {

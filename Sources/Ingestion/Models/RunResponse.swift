@@ -10,7 +10,7 @@ import Foundation
 public struct RunResponse: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of a task run.
     public var runID: String
-    /// Date of creation in RFC 3339 format.
+    /// Date and time when the resource was created, in RFC 3339 format.
     public var createdAt: String
 
     public init(runID: String, createdAt: String) {

@@ -9,7 +9,7 @@ import Foundation
 public struct RunSourceResponse: Codable, JSONEncodable {
     /// Map of taskID sent for reindex with the corresponding runID.
     public var taskWithRunID: [String: String]
-    /// Date of creation in RFC 3339 format.
+    /// Date and time when the resource was created, in RFC 3339 format.
     public var createdAt: String
 
     public init(taskWithRunID: [String: String], createdAt: String) {

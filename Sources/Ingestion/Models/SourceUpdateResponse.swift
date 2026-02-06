@@ -11,7 +11,7 @@ public struct SourceUpdateResponse: Codable, JSONEncodable {
     public var sourceID: String
     /// Descriptive name of the source.
     public var name: String
-    /// Date of last update in RFC 3339 format.
+    /// Date and time when the resource was last updated, in RFC 3339 format.
     public var updatedAt: String
 
     public init(sourceID: String, name: String, updatedAt: String) {

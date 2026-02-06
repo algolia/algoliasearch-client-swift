@@ -21,11 +21,11 @@ public struct Run: Codable, JSONEncodable {
     public var reason: String?
     public var reasonCode: RunReasonCode?
     public var type: RunType
-    /// Date of creation in RFC 3339 format.
+    /// Date and time when the resource was created, in RFC 3339 format.
     public var createdAt: String
-    /// Date of start in RFC 3339 format.
+    /// Date and time when the task started, in RFC 3339 format.
     public var startedAt: String?
-    /// Date of finish in RFC 3339 format.
+    /// Date and time when the task finished, in RFC 3339 format.
     public var finishedAt: String?
 
     public init(

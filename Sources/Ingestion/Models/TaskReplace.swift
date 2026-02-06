@@ -19,7 +19,7 @@ public struct TaskReplace: Codable, JSONEncodable {
     /// Maximum accepted percentage of failures for a task run to finish successfully.
     public var failureThreshold: Int?
     public var input: TaskInput?
-    /// Date of the last cursor in RFC 3339 format.
+    /// Date and time when the last cursor was created, in RFC 3339 format.
     public var cursor: String?
     public var notifications: Notifications?
     public var policies: Policies?

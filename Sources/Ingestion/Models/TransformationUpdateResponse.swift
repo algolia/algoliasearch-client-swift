@@ -10,7 +10,7 @@ import Foundation
 public struct TransformationUpdateResponse: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of a transformation.
     public var transformationID: String
-    /// Date of last update in RFC 3339 format.
+    /// Date and time when the resource was last updated, in RFC 3339 format.
     public var updatedAt: String
 
     public init(transformationID: String, updatedAt: String) {

@@ -256,7 +256,7 @@ open class IngestionClient {
         return body
     }
 
-    /// Creates a new task using the v1 endpoint, please use `createTask` instead.
+    /// Creates a new task using the v1 endpoint. Use `createTask` instead.
     /// Required API Key ACLs:
     ///  - addObject
     ///  - deleteIndex
@@ -879,7 +879,7 @@ open class IngestionClient {
         return body
     }
 
-    /// Deletes a task by its ID using the v1 endpoint, please use `deleteTask` instead.
+    /// Deletes a task by its ID using the v1 endpoint. Use `deleteTask` instead.
     /// Required API Key ACLs:
     ///  - addObject
     ///  - deleteIndex
@@ -1065,7 +1065,7 @@ open class IngestionClient {
         return body
     }
 
-    /// Disables a task using the v1 endpoint, please use `disableTask` instead.
+    /// Disables a task using the v1 endpoint. Use `disableTask` instead.
     /// Required API Key ACLs:
     ///  - addObject
     ///  - deleteIndex
@@ -1187,7 +1187,7 @@ open class IngestionClient {
         return body
     }
 
-    /// Enables a task using the v1 endpoint, please use `enableTask` instead.
+    /// Enables a task using the v1 endpoint. Use `enableTask` instead.
     /// Required API Key ACLs:
     ///  - addObject
     ///  - deleteIndex
@@ -1631,7 +1631,7 @@ open class IngestionClient {
         return body
     }
 
-    /// Retrieves a task by its ID using the v1 endpoint, please use `getTask` instead.
+    /// Retrieves a task by its ID using the v1 endpoint. Use `getTask` instead.
     /// Required API Key ACLs:
     ///  - addObject
     ///  - deleteIndex
@@ -2054,10 +2054,10 @@ open class IngestionClient {
     /// - parameter taskID: (query) Task ID for filtering the list of task runs. (optional)
     /// - parameter sort: (query) Property by which to sort the list of task runs. (optional)
     /// - parameter order: (query) Sort order of the response, ascending or descending. (optional)
-    /// - parameter startDate: (query) Date in RFC 3339 format for the earliest run to retrieve. By default, the current
-    /// day minus seven days is used. (optional)
-    /// - parameter endDate: (query) Date in RFC 3339 format for the latest run to retrieve. By default, the current day
-    /// is used. (optional)
+    /// - parameter startDate: (query) Date and time for the earliest run to retrieve, in RFC 3339 format. By default,
+    /// the current day minus seven days is used. (optional)
+    /// - parameter endDate: (query) Date and time for the latest run to retrieve, in RFC 3339 format. By default, the
+    /// current day is used. (optional)
     /// - returns: RunListResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func listRuns(
@@ -2112,11 +2112,11 @@ open class IngestionClient {
     //
     // - parameter order: (query) Sort order of the response, ascending or descending. (optional)
     //
-    // - parameter startDate: (query) Date in RFC 3339 format for the earliest run to retrieve. By default, the current
-    // day minus seven days is used. (optional)
+    // - parameter startDate: (query) Date and time for the earliest run to retrieve, in RFC 3339 format. By default,
+    // the current day minus seven days is used. (optional)
     //
-    // - parameter endDate: (query) Date in RFC 3339 format for the latest run to retrieve. By default, the current day
-    // is used. (optional)
+    // - parameter endDate: (query) Date and time for the latest run to retrieve, in RFC 3339 format. By default, the
+    // current day is used. (optional)
     // - returns: RequestBuilder<RunListResponse>
 
     open func listRunsWithHTTPInfo(
@@ -2419,7 +2419,7 @@ open class IngestionClient {
         return body
     }
 
-    /// Retrieves a list of tasks using the v1 endpoint, please use `getTasks` instead.
+    /// Retrieves a list of tasks using the v1 endpoint. Use `getTasks` instead.
     /// Required API Key ACLs:
     ///  - addObject
     ///  - deleteIndex
@@ -2982,7 +2982,7 @@ open class IngestionClient {
         return body
     }
 
-    /// Runs a task using the v1 endpoint, please use `runTask` instead. You can check the status of task runs with the
+    /// Runs a task using the v1 endpoint. Use `runTask` instead. You can check the status of task runs with the
     /// observability endpoints.
     /// Required API Key ACLs:
     ///  - addObject
@@ -3252,7 +3252,7 @@ open class IngestionClient {
         return body
     }
 
-    /// Searches for tasks using the v1 endpoint, please use `searchTasks` instead.
+    /// Searches for tasks using the v1 endpoint. Use `searchTasks` instead.
     /// Required API Key ACLs:
     ///  - addObject
     ///  - deleteIndex
@@ -3826,7 +3826,7 @@ open class IngestionClient {
         return body
     }
 
-    /// Updates a task by its ID using the v1 endpoint, please use `updateTask` instead.
+    /// Updates a task by its ID using the v1 endpoint. Use `updateTask` instead.
     /// Required API Key ACLs:
     ///  - addObject
     ///  - deleteIndex

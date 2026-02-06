@@ -89,16 +89,16 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     public var facetFilters: CompositionFacetFilters?
     /// Filter expression to only include items that match the filter criteria in the response.  You can use these
     /// filter expressions:  - **Numeric filters.** `<facet> <op> <number>`, where `<op>` is one of `<`, `<=`, `=`,
-    /// `!=`, `>`, `>=`. - **Ranges.** `<facet>:<lower> TO <upper>` where `<lower>` and `<upper>` are the lower and
-    /// upper limits of the range (inclusive). - **Facet filters.** `<facet>:<value>` where `<facet>` is a facet
+    /// `!=`, `>`, `>=`. - **Ranges.** `<facet>:<lower> TO <upper>`, where `<lower>` and `<upper>` are the lower and
+    /// upper limits of the range (inclusive). - **Facet filters.** `<facet>:<value>`, where `<facet>` is a facet
     /// attribute (case-sensitive) and `<value>` a facet value. - **Tag filters.** `_tags:<value>` or just `<value>`
     /// (case-sensitive). - **Boolean filters.** `<facet>: true | false`.  You can combine filters with `AND`, `OR`, and
     /// `NOT` operators with the following restrictions:  - You can only combine filters of the same type with `OR`.  
     /// **Not supported:** `facet:value OR num > 3`. - You can't use `NOT` with combinations of filters.   **Not
     /// supported:** `NOT(facet:value OR facet:value)` - You can't combine conjunctions (`AND`) with `OR`.   **Not
-    /// supported:** `facet:value OR (facet:value AND facet:value)`  Use quotes around your filters, if the facet
-    /// attribute name or facet value has spaces, keywords (`OR`, `AND`, `NOT`), or quotes. If a facet attribute is an
-    /// array, the filter matches if it matches at least one element of the array.  For more information, see
+    /// supported:** `facet:value OR (facet:value AND facet:value)`  Use quotes if the facet attribute name or facet
+    /// value contains spaces, keywords (`OR`, `AND`, `NOT`), or quotes. If a facet attribute is an array, the filter
+    /// matches if it matches at least one element of the array.  For more information, see
     /// [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering).
     public var filters: String?
     /// Whether the search response should include detailed ranking information.
@@ -133,10 +133,10 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     /// determines the ranking compared to other factors. For more information, see [Understanding Personalization impact](https://www.algolia.com/doc/guides/personalization/personalizing-results/in-depth/configuring-personalization/#understanding-personalization-impact).
     public var personalizationImpact: Int?
     /// Languages for language-specific query processing steps such as plurals, stop-word removal, and word-detection
-    /// dictionaries  This setting sets a default list of languages used by the `removeStopWords` and `ignorePlurals`
+    /// dictionaries. This setting sets a default list of languages used by the `removeStopWords` and `ignorePlurals`
     /// settings. This setting also sets a dictionary for word detection in the logogram-based [CJK](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/#normalization-for-logogram-based-languages-cjk)
-    /// languages. To support this, you must place the CJK language **first**  **You should always specify a query
-    /// language.** If you don't specify an indexing language, the search engine uses all [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages),
+    /// languages. To support this, place the CJK language **first**. **Always specify a query language.** If you don't
+    /// specify an indexing language, the search engine uses all [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages),
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
     /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations).
     public var queryLanguages: [CompositionSupportedLanguage]?

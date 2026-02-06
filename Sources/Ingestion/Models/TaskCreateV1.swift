@@ -6,8 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// API request body for creating a task using the V1 shape, please use methods and types that don't contain the V1
-/// suffix.
+/// API request body for creating a task using the V1 shape. Use methods and types that don't contain the V1 suffix.
 @available(*, deprecated, message: "This schema is deprecated.")
 public struct TaskCreateV1: Codable, JSONEncodable {
     /// Universally uniqud identifier (UUID) of a source.
@@ -21,7 +20,7 @@ public struct TaskCreateV1: Codable, JSONEncodable {
     /// Maximum accepted percentage of failures for a task run to finish successfully.
     public var failureThreshold: Int?
     public var input: TaskInput?
-    /// Date of the last cursor in RFC 3339 format.
+    /// Date and time when the last cursor was created, in RFC 3339 format.
     public var cursor: String?
 
     public init(

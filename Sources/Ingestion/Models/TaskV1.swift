@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// The V1 task object, please use methods and types that don't contain the V1 suffix.
+/// The V1 task object. Use methods and types that don't contain the V1 suffix.
 @available(*, deprecated, message: "This schema is deprecated.")
 public struct TaskV1: Codable, JSONEncodable {
     /// Universally unique identifier (UUID) of a task.
@@ -22,13 +22,13 @@ public struct TaskV1: Codable, JSONEncodable {
     /// Maximum accepted percentage of failures for a task run to finish successfully.
     public var failureThreshold: Int?
     public var action: ActionType?
-    /// Date of the last cursor in RFC 3339 format.
+    /// Date and time when the last cursor was created, in RFC 3339 format.
     public var cursor: String?
     public var notifications: Notifications?
     public var policies: Policies?
-    /// Date of creation in RFC 3339 format.
+    /// Date and time when the resource was created, in RFC 3339 format.
     public var createdAt: String
-    /// Date of last update in RFC 3339 format.
+    /// Date and time when the resource was last updated, in RFC 3339 format.
     public var updatedAt: String
 
     public init(

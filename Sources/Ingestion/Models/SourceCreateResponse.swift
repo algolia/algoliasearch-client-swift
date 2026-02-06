@@ -11,7 +11,7 @@ public struct SourceCreateResponse: Codable, JSONEncodable {
     public var sourceID: String
     /// Descriptive name of the source.
     public var name: String
-    /// Date of creation in RFC 3339 format.
+    /// Date and time when the resource was created, in RFC 3339 format.
     public var createdAt: String
 
     public init(sourceID: String, name: String, createdAt: String) {

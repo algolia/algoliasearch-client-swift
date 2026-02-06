@@ -7,9 +7,9 @@ import Foundation
 #endif
 
 public struct RecommendTimeRange: Codable, JSONEncodable {
-    /// When the rule should start to be active, in Unix epoch time.
+    /// Timestamp when the rule should start to be active, measured in seconds since the Unix epoch.
     public var from: Int64?
-    /// When the rule should stop to be active, in Unix epoch time.
+    /// Timestamp when the rule should stop to be active, measured in seconds since the Unix epoch.
     public var until: Int64?
 
     public init(from: Int64? = nil, until: Int64? = nil) {

@@ -17,7 +17,7 @@ public struct SearchEvent: Codable, JSONEncodable {
     /// The extracted record batch size.
     public var batchSize: Int
     public var data: [String: AnyCodable]?
-    /// Date of publish RFC 3339 format.
+    /// Date and time when the resource was published, in RFC 3339 format.
     public var publishedAt: String
 
     public init(

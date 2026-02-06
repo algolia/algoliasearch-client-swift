@@ -18,7 +18,7 @@ public struct SearchWatchResponse: Codable, JSONEncodable {
     public var events: [SearchEvent]?
     /// a message describing the outcome of the operation that has been ran (push, discover or validate) run.
     public var message: String?
-    /// Date of creation in RFC 3339 format.
+    /// Date and time when the resource was created, in RFC 3339 format.
     public var createdAt: String?
 
     public init(
