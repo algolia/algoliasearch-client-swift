@@ -74,9 +74,9 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
     /// additional attributes, such as, for highlighting.
     public var hits: [T]
     /// Search query.
-    public var query: String
+    public var query: String?
     /// URL-encoded string of all search parameters.
-    public var params: String
+    public var params: String?
 
     public init(
         abTestID: Int? = nil,
@@ -110,8 +110,8 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         nbPages: Int? = nil,
         hitsPerPage: Int? = nil,
         hits: [T],
-        query: String,
-        params: String
+        query: String? = nil,
+        params: String? = nil
     ) {
         self.abTestID = abTestID
         self.abTestVariantID = abTestVariantID
@@ -264,14 +264,10 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
             throw GenericError(description: "Failed to cast")
         }
         self.hits = hits
-        guard let query = dictionary["query"]?.value as? String else {
-            throw GenericError(description: "Failed to cast")
-        }
-        self.query = query
-        guard let params = dictionary["params"]?.value as? String else {
-            throw GenericError(description: "Failed to cast")
-        }
-        self.params = params
+        self.query = dictionary["query"]?.value as? String
+
+        self.params = dictionary["params"]?.value as? String
+
         for (key, value) in dictionary {
             switch key {
             case "abTestID", "abTestVariantID", "aroundLatLng", "automaticRadius", "exhaustive", "appliedRules",
@@ -325,8 +321,8 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         try container.encodeIfPresent(self.nbPages, forKey: .nbPages)
         try container.encodeIfPresent(self.hitsPerPage, forKey: .hitsPerPage)
         try container.encode(self.hits, forKey: .hits)
-        try container.encode(self.query, forKey: .query)
-        try container.encode(self.params, forKey: .params)
+        try container.encodeIfPresent(self.query, forKey: .query)
+        try container.encodeIfPresent(self.params, forKey: .params)
         var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
         try additionalPropertiesContainer.encodeMap(self.additionalProperties)
     }
@@ -367,8 +363,8 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         self.nbPages = try container.decodeIfPresent(Int.self, forKey: .nbPages)
         self.hitsPerPage = try container.decodeIfPresent(Int.self, forKey: .hitsPerPage)
         self.hits = try container.decode([T].self, forKey: .hits)
-        self.query = try container.decode(String.self, forKey: .query)
-        self.params = try container.decode(String.self, forKey: .params)
+        self.query = try container.decodeIfPresent(String.self, forKey: .query)
+        self.params = try container.decodeIfPresent(String.self, forKey: .params)
         var nonAdditionalPropertyKeys = Set<String>()
         nonAdditionalPropertyKeys.insert("abTestID")
         nonAdditionalPropertyKeys.insert("abTestVariantID")
@@ -483,8 +479,8 @@ extension SearchResponse: Hashable where T: Hashable {
         hasher.combine(self.nbPages?.hashValue)
         hasher.combine(self.hitsPerPage?.hashValue)
         hasher.combine(self.hits.hashValue)
-        hasher.combine(self.query.hashValue)
-        hasher.combine(self.params.hashValue)
+        hasher.combine(self.query?.hashValue)
+        hasher.combine(self.params?.hashValue)
         hasher.combine(self.additionalProperties.hashValue)
     }
 }

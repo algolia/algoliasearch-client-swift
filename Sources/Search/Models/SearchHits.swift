@@ -11,11 +11,11 @@ public struct SearchHits<T: Codable>: Codable, JSONEncodable {
     /// additional attributes, such as, for highlighting.
     public var hits: [T]
     /// Search query.
-    public var query: String
+    public var query: String?
     /// URL-encoded string of all search parameters.
-    public var params: String
+    public var params: String?
 
-    public init(hits: [T], query: String, params: String) {
+    public init(hits: [T], query: String? = nil, params: String? = nil) {
         self.hits = hits
         self.query = query
         self.params = params
@@ -47,14 +47,10 @@ public struct SearchHits<T: Codable>: Codable, JSONEncodable {
             throw GenericError(description: "Failed to cast")
         }
         self.hits = hits
-        guard let query = dictionary["query"]?.value as? String else {
-            throw GenericError(description: "Failed to cast")
-        }
-        self.query = query
-        guard let params = dictionary["params"]?.value as? String else {
-            throw GenericError(description: "Failed to cast")
-        }
-        self.params = params
+        self.query = dictionary["query"]?.value as? String
+
+        self.params = dictionary["params"]?.value as? String
+
         for (key, value) in dictionary {
             switch key {
             case "hits", "query", "params":
@@ -70,8 +66,8 @@ public struct SearchHits<T: Codable>: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.hits, forKey: .hits)
-        try container.encode(self.query, forKey: .query)
-        try container.encode(self.params, forKey: .params)
+        try container.encodeIfPresent(self.query, forKey: .query)
+        try container.encodeIfPresent(self.params, forKey: .params)
         var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
         try additionalPropertiesContainer.encodeMap(self.additionalProperties)
     }
@@ -82,8 +78,8 @@ public struct SearchHits<T: Codable>: Codable, JSONEncodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.hits = try container.decode([T].self, forKey: .hits)
-        self.query = try container.decode(String.self, forKey: .query)
-        self.params = try container.decode(String.self, forKey: .params)
+        self.query = try container.decodeIfPresent(String.self, forKey: .query)
+        self.params = try container.decodeIfPresent(String.self, forKey: .params)
         var nonAdditionalPropertyKeys = Set<String>()
         nonAdditionalPropertyKeys.insert("hits")
         nonAdditionalPropertyKeys.insert("query")
@@ -108,8 +104,8 @@ extension SearchHits: Equatable where T: Equatable {
 extension SearchHits: Hashable where T: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.hits.hashValue)
-        hasher.combine(self.query.hashValue)
-        hasher.combine(self.params.hashValue)
+        hasher.combine(self.query?.hashValue)
+        hasher.combine(self.params?.hashValue)
         hasher.combine(self.additionalProperties.hashValue)
     }
 }
