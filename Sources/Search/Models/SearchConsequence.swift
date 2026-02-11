@@ -21,6 +21,7 @@ public struct SearchConsequence: Codable, JSONEncodable {
     public var filterPromotes: Bool?
     /// Records you want to hide from the search results.
     public var hide: [SearchConsequenceHide]?
+    public var redirect: ConsequenceRedirect?
     /// A JSON object with custom data that will be appended to the `userData` array in the response. This object isn't
     /// interpreted by the API and is limited to 1&nbsp;kB of minified JSON.
     public var userData: AnyCodable?
@@ -30,12 +31,14 @@ public struct SearchConsequence: Codable, JSONEncodable {
         promote: [SearchPromote]? = nil,
         filterPromotes: Bool? = nil,
         hide: [SearchConsequenceHide]? = nil,
+        redirect: ConsequenceRedirect? = nil,
         userData: AnyCodable? = nil
     ) {
         self.params = params
         self.promote = promote
         self.filterPromotes = filterPromotes
         self.hide = hide
+        self.redirect = redirect
         self.userData = userData
     }
 
@@ -44,6 +47,7 @@ public struct SearchConsequence: Codable, JSONEncodable {
         case promote
         case filterPromotes
         case hide
+        case redirect
         case userData
     }
 
@@ -55,6 +59,7 @@ public struct SearchConsequence: Codable, JSONEncodable {
         try container.encodeIfPresent(self.promote, forKey: .promote)
         try container.encodeIfPresent(self.filterPromotes, forKey: .filterPromotes)
         try container.encodeIfPresent(self.hide, forKey: .hide)
+        try container.encodeIfPresent(self.redirect, forKey: .redirect)
         try container.encodeIfPresent(self.userData, forKey: .userData)
     }
 }
@@ -65,6 +70,7 @@ extension SearchConsequence: Equatable {
             lhs.promote == rhs.promote &&
             lhs.filterPromotes == rhs.filterPromotes &&
             lhs.hide == rhs.hide &&
+            lhs.redirect == rhs.redirect &&
             lhs.userData == rhs.userData
     }
 }
@@ -75,6 +81,7 @@ extension SearchConsequence: Hashable {
         hasher.combine(self.promote?.hashValue)
         hasher.combine(self.filterPromotes?.hashValue)
         hasher.combine(self.hide?.hashValue)
+        hasher.combine(self.redirect?.hashValue)
         hasher.combine(self.userData?.hashValue)
     }
 }
