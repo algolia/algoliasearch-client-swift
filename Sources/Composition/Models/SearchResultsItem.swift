@@ -77,6 +77,8 @@ public struct SearchResultsItem<T: Codable>: Codable, JSONEncodable {
     public var params: String?
     /// The search query string.
     public var query: String?
+    /// The ID of the feed.
+    public var feedID: String?
     public var compositions: [String: ResultsCompositionInfoResponse]
 
     public init(
@@ -113,6 +115,7 @@ public struct SearchResultsItem<T: Codable>: Codable, JSONEncodable {
         page: Int? = nil,
         params: String? = nil,
         query: String? = nil,
+        feedID: String? = nil,
         compositions: [String: ResultsCompositionInfoResponse]
     ) {
         self.abTestID = abTestID
@@ -148,6 +151,7 @@ public struct SearchResultsItem<T: Codable>: Codable, JSONEncodable {
         self.page = page
         self.params = params
         self.query = query
+        self.feedID = feedID
         self.compositions = compositions
     }
 
@@ -185,6 +189,7 @@ public struct SearchResultsItem<T: Codable>: Codable, JSONEncodable {
         case page
         case params
         case query
+        case feedID
         case compositions
     }
 
@@ -225,6 +230,7 @@ public struct SearchResultsItem<T: Codable>: Codable, JSONEncodable {
         try container.encodeIfPresent(self.page, forKey: .page)
         try container.encodeIfPresent(self.params, forKey: .params)
         try container.encodeIfPresent(self.query, forKey: .query)
+        try container.encodeIfPresent(self.feedID, forKey: .feedID)
         try container.encode(self.compositions, forKey: .compositions)
     }
 }
@@ -264,6 +270,7 @@ extension SearchResultsItem: Equatable where T: Equatable {
             lhs.page == rhs.page &&
             lhs.params == rhs.params &&
             lhs.query == rhs.query &&
+            lhs.feedID == rhs.feedID &&
             lhs.compositions == rhs.compositions
     }
 }
@@ -303,6 +310,7 @@ extension SearchResultsItem: Hashable where T: Hashable {
         hasher.combine(self.page?.hashValue)
         hasher.combine(self.params?.hashValue)
         hasher.combine(self.query?.hashValue)
+        hasher.combine(self.feedID?.hashValue)
         hasher.combine(self.compositions.hashValue)
     }
 }

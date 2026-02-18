@@ -7,13 +7,17 @@ import Foundation
 #endif
 
 public struct ResultsCompositionsResponse: Codable, JSONEncodable {
+    /// The ID of the feed.
+    public var feedID: String?
     public var compositions: [String: ResultsCompositionInfoResponse]
 
-    public init(compositions: [String: ResultsCompositionInfoResponse]) {
+    public init(feedID: String? = nil, compositions: [String: ResultsCompositionInfoResponse]) {
+        self.feedID = feedID
         self.compositions = compositions
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case feedID
         case compositions
     }
 
@@ -21,18 +25,21 @@ public struct ResultsCompositionsResponse: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(self.feedID, forKey: .feedID)
         try container.encode(self.compositions, forKey: .compositions)
     }
 }
 
 extension ResultsCompositionsResponse: Equatable {
     public static func ==(lhs: ResultsCompositionsResponse, rhs: ResultsCompositionsResponse) -> Bool {
-        lhs.compositions == rhs.compositions
+        lhs.feedID == rhs.feedID &&
+            lhs.compositions == rhs.compositions
     }
 }
 
 extension ResultsCompositionsResponse: Hashable {
     public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.feedID?.hashValue)
         hasher.combine(self.compositions.hashValue)
     }
 }
