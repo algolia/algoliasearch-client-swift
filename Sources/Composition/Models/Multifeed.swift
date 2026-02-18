@@ -8,13 +8,13 @@ import Foundation
 
 public struct Multifeed: Codable, JSONEncodable {
     /// A key-value store of Feed ID to Feed. Currently, the only supported Feed type is an Injection.
-    public var feeds: [String: Injection]
+    public var feeds: [String: FeedInjection]
     /// A list of Feed IDs that specifies the order in which to order the results in the response. The IDs should be a
     /// subset of those in the Feeds object, and only those specified will be processed. When this field is not set, all
     /// Feeds are processed and returned with a default ordering.
     public var feedsOrder: [String]?
 
-    public init(feeds: [String: Injection], feedsOrder: [String]? = nil) {
+    public init(feeds: [String: FeedInjection], feedsOrder: [String]? = nil) {
         self.feeds = feeds
         self.feedsOrder = feedsOrder
     }
