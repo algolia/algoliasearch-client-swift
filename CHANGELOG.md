@@ -1,3 +1,8 @@
+## [9.40.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.39.0...9.40.0)
+
+- [695e59bb9](https://github.com/algolia/api-clients-automation/commit/695e59bb9) fix(clients): BREAKING CHANGE – update Swift import statements to use Algolia-prefixed subpackages ([#6016](https://github.com/algolia/api-clients-automation/pull/6016)) by [@Fluf22](https://github.com/Fluf22/)
+  - We prefixed all subpackages with `Algolia` to avoid conflicts with other dependencies. This means that all import statements in Swift clients have been updated to reflect this change. For example, `import Search` is now `import AlgoliaSearch`. Please update your import statements accordingly when upgrading to this version.
+
 ## [9.39.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.38.1...9.39.0)
 
 - [93c834fee](https://github.com/algolia/api-clients-automation/commit/93c834fee) feat(specs): add optional feedID to composition result set ([#5991](https://github.com/algolia/api-clients-automation/pull/5991)) by [@gavinwade12](https://github.com/gavinwade12/)
