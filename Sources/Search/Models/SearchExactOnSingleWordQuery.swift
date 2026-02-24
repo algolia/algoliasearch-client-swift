@@ -2,8 +2,8 @@
 // https://github.com/algolia/api-clients-automation. DO NOT EDIT.
 
 import Foundation
-#if canImport(Core)
-    import Core
+#if canImport(AlgoliaCore)
+    import AlgoliaCore
 #endif
 
 /// Determines how the [Exact ranking criterion](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/in-depth/adjust-exact-settings/#turn-off-exact-for-some-attributes)

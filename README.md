@@ -107,10 +107,10 @@ You can now import the Algolia API client in your project and play with it.
 > Import the Core package and the required client package to your source code files:
 
 ```swift
-#if canImport(Core)
-    import Core
+#if canImport(AlgoliaCore)
+    import AlgoliaCore
 #endif
-import Search
+import AlgoliaSearch
 
 let client = try SearchClient(appID: "YOUR_APP_ID", apiKey: "YOUR_API_KEY")
 

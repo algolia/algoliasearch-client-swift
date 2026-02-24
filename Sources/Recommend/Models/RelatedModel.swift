@@ -2,8 +2,8 @@
 // https://github.com/algolia/api-clients-automation. DO NOT EDIT.
 
 import Foundation
-#if canImport(Core)
-    import Core
+#if canImport(AlgoliaCore)
+    import AlgoliaCore
 #endif
 
 /// Related products or similar content model.  This model recommends items that are similar to the item with the ID

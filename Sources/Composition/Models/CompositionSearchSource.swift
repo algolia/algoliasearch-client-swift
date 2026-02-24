@@ -2,8 +2,8 @@
 // https://github.com/algolia/api-clients-automation. DO NOT EDIT.
 
 import Foundation
-#if canImport(Core)
-    import Core
+#if canImport(AlgoliaCore)
+    import AlgoliaCore
 #endif
 
 /// Injected items will originate from a search request performed on the specified index.

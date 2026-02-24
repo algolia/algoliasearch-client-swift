@@ -2,8 +2,8 @@
 // https://github.com/algolia/api-clients-automation. DO NOT EDIT.
 
 import Foundation
-#if canImport(Core)
-    import Core
+#if canImport(AlgoliaCore)
+    import AlgoliaCore
 #endif
 
 /// Which part of the search query the pattern should match:  - `startsWith`. The pattern must match the beginning of

@@ -30,7 +30,7 @@ var products: [Product] = []
     targets.append(contentsOf: [
         .systemLibrary(name: "zlib", pkgConfig: "zlib", providers: [.apt(["zlib1g-dev"])]),
         .target(
-            name: "Core",
+            name: "AlgoliaCore",
             dependencies: [
                 "zlib",
             ] + extraTargetDependencies,
@@ -40,7 +40,7 @@ var products: [Product] = []
 #else
     targets.append(
         .target(
-            name: "Core",
+            name: "AlgoliaCore",
             dependencies: extraTargetDependencies,
             path: "Sources/Core"
         )
@@ -49,8 +49,8 @@ var products: [Product] = []
 
 products.append(
     .library(
-        name: "Core",
-        targets: ["Core"]
+        name: "AlgoliaCore",
+        targets: ["AlgoliaCore"]
     )
 )
 
@@ -69,9 +69,9 @@ products.append(
 ].enumerated().forEach { _, library in
     targets.append(
         .target(
-            name: library,
+            name: "Algolia\(library)",
             dependencies: [
-                .target(name: "Core"),
+                .target(name: "AlgoliaCore"),
             ] + extraTargetDependencies,
             path: "Sources/\(library)",
             resources: [
@@ -82,8 +82,8 @@ products.append(
 
     products.append(
         .library(
-            name: "\(library)",
-            targets: ["\(library)"]
+            name: "Algolia\(library)",
+            targets: ["Algolia\(library)"]
         )
     )
 }
