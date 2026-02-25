@@ -23,6 +23,7 @@ public struct Rule: Codable, JSONEncodable {
     public var validity: [SearchTimeRange]?
     public var tags: [String]?
     public var scope: String?
+    public var condition: SearchCondition?
 
     public init(
         objectID: String,
@@ -32,7 +33,8 @@ public struct Rule: Codable, JSONEncodable {
         enabled: Bool? = nil,
         validity: [SearchTimeRange]? = nil,
         tags: [String]? = nil,
-        scope: String? = nil
+        scope: String? = nil,
+        condition: SearchCondition? = nil
     ) {
         self.objectID = objectID
         self.conditions = conditions
@@ -42,6 +44,7 @@ public struct Rule: Codable, JSONEncodable {
         self.validity = validity
         self.tags = tags
         self.scope = scope
+        self.condition = condition
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -53,6 +56,7 @@ public struct Rule: Codable, JSONEncodable {
         case validity
         case tags
         case scope
+        case condition
     }
 
     // Encodable protocol methods
@@ -67,6 +71,7 @@ public struct Rule: Codable, JSONEncodable {
         try container.encodeIfPresent(self.validity, forKey: .validity)
         try container.encodeIfPresent(self.tags, forKey: .tags)
         try container.encodeIfPresent(self.scope, forKey: .scope)
+        try container.encodeIfPresent(self.condition, forKey: .condition)
     }
 }
 
@@ -79,7 +84,8 @@ extension Rule: Equatable {
             lhs.enabled == rhs.enabled &&
             lhs.validity == rhs.validity &&
             lhs.tags == rhs.tags &&
-            lhs.scope == rhs.scope
+            lhs.scope == rhs.scope &&
+            lhs.condition == rhs.condition
     }
 }
 
@@ -93,5 +99,6 @@ extension Rule: Hashable {
         hasher.combine(self.validity?.hashValue)
         hasher.combine(self.tags?.hashValue)
         hasher.combine(self.scope?.hashValue)
+        hasher.combine(self.condition?.hashValue)
     }
 }
