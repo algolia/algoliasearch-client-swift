@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 open class MonitoringClient {
-    private var configuration: MonitoringClientConfiguration
+    public private(set) var configuration: MonitoringClientConfiguration
     private var transporter: Transporter
 
     var appID: String {

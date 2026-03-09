@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 open class PersonalizationClient {
-    private var configuration: PersonalizationClientConfiguration
+    public private(set) var configuration: PersonalizationClientConfiguration
     private var transporter: Transporter
 
     var appID: String {

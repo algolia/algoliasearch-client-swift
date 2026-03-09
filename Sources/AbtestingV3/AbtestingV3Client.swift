@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 open class AbtestingV3Client {
-    private var configuration: AbtestingV3ClientConfiguration
+    public private(set) var configuration: AbtestingV3ClientConfiguration
     private var transporter: Transporter
 
     var appID: String {

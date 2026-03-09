@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 open class CompositionClient {
-    private var configuration: CompositionClientConfiguration
+    public private(set) var configuration: CompositionClientConfiguration
     private var transporter: Transporter
 
     var appID: String {

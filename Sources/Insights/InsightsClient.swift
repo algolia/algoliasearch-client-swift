@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 open class InsightsClient {
-    private var configuration: InsightsClientConfiguration
+    public private(set) var configuration: InsightsClientConfiguration
     private var transporter: Transporter
 
     var appID: String {

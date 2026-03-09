@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 open class RecommendClient {
-    private var configuration: RecommendClientConfiguration
+    public private(set) var configuration: RecommendClientConfiguration
     private var transporter: Transporter
 
     var appID: String {

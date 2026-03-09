@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 open class IngestionClient {
-    private var configuration: IngestionClientConfiguration
+    public private(set) var configuration: IngestionClientConfiguration
     private var transporter: Transporter
 
     var appID: String {

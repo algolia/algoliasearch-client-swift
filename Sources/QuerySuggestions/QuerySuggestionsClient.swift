@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 open class QuerySuggestionsClient {
-    private var configuration: QuerySuggestionsClientConfiguration
+    public private(set) var configuration: QuerySuggestionsClientConfiguration
     private var transporter: Transporter
 
     var appID: String {

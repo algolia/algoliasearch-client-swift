@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 open class SearchClient {
-    private var configuration: SearchClientConfiguration
+    public private(set) var configuration: SearchClientConfiguration
     private var transporter: Transporter
 
     var appID: String {

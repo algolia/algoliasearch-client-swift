@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 open class AnalyticsClient {
-    private var configuration: AnalyticsClientConfiguration
+    public private(set) var configuration: AnalyticsClientConfiguration
     private var transporter: Transporter
 
     var appID: String {
