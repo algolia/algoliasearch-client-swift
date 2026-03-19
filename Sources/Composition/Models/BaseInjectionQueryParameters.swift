@@ -28,8 +28,6 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
     /// matches - `singleWordSynonym`.   Single-word synonyms, such as \"NY\" = \"NYC\", are considered exact matches -
     /// `multiWordsSynonym`.   Multi-word synonyms, such as \"NY\" = \"New York\", are considered exact matches.
     public var alternativesAsExact: [CompositionAlternativesAsExact]?
-    /// Whether this search will be included in Analytics.
-    public var analytics: Bool?
     /// Whether the best matching attribute should be determined by minimum proximity This setting only affects ranking
     /// if the Attribute ranking criterion comes before Proximity in the `ranking` setting. If true, the best matching
     /// attribute is selected based on the minimum proximity of multiple matches. Otherwise, the best matching attribute
@@ -56,12 +54,6 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
     /// and is required for tracking [click and conversion
     /// events](https://www.algolia.com/doc/guides/sending-events/getting-started).
     public var clickAnalytics: Bool?
-    /// Whether to split compound words in the query into their building blocks For more information, see [Word segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#splitting-compound-words).
-    /// Word segmentation is supported for these languages: German, Dutch, Finnish, Swedish, and Norwegian.
-    /// Decompounding doesn't work for words with [non-spacing mark Unicode
-    /// characters](https://www.charactercodes.net/category/non-spacing_mark). For example, `Gartenstühle` won't be
-    /// decompounded if the `ü` consists of `u` (U+0075) and `◌̈` (U+0308).
-    public var decompoundQuery: Bool?
     /// Searchable attributes for which you want to [turn off the Exact ranking criterion](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/in-depth/adjust-exact-settings/#turn-off-exact-for-some-attributes).
     /// Attribute names are case-sensitive This can be useful for attributes with long values, where the likelihood of
     /// an exact match is high, such as product descriptions. Turning off the Exact ranking criterion for these
@@ -108,9 +100,6 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
     /// HTML tag to insert before the highlighted parts in all highlighted results and snippets.
     public var highlightPreTag: String?
     public var ignorePlurals: CompositionIgnorePlurals?
-    /// Maximum number of facet values to return when [searching for facet
-    /// values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values).
-    public var maxFacetHits: Int?
     /// Minimum proximity score for two matching words This adjusts the [Proximity ranking criterion](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/#proximity)
     /// by equally scoring matches that are farther apart For example, if `minProximity` is 2, neighboring matches and
     /// matches with one word between them would have the same score.
@@ -176,13 +165,11 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
         advancedSyntaxFeatures: [CompositionAdvancedSyntaxFeatures]? = nil,
         allowTyposOnNumericTokens: Bool? = nil,
         alternativesAsExact: [CompositionAlternativesAsExact]? = nil,
-        analytics: Bool? = nil,
         attributeCriteriaComputedByMinProximity: Bool? = nil,
         attributesToHighlight: [String]? = nil,
         attributesToRetrieve: [String]? = nil,
         attributesToSnippet: [String]? = nil,
         clickAnalytics: Bool? = nil,
-        decompoundQuery: Bool? = nil,
         disableExactOnAttributes: [String]? = nil,
         disableTypoToleranceOnAttributes: [String]? = nil,
         distinct: CompositionDistinct? = nil,
@@ -197,7 +184,6 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
         highlightPostTag: String? = nil,
         highlightPreTag: String? = nil,
         ignorePlurals: CompositionIgnorePlurals? = nil,
-        maxFacetHits: Int? = nil,
         minProximity: Int? = nil,
         minWordSizefor1Typo: Int? = nil,
         minWordSizefor2Typos: Int? = nil,
@@ -224,13 +210,11 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
         self.advancedSyntaxFeatures = advancedSyntaxFeatures
         self.allowTyposOnNumericTokens = allowTyposOnNumericTokens
         self.alternativesAsExact = alternativesAsExact
-        self.analytics = analytics
         self.attributeCriteriaComputedByMinProximity = attributeCriteriaComputedByMinProximity
         self.attributesToHighlight = attributesToHighlight
         self.attributesToRetrieve = attributesToRetrieve
         self.attributesToSnippet = attributesToSnippet
         self.clickAnalytics = clickAnalytics
-        self.decompoundQuery = decompoundQuery
         self.disableExactOnAttributes = disableExactOnAttributes
         self.disableTypoToleranceOnAttributes = disableTypoToleranceOnAttributes
         self.distinct = distinct
@@ -245,7 +229,6 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
         self.highlightPostTag = highlightPostTag
         self.highlightPreTag = highlightPreTag
         self.ignorePlurals = ignorePlurals
-        self.maxFacetHits = maxFacetHits
         self.minProximity = minProximity
         self.minWordSizefor1Typo = minWordSizefor1Typo
         self.minWordSizefor2Typos = minWordSizefor2Typos
@@ -274,13 +257,11 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
         case advancedSyntaxFeatures
         case allowTyposOnNumericTokens
         case alternativesAsExact
-        case analytics
         case attributeCriteriaComputedByMinProximity
         case attributesToHighlight
         case attributesToRetrieve
         case attributesToSnippet
         case clickAnalytics
-        case decompoundQuery
         case disableExactOnAttributes
         case disableTypoToleranceOnAttributes
         case distinct
@@ -295,7 +276,6 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
         case highlightPostTag
         case highlightPreTag
         case ignorePlurals
-        case maxFacetHits
         case minProximity
         case minWordSizefor1Typo
         case minWordSizefor2Typos
@@ -327,7 +307,6 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
         try container.encodeIfPresent(self.advancedSyntaxFeatures, forKey: .advancedSyntaxFeatures)
         try container.encodeIfPresent(self.allowTyposOnNumericTokens, forKey: .allowTyposOnNumericTokens)
         try container.encodeIfPresent(self.alternativesAsExact, forKey: .alternativesAsExact)
-        try container.encodeIfPresent(self.analytics, forKey: .analytics)
         try container.encodeIfPresent(
             self.attributeCriteriaComputedByMinProximity,
             forKey: .attributeCriteriaComputedByMinProximity
@@ -336,7 +315,6 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
         try container.encodeIfPresent(self.attributesToRetrieve, forKey: .attributesToRetrieve)
         try container.encodeIfPresent(self.attributesToSnippet, forKey: .attributesToSnippet)
         try container.encodeIfPresent(self.clickAnalytics, forKey: .clickAnalytics)
-        try container.encodeIfPresent(self.decompoundQuery, forKey: .decompoundQuery)
         try container.encodeIfPresent(self.disableExactOnAttributes, forKey: .disableExactOnAttributes)
         try container.encodeIfPresent(self.disableTypoToleranceOnAttributes, forKey: .disableTypoToleranceOnAttributes)
         try container.encodeIfPresent(self.distinct, forKey: .distinct)
@@ -351,7 +329,6 @@ public struct BaseInjectionQueryParameters: Codable, JSONEncodable {
         try container.encodeIfPresent(self.highlightPostTag, forKey: .highlightPostTag)
         try container.encodeIfPresent(self.highlightPreTag, forKey: .highlightPreTag)
         try container.encodeIfPresent(self.ignorePlurals, forKey: .ignorePlurals)
-        try container.encodeIfPresent(self.maxFacetHits, forKey: .maxFacetHits)
         try container.encodeIfPresent(self.minProximity, forKey: .minProximity)
         try container.encodeIfPresent(self.minWordSizefor1Typo, forKey: .minWordSizefor1Typo)
         try container.encodeIfPresent(self.minWordSizefor2Typos, forKey: .minWordSizefor2Typos)
@@ -385,13 +362,11 @@ extension BaseInjectionQueryParameters: Equatable {
             lhs.advancedSyntaxFeatures == rhs.advancedSyntaxFeatures &&
             lhs.allowTyposOnNumericTokens == rhs.allowTyposOnNumericTokens &&
             lhs.alternativesAsExact == rhs.alternativesAsExact &&
-            lhs.analytics == rhs.analytics &&
             lhs.attributeCriteriaComputedByMinProximity == rhs.attributeCriteriaComputedByMinProximity &&
             lhs.attributesToHighlight == rhs.attributesToHighlight &&
             lhs.attributesToRetrieve == rhs.attributesToRetrieve &&
             lhs.attributesToSnippet == rhs.attributesToSnippet &&
             lhs.clickAnalytics == rhs.clickAnalytics &&
-            lhs.decompoundQuery == rhs.decompoundQuery &&
             lhs.disableExactOnAttributes == rhs.disableExactOnAttributes &&
             lhs.disableTypoToleranceOnAttributes == rhs.disableTypoToleranceOnAttributes &&
             lhs.distinct == rhs.distinct &&
@@ -406,7 +381,6 @@ extension BaseInjectionQueryParameters: Equatable {
             lhs.highlightPostTag == rhs.highlightPostTag &&
             lhs.highlightPreTag == rhs.highlightPreTag &&
             lhs.ignorePlurals == rhs.ignorePlurals &&
-            lhs.maxFacetHits == rhs.maxFacetHits &&
             lhs.minProximity == rhs.minProximity &&
             lhs.minWordSizefor1Typo == rhs.minWordSizefor1Typo &&
             lhs.minWordSizefor2Typos == rhs.minWordSizefor2Typos &&
@@ -437,13 +411,11 @@ extension BaseInjectionQueryParameters: Hashable {
         hasher.combine(self.advancedSyntaxFeatures?.hashValue)
         hasher.combine(self.allowTyposOnNumericTokens?.hashValue)
         hasher.combine(self.alternativesAsExact?.hashValue)
-        hasher.combine(self.analytics?.hashValue)
         hasher.combine(self.attributeCriteriaComputedByMinProximity?.hashValue)
         hasher.combine(self.attributesToHighlight?.hashValue)
         hasher.combine(self.attributesToRetrieve?.hashValue)
         hasher.combine(self.attributesToSnippet?.hashValue)
         hasher.combine(self.clickAnalytics?.hashValue)
-        hasher.combine(self.decompoundQuery?.hashValue)
         hasher.combine(self.disableExactOnAttributes?.hashValue)
         hasher.combine(self.disableTypoToleranceOnAttributes?.hashValue)
         hasher.combine(self.distinct?.hashValue)
@@ -458,7 +430,6 @@ extension BaseInjectionQueryParameters: Hashable {
         hasher.combine(self.highlightPostTag?.hashValue)
         hasher.combine(self.highlightPreTag?.hashValue)
         hasher.combine(self.ignorePlurals?.hashValue)
-        hasher.combine(self.maxFacetHits?.hashValue)
         hasher.combine(self.minProximity?.hashValue)
         hasher.combine(self.minWordSizefor1Typo?.hashValue)
         hasher.combine(self.minWordSizefor2Typos?.hashValue)
