@@ -7,25 +7,25 @@ import Foundation
 #endif
 
 public enum SearchResult<T: Codable>: Codable, JSONEncodable, AbstractEncodable {
-    case searchForFacetValuesResponse(SearchForFacetValuesResponse)
     case searchResponse(SearchResponse<T>)
+    case searchForFacetValuesResponse(SearchForFacetValuesResponse)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .searchForFacetValuesResponse(value):
-            try container.encode(value)
         case let .searchResponse(value):
+            try container.encode(value)
+        case let .searchForFacetValuesResponse(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(SearchForFacetValuesResponse.self) {
-            self = .searchForFacetValuesResponse(value)
-        } else if let value = try? container.decode(SearchResponse<T>.self) {
+        if let value = try? container.decode(SearchResponse<T>.self) {
             self = .searchResponse(value)
+        } else if let value = try? container.decode(SearchForFacetValuesResponse.self) {
+            self = .searchForFacetValuesResponse(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -36,10 +36,10 @@ public enum SearchResult<T: Codable>: Codable, JSONEncodable, AbstractEncodable 
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .searchForFacetValuesResponse(value):
-            value as SearchForFacetValuesResponse
         case let .searchResponse(value):
             value as SearchResponse
+        case let .searchForFacetValuesResponse(value):
+            value as SearchForFacetValuesResponse
         }
     }
 }

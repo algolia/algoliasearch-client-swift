@@ -8,30 +8,30 @@ import Foundation
 
 /// Configuration of the task, depending on its type.
 public enum TaskInput: Codable, JSONEncodable, AbstractEncodable {
+    case shopifyInput(ShopifyInput)
     case streamingInput(StreamingInput)
     case dockerStreamsInput(DockerStreamsInput)
-    case shopifyInput(ShopifyInput)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
+        case let .shopifyInput(value):
+            try container.encode(value)
         case let .streamingInput(value):
             try container.encode(value)
         case let .dockerStreamsInput(value):
-            try container.encode(value)
-        case let .shopifyInput(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(StreamingInput.self) {
+        if let value = try? container.decode(ShopifyInput.self) {
+            self = .shopifyInput(value)
+        } else if let value = try? container.decode(StreamingInput.self) {
             self = .streamingInput(value)
         } else if let value = try? container.decode(DockerStreamsInput.self) {
             self = .dockerStreamsInput(value)
-        } else if let value = try? container.decode(ShopifyInput.self) {
-            self = .shopifyInput(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -42,12 +42,12 @@ public enum TaskInput: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
+        case let .shopifyInput(value):
+            value as ShopifyInput
         case let .streamingInput(value):
             value as StreamingInput
         case let .dockerStreamsInput(value):
             value as DockerStreamsInput
-        case let .shopifyInput(value):
-            value as ShopifyInput
         }
     }
 }
