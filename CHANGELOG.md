@@ -1,3 +1,8 @@
+## [9.41.2](https://github.com/algolia/algoliasearch-client-swift/compare/9.41.1...9.41.2)
+
+- [e8df706a83](https://github.com/algolia/api-clients-automation/commit/e8df706a83) fix(generators): auto-infer discriminator fields from unique required properties ([#6199](https://github.com/algolia/api-clients-automation/pull/6199)) by [@Fluf22](https://github.com/Fluf22/)
+- [d86a5438e2](https://github.com/algolia/api-clients-automation/commit/d86a5438e2) chore(deps): dependencies 2026-04-06 ([#6200](https://github.com/algolia/api-clients-automation/pull/6200)) by [@algolia-bot](https://github.com/algolia-bot/)
+
 ## [9.41.1](https://github.com/algolia/algoliasearch-client-swift/compare/9.41.0...9.41.1)
 
 - [600f157a13](https://github.com/algolia/api-clients-automation/commit/600f157a13) fix(specs): remove query parameter that are not accepted by the Composition API ([#6128](https://github.com/algolia/api-clients-automation/pull/6128)) by [@ClaraMuller](https://github.com/ClaraMuller/)
