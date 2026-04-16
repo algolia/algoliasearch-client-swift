@@ -6,33 +6,34 @@ import Foundation
     import AlgoliaCore
 #endif
 
-public struct CompositionMain: Codable, JSONEncodable {
-    public var source: CompositionSource
+public struct MainRecommend: Codable, JSONEncodable {
+    /// Targeted index name.
+    public var index: String
 
-    public init(source: CompositionSource) {
-        self.source = source
+    public init(index: String) {
+        self.index = index
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case source
+        case index
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.source, forKey: .source)
+        try container.encode(self.index, forKey: .index)
     }
 }
 
-extension CompositionMain: Equatable {
-    public static func ==(lhs: CompositionMain, rhs: CompositionMain) -> Bool {
-        lhs.source == rhs.source
+extension MainRecommend: Equatable {
+    public static func ==(lhs: MainRecommend, rhs: MainRecommend) -> Bool {
+        lhs.index == rhs.index
     }
 }
 
-extension CompositionMain: Hashable {
+extension MainRecommend: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.source.hashValue)
+        hasher.combine(self.index.hashValue)
     }
 }

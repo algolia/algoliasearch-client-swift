@@ -8,10 +8,10 @@ import Foundation
 
 /// Injected items will originate from externally provided objectIDs (that must exist in the index) given at runtime in
 /// the run request payload.
-public struct ExternalSource: Codable, JSONEncodable {
-    public var external: External
+public struct InjectedItemExternalSource: Codable, JSONEncodable {
+    public var external: InjectedItemExternal
 
-    public init(external: External) {
+    public init(external: InjectedItemExternal) {
         self.external = external
     }
 
@@ -27,13 +27,13 @@ public struct ExternalSource: Codable, JSONEncodable {
     }
 }
 
-extension ExternalSource: Equatable {
-    public static func ==(lhs: ExternalSource, rhs: ExternalSource) -> Bool {
+extension InjectedItemExternalSource: Equatable {
+    public static func ==(lhs: InjectedItemExternalSource, rhs: InjectedItemExternalSource) -> Bool {
         lhs.external == rhs.external
     }
 }
 
-extension ExternalSource: Hashable {
+extension InjectedItemExternalSource: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.external.hashValue)
     }

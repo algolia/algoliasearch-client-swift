@@ -6,7 +6,7 @@ import Foundation
     import AlgoliaCore
 #endif
 
-public struct InjectedItem: Codable, JSONEncodable {
+public struct InjectionInjectedItem: Codable, JSONEncodable {
     /// injected Item unique identifier.
     public var key: String
     public var source: InjectedItemSource
@@ -48,8 +48,8 @@ public struct InjectedItem: Codable, JSONEncodable {
     }
 }
 
-extension InjectedItem: Equatable {
-    public static func ==(lhs: InjectedItem, rhs: InjectedItem) -> Bool {
+extension InjectionInjectedItem: Equatable {
+    public static func ==(lhs: InjectionInjectedItem, rhs: InjectionInjectedItem) -> Bool {
         lhs.key == rhs.key &&
             lhs.source == rhs.source &&
             lhs.position == rhs.position &&
@@ -58,7 +58,7 @@ extension InjectedItem: Equatable {
     }
 }
 
-extension InjectedItem: Hashable {
+extension InjectionInjectedItem: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.key.hashValue)
         hasher.combine(self.source.hashValue)

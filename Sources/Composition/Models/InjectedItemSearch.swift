@@ -6,12 +6,12 @@ import Foundation
     import AlgoliaCore
 #endif
 
-public struct CompositionSourceSearch: Codable, JSONEncodable {
-    /// Composition Main Index name.
+public struct InjectedItemSearch: Codable, JSONEncodable {
+    /// Composition Index name.
     public var index: String
-    public var params: MainInjectionQueryParameters?
+    public var params: BaseInjectionQueryParameters?
 
-    public init(index: String, params: MainInjectionQueryParameters? = nil) {
+    public init(index: String, params: BaseInjectionQueryParameters? = nil) {
         self.index = index
         self.params = params
     }
@@ -30,14 +30,14 @@ public struct CompositionSourceSearch: Codable, JSONEncodable {
     }
 }
 
-extension CompositionSourceSearch: Equatable {
-    public static func ==(lhs: CompositionSourceSearch, rhs: CompositionSourceSearch) -> Bool {
+extension InjectedItemSearch: Equatable {
+    public static func ==(lhs: InjectedItemSearch, rhs: InjectedItemSearch) -> Bool {
         lhs.index == rhs.index &&
             lhs.params == rhs.params
     }
 }
 
-extension CompositionSourceSearch: Hashable {
+extension InjectedItemSearch: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.index.hashValue)
         hasher.combine(self.params?.hashValue)

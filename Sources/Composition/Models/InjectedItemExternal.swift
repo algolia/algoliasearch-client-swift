@@ -6,7 +6,7 @@ import Foundation
     import AlgoliaCore
 #endif
 
-public struct External: Codable, JSONEncodable {
+public struct InjectedItemExternal: Codable, JSONEncodable {
     /// Composition Index name.
     public var index: String
     public var params: BaseInjectionQueryParameters?
@@ -34,15 +34,15 @@ public struct External: Codable, JSONEncodable {
     }
 }
 
-extension External: Equatable {
-    public static func ==(lhs: External, rhs: External) -> Bool {
+extension InjectedItemExternal: Equatable {
+    public static func ==(lhs: InjectedItemExternal, rhs: InjectedItemExternal) -> Bool {
         lhs.index == rhs.index &&
             lhs.params == rhs.params &&
             lhs.ordering == rhs.ordering
     }
 }
 
-extension External: Hashable {
+extension InjectedItemExternal: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.index.hashValue)
         hasher.combine(self.params?.hashValue)

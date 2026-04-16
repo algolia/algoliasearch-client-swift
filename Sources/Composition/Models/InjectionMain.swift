@@ -6,33 +6,34 @@ import Foundation
     import AlgoliaCore
 #endif
 
-public struct CompositionSource: Codable, JSONEncodable {
-    public var search: CompositionSourceSearch
+/// Main defines the organic result set of the injection.
+public struct InjectionMain: Codable, JSONEncodable {
+    public var source: InjectionMainSource?
 
-    public init(search: CompositionSourceSearch) {
-        self.search = search
+    public init(source: InjectionMainSource? = nil) {
+        self.source = source
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case search
+        case source
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.search, forKey: .search)
+        try container.encodeIfPresent(self.source, forKey: .source)
     }
 }
 
-extension CompositionSource: Equatable {
-    public static func ==(lhs: CompositionSource, rhs: CompositionSource) -> Bool {
-        lhs.search == rhs.search
+extension InjectionMain: Equatable {
+    public static func ==(lhs: InjectionMain, rhs: InjectionMain) -> Bool {
+        lhs.source == rhs.source
     }
 }
 
-extension CompositionSource: Hashable {
+extension InjectionMain: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.search.hashValue)
+        hasher.combine(self.source?.hashValue)
     }
 }

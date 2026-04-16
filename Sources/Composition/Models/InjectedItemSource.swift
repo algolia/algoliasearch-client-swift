@@ -7,25 +7,25 @@ import Foundation
 #endif
 
 public enum InjectedItemSource: Codable, JSONEncodable, AbstractEncodable {
-    case compositionSearchSource(CompositionSearchSource)
-    case externalSource(ExternalSource)
+    case injectedItemSearchSource(InjectedItemSearchSource)
+    case injectedItemExternalSource(InjectedItemExternalSource)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .compositionSearchSource(value):
+        case let .injectedItemSearchSource(value):
             try container.encode(value)
-        case let .externalSource(value):
+        case let .injectedItemExternalSource(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(CompositionSearchSource.self) {
-            self = .compositionSearchSource(value)
-        } else if let value = try? container.decode(ExternalSource.self) {
-            self = .externalSource(value)
+        if let value = try? container.decode(InjectedItemSearchSource.self) {
+            self = .injectedItemSearchSource(value)
+        } else if let value = try? container.decode(InjectedItemExternalSource.self) {
+            self = .injectedItemExternalSource(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -39,10 +39,10 @@ public enum InjectedItemSource: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .compositionSearchSource(value):
-            value as CompositionSearchSource
-        case let .externalSource(value):
-            value as ExternalSource
+        case let .injectedItemSearchSource(value):
+            value as InjectedItemSearchSource
+        case let .injectedItemExternalSource(value):
+            value as InjectedItemExternalSource
         }
     }
 }

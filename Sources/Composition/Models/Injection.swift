@@ -7,12 +7,16 @@ import Foundation
 #endif
 
 public struct Injection: Codable, JSONEncodable {
-    public var main: CompositionMain
+    public var main: InjectionMain
     /// list of injected items of the current Composition.
-    public var injectedItems: [InjectedItem]?
+    public var injectedItems: [InjectionInjectedItem]?
     public var deduplication: Deduplication?
 
-    public init(main: CompositionMain, injectedItems: [InjectedItem]? = nil, deduplication: Deduplication? = nil) {
+    public init(
+        main: InjectionMain,
+        injectedItems: [InjectionInjectedItem]? = nil,
+        deduplication: Deduplication? = nil
+    ) {
         self.main = main
         self.injectedItems = injectedItems
         self.deduplication = deduplication

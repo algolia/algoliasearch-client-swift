@@ -6,11 +6,11 @@ import Foundation
     import AlgoliaCore
 #endif
 
-/// Injected items will originate from a search request performed on the specified index.
-public struct CompositionSearchSource: Codable, JSONEncodable {
-    public var search: Search
+/// Organic result set will originate from a search request performed on the specified index.
+public struct InjectionMainSearchSource: Codable, JSONEncodable {
+    public var search: MainSearch
 
-    public init(search: Search) {
+    public init(search: MainSearch) {
         self.search = search
     }
 
@@ -26,13 +26,13 @@ public struct CompositionSearchSource: Codable, JSONEncodable {
     }
 }
 
-extension CompositionSearchSource: Equatable {
-    public static func ==(lhs: CompositionSearchSource, rhs: CompositionSearchSource) -> Bool {
+extension InjectionMainSearchSource: Equatable {
+    public static func ==(lhs: InjectionMainSearchSource, rhs: InjectionMainSearchSource) -> Bool {
         lhs.search == rhs.search
     }
 }
 
-extension CompositionSearchSource: Hashable {
+extension InjectionMainSearchSource: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.search.hashValue)
     }
