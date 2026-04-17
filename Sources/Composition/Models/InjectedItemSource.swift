@@ -9,6 +9,7 @@ import Foundation
 public enum InjectedItemSource: Codable, JSONEncodable, AbstractEncodable {
     case injectedItemSearchSource(InjectedItemSearchSource)
     case injectedItemExternalSource(InjectedItemExternalSource)
+    case injectedItemRecommendSource(InjectedItemRecommendSource)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -16,6 +17,8 @@ public enum InjectedItemSource: Codable, JSONEncodable, AbstractEncodable {
         case let .injectedItemSearchSource(value):
             try container.encode(value)
         case let .injectedItemExternalSource(value):
+            try container.encode(value)
+        case let .injectedItemRecommendSource(value):
             try container.encode(value)
         }
     }
@@ -26,6 +29,8 @@ public enum InjectedItemSource: Codable, JSONEncodable, AbstractEncodable {
             self = .injectedItemSearchSource(value)
         } else if let value = try? container.decode(InjectedItemExternalSource.self) {
             self = .injectedItemExternalSource(value)
+        } else if let value = try? container.decode(InjectedItemRecommendSource.self) {
+            self = .injectedItemRecommendSource(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -43,6 +48,8 @@ public enum InjectedItemSource: Codable, JSONEncodable, AbstractEncodable {
             value as InjectedItemSearchSource
         case let .injectedItemExternalSource(value):
             value as InjectedItemExternalSource
+        case let .injectedItemRecommendSource(value):
+            value as InjectedItemRecommendSource
         }
     }
 }

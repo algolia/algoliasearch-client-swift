@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct MainSearch: Codable, JSONEncodable {
-    /// Targeted index name.
+    /// Index to retrieve search results from.
     public var index: String
     public var params: MainInjectionQueryParameters?
 

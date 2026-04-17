@@ -6,21 +6,21 @@ import Foundation
     import AlgoliaCore
 #endif
 
-public struct MainRecommend: Codable, JSONEncodable {
+public struct Recommend: Codable, JSONEncodable {
     /// Index to retrieve recommendations from.
     public var indexName: String
     public var model: Model
     /// Minimum score a recommendation must have to be included.
     public var threshold: Int
-    public var queryParameters: MainInjectionQueryParameters?
-    public var fallbackParameters: MainInjectionQueryParameters?
+    public var queryParameters: BaseInjectionQueryParameters?
+    public var fallbackParameters: BaseInjectionQueryParameters?
 
     public init(
         indexName: String,
         model: Model,
         threshold: Int,
-        queryParameters: MainInjectionQueryParameters? = nil,
-        fallbackParameters: MainInjectionQueryParameters? = nil
+        queryParameters: BaseInjectionQueryParameters? = nil,
+        fallbackParameters: BaseInjectionQueryParameters? = nil
     ) {
         self.indexName = indexName
         self.model = model
@@ -49,8 +49,8 @@ public struct MainRecommend: Codable, JSONEncodable {
     }
 }
 
-extension MainRecommend: Equatable {
-    public static func ==(lhs: MainRecommend, rhs: MainRecommend) -> Bool {
+extension Recommend: Equatable {
+    public static func ==(lhs: Recommend, rhs: Recommend) -> Bool {
         lhs.indexName == rhs.indexName &&
             lhs.model == rhs.model &&
             lhs.threshold == rhs.threshold &&
@@ -59,7 +59,7 @@ extension MainRecommend: Equatable {
     }
 }
 
-extension MainRecommend: Hashable {
+extension Recommend: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.indexName.hashValue)
         hasher.combine(self.model.hashValue)
