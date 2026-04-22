@@ -10,15 +10,18 @@ public struct SearchForHitsOptions: Codable, JSONEncodable {
     /// Index name (case-sensitive).
     public var indexName: String
     public var type: SearchTypeDefault?
+    public var extensions: SearchExtensions?
 
-    public init(indexName: String, type: SearchTypeDefault? = nil) {
+    public init(indexName: String, type: SearchTypeDefault? = nil, extensions: SearchExtensions? = nil) {
         self.indexName = indexName
         self.type = type
+        self.extensions = extensions
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case indexName
         case type
+        case extensions
     }
 
     // Encodable protocol methods
@@ -27,13 +30,15 @@ public struct SearchForHitsOptions: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.indexName, forKey: .indexName)
         try container.encodeIfPresent(self.type, forKey: .type)
+        try container.encodeIfPresent(self.extensions, forKey: .extensions)
     }
 }
 
 extension SearchForHitsOptions: Equatable {
     public static func ==(lhs: SearchForHitsOptions, rhs: SearchForHitsOptions) -> Bool {
         lhs.indexName == rhs.indexName &&
-            lhs.type == rhs.type
+            lhs.type == rhs.type &&
+            lhs.extensions == rhs.extensions
     }
 }
 
@@ -41,5 +46,6 @@ extension SearchForHitsOptions: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.indexName.hashValue)
         hasher.combine(self.type?.hashValue)
+        hasher.combine(self.extensions?.hashValue)
     }
 }

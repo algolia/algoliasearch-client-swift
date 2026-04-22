@@ -77,6 +77,7 @@ public struct BrowseResponse<T: Codable>: Codable, JSONEncodable {
     public var query: String?
     /// URL-encoded string of all search parameters.
     public var params: String?
+    public var extensions: ResponseExtensions?
     /// Cursor to get the next page of the response.  The parameter must match the value returned in the response of a
     /// previous request. The last page of the response does not return a `cursor` attribute.
     public var cursor: String?
@@ -115,6 +116,7 @@ public struct BrowseResponse<T: Codable>: Codable, JSONEncodable {
         hits: [T],
         query: String? = nil,
         params: String? = nil,
+        extensions: ResponseExtensions? = nil,
         cursor: String? = nil
     ) {
         self.abTestID = abTestID
@@ -150,6 +152,7 @@ public struct BrowseResponse<T: Codable>: Codable, JSONEncodable {
         self.hits = hits
         self.query = query
         self.params = params
+        self.extensions = extensions
         self.cursor = cursor
     }
 
@@ -187,6 +190,7 @@ public struct BrowseResponse<T: Codable>: Codable, JSONEncodable {
         case hits
         case query
         case params
+        case extensions
         case cursor
     }
 
@@ -227,6 +231,7 @@ public struct BrowseResponse<T: Codable>: Codable, JSONEncodable {
         try container.encode(self.hits, forKey: .hits)
         try container.encodeIfPresent(self.query, forKey: .query)
         try container.encodeIfPresent(self.params, forKey: .params)
+        try container.encodeIfPresent(self.extensions, forKey: .extensions)
         try container.encodeIfPresent(self.cursor, forKey: .cursor)
     }
 }
@@ -266,6 +271,7 @@ extension BrowseResponse: Equatable where T: Equatable {
             lhs.hits == rhs.hits &&
             lhs.query == rhs.query &&
             lhs.params == rhs.params &&
+            lhs.extensions == rhs.extensions &&
             lhs.cursor == rhs.cursor
     }
 }
@@ -305,6 +311,7 @@ extension BrowseResponse: Hashable where T: Hashable {
         hasher.combine(self.hits.hashValue)
         hasher.combine(self.query?.hashValue)
         hasher.combine(self.params?.hashValue)
+        hasher.combine(self.extensions?.hashValue)
         hasher.combine(self.cursor?.hashValue)
     }
 }

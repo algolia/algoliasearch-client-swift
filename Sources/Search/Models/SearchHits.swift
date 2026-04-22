@@ -14,17 +14,20 @@ public struct SearchHits<T: Codable>: Codable, JSONEncodable {
     public var query: String?
     /// URL-encoded string of all search parameters.
     public var params: String?
+    public var extensions: ResponseExtensions?
 
-    public init(hits: [T], query: String? = nil, params: String? = nil) {
+    public init(hits: [T], query: String? = nil, params: String? = nil, extensions: ResponseExtensions? = nil) {
         self.hits = hits
         self.query = query
         self.params = params
+        self.extensions = extensions
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case hits
         case query
         case params
+        case extensions
     }
 
     public var additionalProperties: [String: AnyCodable] = [:]
@@ -51,9 +54,11 @@ public struct SearchHits<T: Codable>: Codable, JSONEncodable {
 
         self.params = dictionary["params"]?.value as? String
 
+        self.extensions = dictionary["extensions"]?.value as? ResponseExtensions
+
         for (key, value) in dictionary {
             switch key {
-            case "hits", "query", "params":
+            case "hits", "query", "params", "extensions":
                 continue
             default:
                 self.additionalProperties[key] = value
@@ -68,6 +73,7 @@ public struct SearchHits<T: Codable>: Codable, JSONEncodable {
         try container.encode(self.hits, forKey: .hits)
         try container.encodeIfPresent(self.query, forKey: .query)
         try container.encodeIfPresent(self.params, forKey: .params)
+        try container.encodeIfPresent(self.extensions, forKey: .extensions)
         var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
         try additionalPropertiesContainer.encodeMap(self.additionalProperties)
     }
@@ -80,10 +86,12 @@ public struct SearchHits<T: Codable>: Codable, JSONEncodable {
         self.hits = try container.decode([T].self, forKey: .hits)
         self.query = try container.decodeIfPresent(String.self, forKey: .query)
         self.params = try container.decodeIfPresent(String.self, forKey: .params)
+        self.extensions = try container.decodeIfPresent(ResponseExtensions.self, forKey: .extensions)
         var nonAdditionalPropertyKeys = Set<String>()
         nonAdditionalPropertyKeys.insert("hits")
         nonAdditionalPropertyKeys.insert("query")
         nonAdditionalPropertyKeys.insert("params")
+        nonAdditionalPropertyKeys.insert("extensions")
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,
@@ -96,7 +104,8 @@ extension SearchHits: Equatable where T: Equatable {
     public static func ==(lhs: SearchHits<T>, rhs: SearchHits<T>) -> Bool {
         lhs.hits == rhs.hits &&
             lhs.query == rhs.query &&
-            lhs.params == rhs.params
+            lhs.params == rhs.params &&
+            lhs.extensions == rhs.extensions
             && lhs.additionalProperties == rhs.additionalProperties
     }
 }
@@ -106,6 +115,7 @@ extension SearchHits: Hashable where T: Hashable {
         hasher.combine(self.hits.hashValue)
         hasher.combine(self.query?.hashValue)
         hasher.combine(self.params?.hashValue)
+        hasher.combine(self.extensions?.hashValue)
         hasher.combine(self.additionalProperties.hashValue)
     }
 }

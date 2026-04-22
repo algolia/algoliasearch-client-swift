@@ -249,6 +249,7 @@ public struct SearchForHits: Codable, JSONEncodable {
     /// Index name (case-sensitive).
     public var indexName: String
     public var type: SearchTypeDefault?
+    public var extensions: SearchExtensions?
 
     public init(
         params: String? = nil,
@@ -326,7 +327,8 @@ public struct SearchForHits: Codable, JSONEncodable {
         enableReRanking: Bool? = nil,
         reRankingApplyFilter: SearchReRankingApplyFilter? = nil,
         indexName: String,
-        type: SearchTypeDefault? = nil
+        type: SearchTypeDefault? = nil,
+        extensions: SearchExtensions? = nil
     ) {
         self.params = params
         self.query = query
@@ -404,6 +406,7 @@ public struct SearchForHits: Codable, JSONEncodable {
         self.reRankingApplyFilter = reRankingApplyFilter
         self.indexName = indexName
         self.type = type
+        self.extensions = extensions
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -483,6 +486,7 @@ public struct SearchForHits: Codable, JSONEncodable {
         case reRankingApplyFilter
         case indexName
         case type
+        case extensions
     }
 
     // Encodable protocol methods
@@ -571,6 +575,7 @@ public struct SearchForHits: Codable, JSONEncodable {
         try container.encodeIfPresent(self.reRankingApplyFilter, forKey: .reRankingApplyFilter)
         try container.encode(self.indexName, forKey: .indexName)
         try container.encodeIfPresent(self.type, forKey: .type)
+        try container.encodeIfPresent(self.extensions, forKey: .extensions)
     }
 }
 
@@ -651,7 +656,8 @@ extension SearchForHits: Equatable {
             lhs.enableReRanking == rhs.enableReRanking &&
             lhs.reRankingApplyFilter == rhs.reRankingApplyFilter &&
             lhs.indexName == rhs.indexName &&
-            lhs.type == rhs.type
+            lhs.type == rhs.type &&
+            lhs.extensions == rhs.extensions
     }
 }
 
@@ -733,5 +739,6 @@ extension SearchForHits: Hashable {
         hasher.combine(self.reRankingApplyFilter?.hashValue)
         hasher.combine(self.indexName.hashValue)
         hasher.combine(self.type?.hashValue)
+        hasher.combine(self.extensions?.hashValue)
     }
 }
