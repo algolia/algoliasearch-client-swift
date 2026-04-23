@@ -14,6 +14,7 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable {
     case sourceJSON(SourceJSON)
     case sourceCSV(SourceCSV)
     case sourceUpdateShopify(SourceUpdateShopify)
+    case sourceUpdateAlgoliaIndex(SourceUpdateAlgoliaIndex)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -31,6 +32,8 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable {
         case let .sourceCSV(value):
             try container.encode(value)
         case let .sourceUpdateShopify(value):
+            try container.encode(value)
+        case let .sourceUpdateAlgoliaIndex(value):
             try container.encode(value)
         }
     }
@@ -51,6 +54,8 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable {
             self = .sourceCSV(value)
         } else if let value = try? container.decode(SourceUpdateShopify.self) {
             self = .sourceUpdateShopify(value)
+        } else if let value = try? container.decode(SourceUpdateAlgoliaIndex.self) {
+            self = .sourceUpdateAlgoliaIndex(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -78,6 +83,8 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable {
             value as SourceCSV
         case let .sourceUpdateShopify(value):
             value as SourceUpdateShopify
+        case let .sourceUpdateAlgoliaIndex(value):
+            value as SourceUpdateAlgoliaIndex
         }
     }
 }

@@ -3529,8 +3529,8 @@ open class SearchClient {
         )
     }
 
-    /// - parameter searchMethodParams: (body) Muli-search request body. Results are returned in the same order as the
-    /// requests.
+    /// - parameter searchMethodParams: (body) Multi-query search request body. Results are returned in the same order
+    /// as the requests.
     /// - returns: SearchResponses
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func search<T: Codable>(
@@ -3549,16 +3549,16 @@ open class SearchClient {
         return body
     }
 
-    // Sends multiple search requests to one or more indices.  This can be useful in these cases:  - Different indices
-    // for different purposes, such as, one index for products, another one for marketing content. - Multiple searches
-    // to
-    // the same index—for example, with different filters.  Use the helper `searchForHits` or `searchForFacets` to get
-    // the results in a more convenient format, if you already know the return type you want.
+    // Runs multiple search queries against one or more indices in a single API request.  Use cases include:  -
+    // Searching different indices, such as products and marketing content. - Run multiple queries on the same index
+    // with
+    // different parameters or filters.  If you know the expected result type, use the `searchForHits` or
+    // `searchForFacets` helper to simplify the response format.
     // Required API Key ACLs:
     //  - search
     //
-    // - parameter searchMethodParams: (body) Muli-search request body. Results are returned in the same order as the
-    // requests.
+    // - parameter searchMethodParams: (body) Multi-query search request body. Results are returned in the same order as
+    // the requests.
     // - returns: RequestBuilder<SearchResponses>
 
     open func searchWithHTTPInfo<T: Codable>(

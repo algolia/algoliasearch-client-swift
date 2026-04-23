@@ -13,6 +13,7 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable {
     case sourceBigCommerce(SourceBigCommerce)
     case sourceBigQuery(SourceBigQuery)
     case sourceShopify(SourceShopify)
+    case sourceAlgoliaIndex(SourceAlgoliaIndex)
     case sourceJSON(SourceJSON)
     case sourceCSV(SourceCSV)
 
@@ -30,6 +31,8 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable {
         case let .sourceBigQuery(value):
             try container.encode(value)
         case let .sourceShopify(value):
+            try container.encode(value)
+        case let .sourceAlgoliaIndex(value):
             try container.encode(value)
         case let .sourceJSON(value):
             try container.encode(value)
@@ -52,6 +55,8 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable {
             self = .sourceBigQuery(value)
         } else if let value = try? container.decode(SourceShopify.self) {
             self = .sourceShopify(value)
+        } else if let value = try? container.decode(SourceAlgoliaIndex.self) {
+            self = .sourceAlgoliaIndex(value)
         } else if let value = try? container.decode(SourceJSON.self) {
             self = .sourceJSON(value)
         } else if let value = try? container.decode(SourceCSV.self) {
@@ -78,6 +83,8 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable {
             value as SourceBigQuery
         case let .sourceShopify(value):
             value as SourceShopify
+        case let .sourceAlgoliaIndex(value):
+            value as SourceAlgoliaIndex
         case let .sourceJSON(value):
             value as SourceJSON
         case let .sourceCSV(value):

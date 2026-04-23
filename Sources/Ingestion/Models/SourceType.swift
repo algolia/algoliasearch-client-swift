@@ -7,6 +7,7 @@ import Foundation
 #endif
 
 public enum SourceType: String, Codable, CaseIterable {
+    case algoliaIndex
     case bigcommerce
     case bigquery
     case commercetools
