@@ -6,6 +6,7 @@ import Foundation
     import AlgoliaCore
 #endif
 
+/// Contains a list of objects to inject from an external source.
 public struct ExternalInjectedItem: Codable, JSONEncodable {
     public var items: [ExternalInjection]
 

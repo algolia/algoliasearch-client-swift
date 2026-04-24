@@ -59,7 +59,8 @@ public struct CompositionParams: Codable, JSONEncodable {
     public var getRankingInfo: Bool?
     /// Number of hits per page.
     public var hitsPerPage: Int?
-    /// A list of extenrally injected objectID groups into from an external source.
+    /// An object containing keys corresponding to the `key`s from an injection's `injectedItems` and values containing
+    /// a list of hits to inject.
     public var injectedItems: [String: ExternalInjectedItem]?
     public var insideBoundingBox: CompositionInsideBoundingBox?
     /// Coordinates of a polygon in which to search.  Polygons are defined by 3 to 10,000 points. Each point is
