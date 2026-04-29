@@ -8,13 +8,20 @@ import Foundation
 
 public struct RequestBody: Codable, JSONEncodable {
     public var params: CompositionParams?
+    /// A list of Feed IDs that specifies the order in which to order the results in the response.  The IDs should be a
+    /// subset of those in the `feeds` object of the targeted `multifeed` Composition / Composition Rule, and only those
+    /// specified will be processed.   The value overrides the value in the defined behavior, and when unspecified, the
+    /// value defined in the behavior is used. When neither value is present, all feeds are processed.
+    public var feedsOrder: [String]?
 
-    public init(params: CompositionParams? = nil) {
+    public init(params: CompositionParams? = nil, feedsOrder: [String]? = nil) {
         self.params = params
+        self.feedsOrder = feedsOrder
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case params
+        case feedsOrder
     }
 
     // Encodable protocol methods
@@ -22,17 +29,20 @@ public struct RequestBody: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.params, forKey: .params)
+        try container.encodeIfPresent(self.feedsOrder, forKey: .feedsOrder)
     }
 }
 
 extension RequestBody: Equatable {
     public static func ==(lhs: RequestBody, rhs: RequestBody) -> Bool {
-        lhs.params == rhs.params
+        lhs.params == rhs.params &&
+            lhs.feedsOrder == rhs.feedsOrder
     }
 }
 
 extension RequestBody: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.params?.hashValue)
+        hasher.combine(self.feedsOrder?.hashValue)
     }
 }
