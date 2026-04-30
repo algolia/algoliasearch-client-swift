@@ -8,22 +8,19 @@ import Foundation
 
 /// API request body for updating a destination.
 public struct DestinationUpdate: Codable, JSONEncodable {
-    public var type: DestinationType?
     /// Descriptive name for the resource.
     public var name: String?
-    public var input: DestinationInput?
+    public var input: DestinationUpdateInput?
     /// Universally unique identifier (UUID) of an authentication resource.
     public var authenticationID: String?
     public var transformationIDs: [String]?
 
     public init(
-        type: DestinationType? = nil,
         name: String? = nil,
-        input: DestinationInput? = nil,
+        input: DestinationUpdateInput? = nil,
         authenticationID: String? = nil,
         transformationIDs: [String]? = nil
     ) {
-        self.type = type
         self.name = name
         self.input = input
         self.authenticationID = authenticationID
@@ -31,7 +28,6 @@ public struct DestinationUpdate: Codable, JSONEncodable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case type
         case name
         case input
         case authenticationID
@@ -42,7 +38,6 @@ public struct DestinationUpdate: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.type, forKey: .type)
         try container.encodeIfPresent(self.name, forKey: .name)
         try container.encodeIfPresent(self.input, forKey: .input)
         try container.encodeIfPresent(self.authenticationID, forKey: .authenticationID)
@@ -52,8 +47,7 @@ public struct DestinationUpdate: Codable, JSONEncodable {
 
 extension DestinationUpdate: Equatable {
     public static func ==(lhs: DestinationUpdate, rhs: DestinationUpdate) -> Bool {
-        lhs.type == rhs.type &&
-            lhs.name == rhs.name &&
+        lhs.name == rhs.name &&
             lhs.input == rhs.input &&
             lhs.authenticationID == rhs.authenticationID &&
             lhs.transformationIDs == rhs.transformationIDs
@@ -62,7 +56,6 @@ extension DestinationUpdate: Equatable {
 
 extension DestinationUpdate: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.type?.hashValue)
         hasher.combine(self.name?.hashValue)
         hasher.combine(self.input?.hashValue)
         hasher.combine(self.authenticationID?.hashValue)
