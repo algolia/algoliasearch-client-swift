@@ -30,12 +30,7 @@ public struct ShopifyInput: Codable, JSONEncodable {
     }
 }
 
-extension ShopifyInput: Equatable {
-    public static func ==(lhs: ShopifyInput, rhs: ShopifyInput) -> Bool {
-        lhs.metafields == rhs.metafields &&
-            lhs.market == rhs.market
-    }
-}
+extension ShopifyInput: Equatable {}
 
 extension ShopifyInput: Hashable {
     public func hash(into hasher: inout Hasher) {

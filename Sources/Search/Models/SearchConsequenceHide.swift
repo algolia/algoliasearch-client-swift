@@ -27,11 +27,7 @@ public struct SearchConsequenceHide: Codable, JSONEncodable {
     }
 }
 
-extension SearchConsequenceHide: Equatable {
-    public static func ==(lhs: SearchConsequenceHide, rhs: SearchConsequenceHide) -> Bool {
-        lhs.objectID == rhs.objectID
-    }
-}
+extension SearchConsequenceHide: Equatable {}
 
 extension SearchConsequenceHide: Hashable {
     public func hash(into hasher: inout Hasher) {

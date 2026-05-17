@@ -26,11 +26,7 @@ public struct GetTopFilterAttributesResponse: Codable, JSONEncodable {
     }
 }
 
-extension GetTopFilterAttributesResponse: Equatable {
-    public static func ==(lhs: GetTopFilterAttributesResponse, rhs: GetTopFilterAttributesResponse) -> Bool {
-        lhs.attributes == rhs.attributes
-    }
-}
+extension GetTopFilterAttributesResponse: Equatable {}
 
 extension GetTopFilterAttributesResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

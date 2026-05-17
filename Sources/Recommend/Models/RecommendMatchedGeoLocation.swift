@@ -36,13 +36,7 @@ public struct RecommendMatchedGeoLocation: Codable, JSONEncodable {
     }
 }
 
-extension RecommendMatchedGeoLocation: Equatable {
-    public static func ==(lhs: RecommendMatchedGeoLocation, rhs: RecommendMatchedGeoLocation) -> Bool {
-        lhs.lat == rhs.lat &&
-            lhs.lng == rhs.lng &&
-            lhs.distance == rhs.distance
-    }
-}
+extension RecommendMatchedGeoLocation: Equatable {}
 
 extension RecommendMatchedGeoLocation: Hashable {
     public func hash(into hasher: inout Hasher) {

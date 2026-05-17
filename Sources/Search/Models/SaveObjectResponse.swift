@@ -38,13 +38,7 @@ public struct SaveObjectResponse: Codable, JSONEncodable {
     }
 }
 
-extension SaveObjectResponse: Equatable {
-    public static func ==(lhs: SaveObjectResponse, rhs: SaveObjectResponse) -> Bool {
-        lhs.createdAt == rhs.createdAt &&
-            lhs.taskID == rhs.taskID &&
-            lhs.objectID == rhs.objectID
-    }
-}
+extension SaveObjectResponse: Equatable {}
 
 extension SaveObjectResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -43,14 +43,7 @@ public struct MetricsFilter: Codable, JSONEncodable {
     }
 }
 
-extension MetricsFilter: Equatable {
-    public static func ==(lhs: MetricsFilter, rhs: MetricsFilter) -> Bool {
-        lhs.domain == rhs.domain &&
-            lhs.name == rhs.name &&
-            lhs.trackEffects == rhs.trackEffects &&
-            lhs.includes == rhs.includes
-    }
-}
+extension MetricsFilter: Equatable {}
 
 extension MetricsFilter: Hashable {
     public func hash(into hasher: inout Hasher) {

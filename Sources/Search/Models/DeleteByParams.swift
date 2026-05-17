@@ -83,18 +83,7 @@ public struct DeleteByParams: Codable, JSONEncodable {
     }
 }
 
-extension DeleteByParams: Equatable {
-    public static func ==(lhs: DeleteByParams, rhs: DeleteByParams) -> Bool {
-        lhs.facetFilters == rhs.facetFilters &&
-            lhs.filters == rhs.filters &&
-            lhs.numericFilters == rhs.numericFilters &&
-            lhs.tagFilters == rhs.tagFilters &&
-            lhs.aroundLatLng == rhs.aroundLatLng &&
-            lhs.aroundRadius == rhs.aroundRadius &&
-            lhs.insideBoundingBox == rhs.insideBoundingBox &&
-            lhs.insidePolygon == rhs.insidePolygon
-    }
-}
+extension DeleteByParams: Equatable {}
 
 extension DeleteByParams: Hashable {
     public func hash(into hasher: inout Hasher) {

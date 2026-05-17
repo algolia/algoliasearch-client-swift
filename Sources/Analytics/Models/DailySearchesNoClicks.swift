@@ -36,13 +36,7 @@ public struct DailySearchesNoClicks: Codable, JSONEncodable {
     }
 }
 
-extension DailySearchesNoClicks: Equatable {
-    public static func ==(lhs: DailySearchesNoClicks, rhs: DailySearchesNoClicks) -> Bool {
-        lhs.search == rhs.search &&
-            lhs.count == rhs.count &&
-            lhs.nbHits == rhs.nbHits
-    }
-}
+extension DailySearchesNoClicks: Equatable {}
 
 extension DailySearchesNoClicks: Hashable {
     public func hash(into hasher: inout Hasher) {

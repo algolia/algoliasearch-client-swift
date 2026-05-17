@@ -52,15 +52,7 @@ public struct SearchUserIdsResponse: Codable, JSONEncodable {
     }
 }
 
-extension SearchUserIdsResponse: Equatable {
-    public static func ==(lhs: SearchUserIdsResponse, rhs: SearchUserIdsResponse) -> Bool {
-        lhs.hits == rhs.hits &&
-            lhs.nbHits == rhs.nbHits &&
-            lhs.page == rhs.page &&
-            lhs.hitsPerPage == rhs.hitsPerPage &&
-            lhs.updatedAt == rhs.updatedAt
-    }
-}
+extension SearchUserIdsResponse: Equatable {}
 
 extension SearchUserIdsResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

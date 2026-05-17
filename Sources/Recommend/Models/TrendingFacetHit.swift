@@ -39,13 +39,7 @@ public struct TrendingFacetHit: Codable, JSONEncodable {
     }
 }
 
-extension TrendingFacetHit: Equatable {
-    public static func ==(lhs: TrendingFacetHit, rhs: TrendingFacetHit) -> Bool {
-        lhs.score == rhs.score &&
-            lhs.facetName == rhs.facetName &&
-            lhs.facetValue == rhs.facetValue
-    }
-}
+extension TrendingFacetHit: Equatable {}
 
 extension TrendingFacetHit: Hashable {
     public func hash(into hasher: inout Hasher) {

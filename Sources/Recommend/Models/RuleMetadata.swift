@@ -27,11 +27,7 @@ public struct RuleMetadata: Codable, JSONEncodable {
     }
 }
 
-extension RuleMetadata: Equatable {
-    public static func ==(lhs: RuleMetadata, rhs: RuleMetadata) -> Bool {
-        lhs.lastUpdate == rhs.lastUpdate
-    }
-}
+extension RuleMetadata: Equatable {}
 
 extension RuleMetadata: Hashable {
     public func hash(into hasher: inout Hasher) {

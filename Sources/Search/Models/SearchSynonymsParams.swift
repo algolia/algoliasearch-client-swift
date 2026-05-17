@@ -40,14 +40,7 @@ public struct SearchSynonymsParams: Codable, JSONEncodable {
     }
 }
 
-extension SearchSynonymsParams: Equatable {
-    public static func ==(lhs: SearchSynonymsParams, rhs: SearchSynonymsParams) -> Bool {
-        lhs.query == rhs.query &&
-            lhs.type == rhs.type &&
-            lhs.page == rhs.page &&
-            lhs.hitsPerPage == rhs.hitsPerPage
-    }
-}
+extension SearchSynonymsParams: Equatable {}
 
 extension SearchSynonymsParams: Hashable {
     public func hash(into hasher: inout Hasher) {

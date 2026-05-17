@@ -29,12 +29,7 @@ public struct CompositionIdRankingInfo: Codable, JSONEncodable {
     }
 }
 
-extension CompositionIdRankingInfo: Equatable {
-    public static func ==(lhs: CompositionIdRankingInfo, rhs: CompositionIdRankingInfo) -> Bool {
-        lhs.index == rhs.index &&
-            lhs.injectedItemKey == rhs.injectedItemKey
-    }
-}
+extension CompositionIdRankingInfo: Equatable {}
 
 extension CompositionIdRankingInfo: Hashable {
     public func hash(into hasher: inout Hasher) {

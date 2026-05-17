@@ -27,11 +27,7 @@ public struct SearchWidgets: Codable, JSONEncodable {
     }
 }
 
-extension SearchWidgets: Equatable {
-    public static func ==(lhs: SearchWidgets, rhs: SearchWidgets) -> Bool {
-        lhs.banners == rhs.banners
-    }
-}
+extension SearchWidgets: Equatable {}
 
 extension SearchWidgets: Hashable {
     public func hash(into hasher: inout Hasher) {

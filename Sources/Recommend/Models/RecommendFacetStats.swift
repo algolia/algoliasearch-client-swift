@@ -41,14 +41,7 @@ public struct RecommendFacetStats: Codable, JSONEncodable {
     }
 }
 
-extension RecommendFacetStats: Equatable {
-    public static func ==(lhs: RecommendFacetStats, rhs: RecommendFacetStats) -> Bool {
-        lhs.min == rhs.min &&
-            lhs.max == rhs.max &&
-            lhs.avg == rhs.avg &&
-            lhs.sum == rhs.sum
-    }
-}
+extension RecommendFacetStats: Equatable {}
 
 extension RecommendFacetStats: Hashable {
     public func hash(into hasher: inout Hasher) {

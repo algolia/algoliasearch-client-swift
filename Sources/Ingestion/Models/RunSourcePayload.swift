@@ -51,15 +51,7 @@ public struct RunSourcePayload: Codable, JSONEncodable {
     }
 }
 
-extension RunSourcePayload: Equatable {
-    public static func ==(lhs: RunSourcePayload, rhs: RunSourcePayload) -> Bool {
-        lhs.indexToInclude == rhs.indexToInclude &&
-            lhs.indexToExclude == rhs.indexToExclude &&
-            lhs.entityIDs == rhs.entityIDs &&
-            lhs.entityType == rhs.entityType &&
-            lhs.runMetadata == rhs.runMetadata
-    }
-}
+extension RunSourcePayload: Equatable {}
 
 extension RunSourcePayload: Hashable {
     public func hash(into hasher: inout Hasher) {

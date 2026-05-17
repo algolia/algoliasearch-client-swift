@@ -26,11 +26,7 @@ public struct SearchRedirectURL: Codable, JSONEncodable {
     }
 }
 
-extension SearchRedirectURL: Equatable {
-    public static func ==(lhs: SearchRedirectURL, rhs: SearchRedirectURL) -> Bool {
-        lhs.url == rhs.url
-    }
-}
+extension SearchRedirectURL: Equatable {}
 
 extension SearchRedirectURL: Hashable {
     public func hash(into hasher: inout Hasher) {

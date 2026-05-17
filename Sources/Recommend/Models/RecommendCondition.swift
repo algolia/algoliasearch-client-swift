@@ -46,12 +46,7 @@ public struct RecommendCondition: Codable, JSONEncodable {
     }
 }
 
-extension RecommendCondition: Equatable {
-    public static func ==(lhs: RecommendCondition, rhs: RecommendCondition) -> Bool {
-        lhs.filters == rhs.filters &&
-            lhs.context == rhs.context
-    }
-}
+extension RecommendCondition: Equatable {}
 
 extension RecommendCondition: Hashable {
     public func hash(into hasher: inout Hasher) {

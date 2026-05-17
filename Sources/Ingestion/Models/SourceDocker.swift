@@ -32,12 +32,7 @@ public struct SourceDocker: Codable, JSONEncodable {
     }
 }
 
-extension SourceDocker: Equatable {
-    public static func ==(lhs: SourceDocker, rhs: SourceDocker) -> Bool {
-        lhs.image == rhs.image &&
-            lhs.configuration == rhs.configuration
-    }
-}
+extension SourceDocker: Equatable {}
 
 extension SourceDocker: Hashable {
     public func hash(into hasher: inout Hasher) {

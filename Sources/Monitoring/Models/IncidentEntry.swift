@@ -30,12 +30,7 @@ public struct IncidentEntry: Codable, JSONEncodable {
     }
 }
 
-extension IncidentEntry: Equatable {
-    public static func ==(lhs: IncidentEntry, rhs: IncidentEntry) -> Bool {
-        lhs.t == rhs.t &&
-            lhs.v == rhs.v
-    }
-}
+extension IncidentEntry: Equatable {}
 
 extension IncidentEntry: Hashable {
     public func hash(into hasher: inout Hasher) {

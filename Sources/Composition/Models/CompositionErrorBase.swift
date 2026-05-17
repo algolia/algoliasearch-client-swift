@@ -71,12 +71,7 @@ public struct CompositionErrorBase: Codable, JSONEncodable {
     }
 }
 
-extension CompositionErrorBase: Equatable {
-    public static func ==(lhs: CompositionErrorBase, rhs: CompositionErrorBase) -> Bool {
-        lhs.message == rhs.message
-            && lhs.additionalProperties == rhs.additionalProperties
-    }
-}
+extension CompositionErrorBase: Equatable {}
 
 extension CompositionErrorBase: Hashable {
     public func hash(into hasher: inout Hasher) {

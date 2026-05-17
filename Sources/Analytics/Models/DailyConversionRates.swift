@@ -43,14 +43,7 @@ public struct DailyConversionRates: Codable, JSONEncodable {
     }
 }
 
-extension DailyConversionRates: Equatable {
-    public static func ==(lhs: DailyConversionRates, rhs: DailyConversionRates) -> Bool {
-        lhs.rate == rhs.rate &&
-            lhs.trackedSearchCount == rhs.trackedSearchCount &&
-            lhs.conversionCount == rhs.conversionCount &&
-            lhs.date == rhs.date
-    }
-}
+extension DailyConversionRates: Equatable {}
 
 extension DailyConversionRates: Hashable {
     public func hash(into hasher: inout Hasher) {

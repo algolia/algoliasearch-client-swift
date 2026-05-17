@@ -41,14 +41,7 @@ public struct ObjectDataAfterSearch: Codable, JSONEncodable {
     }
 }
 
-extension ObjectDataAfterSearch: Equatable {
-    public static func ==(lhs: ObjectDataAfterSearch, rhs: ObjectDataAfterSearch) -> Bool {
-        lhs.queryID == rhs.queryID &&
-            lhs.price == rhs.price &&
-            lhs.quantity == rhs.quantity &&
-            lhs.discount == rhs.discount
-    }
-}
+extension ObjectDataAfterSearch: Equatable {}
 
 extension ObjectDataAfterSearch: Hashable {
     public func hash(into hasher: inout Hasher) {

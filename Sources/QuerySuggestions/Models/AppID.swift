@@ -26,11 +26,7 @@ public struct AppID: Codable, JSONEncodable {
     }
 }
 
-extension AppID: Equatable {
-    public static func ==(lhs: AppID, rhs: AppID) -> Bool {
-        lhs.appID == rhs.appID
-    }
-}
+extension AppID: Equatable {}
 
 extension AppID: Hashable {
     public func hash(into hasher: inout Hasher) {

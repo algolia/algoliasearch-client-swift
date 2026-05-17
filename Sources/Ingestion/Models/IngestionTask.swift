@@ -119,27 +119,7 @@ public struct IngestionTask: Codable, JSONEncodable {
     }
 }
 
-extension IngestionTask: Equatable {
-    public static func ==(lhs: IngestionTask, rhs: IngestionTask) -> Bool {
-        lhs.taskID == rhs.taskID &&
-            lhs.sourceID == rhs.sourceID &&
-            lhs.destinationID == rhs.destinationID &&
-            lhs.cron == rhs.cron &&
-            lhs.lastRun == rhs.lastRun &&
-            lhs.nextRun == rhs.nextRun &&
-            lhs.owner == rhs.owner &&
-            lhs.input == rhs.input &&
-            lhs.enabled == rhs.enabled &&
-            lhs.failureThreshold == rhs.failureThreshold &&
-            lhs.action == rhs.action &&
-            lhs.subscriptionAction == rhs.subscriptionAction &&
-            lhs.cursor == rhs.cursor &&
-            lhs.notifications == rhs.notifications &&
-            lhs.policies == rhs.policies &&
-            lhs.createdAt == rhs.createdAt &&
-            lhs.updatedAt == rhs.updatedAt
-    }
-}
+extension IngestionTask: Equatable {}
 
 extension IngestionTask: Hashable {
     public func hash(into hasher: inout Hasher) {

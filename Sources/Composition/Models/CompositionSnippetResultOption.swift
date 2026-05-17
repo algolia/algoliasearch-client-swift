@@ -31,12 +31,7 @@ public struct CompositionSnippetResultOption: Codable, JSONEncodable {
     }
 }
 
-extension CompositionSnippetResultOption: Equatable {
-    public static func ==(lhs: CompositionSnippetResultOption, rhs: CompositionSnippetResultOption) -> Bool {
-        lhs.value == rhs.value &&
-            lhs.matchLevel == rhs.matchLevel
-    }
-}
+extension CompositionSnippetResultOption: Equatable {}
 
 extension CompositionSnippetResultOption: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -36,13 +36,7 @@ public struct RecommendPersonalization: Codable, JSONEncodable {
     }
 }
 
-extension RecommendPersonalization: Equatable {
-    public static func ==(lhs: RecommendPersonalization, rhs: RecommendPersonalization) -> Bool {
-        lhs.filtersScore == rhs.filtersScore &&
-            lhs.rankingScore == rhs.rankingScore &&
-            lhs.score == rhs.score
-    }
-}
+extension RecommendPersonalization: Equatable {}
 
 extension RecommendPersonalization: Hashable {
     public func hash(into hasher: inout Hasher) {

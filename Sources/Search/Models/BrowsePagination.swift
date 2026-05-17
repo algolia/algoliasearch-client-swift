@@ -41,14 +41,7 @@ public struct BrowsePagination: Codable, JSONEncodable {
     }
 }
 
-extension BrowsePagination: Equatable {
-    public static func ==(lhs: BrowsePagination, rhs: BrowsePagination) -> Bool {
-        lhs.page == rhs.page &&
-            lhs.nbHits == rhs.nbHits &&
-            lhs.nbPages == rhs.nbPages &&
-            lhs.hitsPerPage == rhs.hitsPerPage
-    }
-}
+extension BrowsePagination: Equatable {}
 
 extension BrowsePagination: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -88,20 +88,7 @@ public struct MetricResult: Codable, JSONEncodable {
     }
 }
 
-extension MetricResult: Equatable {
-    public static func ==(lhs: MetricResult, rhs: MetricResult) -> Bool {
-        lhs.name == rhs.name &&
-            lhs.updatedAt == rhs.updatedAt &&
-            lhs.value == rhs.value &&
-            lhs.valueCIHigh == rhs.valueCIHigh &&
-            lhs.valueCILow == rhs.valueCILow &&
-            lhs.pValue == rhs.pValue &&
-            lhs.dimension == rhs.dimension &&
-            lhs.metadata == rhs.metadata &&
-            lhs.criticalValue == rhs.criticalValue &&
-            lhs.significant == rhs.significant
-    }
-}
+extension MetricResult: Equatable {}
 
 extension MetricResult: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -25,11 +25,7 @@ public struct Unauthorized: Codable, JSONEncodable {
     }
 }
 
-extension Unauthorized: Equatable {
-    public static func ==(lhs: Unauthorized, rhs: Unauthorized) -> Bool {
-        lhs.reason == rhs.reason
-    }
-}
+extension Unauthorized: Equatable {}
 
 extension Unauthorized: Hashable {
     public func hash(into hasher: inout Hasher) {

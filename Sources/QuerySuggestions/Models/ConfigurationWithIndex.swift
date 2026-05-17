@@ -57,16 +57,7 @@ public struct ConfigurationWithIndex: Codable, JSONEncodable {
     }
 }
 
-extension ConfigurationWithIndex: Equatable {
-    public static func ==(lhs: ConfigurationWithIndex, rhs: ConfigurationWithIndex) -> Bool {
-        lhs.sourceIndices == rhs.sourceIndices &&
-            lhs.languages == rhs.languages &&
-            lhs.exclude == rhs.exclude &&
-            lhs.enablePersonalization == rhs.enablePersonalization &&
-            lhs.allowSpecialCharacters == rhs.allowSpecialCharacters &&
-            lhs.indexName == rhs.indexName
-    }
-}
+extension ConfigurationWithIndex: Equatable {}
 
 extension ConfigurationWithIndex: Hashable {
     public func hash(into hasher: inout Hasher) {

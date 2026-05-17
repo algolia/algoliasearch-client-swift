@@ -408,61 +408,7 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     }
 }
 
-extension MainInjectionQueryParameters: Equatable {
-    public static func ==(lhs: MainInjectionQueryParameters, rhs: MainInjectionQueryParameters) -> Bool {
-        lhs.advancedSyntax == rhs.advancedSyntax &&
-            lhs.advancedSyntaxFeatures == rhs.advancedSyntaxFeatures &&
-            lhs.allowTyposOnNumericTokens == rhs.allowTyposOnNumericTokens &&
-            lhs.alternativesAsExact == rhs.alternativesAsExact &&
-            lhs.attributeCriteriaComputedByMinProximity == rhs.attributeCriteriaComputedByMinProximity &&
-            lhs.attributesToHighlight == rhs.attributesToHighlight &&
-            lhs.attributesToRetrieve == rhs.attributesToRetrieve &&
-            lhs.attributesToSnippet == rhs.attributesToSnippet &&
-            lhs.clickAnalytics == rhs.clickAnalytics &&
-            lhs.disableExactOnAttributes == rhs.disableExactOnAttributes &&
-            lhs.disableTypoToleranceOnAttributes == rhs.disableTypoToleranceOnAttributes &&
-            lhs.distinct == rhs.distinct &&
-            lhs.enableABTest == rhs.enableABTest &&
-            lhs.enablePersonalization == rhs.enablePersonalization &&
-            lhs.enableReRanking == rhs.enableReRanking &&
-            lhs.enableRules == rhs.enableRules &&
-            lhs.exactOnSingleWordQuery == rhs.exactOnSingleWordQuery &&
-            lhs.facetFilters == rhs.facetFilters &&
-            lhs.filters == rhs.filters &&
-            lhs.getRankingInfo == rhs.getRankingInfo &&
-            lhs.highlightPostTag == rhs.highlightPostTag &&
-            lhs.highlightPreTag == rhs.highlightPreTag &&
-            lhs.ignorePlurals == rhs.ignorePlurals &&
-            lhs.minProximity == rhs.minProximity &&
-            lhs.minWordSizefor1Typo == rhs.minWordSizefor1Typo &&
-            lhs.minWordSizefor2Typos == rhs.minWordSizefor2Typos &&
-            lhs.naturalLanguages == rhs.naturalLanguages &&
-            lhs.numericFilters == rhs.numericFilters &&
-            lhs.optionalFilters == rhs.optionalFilters &&
-            lhs.optionalWords == rhs.optionalWords &&
-            lhs.percentileComputation == rhs.percentileComputation &&
-            lhs.personalizationImpact == rhs.personalizationImpact &&
-            lhs.queryLanguages == rhs.queryLanguages &&
-            lhs.queryType == rhs.queryType &&
-            lhs.removeStopWords == rhs.removeStopWords &&
-            lhs.removeWordsIfNoResults == rhs.removeWordsIfNoResults &&
-            lhs.replaceSynonymsInHighlight == rhs.replaceSynonymsInHighlight &&
-            lhs.responseFields == rhs.responseFields &&
-            lhs.restrictHighlightAndSnippetArrays == rhs.restrictHighlightAndSnippetArrays &&
-            lhs.restrictSearchableAttributes == rhs.restrictSearchableAttributes &&
-            lhs.ruleContexts == rhs.ruleContexts &&
-            lhs.snippetEllipsisText == rhs.snippetEllipsisText &&
-            lhs.synonyms == rhs.synonyms &&
-            lhs.typoTolerance == rhs.typoTolerance &&
-            lhs.facetingAfterDistinct == rhs.facetingAfterDistinct &&
-            lhs.facets == rhs.facets &&
-            lhs.hitsPerPage == rhs.hitsPerPage &&
-            lhs.maxValuesPerFacet == rhs.maxValuesPerFacet &&
-            lhs.renderingContent == rhs.renderingContent &&
-            lhs.sortFacetValuesBy == rhs.sortFacetValuesBy &&
-            lhs.sumOrFiltersScores == rhs.sumOrFiltersScores
-    }
-}
+extension MainInjectionQueryParameters: Equatable {}
 
 extension MainInjectionQueryParameters: Hashable {
     public func hash(into hasher: inout Hasher) {

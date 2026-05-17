@@ -26,11 +26,7 @@ public struct VariantMetadata: Codable, JSONEncodable {
     }
 }
 
-extension VariantMetadata: Equatable {
-    public static func ==(lhs: VariantMetadata, rhs: VariantMetadata) -> Bool {
-        lhs.filterEffects == rhs.filterEffects
-    }
-}
+extension VariantMetadata: Equatable {}
 
 extension VariantMetadata: Hashable {
     public func hash(into hasher: inout Hasher) {

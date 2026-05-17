@@ -32,12 +32,7 @@ public struct RunResponse: Codable, JSONEncodable {
     }
 }
 
-extension RunResponse: Equatable {
-    public static func ==(lhs: RunResponse, rhs: RunResponse) -> Bool {
-        lhs.runID == rhs.runID &&
-            lhs.createdAt == rhs.createdAt
-    }
-}
+extension RunResponse: Equatable {}
 
 extension RunResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

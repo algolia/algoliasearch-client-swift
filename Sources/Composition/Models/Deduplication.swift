@@ -27,11 +27,7 @@ public struct Deduplication: Codable, JSONEncodable {
     }
 }
 
-extension Deduplication: Equatable {
-    public static func ==(lhs: Deduplication, rhs: Deduplication) -> Bool {
-        lhs.positioning == rhs.positioning
-    }
-}
+extension Deduplication: Equatable {}
 
 extension Deduplication: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -28,11 +28,7 @@ public struct SearchSemanticSearch: Codable, JSONEncodable {
     }
 }
 
-extension SearchSemanticSearch: Equatable {
-    public static func ==(lhs: SearchSemanticSearch, rhs: SearchSemanticSearch) -> Bool {
-        lhs.eventSources == rhs.eventSources
-    }
-}
+extension SearchSemanticSearch: Equatable {}
 
 extension SearchSemanticSearch: Hashable {
     public func hash(into hasher: inout Hasher) {

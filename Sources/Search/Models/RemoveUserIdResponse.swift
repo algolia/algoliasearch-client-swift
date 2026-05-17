@@ -26,11 +26,7 @@ public struct RemoveUserIdResponse: Codable, JSONEncodable {
     }
 }
 
-extension RemoveUserIdResponse: Equatable {
-    public static func ==(lhs: RemoveUserIdResponse, rhs: RemoveUserIdResponse) -> Bool {
-        lhs.deletedAt == rhs.deletedAt
-    }
-}
+extension RemoveUserIdResponse: Equatable {}
 
 extension RemoveUserIdResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

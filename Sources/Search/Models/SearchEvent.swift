@@ -62,17 +62,7 @@ public struct SearchEvent: Codable, JSONEncodable {
     }
 }
 
-extension SearchEvent: Equatable {
-    public static func ==(lhs: SearchEvent, rhs: SearchEvent) -> Bool {
-        lhs.eventID == rhs.eventID &&
-            lhs.runID == rhs.runID &&
-            lhs.status == rhs.status &&
-            lhs.type == rhs.type &&
-            lhs.batchSize == rhs.batchSize &&
-            lhs.data == rhs.data &&
-            lhs.publishedAt == rhs.publishedAt
-    }
-}
+extension SearchEvent: Equatable {}
 
 extension SearchEvent: Hashable {
     public func hash(into hasher: inout Hasher) {

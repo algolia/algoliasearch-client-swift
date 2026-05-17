@@ -36,13 +36,7 @@ public struct CompositionValue: Codable, JSONEncodable {
     }
 }
 
-extension CompositionValue: Equatable {
-    public static func ==(lhs: CompositionValue, rhs: CompositionValue) -> Bool {
-        lhs.order == rhs.order &&
-            lhs.sortRemainingBy == rhs.sortRemainingBy &&
-            lhs.hide == rhs.hide
-    }
-}
+extension CompositionValue: Equatable {}
 
 extension CompositionValue: Hashable {
     public func hash(into hasher: inout Hasher) {

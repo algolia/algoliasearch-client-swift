@@ -81,20 +81,7 @@ public struct AbtestingV3ABTest: Codable, JSONEncodable {
     }
 }
 
-extension AbtestingV3ABTest: Equatable {
-    public static func ==(lhs: AbtestingV3ABTest, rhs: AbtestingV3ABTest) -> Bool {
-        lhs.abTestID == rhs.abTestID &&
-            lhs.updatedAt == rhs.updatedAt &&
-            lhs.createdAt == rhs.createdAt &&
-            lhs.endAt == rhs.endAt &&
-            lhs.stoppedAt == rhs.stoppedAt &&
-            lhs.name == rhs.name &&
-            lhs.status == rhs.status &&
-            lhs.variants == rhs.variants &&
-            lhs.configuration == rhs.configuration &&
-            lhs.migratedAbTestID == rhs.migratedAbTestID
-    }
-}
+extension AbtestingV3ABTest: Equatable {}
 
 extension AbtestingV3ABTest: Hashable {
     public func hash(into hasher: inout Hasher) {

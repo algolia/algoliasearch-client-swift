@@ -59,16 +59,7 @@ public struct IngestionWatchResponse: Codable, JSONEncodable {
     }
 }
 
-extension IngestionWatchResponse: Equatable {
-    public static func ==(lhs: IngestionWatchResponse, rhs: IngestionWatchResponse) -> Bool {
-        lhs.runID == rhs.runID &&
-            lhs.eventID == rhs.eventID &&
-            lhs.data == rhs.data &&
-            lhs.events == rhs.events &&
-            lhs.message == rhs.message &&
-            lhs.createdAt == rhs.createdAt
-    }
-}
+extension IngestionWatchResponse: Equatable {}
 
 extension IngestionWatchResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

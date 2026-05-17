@@ -26,11 +26,7 @@ public struct CompositionRuleConsequence: Codable, JSONEncodable {
     }
 }
 
-extension CompositionRuleConsequence: Equatable {
-    public static func ==(lhs: CompositionRuleConsequence, rhs: CompositionRuleConsequence) -> Bool {
-        lhs.behavior == rhs.behavior
-    }
-}
+extension CompositionRuleConsequence: Equatable {}
 
 extension CompositionRuleConsequence: Hashable {
     public func hash(into hasher: inout Hasher) {

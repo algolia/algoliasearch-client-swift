@@ -34,13 +34,7 @@ public struct ShopifyMarket: Codable, JSONEncodable {
     }
 }
 
-extension ShopifyMarket: Equatable {
-    public static func ==(lhs: ShopifyMarket, rhs: ShopifyMarket) -> Bool {
-        lhs.countries == rhs.countries &&
-            lhs.currencies == rhs.currencies &&
-            lhs.locales == rhs.locales
-    }
-}
+extension ShopifyMarket: Equatable {}
 
 extension ShopifyMarket: Hashable {
     public func hash(into hasher: inout Hasher) {

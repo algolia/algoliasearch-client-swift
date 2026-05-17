@@ -47,14 +47,7 @@ public struct BaseRecommendRequest: Codable, JSONEncodable {
     }
 }
 
-extension BaseRecommendRequest: Equatable {
-    public static func ==(lhs: BaseRecommendRequest, rhs: BaseRecommendRequest) -> Bool {
-        lhs.indexName == rhs.indexName &&
-            lhs.threshold == rhs.threshold &&
-            lhs.maxRecommendations == rhs.maxRecommendations &&
-            lhs.queryParameters == rhs.queryParameters
-    }
-}
+extension BaseRecommendRequest: Equatable {}
 
 extension BaseRecommendRequest: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -36,13 +36,7 @@ public struct HierarchyPathEntry: Codable, JSONEncodable {
     }
 }
 
-extension HierarchyPathEntry: Equatable {
-    public static func ==(lhs: HierarchyPathEntry, rhs: HierarchyPathEntry) -> Bool {
-        lhs.facetName == rhs.facetName &&
-            lhs.facetValue == rhs.facetValue &&
-            lhs.depth == rhs.depth
-    }
-}
+extension HierarchyPathEntry: Equatable {}
 
 extension HierarchyPathEntry: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -30,12 +30,7 @@ public struct BuiltInOperation: Codable, JSONEncodable {
     }
 }
 
-extension BuiltInOperation: Equatable {
-    public static func ==(lhs: BuiltInOperation, rhs: BuiltInOperation) -> Bool {
-        lhs.operation == rhs.operation &&
-            lhs.value == rhs.value
-    }
-}
+extension BuiltInOperation: Equatable {}
 
 extension BuiltInOperation: Hashable {
     public func hash(into hasher: inout Hasher) {

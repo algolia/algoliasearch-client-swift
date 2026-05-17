@@ -59,16 +59,7 @@ public struct SearchWatchResponse: Codable, JSONEncodable {
     }
 }
 
-extension SearchWatchResponse: Equatable {
-    public static func ==(lhs: SearchWatchResponse, rhs: SearchWatchResponse) -> Bool {
-        lhs.runID == rhs.runID &&
-            lhs.eventID == rhs.eventID &&
-            lhs.data == rhs.data &&
-            lhs.events == rhs.events &&
-            lhs.message == rhs.message &&
-            lhs.createdAt == rhs.createdAt
-    }
-}
+extension SearchWatchResponse: Equatable {}
 
 extension SearchWatchResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

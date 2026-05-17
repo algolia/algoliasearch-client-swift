@@ -56,13 +56,7 @@ public struct ParamsConsequence: Codable, JSONEncodable {
     }
 }
 
-extension ParamsConsequence: Equatable {
-    public static func ==(lhs: ParamsConsequence, rhs: ParamsConsequence) -> Bool {
-        lhs.automaticFacetFilters == rhs.automaticFacetFilters &&
-            lhs.filters == rhs.filters &&
-            lhs.optionalFilters == rhs.optionalFilters
-    }
-}
+extension ParamsConsequence: Equatable {}
 
 extension ParamsConsequence: Hashable {
     public func hash(into hasher: inout Hasher) {

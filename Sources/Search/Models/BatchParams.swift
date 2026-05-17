@@ -26,11 +26,7 @@ public struct BatchParams: Codable, JSONEncodable {
     }
 }
 
-extension BatchParams: Equatable {
-    public static func ==(lhs: BatchParams, rhs: BatchParams) -> Bool {
-        lhs.requests == rhs.requests
-    }
-}
+extension BatchParams: Equatable {}
 
 extension BatchParams: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -32,12 +32,7 @@ public struct AuthBasicPartial: Codable, JSONEncodable {
     }
 }
 
-extension AuthBasicPartial: Equatable {
-    public static func ==(lhs: AuthBasicPartial, rhs: AuthBasicPartial) -> Bool {
-        lhs.username == rhs.username &&
-            lhs.password == rhs.password
-    }
-}
+extension AuthBasicPartial: Equatable {}
 
 extension AuthBasicPartial: Hashable {
     public func hash(into hasher: inout Hasher) {

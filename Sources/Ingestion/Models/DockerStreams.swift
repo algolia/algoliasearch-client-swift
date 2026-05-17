@@ -35,13 +35,7 @@ public struct DockerStreams: Codable, JSONEncodable {
     }
 }
 
-extension DockerStreams: Equatable {
-    public static func ==(lhs: DockerStreams, rhs: DockerStreams) -> Bool {
-        lhs.name == rhs.name &&
-            lhs.properties == rhs.properties &&
-            lhs.syncMode == rhs.syncMode
-    }
-}
+extension DockerStreams: Equatable {}
 
 extension DockerStreams: Hashable {
     public func hash(into hasher: inout Hasher) {

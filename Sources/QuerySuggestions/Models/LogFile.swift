@@ -46,14 +46,7 @@ public struct LogFile: Codable, JSONEncodable {
     }
 }
 
-extension LogFile: Equatable {
-    public static func ==(lhs: LogFile, rhs: LogFile) -> Bool {
-        lhs.timestamp == rhs.timestamp &&
-            lhs.level == rhs.level &&
-            lhs.message == rhs.message &&
-            lhs.contextLevel == rhs.contextLevel
-    }
-}
+extension LogFile: Equatable {}
 
 extension LogFile: Hashable {
     public func hash(into hasher: inout Hasher) {

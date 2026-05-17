@@ -31,12 +31,7 @@ public struct TimeEntry: Codable, JSONEncodable {
     }
 }
 
-extension TimeEntry: Equatable {
-    public static func ==(lhs: TimeEntry, rhs: TimeEntry) -> Bool {
-        lhs.t == rhs.t &&
-            lhs.v == rhs.v
-    }
-}
+extension TimeEntry: Equatable {}
 
 extension TimeEntry: Hashable {
     public func hash(into hasher: inout Hasher) {

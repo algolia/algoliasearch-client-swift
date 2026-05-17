@@ -41,14 +41,7 @@ public struct SearchUserIdsParams: Codable, JSONEncodable {
     }
 }
 
-extension SearchUserIdsParams: Equatable {
-    public static func ==(lhs: SearchUserIdsParams, rhs: SearchUserIdsParams) -> Bool {
-        lhs.query == rhs.query &&
-            lhs.clusterName == rhs.clusterName &&
-            lhs.page == rhs.page &&
-            lhs.hitsPerPage == rhs.hitsPerPage
-    }
-}
+extension SearchUserIdsParams: Equatable {}
 
 extension SearchUserIdsParams: Hashable {
     public func hash(into hasher: inout Hasher) {

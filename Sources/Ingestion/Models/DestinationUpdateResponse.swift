@@ -37,13 +37,7 @@ public struct DestinationUpdateResponse: Codable, JSONEncodable {
     }
 }
 
-extension DestinationUpdateResponse: Equatable {
-    public static func ==(lhs: DestinationUpdateResponse, rhs: DestinationUpdateResponse) -> Bool {
-        lhs.destinationID == rhs.destinationID &&
-            lhs.name == rhs.name &&
-            lhs.updatedAt == rhs.updatedAt
-    }
-}
+extension DestinationUpdateResponse: Equatable {}
 
 extension DestinationUpdateResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

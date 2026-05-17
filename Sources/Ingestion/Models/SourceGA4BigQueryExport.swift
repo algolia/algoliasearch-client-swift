@@ -37,13 +37,7 @@ public struct SourceGA4BigQueryExport: Codable, JSONEncodable {
     }
 }
 
-extension SourceGA4BigQueryExport: Equatable {
-    public static func ==(lhs: SourceGA4BigQueryExport, rhs: SourceGA4BigQueryExport) -> Bool {
-        lhs.projectID == rhs.projectID &&
-            lhs.datasetID == rhs.datasetID &&
-            lhs.tablePrefix == rhs.tablePrefix
-    }
-}
+extension SourceGA4BigQueryExport: Equatable {}
 
 extension SourceGA4BigQueryExport: Hashable {
     public func hash(into hasher: inout Hasher) {

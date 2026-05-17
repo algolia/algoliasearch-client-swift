@@ -28,11 +28,7 @@ public struct IndexSettingsFacets: Codable, JSONEncodable {
     }
 }
 
-extension IndexSettingsFacets: Equatable {
-    public static func ==(lhs: IndexSettingsFacets, rhs: IndexSettingsFacets) -> Bool {
-        lhs.order == rhs.order
-    }
-}
+extension IndexSettingsFacets: Equatable {}
 
 extension IndexSettingsFacets: Hashable {
     public func hash(into hasher: inout Hasher) {

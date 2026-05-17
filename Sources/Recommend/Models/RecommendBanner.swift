@@ -30,12 +30,7 @@ public struct RecommendBanner: Codable, JSONEncodable {
     }
 }
 
-extension RecommendBanner: Equatable {
-    public static func ==(lhs: RecommendBanner, rhs: RecommendBanner) -> Bool {
-        lhs.image == rhs.image &&
-            lhs.link == rhs.link
-    }
-}
+extension RecommendBanner: Equatable {}
 
 extension RecommendBanner: Hashable {
     public func hash(into hasher: inout Hasher) {

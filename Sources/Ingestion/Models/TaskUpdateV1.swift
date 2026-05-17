@@ -52,15 +52,7 @@ public struct TaskUpdateV1: Codable, JSONEncodable {
     }
 }
 
-extension TaskUpdateV1: Equatable {
-    public static func ==(lhs: TaskUpdateV1, rhs: TaskUpdateV1) -> Bool {
-        lhs.destinationID == rhs.destinationID &&
-            lhs.trigger == rhs.trigger &&
-            lhs.input == rhs.input &&
-            lhs.enabled == rhs.enabled &&
-            lhs.failureThreshold == rhs.failureThreshold
-    }
-}
+extension TaskUpdateV1: Equatable {}
 
 extension TaskUpdateV1: Hashable {
     public func hash(into hasher: inout Hasher) {

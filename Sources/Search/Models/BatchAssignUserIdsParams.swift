@@ -32,12 +32,7 @@ public struct BatchAssignUserIdsParams: Codable, JSONEncodable {
     }
 }
 
-extension BatchAssignUserIdsParams: Equatable {
-    public static func ==(lhs: BatchAssignUserIdsParams, rhs: BatchAssignUserIdsParams) -> Bool {
-        lhs.cluster == rhs.cluster &&
-            lhs.users == rhs.users
-    }
-}
+extension BatchAssignUserIdsParams: Equatable {}
 
 extension BatchAssignUserIdsParams: Hashable {
     public func hash(into hasher: inout Hasher) {

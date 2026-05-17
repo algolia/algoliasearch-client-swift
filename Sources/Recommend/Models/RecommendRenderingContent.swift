@@ -39,13 +39,7 @@ public struct RecommendRenderingContent: Codable, JSONEncodable {
     }
 }
 
-extension RecommendRenderingContent: Equatable {
-    public static func ==(lhs: RecommendRenderingContent, rhs: RecommendRenderingContent) -> Bool {
-        lhs.facetOrdering == rhs.facetOrdering &&
-            lhs.redirect == rhs.redirect &&
-            lhs.widgets == rhs.widgets
-    }
-}
+extension RecommendRenderingContent: Equatable {}
 
 extension RecommendRenderingContent: Hashable {
     public func hash(into hasher: inout Hasher) {

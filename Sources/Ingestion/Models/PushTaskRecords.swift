@@ -73,12 +73,7 @@ public struct PushTaskRecords: Codable, JSONEncodable {
     }
 }
 
-extension PushTaskRecords: Equatable {
-    public static func ==(lhs: PushTaskRecords, rhs: PushTaskRecords) -> Bool {
-        lhs.objectID == rhs.objectID
-            && lhs.additionalProperties == rhs.additionalProperties
-    }
-}
+extension PushTaskRecords: Equatable {}
 
 extension PushTaskRecords: Hashable {
     public func hash(into hasher: inout Hasher) {

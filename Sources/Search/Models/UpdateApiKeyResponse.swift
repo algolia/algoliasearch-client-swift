@@ -31,12 +31,7 @@ public struct UpdateApiKeyResponse: Codable, JSONEncodable {
     }
 }
 
-extension UpdateApiKeyResponse: Equatable {
-    public static func ==(lhs: UpdateApiKeyResponse, rhs: UpdateApiKeyResponse) -> Bool {
-        lhs.key == rhs.key &&
-            lhs.updatedAt == rhs.updatedAt
-    }
-}
+extension UpdateApiKeyResponse: Equatable {}
 
 extension UpdateApiKeyResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

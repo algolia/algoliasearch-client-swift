@@ -30,12 +30,7 @@ public struct SearchBanner: Codable, JSONEncodable {
     }
 }
 
-extension SearchBanner: Equatable {
-    public static func ==(lhs: SearchBanner, rhs: SearchBanner) -> Bool {
-        lhs.image == rhs.image &&
-            lhs.link == rhs.link
-    }
-}
+extension SearchBanner: Equatable {}
 
 extension SearchBanner: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -26,11 +26,7 @@ public struct GetSearchesNoClicksResponse: Codable, JSONEncodable {
     }
 }
 
-extension GetSearchesNoClicksResponse: Equatable {
-    public static func ==(lhs: GetSearchesNoClicksResponse, rhs: GetSearchesNoClicksResponse) -> Bool {
-        lhs.searches == rhs.searches
-    }
-}
+extension GetSearchesNoClicksResponse: Equatable {}
 
 extension GetSearchesNoClicksResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

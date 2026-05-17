@@ -28,11 +28,7 @@ public struct CompositionIndexSettingsFacets: Codable, JSONEncodable {
     }
 }
 
-extension CompositionIndexSettingsFacets: Equatable {
-    public static func ==(lhs: CompositionIndexSettingsFacets, rhs: CompositionIndexSettingsFacets) -> Bool {
-        lhs.order == rhs.order
-    }
-}
+extension CompositionIndexSettingsFacets: Equatable {}
 
 extension CompositionIndexSettingsFacets: Hashable {
     public func hash(into hasher: inout Hasher) {

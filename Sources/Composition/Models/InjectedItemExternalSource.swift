@@ -27,11 +27,7 @@ public struct InjectedItemExternalSource: Codable, JSONEncodable {
     }
 }
 
-extension InjectedItemExternalSource: Equatable {
-    public static func ==(lhs: InjectedItemExternalSource, rhs: InjectedItemExternalSource) -> Bool {
-        lhs.external == rhs.external
-    }
-}
+extension InjectedItemExternalSource: Equatable {}
 
 extension InjectedItemExternalSource: Hashable {
     public func hash(into hasher: inout Hasher) {

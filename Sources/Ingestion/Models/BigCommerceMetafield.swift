@@ -31,12 +31,7 @@ public struct BigCommerceMetafield: Codable, JSONEncodable {
     }
 }
 
-extension BigCommerceMetafield: Equatable {
-    public static func ==(lhs: BigCommerceMetafield, rhs: BigCommerceMetafield) -> Bool {
-        lhs.namespace == rhs.namespace &&
-            lhs.key == rhs.key
-    }
-}
+extension BigCommerceMetafield: Equatable {}
 
 extension BigCommerceMetafield: Hashable {
     public func hash(into hasher: inout Hasher) {

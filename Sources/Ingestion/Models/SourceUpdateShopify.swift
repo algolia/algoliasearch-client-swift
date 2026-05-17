@@ -27,11 +27,7 @@ public struct SourceUpdateShopify: Codable, JSONEncodable {
     }
 }
 
-extension SourceUpdateShopify: Equatable {
-    public static func ==(lhs: SourceUpdateShopify, rhs: SourceUpdateShopify) -> Bool {
-        lhs.featureFlags == rhs.featureFlags
-    }
-}
+extension SourceUpdateShopify: Equatable {}
 
 extension SourceUpdateShopify: Hashable {
     public func hash(into hasher: inout Hasher) {

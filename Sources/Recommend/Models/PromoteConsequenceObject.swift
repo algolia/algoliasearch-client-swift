@@ -32,12 +32,7 @@ public struct PromoteConsequenceObject: Codable, JSONEncodable {
     }
 }
 
-extension PromoteConsequenceObject: Equatable {
-    public static func ==(lhs: PromoteConsequenceObject, rhs: PromoteConsequenceObject) -> Bool {
-        lhs.objectID == rhs.objectID &&
-            lhs.position == rhs.position
-    }
-}
+extension PromoteConsequenceObject: Equatable {}
 
 extension PromoteConsequenceObject: Hashable {
     public func hash(into hasher: inout Hasher) {

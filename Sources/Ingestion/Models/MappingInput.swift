@@ -30,12 +30,7 @@ public struct MappingInput: Codable, JSONEncodable {
     }
 }
 
-extension MappingInput: Equatable {
-    public static func ==(lhs: MappingInput, rhs: MappingInput) -> Bool {
-        lhs.format == rhs.format &&
-            lhs.actions == rhs.actions
-    }
-}
+extension MappingInput: Equatable {}
 
 extension MappingInput: Hashable {
     public func hash(into hasher: inout Hasher) {

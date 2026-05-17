@@ -41,14 +41,7 @@ public struct SearchDictionaryEntriesParams: Codable, JSONEncodable {
     }
 }
 
-extension SearchDictionaryEntriesParams: Equatable {
-    public static func ==(lhs: SearchDictionaryEntriesParams, rhs: SearchDictionaryEntriesParams) -> Bool {
-        lhs.query == rhs.query &&
-            lhs.page == rhs.page &&
-            lhs.hitsPerPage == rhs.hitsPerPage &&
-            lhs.language == rhs.language
-    }
-}
+extension SearchDictionaryEntriesParams: Equatable {}
 
 extension SearchDictionaryEntriesParams: Hashable {
     public func hash(into hasher: inout Hasher) {

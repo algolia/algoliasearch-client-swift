@@ -34,13 +34,7 @@ public struct InjectedItemExternal: Codable, JSONEncodable {
     }
 }
 
-extension InjectedItemExternal: Equatable {
-    public static func ==(lhs: InjectedItemExternal, rhs: InjectedItemExternal) -> Bool {
-        lhs.index == rhs.index &&
-            lhs.params == rhs.params &&
-            lhs.ordering == rhs.ordering
-    }
-}
+extension InjectedItemExternal: Equatable {}
 
 extension InjectedItemExternal: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -112,25 +112,7 @@ public struct Log: Codable, JSONEncodable {
     }
 }
 
-extension Log: Equatable {
-    public static func ==(lhs: Log, rhs: Log) -> Bool {
-        lhs.timestamp == rhs.timestamp &&
-            lhs.method == rhs.method &&
-            lhs.answerCode == rhs.answerCode &&
-            lhs.queryBody == rhs.queryBody &&
-            lhs.answer == rhs.answer &&
-            lhs.url == rhs.url &&
-            lhs.ip == rhs.ip &&
-            lhs.queryHeaders == rhs.queryHeaders &&
-            lhs.sha1 == rhs.sha1 &&
-            lhs.nbApiCalls == rhs.nbApiCalls &&
-            lhs.processingTimeMs == rhs.processingTimeMs &&
-            lhs.index == rhs.index &&
-            lhs.queryParams == rhs.queryParams &&
-            lhs.queryNbHits == rhs.queryNbHits &&
-            lhs.innerQueries == rhs.innerQueries
-    }
-}
+extension Log: Equatable {}
 
 extension Log: Hashable {
     public func hash(into hasher: inout Hasher) {

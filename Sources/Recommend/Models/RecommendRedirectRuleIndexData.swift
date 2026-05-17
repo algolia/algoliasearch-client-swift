@@ -26,11 +26,7 @@ public struct RecommendRedirectRuleIndexData: Codable, JSONEncodable {
     }
 }
 
-extension RecommendRedirectRuleIndexData: Equatable {
-    public static func ==(lhs: RecommendRedirectRuleIndexData, rhs: RecommendRedirectRuleIndexData) -> Bool {
-        lhs.ruleObjectID == rhs.ruleObjectID
-    }
-}
+extension RecommendRedirectRuleIndexData: Equatable {}
 
 extension RecommendRedirectRuleIndexData: Hashable {
     public func hash(into hasher: inout Hasher) {

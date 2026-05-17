@@ -32,12 +32,7 @@ public struct SearchSource: Codable, JSONEncodable {
     }
 }
 
-extension SearchSource: Equatable {
-    public static func ==(lhs: SearchSource, rhs: SearchSource) -> Bool {
-        lhs.source == rhs.source &&
-            lhs.description == rhs.description
-    }
-}
+extension SearchSource: Equatable {}
 
 extension SearchSource: Hashable {
     public func hash(into hasher: inout Hasher) {

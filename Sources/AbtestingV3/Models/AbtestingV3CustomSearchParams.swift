@@ -26,11 +26,7 @@ public struct AbtestingV3CustomSearchParams: Codable, JSONEncodable {
     }
 }
 
-extension AbtestingV3CustomSearchParams: Equatable {
-    public static func ==(lhs: AbtestingV3CustomSearchParams, rhs: AbtestingV3CustomSearchParams) -> Bool {
-        lhs.customSearchParameters == rhs.customSearchParameters
-    }
-}
+extension AbtestingV3CustomSearchParams: Equatable {}
 
 extension AbtestingV3CustomSearchParams: Hashable {
     public func hash(into hasher: inout Hasher) {

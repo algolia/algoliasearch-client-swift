@@ -40,14 +40,7 @@ public struct AbtestingAbTestsVariantSearchParams: Codable, JSONEncodable {
     }
 }
 
-extension AbtestingAbTestsVariantSearchParams: Equatable {
-    public static func ==(lhs: AbtestingAbTestsVariantSearchParams, rhs: AbtestingAbTestsVariantSearchParams) -> Bool {
-        lhs.index == rhs.index &&
-            lhs.trafficPercentage == rhs.trafficPercentage &&
-            lhs.description == rhs.description &&
-            lhs.customSearchParameters == rhs.customSearchParameters
-    }
-}
+extension AbtestingAbTestsVariantSearchParams: Equatable {}
 
 extension AbtestingAbTestsVariantSearchParams: Hashable {
     public func hash(into hasher: inout Hasher) {

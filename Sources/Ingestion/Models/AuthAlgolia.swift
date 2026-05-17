@@ -33,12 +33,7 @@ public struct AuthAlgolia: Codable, JSONEncodable {
     }
 }
 
-extension AuthAlgolia: Equatable {
-    public static func ==(lhs: AuthAlgolia, rhs: AuthAlgolia) -> Bool {
-        lhs.appID == rhs.appID &&
-            lhs.apiKey == rhs.apiKey
-    }
-}
+extension AuthAlgolia: Equatable {}
 
 extension AuthAlgolia: Hashable {
     public func hash(into hasher: inout Hasher) {

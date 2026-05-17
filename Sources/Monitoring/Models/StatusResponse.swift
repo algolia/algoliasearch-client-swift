@@ -25,11 +25,7 @@ public struct StatusResponse: Codable, JSONEncodable {
     }
 }
 
-extension StatusResponse: Equatable {
-    public static func ==(lhs: StatusResponse, rhs: StatusResponse) -> Bool {
-        lhs.status == rhs.status
-    }
-}
+extension StatusResponse: Equatable {}
 
 extension StatusResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -39,13 +39,7 @@ public struct UpdatedAtWithObjectIdResponse: Codable, JSONEncodable {
     }
 }
 
-extension UpdatedAtWithObjectIdResponse: Equatable {
-    public static func ==(lhs: UpdatedAtWithObjectIdResponse, rhs: UpdatedAtWithObjectIdResponse) -> Bool {
-        lhs.taskID == rhs.taskID &&
-            lhs.updatedAt == rhs.updatedAt &&
-            lhs.objectID == rhs.objectID
-    }
-}
+extension UpdatedAtWithObjectIdResponse: Equatable {}
 
 extension UpdatedAtWithObjectIdResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

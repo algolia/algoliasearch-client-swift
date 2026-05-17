@@ -26,11 +26,7 @@ public struct DictionarySettingsParams: Codable, JSONEncodable {
     }
 }
 
-extension DictionarySettingsParams: Equatable {
-    public static func ==(lhs: DictionarySettingsParams, rhs: DictionarySettingsParams) -> Bool {
-        lhs.disableStandardEntries == rhs.disableStandardEntries
-    }
-}
+extension DictionarySettingsParams: Equatable {}
 
 extension DictionarySettingsParams: Hashable {
     public func hash(into hasher: inout Hasher) {

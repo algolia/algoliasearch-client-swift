@@ -26,11 +26,7 @@ public struct SourceShopifyBase: Codable, JSONEncodable {
     }
 }
 
-extension SourceShopifyBase: Equatable {
-    public static func ==(lhs: SourceShopifyBase, rhs: SourceShopifyBase) -> Bool {
-        lhs.shopURL == rhs.shopURL
-    }
-}
+extension SourceShopifyBase: Equatable {}
 
 extension SourceShopifyBase: Hashable {
     public func hash(into hasher: inout Hasher) {

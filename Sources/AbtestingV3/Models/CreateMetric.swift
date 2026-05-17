@@ -32,12 +32,7 @@ public struct CreateMetric: Codable, JSONEncodable {
     }
 }
 
-extension CreateMetric: Equatable {
-    public static func ==(lhs: CreateMetric, rhs: CreateMetric) -> Bool {
-        lhs.name == rhs.name &&
-            lhs.dimension == rhs.dimension
-    }
-}
+extension CreateMetric: Equatable {}
 
 extension CreateMetric: Hashable {
     public func hash(into hasher: inout Hasher) {

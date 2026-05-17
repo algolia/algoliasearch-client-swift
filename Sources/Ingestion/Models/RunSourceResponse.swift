@@ -31,12 +31,7 @@ public struct RunSourceResponse: Codable, JSONEncodable {
     }
 }
 
-extension RunSourceResponse: Equatable {
-    public static func ==(lhs: RunSourceResponse, rhs: RunSourceResponse) -> Bool {
-        lhs.taskWithRunID == rhs.taskWithRunID &&
-            lhs.createdAt == rhs.createdAt
-    }
-}
+extension RunSourceResponse: Equatable {}
 
 extension RunSourceResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

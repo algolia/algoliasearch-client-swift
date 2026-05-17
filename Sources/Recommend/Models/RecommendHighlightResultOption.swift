@@ -41,14 +41,7 @@ public struct RecommendHighlightResultOption: Codable, JSONEncodable {
     }
 }
 
-extension RecommendHighlightResultOption: Equatable {
-    public static func ==(lhs: RecommendHighlightResultOption, rhs: RecommendHighlightResultOption) -> Bool {
-        lhs.value == rhs.value &&
-            lhs.matchLevel == rhs.matchLevel &&
-            lhs.matchedWords == rhs.matchedWords &&
-            lhs.fullyHighlighted == rhs.fullyHighlighted
-    }
-}
+extension RecommendHighlightResultOption: Equatable {}
 
 extension RecommendHighlightResultOption: Hashable {
     public func hash(into hasher: inout Hasher) {

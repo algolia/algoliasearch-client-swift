@@ -30,12 +30,7 @@ public struct SearchBatchRequest: Codable, JSONEncodable {
     }
 }
 
-extension SearchBatchRequest: Equatable {
-    public static func ==(lhs: SearchBatchRequest, rhs: SearchBatchRequest) -> Bool {
-        lhs.action == rhs.action &&
-            lhs.body == rhs.body
-    }
-}
+extension SearchBatchRequest: Equatable {}
 
 extension SearchBatchRequest: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -8,10 +8,6 @@
 import Foundation
 
 struct DecodingErrorPrettyPrinter: CustomStringConvertible, CustomDebugStringConvertible {
-    init(decodingError: DecodingError) {
-        self.decodingError = decodingError
-    }
-
     let decodingError: DecodingError
 
     var description: String {

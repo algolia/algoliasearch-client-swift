@@ -62,17 +62,7 @@ public struct RecommendRule: Codable, JSONEncodable {
     }
 }
 
-extension RecommendRule: Equatable {
-    public static func ==(lhs: RecommendRule, rhs: RecommendRule) -> Bool {
-        lhs.metadata == rhs.metadata &&
-            lhs.objectID == rhs.objectID &&
-            lhs.condition == rhs.condition &&
-            lhs.consequence == rhs.consequence &&
-            lhs.description == rhs.description &&
-            lhs.enabled == rhs.enabled &&
-            lhs.validity == rhs.validity
-    }
-}
+extension RecommendRule: Equatable {}
 
 extension RecommendRule: Hashable {
     public func hash(into hasher: inout Hasher) {

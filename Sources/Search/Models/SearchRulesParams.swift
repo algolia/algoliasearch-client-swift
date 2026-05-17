@@ -69,16 +69,7 @@ public struct SearchRulesParams: Codable, JSONEncodable {
     }
 }
 
-extension SearchRulesParams: Equatable {
-    public static func ==(lhs: SearchRulesParams, rhs: SearchRulesParams) -> Bool {
-        lhs.query == rhs.query &&
-            lhs.anchoring == rhs.anchoring &&
-            lhs.context == rhs.context &&
-            lhs.page == rhs.page &&
-            lhs.hitsPerPage == rhs.hitsPerPage &&
-            lhs.enabled == rhs.enabled
-    }
-}
+extension SearchRulesParams: Equatable {}
 
 extension SearchRulesParams: Hashable {
     public func hash(into hasher: inout Hasher) {

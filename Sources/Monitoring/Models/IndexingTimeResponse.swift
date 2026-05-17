@@ -25,11 +25,7 @@ public struct IndexingTimeResponse: Codable, JSONEncodable {
     }
 }
 
-extension IndexingTimeResponse: Equatable {
-    public static func ==(lhs: IndexingTimeResponse, rhs: IndexingTimeResponse) -> Bool {
-        lhs.metrics == rhs.metrics
-    }
-}
+extension IndexingTimeResponse: Equatable {}
 
 extension IndexingTimeResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

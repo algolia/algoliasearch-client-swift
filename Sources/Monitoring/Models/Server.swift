@@ -62,17 +62,7 @@ public struct Server: Codable, JSONEncodable {
     }
 }
 
-extension Server: Equatable {
-    public static func ==(lhs: Server, rhs: Server) -> Bool {
-        lhs.name == rhs.name &&
-            lhs.region == rhs.region &&
-            lhs.isSlave == rhs.isSlave &&
-            lhs.isReplica == rhs.isReplica &&
-            lhs.cluster == rhs.cluster &&
-            lhs.status == rhs.status &&
-            lhs.type == rhs.type
-    }
-}
+extension Server: Equatable {}
 
 extension Server: Hashable {
     public func hash(into hasher: inout Hasher) {

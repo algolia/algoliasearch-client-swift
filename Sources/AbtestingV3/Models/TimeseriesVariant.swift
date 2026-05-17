@@ -25,11 +25,7 @@ public struct TimeseriesVariant: Codable, JSONEncodable {
     }
 }
 
-extension TimeseriesVariant: Equatable {
-    public static func ==(lhs: TimeseriesVariant, rhs: TimeseriesVariant) -> Bool {
-        lhs.dates == rhs.dates
-    }
-}
+extension TimeseriesVariant: Equatable {}
 
 extension TimeseriesVariant: Hashable {
     public func hash(into hasher: inout Hasher) {

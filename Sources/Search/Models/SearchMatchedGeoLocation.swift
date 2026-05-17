@@ -36,13 +36,7 @@ public struct SearchMatchedGeoLocation: Codable, JSONEncodable {
     }
 }
 
-extension SearchMatchedGeoLocation: Equatable {
-    public static func ==(lhs: SearchMatchedGeoLocation, rhs: SearchMatchedGeoLocation) -> Bool {
-        lhs.lat == rhs.lat &&
-            lhs.lng == rhs.lng &&
-            lhs.distance == rhs.distance
-    }
-}
+extension SearchMatchedGeoLocation: Equatable {}
 
 extension SearchMatchedGeoLocation: Hashable {
     public func hash(into hasher: inout Hasher) {

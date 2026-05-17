@@ -34,13 +34,7 @@ public struct LookingSimilar: Codable, JSONEncodable {
     }
 }
 
-extension LookingSimilar: Equatable {
-    public static func ==(lhs: LookingSimilar, rhs: LookingSimilar) -> Bool {
-        lhs.model == rhs.model &&
-            lhs.objectID == rhs.objectID &&
-            lhs.fallbackParameters == rhs.fallbackParameters
-    }
-}
+extension LookingSimilar: Equatable {}
 
 extension LookingSimilar: Hashable {
     public func hash(into hasher: inout Hasher) {

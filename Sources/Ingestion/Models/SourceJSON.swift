@@ -36,13 +36,7 @@ public struct SourceJSON: Codable, JSONEncodable {
     }
 }
 
-extension SourceJSON: Equatable {
-    public static func ==(lhs: SourceJSON, rhs: SourceJSON) -> Bool {
-        lhs.url == rhs.url &&
-            lhs.uniqueIDColumn == rhs.uniqueIDColumn &&
-            lhs.method == rhs.method
-    }
-}
+extension SourceJSON: Equatable {}
 
 extension SourceJSON: Hashable {
     public func hash(into hasher: inout Hasher) {

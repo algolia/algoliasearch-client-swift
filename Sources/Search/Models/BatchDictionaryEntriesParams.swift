@@ -32,12 +32,7 @@ public struct BatchDictionaryEntriesParams: Codable, JSONEncodable {
     }
 }
 
-extension BatchDictionaryEntriesParams: Equatable {
-    public static func ==(lhs: BatchDictionaryEntriesParams, rhs: BatchDictionaryEntriesParams) -> Bool {
-        lhs.clearExistingDictionaryEntries == rhs.clearExistingDictionaryEntries &&
-            lhs.requests == rhs.requests
-    }
-}
+extension BatchDictionaryEntriesParams: Equatable {}
 
 extension BatchDictionaryEntriesParams: Hashable {
     public func hash(into hasher: inout Hasher) {

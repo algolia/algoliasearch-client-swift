@@ -26,11 +26,7 @@ public struct CompositionRulesBatchParams: Codable, JSONEncodable {
     }
 }
 
-extension CompositionRulesBatchParams: Equatable {
-    public static func ==(lhs: CompositionRulesBatchParams, rhs: CompositionRulesBatchParams) -> Bool {
-        lhs.requests == rhs.requests
-    }
-}
+extension CompositionRulesBatchParams: Equatable {}
 
 extension CompositionRulesBatchParams: Hashable {
     public func hash(into hasher: inout Hasher) {

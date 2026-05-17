@@ -29,12 +29,7 @@ public struct SearchMethodParams: Codable, JSONEncodable {
     }
 }
 
-extension SearchMethodParams: Equatable {
-    public static func ==(lhs: SearchMethodParams, rhs: SearchMethodParams) -> Bool {
-        lhs.requests == rhs.requests &&
-            lhs.strategy == rhs.strategy
-    }
-}
+extension SearchMethodParams: Equatable {}
 
 extension SearchMethodParams: Hashable {
     public func hash(into hasher: inout Hasher) {

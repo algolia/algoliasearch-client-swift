@@ -38,16 +38,7 @@ public struct ReplaceAllObjectsWithTransformationResponse: Codable, JSONEncodabl
     }
 }
 
-extension ReplaceAllObjectsWithTransformationResponse: Equatable {
-    public static func ==(
-        lhs: ReplaceAllObjectsWithTransformationResponse,
-        rhs: ReplaceAllObjectsWithTransformationResponse
-    ) -> Bool {
-        lhs.copyOperationResponse == rhs.copyOperationResponse &&
-            lhs.watchResponses == rhs.watchResponses &&
-            lhs.moveOperationResponse == rhs.moveOperationResponse
-    }
-}
+extension ReplaceAllObjectsWithTransformationResponse: Equatable {}
 
 extension ReplaceAllObjectsWithTransformationResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

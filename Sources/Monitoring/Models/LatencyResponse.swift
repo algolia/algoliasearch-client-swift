@@ -25,11 +25,7 @@ public struct LatencyResponse: Codable, JSONEncodable {
     }
 }
 
-extension LatencyResponse: Equatable {
-    public static func ==(lhs: LatencyResponse, rhs: LatencyResponse) -> Bool {
-        lhs.metrics == rhs.metrics
-    }
-}
+extension LatencyResponse: Equatable {}
 
 extension LatencyResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

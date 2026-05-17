@@ -45,18 +45,7 @@ public struct CompositionRedirectRuleIndexMetadata: Codable, JSONEncodable {
     }
 }
 
-extension CompositionRedirectRuleIndexMetadata: Equatable {
-    public static func ==(
-        lhs: CompositionRedirectRuleIndexMetadata,
-        rhs: CompositionRedirectRuleIndexMetadata
-    ) -> Bool {
-        lhs.source == rhs.source &&
-            lhs.dest == rhs.dest &&
-            lhs.reason == rhs.reason &&
-            lhs.succeed == rhs.succeed &&
-            lhs.data == rhs.data
-    }
-}
+extension CompositionRedirectRuleIndexMetadata: Equatable {}
 
 extension CompositionRedirectRuleIndexMetadata: Hashable {
     public func hash(into hasher: inout Hasher) {

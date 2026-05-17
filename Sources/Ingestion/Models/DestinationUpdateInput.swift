@@ -41,13 +41,7 @@ public struct DestinationUpdateInput: Codable, JSONEncodable {
     }
 }
 
-extension DestinationUpdateInput: Equatable {
-    public static func ==(lhs: DestinationUpdateInput, rhs: DestinationUpdateInput) -> Bool {
-        lhs.indexName == rhs.indexName &&
-            lhs.recordType == rhs.recordType &&
-            lhs.attributesToExclude == rhs.attributesToExclude
-    }
-}
+extension DestinationUpdateInput: Equatable {}
 
 extension DestinationUpdateInput: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -30,12 +30,7 @@ public struct ResultsCompositionsResponse: Codable, JSONEncodable {
     }
 }
 
-extension ResultsCompositionsResponse: Equatable {
-    public static func ==(lhs: ResultsCompositionsResponse, rhs: ResultsCompositionsResponse) -> Bool {
-        lhs.feedID == rhs.feedID &&
-            lhs.compositions == rhs.compositions
-    }
-}
+extension ResultsCompositionsResponse: Equatable {}
 
 extension ResultsCompositionsResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

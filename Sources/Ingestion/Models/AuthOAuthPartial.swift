@@ -54,15 +54,7 @@ public struct AuthOAuthPartial: Codable, JSONEncodable {
     }
 }
 
-extension AuthOAuthPartial: Equatable {
-    public static func ==(lhs: AuthOAuthPartial, rhs: AuthOAuthPartial) -> Bool {
-        lhs.url == rhs.url &&
-            lhs.clientId == rhs.clientId &&
-            lhs.clientSecret == rhs.clientSecret &&
-            lhs.code == rhs.code &&
-            lhs.scope == rhs.scope
-    }
-}
+extension AuthOAuthPartial: Equatable {}
 
 extension AuthOAuthPartial: Hashable {
     public func hash(into hasher: inout Hasher) {

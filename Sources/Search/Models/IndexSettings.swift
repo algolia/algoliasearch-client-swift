@@ -524,71 +524,7 @@ public struct IndexSettings: Codable, JSONEncodable {
     }
 }
 
-extension IndexSettings: Equatable {
-    public static func ==(lhs: IndexSettings, rhs: IndexSettings) -> Bool {
-        lhs.attributesForFaceting == rhs.attributesForFaceting &&
-            lhs.replicas == rhs.replicas &&
-            lhs.paginationLimitedTo == rhs.paginationLimitedTo &&
-            lhs.unretrievableAttributes == rhs.unretrievableAttributes &&
-            lhs.disableTypoToleranceOnWords == rhs.disableTypoToleranceOnWords &&
-            lhs.attributesToTransliterate == rhs.attributesToTransliterate &&
-            lhs.camelCaseAttributes == rhs.camelCaseAttributes &&
-            lhs.decompoundedAttributes == rhs.decompoundedAttributes &&
-            lhs.indexLanguages == rhs.indexLanguages &&
-            lhs.disablePrefixOnAttributes == rhs.disablePrefixOnAttributes &&
-            lhs.allowCompressionOfIntegerArray == rhs.allowCompressionOfIntegerArray &&
-            lhs.numericAttributesForFiltering == rhs.numericAttributesForFiltering &&
-            lhs.separatorsToIndex == rhs.separatorsToIndex &&
-            lhs.searchableAttributes == rhs.searchableAttributes &&
-            lhs.userData == rhs.userData &&
-            lhs.customNormalization == rhs.customNormalization &&
-            lhs.attributeForDistinct == rhs.attributeForDistinct &&
-            lhs.maxFacetHits == rhs.maxFacetHits &&
-            lhs.keepDiacriticsOnCharacters == rhs.keepDiacriticsOnCharacters &&
-            lhs.customRanking == rhs.customRanking &&
-            lhs.attributesToRetrieve == rhs.attributesToRetrieve &&
-            lhs.ranking == rhs.ranking &&
-            lhs.relevancyStrictness == rhs.relevancyStrictness &&
-            lhs.attributesToHighlight == rhs.attributesToHighlight &&
-            lhs.attributesToSnippet == rhs.attributesToSnippet &&
-            lhs.highlightPreTag == rhs.highlightPreTag &&
-            lhs.highlightPostTag == rhs.highlightPostTag &&
-            lhs.snippetEllipsisText == rhs.snippetEllipsisText &&
-            lhs.restrictHighlightAndSnippetArrays == rhs.restrictHighlightAndSnippetArrays &&
-            lhs.hitsPerPage == rhs.hitsPerPage &&
-            lhs.minWordSizefor1Typo == rhs.minWordSizefor1Typo &&
-            lhs.minWordSizefor2Typos == rhs.minWordSizefor2Typos &&
-            lhs.typoTolerance == rhs.typoTolerance &&
-            lhs.allowTyposOnNumericTokens == rhs.allowTyposOnNumericTokens &&
-            lhs.disableTypoToleranceOnAttributes == rhs.disableTypoToleranceOnAttributes &&
-            lhs.ignorePlurals == rhs.ignorePlurals &&
-            lhs.removeStopWords == rhs.removeStopWords &&
-            lhs.queryLanguages == rhs.queryLanguages &&
-            lhs.decompoundQuery == rhs.decompoundQuery &&
-            lhs.enableRules == rhs.enableRules &&
-            lhs.enablePersonalization == rhs.enablePersonalization &&
-            lhs.queryType == rhs.queryType &&
-            lhs.removeWordsIfNoResults == rhs.removeWordsIfNoResults &&
-            lhs.mode == rhs.mode &&
-            lhs.semanticSearch == rhs.semanticSearch &&
-            lhs.advancedSyntax == rhs.advancedSyntax &&
-            lhs.optionalWords == rhs.optionalWords &&
-            lhs.disableExactOnAttributes == rhs.disableExactOnAttributes &&
-            lhs.exactOnSingleWordQuery == rhs.exactOnSingleWordQuery &&
-            lhs.alternativesAsExact == rhs.alternativesAsExact &&
-            lhs.advancedSyntaxFeatures == rhs.advancedSyntaxFeatures &&
-            lhs.distinct == rhs.distinct &&
-            lhs.replaceSynonymsInHighlight == rhs.replaceSynonymsInHighlight &&
-            lhs.minProximity == rhs.minProximity &&
-            lhs.responseFields == rhs.responseFields &&
-            lhs.maxValuesPerFacet == rhs.maxValuesPerFacet &&
-            lhs.sortFacetValuesBy == rhs.sortFacetValuesBy &&
-            lhs.attributeCriteriaComputedByMinProximity == rhs.attributeCriteriaComputedByMinProximity &&
-            lhs.renderingContent == rhs.renderingContent &&
-            lhs.enableReRanking == rhs.enableReRanking &&
-            lhs.reRankingApplyFilter == rhs.reRankingApplyFilter
-    }
-}
+extension IndexSettings: Equatable {}
 
 extension IndexSettings: Hashable {
     public func hash(into hasher: inout Hasher) {

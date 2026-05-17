@@ -26,11 +26,7 @@ public struct DeleteApiKeyResponse: Codable, JSONEncodable {
     }
 }
 
-extension DeleteApiKeyResponse: Equatable {
-    public static func ==(lhs: DeleteApiKeyResponse, rhs: DeleteApiKeyResponse) -> Bool {
-        lhs.deletedAt == rhs.deletedAt
-    }
-}
+extension DeleteApiKeyResponse: Equatable {}
 
 extension DeleteApiKeyResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

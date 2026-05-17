@@ -97,23 +97,7 @@ public struct TaskV1: Codable, JSONEncodable {
     }
 }
 
-extension TaskV1: Equatable {
-    public static func ==(lhs: TaskV1, rhs: TaskV1) -> Bool {
-        lhs.taskID == rhs.taskID &&
-            lhs.sourceID == rhs.sourceID &&
-            lhs.destinationID == rhs.destinationID &&
-            lhs.trigger == rhs.trigger &&
-            lhs.input == rhs.input &&
-            lhs.enabled == rhs.enabled &&
-            lhs.failureThreshold == rhs.failureThreshold &&
-            lhs.action == rhs.action &&
-            lhs.cursor == rhs.cursor &&
-            lhs.notifications == rhs.notifications &&
-            lhs.policies == rhs.policies &&
-            lhs.createdAt == rhs.createdAt &&
-            lhs.updatedAt == rhs.updatedAt
-    }
-}
+extension TaskV1: Equatable {}
 
 extension TaskV1: Hashable {
     public func hash(into hasher: inout Hasher) {

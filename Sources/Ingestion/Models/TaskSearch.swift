@@ -25,11 +25,7 @@ public struct TaskSearch: Codable, JSONEncodable {
     }
 }
 
-extension TaskSearch: Equatable {
-    public static func ==(lhs: TaskSearch, rhs: TaskSearch) -> Bool {
-        lhs.taskIDs == rhs.taskIDs
-    }
-}
+extension TaskSearch: Equatable {}
 
 extension TaskSearch: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -53,15 +53,7 @@ public struct SourceCSV: Codable, JSONEncodable {
     }
 }
 
-extension SourceCSV: Equatable {
-    public static func ==(lhs: SourceCSV, rhs: SourceCSV) -> Bool {
-        lhs.url == rhs.url &&
-            lhs.uniqueIDColumn == rhs.uniqueIDColumn &&
-            lhs.mapping == rhs.mapping &&
-            lhs.method == rhs.method &&
-            lhs.delimiter == rhs.delimiter
-    }
-}
+extension SourceCSV: Equatable {}
 
 extension SourceCSV: Hashable {
     public func hash(into hasher: inout Hasher) {

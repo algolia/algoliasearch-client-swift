@@ -74,19 +74,7 @@ public struct Destination: Codable, JSONEncodable {
     }
 }
 
-extension Destination: Equatable {
-    public static func ==(lhs: Destination, rhs: Destination) -> Bool {
-        lhs.destinationID == rhs.destinationID &&
-            lhs.type == rhs.type &&
-            lhs.name == rhs.name &&
-            lhs.owner == rhs.owner &&
-            lhs.input == rhs.input &&
-            lhs.createdAt == rhs.createdAt &&
-            lhs.updatedAt == rhs.updatedAt &&
-            lhs.authenticationID == rhs.authenticationID &&
-            lhs.transformationIDs == rhs.transformationIDs
-    }
-}
+extension Destination: Equatable {}
 
 extension Destination: Hashable {
     public func hash(into hasher: inout Hasher) {

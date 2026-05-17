@@ -35,12 +35,7 @@ public struct MetricMetadata: Codable, JSONEncodable {
     }
 }
 
-extension MetricMetadata: Equatable {
-    public static func ==(lhs: MetricMetadata, rhs: MetricMetadata) -> Bool {
-        lhs.winsorizedValue == rhs.winsorizedValue &&
-            lhs.mean == rhs.mean
-    }
-}
+extension MetricMetadata: Equatable {}
 
 extension MetricMetadata: Hashable {
     public func hash(into hasher: inout Hasher) {

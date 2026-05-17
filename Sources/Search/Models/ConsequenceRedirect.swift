@@ -27,11 +27,7 @@ public struct ConsequenceRedirect: Codable, JSONEncodable {
     }
 }
 
-extension ConsequenceRedirect: Equatable {
-    public static func ==(lhs: ConsequenceRedirect, rhs: ConsequenceRedirect) -> Bool {
-        lhs.indexName == rhs.indexName
-    }
-}
+extension ConsequenceRedirect: Equatable {}
 
 extension ConsequenceRedirect: Hashable {
     public func hash(into hasher: inout Hasher) {

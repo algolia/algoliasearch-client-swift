@@ -34,13 +34,7 @@ public struct FrequentlyBoughtTogether: Codable, JSONEncodable {
     }
 }
 
-extension FrequentlyBoughtTogether: Equatable {
-    public static func ==(lhs: FrequentlyBoughtTogether, rhs: FrequentlyBoughtTogether) -> Bool {
-        lhs.model == rhs.model &&
-            lhs.objectID == rhs.objectID &&
-            lhs.fallbackParameters == rhs.fallbackParameters
-    }
-}
+extension FrequentlyBoughtTogether: Equatable {}
 
 extension FrequentlyBoughtTogether: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -237,41 +237,7 @@ public struct SearchBaseSearchParamsWithoutQuery: Codable, JSONEncodable {
     }
 }
 
-extension SearchBaseSearchParamsWithoutQuery: Equatable {
-    public static func ==(lhs: SearchBaseSearchParamsWithoutQuery, rhs: SearchBaseSearchParamsWithoutQuery) -> Bool {
-        lhs.similarQuery == rhs.similarQuery &&
-            lhs.filters == rhs.filters &&
-            lhs.facetFilters == rhs.facetFilters &&
-            lhs.optionalFilters == rhs.optionalFilters &&
-            lhs.numericFilters == rhs.numericFilters &&
-            lhs.tagFilters == rhs.tagFilters &&
-            lhs.sumOrFiltersScores == rhs.sumOrFiltersScores &&
-            lhs.restrictSearchableAttributes == rhs.restrictSearchableAttributes &&
-            lhs.facets == rhs.facets &&
-            lhs.facetingAfterDistinct == rhs.facetingAfterDistinct &&
-            lhs.page == rhs.page &&
-            lhs.offset == rhs.offset &&
-            lhs.length == rhs.length &&
-            lhs.aroundLatLng == rhs.aroundLatLng &&
-            lhs.aroundLatLngViaIP == rhs.aroundLatLngViaIP &&
-            lhs.aroundRadius == rhs.aroundRadius &&
-            lhs.aroundPrecision == rhs.aroundPrecision &&
-            lhs.minimumAroundRadius == rhs.minimumAroundRadius &&
-            lhs.insideBoundingBox == rhs.insideBoundingBox &&
-            lhs.insidePolygon == rhs.insidePolygon &&
-            lhs.naturalLanguages == rhs.naturalLanguages &&
-            lhs.ruleContexts == rhs.ruleContexts &&
-            lhs.personalizationImpact == rhs.personalizationImpact &&
-            lhs.userToken == rhs.userToken &&
-            lhs.getRankingInfo == rhs.getRankingInfo &&
-            lhs.synonyms == rhs.synonyms &&
-            lhs.clickAnalytics == rhs.clickAnalytics &&
-            lhs.analytics == rhs.analytics &&
-            lhs.analyticsTags == rhs.analyticsTags &&
-            lhs.percentileComputation == rhs.percentileComputation &&
-            lhs.enableABTest == rhs.enableABTest
-    }
-}
+extension SearchBaseSearchParamsWithoutQuery: Equatable {}
 
 extension SearchBaseSearchParamsWithoutQuery: Hashable {
     public func hash(into hasher: inout Hasher) {

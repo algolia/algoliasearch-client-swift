@@ -38,13 +38,7 @@ public struct GetUserTokenResponse: Codable, JSONEncodable {
     }
 }
 
-extension GetUserTokenResponse: Equatable {
-    public static func ==(lhs: GetUserTokenResponse, rhs: GetUserTokenResponse) -> Bool {
-        lhs.userToken == rhs.userToken &&
-            lhs.lastEventAt == rhs.lastEventAt &&
-            lhs.scores == rhs.scores
-    }
-}
+extension GetUserTokenResponse: Equatable {}
 
 extension GetUserTokenResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

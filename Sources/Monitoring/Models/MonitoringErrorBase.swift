@@ -71,12 +71,7 @@ public struct MonitoringErrorBase: Codable, JSONEncodable {
     }
 }
 
-extension MonitoringErrorBase: Equatable {
-    public static func ==(lhs: MonitoringErrorBase, rhs: MonitoringErrorBase) -> Bool {
-        lhs.message == rhs.message
-            && lhs.additionalProperties == rhs.additionalProperties
-    }
-}
+extension MonitoringErrorBase: Equatable {}
 
 extension MonitoringErrorBase: Hashable {
     public func hash(into hasher: inout Hasher) {

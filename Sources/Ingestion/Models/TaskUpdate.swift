@@ -67,18 +67,7 @@ public struct TaskUpdate: Codable, JSONEncodable {
     }
 }
 
-extension TaskUpdate: Equatable {
-    public static func ==(lhs: TaskUpdate, rhs: TaskUpdate) -> Bool {
-        lhs.destinationID == rhs.destinationID &&
-            lhs.cron == rhs.cron &&
-            lhs.input == rhs.input &&
-            lhs.enabled == rhs.enabled &&
-            lhs.subscriptionAction == rhs.subscriptionAction &&
-            lhs.failureThreshold == rhs.failureThreshold &&
-            lhs.notifications == rhs.notifications &&
-            lhs.policies == rhs.policies
-    }
-}
+extension TaskUpdate: Equatable {}
 
 extension TaskUpdate: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -30,12 +30,7 @@ public struct CategoryPrediction: Codable, JSONEncodable {
     }
 }
 
-extension CategoryPrediction: Equatable {
-    public static func ==(lhs: CategoryPrediction, rhs: CategoryPrediction) -> Bool {
-        lhs.bin == rhs.bin &&
-            lhs.hierarchyPath == rhs.hierarchyPath
-    }
-}
+extension CategoryPrediction: Equatable {}
 
 extension CategoryPrediction: Hashable {
     public func hash(into hasher: inout Hasher) {

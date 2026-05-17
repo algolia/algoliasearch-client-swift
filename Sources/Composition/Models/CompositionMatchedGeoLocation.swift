@@ -36,13 +36,7 @@ public struct CompositionMatchedGeoLocation: Codable, JSONEncodable {
     }
 }
 
-extension CompositionMatchedGeoLocation: Equatable {
-    public static func ==(lhs: CompositionMatchedGeoLocation, rhs: CompositionMatchedGeoLocation) -> Bool {
-        lhs.lat == rhs.lat &&
-            lhs.lng == rhs.lng &&
-            lhs.distance == rhs.distance
-    }
-}
+extension CompositionMatchedGeoLocation: Equatable {}
 
 extension CompositionMatchedGeoLocation: Hashable {
     public func hash(into hasher: inout Hasher) {

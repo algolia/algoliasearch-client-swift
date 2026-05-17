@@ -332,37 +332,7 @@ public struct RecommendBaseSearchResponse: Codable, JSONEncodable {
     }
 }
 
-extension RecommendBaseSearchResponse: Equatable {
-    public static func ==(lhs: RecommendBaseSearchResponse, rhs: RecommendBaseSearchResponse) -> Bool {
-        lhs.abTestID == rhs.abTestID &&
-            lhs.abTestVariantID == rhs.abTestVariantID &&
-            lhs.aroundLatLng == rhs.aroundLatLng &&
-            lhs.automaticRadius == rhs.automaticRadius &&
-            lhs.exhaustive == rhs.exhaustive &&
-            lhs.appliedRules == rhs.appliedRules &&
-            lhs.exhaustiveFacetsCount == rhs.exhaustiveFacetsCount &&
-            lhs.exhaustiveNbHits == rhs.exhaustiveNbHits &&
-            lhs.exhaustiveTypo == rhs.exhaustiveTypo &&
-            lhs.facets == rhs.facets &&
-            lhs.facetsStats == rhs.facetsStats &&
-            lhs.index == rhs.index &&
-            lhs.indexUsed == rhs.indexUsed &&
-            lhs.message == rhs.message &&
-            lhs.nbSortedHits == rhs.nbSortedHits &&
-            lhs.parsedQuery == rhs.parsedQuery &&
-            lhs.processingTimeMS == rhs.processingTimeMS &&
-            lhs.processingTimingsMS == rhs.processingTimingsMS &&
-            lhs.queryAfterRemoval == rhs.queryAfterRemoval &&
-            lhs.redirect == rhs.redirect &&
-            lhs.renderingContent == rhs.renderingContent &&
-            lhs.serverTimeMS == rhs.serverTimeMS &&
-            lhs.serverUsed == rhs.serverUsed &&
-            lhs.userData == rhs.userData &&
-            lhs.queryID == rhs.queryID &&
-            lhs.automaticInsights == rhs.automaticInsights
-            && lhs.additionalProperties == rhs.additionalProperties
-    }
-}
+extension RecommendBaseSearchResponse: Equatable {}
 
 extension RecommendBaseSearchResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -32,12 +32,7 @@ public struct AbtestingV3EmptySearchFilter: Codable, JSONEncodable {
     }
 }
 
-extension AbtestingV3EmptySearchFilter: Equatable {
-    public static func ==(lhs: AbtestingV3EmptySearchFilter, rhs: AbtestingV3EmptySearchFilter) -> Bool {
-        lhs.usersCount == rhs.usersCount &&
-            lhs.trackedSearchesCount == rhs.trackedSearchesCount
-    }
-}
+extension AbtestingV3EmptySearchFilter: Equatable {}
 
 extension AbtestingV3EmptySearchFilter: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -46,14 +46,7 @@ public struct CompositionHighlightResultOption: Codable, JSONEncodable {
     }
 }
 
-extension CompositionHighlightResultOption: Equatable {
-    public static func ==(lhs: CompositionHighlightResultOption, rhs: CompositionHighlightResultOption) -> Bool {
-        lhs.value == rhs.value &&
-            lhs.matchLevel == rhs.matchLevel &&
-            lhs.matchedWords == rhs.matchedWords &&
-            lhs.fullyHighlighted == rhs.fullyHighlighted
-    }
-}
+extension CompositionHighlightResultOption: Equatable {}
 
 extension CompositionHighlightResultOption: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -32,12 +32,7 @@ public struct Facet: Codable, JSONEncodable {
     }
 }
 
-extension Facet: Equatable {
-    public static func ==(lhs: Facet, rhs: Facet) -> Bool {
-        lhs.attribute == rhs.attribute &&
-            lhs.amount == rhs.amount
-    }
-}
+extension Facet: Equatable {}
 
 extension Facet: Hashable {
     public func hash(into hasher: inout Hasher) {

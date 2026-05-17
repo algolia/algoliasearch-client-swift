@@ -149,30 +149,7 @@ public struct AbtestingVariant: Codable, JSONEncodable {
     }
 }
 
-extension AbtestingVariant: Equatable {
-    public static func ==(lhs: AbtestingVariant, rhs: AbtestingVariant) -> Bool {
-        lhs.addToCartCount == rhs.addToCartCount &&
-            lhs.addToCartRate == rhs.addToCartRate &&
-            lhs.averageClickPosition == rhs.averageClickPosition &&
-            lhs.clickCount == rhs.clickCount &&
-            lhs.clickThroughRate == rhs.clickThroughRate &&
-            lhs.conversionCount == rhs.conversionCount &&
-            lhs.conversionRate == rhs.conversionRate &&
-            lhs.currencies == rhs.currencies &&
-            lhs.description == rhs.description &&
-            lhs.estimatedSampleSize == rhs.estimatedSampleSize &&
-            lhs.filterEffects == rhs.filterEffects &&
-            lhs.index == rhs.index &&
-            lhs.noResultCount == rhs.noResultCount &&
-            lhs.purchaseCount == rhs.purchaseCount &&
-            lhs.purchaseRate == rhs.purchaseRate &&
-            lhs.searchCount == rhs.searchCount &&
-            lhs.trackedSearchCount == rhs.trackedSearchCount &&
-            lhs.trafficPercentage == rhs.trafficPercentage &&
-            lhs.userCount == rhs.userCount &&
-            lhs.trackedUserCount == rhs.trackedUserCount
-    }
-}
+extension AbtestingVariant: Equatable {}
 
 extension AbtestingVariant: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -29,12 +29,7 @@ public struct ListDestinationsResponse: Codable, JSONEncodable {
     }
 }
 
-extension ListDestinationsResponse: Equatable {
-    public static func ==(lhs: ListDestinationsResponse, rhs: ListDestinationsResponse) -> Bool {
-        lhs.destinations == rhs.destinations &&
-            lhs.pagination == rhs.pagination
-    }
-}
+extension ListDestinationsResponse: Equatable {}
 
 extension ListDestinationsResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

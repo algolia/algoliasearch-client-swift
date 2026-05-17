@@ -26,11 +26,7 @@ public struct CompositionRunAppliedRules: Codable, JSONEncodable {
     }
 }
 
-extension CompositionRunAppliedRules: Equatable {
-    public static func ==(lhs: CompositionRunAppliedRules, rhs: CompositionRunAppliedRules) -> Bool {
-        lhs.objectID == rhs.objectID
-    }
-}
+extension CompositionRunAppliedRules: Equatable {}
 
 extension CompositionRunAppliedRules: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -25,11 +25,7 @@ public struct MonitoringForbidden: Codable, JSONEncodable {
     }
 }
 
-extension MonitoringForbidden: Equatable {
-    public static func ==(lhs: MonitoringForbidden, rhs: MonitoringForbidden) -> Bool {
-        lhs.reason == rhs.reason
-    }
-}
+extension MonitoringForbidden: Equatable {}
 
 extension MonitoringForbidden: Hashable {
     public func hash(into hasher: inout Hasher) {

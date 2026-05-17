@@ -25,11 +25,7 @@ public struct ResultsCompositionInfoResponse: Codable, JSONEncodable {
     }
 }
 
-extension ResultsCompositionInfoResponse: Equatable {
-    public static func ==(lhs: ResultsCompositionInfoResponse, rhs: ResultsCompositionInfoResponse) -> Bool {
-        lhs.injectedItems == rhs.injectedItems
-    }
-}
+extension ResultsCompositionInfoResponse: Equatable {}
 
 extension ResultsCompositionInfoResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

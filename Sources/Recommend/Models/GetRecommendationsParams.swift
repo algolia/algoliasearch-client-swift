@@ -27,11 +27,7 @@ public struct GetRecommendationsParams: Codable, JSONEncodable {
     }
 }
 
-extension GetRecommendationsParams: Equatable {
-    public static func ==(lhs: GetRecommendationsParams, rhs: GetRecommendationsParams) -> Bool {
-        lhs.requests == rhs.requests
-    }
-}
+extension GetRecommendationsParams: Equatable {}
 
 extension GetRecommendationsParams: Hashable {
     public func hash(into hasher: inout Hasher) {

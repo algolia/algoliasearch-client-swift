@@ -56,15 +56,7 @@ public struct Composition: Codable, JSONEncodable {
     }
 }
 
-extension Composition: Equatable {
-    public static func ==(lhs: Composition, rhs: Composition) -> Bool {
-        lhs.objectID == rhs.objectID &&
-            lhs.name == rhs.name &&
-            lhs.description == rhs.description &&
-            lhs.behavior == rhs.behavior &&
-            lhs.sortingStrategy == rhs.sortingStrategy
-    }
-}
+extension Composition: Equatable {}
 
 extension Composition: Hashable {
     public func hash(into hasher: inout Hasher) {

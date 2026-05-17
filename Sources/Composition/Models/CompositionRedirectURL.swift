@@ -26,11 +26,7 @@ public struct CompositionRedirectURL: Codable, JSONEncodable {
     }
 }
 
-extension CompositionRedirectURL: Equatable {
-    public static func ==(lhs: CompositionRedirectURL, rhs: CompositionRedirectURL) -> Bool {
-        lhs.url == rhs.url
-    }
-}
+extension CompositionRedirectURL: Equatable {}
 
 extension CompositionRedirectURL: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -63,15 +63,7 @@ public struct CompositionExhaustive: Codable, JSONEncodable {
     }
 }
 
-extension CompositionExhaustive: Equatable {
-    public static func ==(lhs: CompositionExhaustive, rhs: CompositionExhaustive) -> Bool {
-        lhs.facetsCount == rhs.facetsCount &&
-            lhs.facetValues == rhs.facetValues &&
-            lhs.nbHits == rhs.nbHits &&
-            lhs.rulesMatch == rhs.rulesMatch &&
-            lhs.typo == rhs.typo
-    }
-}
+extension CompositionExhaustive: Equatable {}
 
 extension CompositionExhaustive: Hashable {
     public func hash(into hasher: inout Hasher) {

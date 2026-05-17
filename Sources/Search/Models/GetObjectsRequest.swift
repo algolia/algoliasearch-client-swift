@@ -37,13 +37,7 @@ public struct GetObjectsRequest: Codable, JSONEncodable {
     }
 }
 
-extension GetObjectsRequest: Equatable {
-    public static func ==(lhs: GetObjectsRequest, rhs: GetObjectsRequest) -> Bool {
-        lhs.attributesToRetrieve == rhs.attributesToRetrieve &&
-            lhs.objectID == rhs.objectID &&
-            lhs.indexName == rhs.indexName
-    }
-}
+extension GetObjectsRequest: Equatable {}
 
 extension GetObjectsRequest: Hashable {
     public func hash(into hasher: inout Hasher) {

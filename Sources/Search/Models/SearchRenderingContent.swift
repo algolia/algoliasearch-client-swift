@@ -39,13 +39,7 @@ public struct SearchRenderingContent: Codable, JSONEncodable {
     }
 }
 
-extension SearchRenderingContent: Equatable {
-    public static func ==(lhs: SearchRenderingContent, rhs: SearchRenderingContent) -> Bool {
-        lhs.facetOrdering == rhs.facetOrdering &&
-            lhs.redirect == rhs.redirect &&
-            lhs.widgets == rhs.widgets
-    }
-}
+extension SearchRenderingContent: Equatable {}
 
 extension SearchRenderingContent: Hashable {
     public func hash(into hasher: inout Hasher) {

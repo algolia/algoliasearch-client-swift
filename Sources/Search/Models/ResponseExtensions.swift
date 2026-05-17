@@ -27,11 +27,7 @@ public struct ResponseExtensions: Codable, JSONEncodable {
     }
 }
 
-extension ResponseExtensions: Equatable {
-    public static func ==(lhs: ResponseExtensions, rhs: ResponseExtensions) -> Bool {
-        lhs.queryCategorization == rhs.queryCategorization
-    }
-}
+extension ResponseExtensions: Equatable {}
 
 extension ResponseExtensions: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -38,13 +38,7 @@ public struct StandardEntries: Codable, JSONEncodable {
     }
 }
 
-extension StandardEntries: Equatable {
-    public static func ==(lhs: StandardEntries, rhs: StandardEntries) -> Bool {
-        lhs.plurals == rhs.plurals &&
-            lhs.stopwords == rhs.stopwords &&
-            lhs.compounds == rhs.compounds
-    }
-}
+extension StandardEntries: Equatable {}
 
 extension StandardEntries: Hashable {
     public func hash(into hasher: inout Hasher) {

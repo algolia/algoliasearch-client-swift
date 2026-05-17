@@ -87,20 +87,7 @@ public struct TopSearchWithAnalytics: Codable, JSONEncodable {
     }
 }
 
-extension TopSearchWithAnalytics: Equatable {
-    public static func ==(lhs: TopSearchWithAnalytics, rhs: TopSearchWithAnalytics) -> Bool {
-        lhs.search == rhs.search &&
-            lhs.count == rhs.count &&
-            lhs.clickThroughRate == rhs.clickThroughRate &&
-            lhs.averageClickPosition == rhs.averageClickPosition &&
-            lhs.clickPositions == rhs.clickPositions &&
-            lhs.conversionRate == rhs.conversionRate &&
-            lhs.trackedSearchCount == rhs.trackedSearchCount &&
-            lhs.clickCount == rhs.clickCount &&
-            lhs.conversionCount == rhs.conversionCount &&
-            lhs.nbHits == rhs.nbHits
-    }
-}
+extension TopSearchWithAnalytics: Equatable {}
 
 extension TopSearchWithAnalytics: Hashable {
     public func hash(into hasher: inout Hasher) {

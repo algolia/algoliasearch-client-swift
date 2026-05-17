@@ -26,11 +26,7 @@ public struct RecommendSearchParamsQuery: Codable, JSONEncodable {
     }
 }
 
-extension RecommendSearchParamsQuery: Equatable {
-    public static func ==(lhs: RecommendSearchParamsQuery, rhs: RecommendSearchParamsQuery) -> Bool {
-        lhs.query == rhs.query
-    }
-}
+extension RecommendSearchParamsQuery: Equatable {}
 
 extension RecommendSearchParamsQuery: Hashable {
     public func hash(into hasher: inout Hasher) {

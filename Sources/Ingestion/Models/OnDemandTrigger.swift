@@ -31,12 +31,7 @@ public struct OnDemandTrigger: Codable, JSONEncodable {
     }
 }
 
-extension OnDemandTrigger: Equatable {
-    public static func ==(lhs: OnDemandTrigger, rhs: OnDemandTrigger) -> Bool {
-        lhs.type == rhs.type &&
-            lhs.lastRun == rhs.lastRun
-    }
-}
+extension OnDemandTrigger: Equatable {}
 
 extension OnDemandTrigger: Hashable {
     public func hash(into hasher: inout Hasher) {

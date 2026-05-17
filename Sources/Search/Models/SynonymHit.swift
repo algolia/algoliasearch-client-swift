@@ -71,18 +71,7 @@ public struct SynonymHit: Codable, JSONEncodable {
     }
 }
 
-extension SynonymHit: Equatable {
-    public static func ==(lhs: SynonymHit, rhs: SynonymHit) -> Bool {
-        lhs.objectID == rhs.objectID &&
-            lhs.type == rhs.type &&
-            lhs.synonyms == rhs.synonyms &&
-            lhs.input == rhs.input &&
-            lhs.word == rhs.word &&
-            lhs.corrections == rhs.corrections &&
-            lhs.placeholder == rhs.placeholder &&
-            lhs.replacements == rhs.replacements
-    }
-}
+extension SynonymHit: Equatable {}
 
 extension SynonymHit: Hashable {
     public func hash(into hasher: inout Hasher) {

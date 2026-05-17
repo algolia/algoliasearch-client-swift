@@ -82,18 +82,7 @@ public struct SearchRecommendRulesParams: Codable, JSONEncodable {
     }
 }
 
-extension SearchRecommendRulesParams: Equatable {
-    public static func ==(lhs: SearchRecommendRulesParams, rhs: SearchRecommendRulesParams) -> Bool {
-        lhs.query == rhs.query &&
-            lhs.context == rhs.context &&
-            lhs.page == rhs.page &&
-            lhs.hitsPerPage == rhs.hitsPerPage &&
-            lhs.enabled == rhs.enabled &&
-            lhs.filters == rhs.filters &&
-            lhs.facets == rhs.facets &&
-            lhs.maxValuesPerFacet == rhs.maxValuesPerFacet
-    }
-}
+extension SearchRecommendRulesParams: Equatable {}
 
 extension SearchRecommendRulesParams: Hashable {
     public func hash(into hasher: inout Hasher) {

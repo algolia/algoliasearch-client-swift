@@ -32,12 +32,7 @@ public struct AuthGoogleServiceAccountPartial: Codable, JSONEncodable {
     }
 }
 
-extension AuthGoogleServiceAccountPartial: Equatable {
-    public static func ==(lhs: AuthGoogleServiceAccountPartial, rhs: AuthGoogleServiceAccountPartial) -> Bool {
-        lhs.clientEmail == rhs.clientEmail &&
-            lhs.privateKey == rhs.privateKey
-    }
-}
+extension AuthGoogleServiceAccountPartial: Equatable {}
 
 extension AuthGoogleServiceAccountPartial: Hashable {
     public func hash(into hasher: inout Hasher) {

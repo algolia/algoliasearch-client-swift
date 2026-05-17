@@ -26,11 +26,7 @@ public struct InjectedItemRecommendSource: Codable, JSONEncodable {
     }
 }
 
-extension InjectedItemRecommendSource: Equatable {
-    public static func ==(lhs: InjectedItemRecommendSource, rhs: InjectedItemRecommendSource) -> Bool {
-        lhs.recommend == rhs.recommend
-    }
-}
+extension InjectedItemRecommendSource: Equatable {}
 
 extension InjectedItemRecommendSource: Hashable {
     public func hash(into hasher: inout Hasher) {

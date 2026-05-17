@@ -27,11 +27,7 @@ public struct Policies: Codable, JSONEncodable {
     }
 }
 
-extension Policies: Equatable {
-    public static func ==(lhs: Policies, rhs: Policies) -> Bool {
-        lhs.criticalThreshold == rhs.criticalThreshold
-    }
-}
+extension Policies: Equatable {}
 
 extension Policies: Hashable {
     public func hash(into hasher: inout Hasher) {

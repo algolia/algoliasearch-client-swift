@@ -40,13 +40,7 @@ public struct SearchAutomaticFacetFilter: Codable, JSONEncodable {
     }
 }
 
-extension SearchAutomaticFacetFilter: Equatable {
-    public static func ==(lhs: SearchAutomaticFacetFilter, rhs: SearchAutomaticFacetFilter) -> Bool {
-        lhs.facet == rhs.facet &&
-            lhs.score == rhs.score &&
-            lhs.disjunctive == rhs.disjunctive
-    }
-}
+extension SearchAutomaticFacetFilter: Equatable {}
 
 extension SearchAutomaticFacetFilter: Hashable {
     public func hash(into hasher: inout Hasher) {

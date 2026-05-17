@@ -26,11 +26,7 @@ public struct SearchBatchWriteParams: Codable, JSONEncodable {
     }
 }
 
-extension SearchBatchWriteParams: Equatable {
-    public static func ==(lhs: SearchBatchWriteParams, rhs: SearchBatchWriteParams) -> Bool {
-        lhs.requests == rhs.requests
-    }
-}
+extension SearchBatchWriteParams: Equatable {}
 
 extension SearchBatchWriteParams: Hashable {
     public func hash(into hasher: inout Hasher) {

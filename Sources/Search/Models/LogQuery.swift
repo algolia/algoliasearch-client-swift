@@ -36,13 +36,7 @@ public struct LogQuery: Codable, JSONEncodable {
     }
 }
 
-extension LogQuery: Equatable {
-    public static func ==(lhs: LogQuery, rhs: LogQuery) -> Bool {
-        lhs.indexName == rhs.indexName &&
-            lhs.userToken == rhs.userToken &&
-            lhs.queryId == rhs.queryId
-    }
-}
+extension LogQuery: Equatable {}
 
 extension LogQuery: Hashable {
     public func hash(into hasher: inout Hasher) {

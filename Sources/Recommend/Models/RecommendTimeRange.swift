@@ -31,12 +31,7 @@ public struct RecommendTimeRange: Codable, JSONEncodable {
     }
 }
 
-extension RecommendTimeRange: Equatable {
-    public static func ==(lhs: RecommendTimeRange, rhs: RecommendTimeRange) -> Bool {
-        lhs.from == rhs.from &&
-            lhs.until == rhs.until
-    }
-}
+extension RecommendTimeRange: Equatable {}
 
 extension RecommendTimeRange: Hashable {
     public func hash(into hasher: inout Hasher) {

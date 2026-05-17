@@ -35,13 +35,7 @@ public struct MultipleBatchRequest: Codable, JSONEncodable {
     }
 }
 
-extension MultipleBatchRequest: Equatable {
-    public static func ==(lhs: MultipleBatchRequest, rhs: MultipleBatchRequest) -> Bool {
-        lhs.action == rhs.action &&
-            lhs.body == rhs.body &&
-            lhs.indexName == rhs.indexName
-    }
-}
+extension MultipleBatchRequest: Equatable {}
 
 extension MultipleBatchRequest: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -26,11 +26,7 @@ public struct RunTaskPayload: Codable, JSONEncodable {
     }
 }
 
-extension RunTaskPayload: Equatable {
-    public static func ==(lhs: RunTaskPayload, rhs: RunTaskPayload) -> Bool {
-        lhs.runMetadata == rhs.runMetadata
-    }
-}
+extension RunTaskPayload: Equatable {}
 
 extension RunTaskPayload: Hashable {
     public func hash(into hasher: inout Hasher) {

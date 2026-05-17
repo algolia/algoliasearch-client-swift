@@ -26,11 +26,7 @@ public struct StreamingTrigger: Codable, JSONEncodable {
     }
 }
 
-extension StreamingTrigger: Equatable {
-    public static func ==(lhs: StreamingTrigger, rhs: StreamingTrigger) -> Bool {
-        lhs.type == rhs.type
-    }
-}
+extension StreamingTrigger: Equatable {}
 
 extension StreamingTrigger: Hashable {
     public func hash(into hasher: inout Hasher) {

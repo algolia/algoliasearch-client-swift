@@ -63,17 +63,7 @@ public struct LookingSimilarQuery: Codable, JSONEncodable {
     }
 }
 
-extension LookingSimilarQuery: Equatable {
-    public static func ==(lhs: LookingSimilarQuery, rhs: LookingSimilarQuery) -> Bool {
-        lhs.indexName == rhs.indexName &&
-            lhs.threshold == rhs.threshold &&
-            lhs.maxRecommendations == rhs.maxRecommendations &&
-            lhs.queryParameters == rhs.queryParameters &&
-            lhs.model == rhs.model &&
-            lhs.objectID == rhs.objectID &&
-            lhs.fallbackParameters == rhs.fallbackParameters
-    }
-}
+extension LookingSimilarQuery: Equatable {}
 
 extension LookingSimilarQuery: Hashable {
     public func hash(into hasher: inout Hasher) {

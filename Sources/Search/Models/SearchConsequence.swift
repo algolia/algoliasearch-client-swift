@@ -64,16 +64,7 @@ public struct SearchConsequence: Codable, JSONEncodable {
     }
 }
 
-extension SearchConsequence: Equatable {
-    public static func ==(lhs: SearchConsequence, rhs: SearchConsequence) -> Bool {
-        lhs.params == rhs.params &&
-            lhs.promote == rhs.promote &&
-            lhs.filterPromotes == rhs.filterPromotes &&
-            lhs.hide == rhs.hide &&
-            lhs.redirect == rhs.redirect &&
-            lhs.userData == rhs.userData
-    }
-}
+extension SearchConsequence: Equatable {}
 
 extension SearchConsequence: Hashable {
     public func hash(into hasher: inout Hasher) {

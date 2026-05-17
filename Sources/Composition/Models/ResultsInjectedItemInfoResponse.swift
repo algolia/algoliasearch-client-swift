@@ -84,13 +84,7 @@ public struct ResultsInjectedItemInfoResponse: Codable, JSONEncodable {
     }
 }
 
-extension ResultsInjectedItemInfoResponse: Equatable {
-    public static func ==(lhs: ResultsInjectedItemInfoResponse, rhs: ResultsInjectedItemInfoResponse) -> Bool {
-        lhs.key == rhs.key &&
-            lhs.appliedRules == rhs.appliedRules
-            && lhs.additionalProperties == rhs.additionalProperties
-    }
-}
+extension ResultsInjectedItemInfoResponse: Equatable {}
 
 extension ResultsInjectedItemInfoResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

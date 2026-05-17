@@ -29,12 +29,7 @@ public struct UserHighlightResult: Codable, JSONEncodable {
     }
 }
 
-extension UserHighlightResult: Equatable {
-    public static func ==(lhs: UserHighlightResult, rhs: UserHighlightResult) -> Bool {
-        lhs.userID == rhs.userID &&
-            lhs.clusterName == rhs.clusterName
-    }
-}
+extension UserHighlightResult: Equatable {}
 
 extension UserHighlightResult: Hashable {
     public func hash(into hasher: inout Hasher) {

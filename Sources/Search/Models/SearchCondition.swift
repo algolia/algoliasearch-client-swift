@@ -58,15 +58,7 @@ public struct SearchCondition: Codable, JSONEncodable {
     }
 }
 
-extension SearchCondition: Equatable {
-    public static func ==(lhs: SearchCondition, rhs: SearchCondition) -> Bool {
-        lhs.pattern == rhs.pattern &&
-            lhs.anchoring == rhs.anchoring &&
-            lhs.alternatives == rhs.alternatives &&
-            lhs.context == rhs.context &&
-            lhs.filters == rhs.filters
-    }
-}
+extension SearchCondition: Equatable {}
 
 extension SearchCondition: Hashable {
     public func hash(into hasher: inout Hasher) {

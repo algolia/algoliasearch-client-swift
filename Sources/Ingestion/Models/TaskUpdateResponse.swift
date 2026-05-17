@@ -32,12 +32,7 @@ public struct TaskUpdateResponse: Codable, JSONEncodable {
     }
 }
 
-extension TaskUpdateResponse: Equatable {
-    public static func ==(lhs: TaskUpdateResponse, rhs: TaskUpdateResponse) -> Bool {
-        lhs.taskID == rhs.taskID &&
-            lhs.updatedAt == rhs.updatedAt
-    }
-}
+extension TaskUpdateResponse: Equatable {}
 
 extension TaskUpdateResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -26,11 +26,7 @@ public struct CompositionInjectionBehavior: Codable, JSONEncodable {
     }
 }
 
-extension CompositionInjectionBehavior: Equatable {
-    public static func ==(lhs: CompositionInjectionBehavior, rhs: CompositionInjectionBehavior) -> Bool {
-        lhs.injection == rhs.injection
-    }
-}
+extension CompositionInjectionBehavior: Equatable {}
 
 extension CompositionInjectionBehavior: Hashable {
     public func hash(into hasher: inout Hasher) {

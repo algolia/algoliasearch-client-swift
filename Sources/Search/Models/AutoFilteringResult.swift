@@ -47,14 +47,7 @@ public struct AutoFilteringResult: Codable, JSONEncodable {
     }
 }
 
-extension AutoFilteringResult: Equatable {
-    public static func ==(lhs: AutoFilteringResult, rhs: AutoFilteringResult) -> Bool {
-        lhs.enabled == rhs.enabled &&
-            lhs.maxDepth == rhs.maxDepth &&
-            lhs.facetFilters == rhs.facetFilters &&
-            lhs.optionalFilters == rhs.optionalFilters
-    }
-}
+extension AutoFilteringResult: Equatable {}
 
 extension AutoFilteringResult: Hashable {
     public func hash(into hasher: inout Hasher) {

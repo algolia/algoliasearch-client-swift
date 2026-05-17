@@ -33,13 +33,7 @@ public struct ListEventsResponse: Codable, JSONEncodable {
     }
 }
 
-extension ListEventsResponse: Equatable {
-    public static func ==(lhs: ListEventsResponse, rhs: ListEventsResponse) -> Bool {
-        lhs.events == rhs.events &&
-            lhs.pagination == rhs.pagination &&
-            lhs.window == rhs.window
-    }
-}
+extension ListEventsResponse: Equatable {}
 
 extension ListEventsResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

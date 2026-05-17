@@ -63,15 +63,7 @@ public struct RecommendExhaustive: Codable, JSONEncodable {
     }
 }
 
-extension RecommendExhaustive: Equatable {
-    public static func ==(lhs: RecommendExhaustive, rhs: RecommendExhaustive) -> Bool {
-        lhs.facetsCount == rhs.facetsCount &&
-            lhs.facetValues == rhs.facetValues &&
-            lhs.nbHits == rhs.nbHits &&
-            lhs.rulesMatch == rhs.rulesMatch &&
-            lhs.typo == rhs.typo
-    }
-}
+extension RecommendExhaustive: Equatable {}
 
 extension RecommendExhaustive: Hashable {
     public func hash(into hasher: inout Hasher) {

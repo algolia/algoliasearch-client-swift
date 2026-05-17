@@ -31,12 +31,7 @@ public struct GetTopFiltersNoResultsValues: Codable, JSONEncodable {
     }
 }
 
-extension GetTopFiltersNoResultsValues: Equatable {
-    public static func ==(lhs: GetTopFiltersNoResultsValues, rhs: GetTopFiltersNoResultsValues) -> Bool {
-        lhs.count == rhs.count &&
-            lhs.values == rhs.values
-    }
-}
+extension GetTopFiltersNoResultsValues: Equatable {}
 
 extension GetTopFiltersNoResultsValues: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -36,13 +36,7 @@ public struct CompositionFacetHits: Codable, JSONEncodable {
     }
 }
 
-extension CompositionFacetHits: Equatable {
-    public static func ==(lhs: CompositionFacetHits, rhs: CompositionFacetHits) -> Bool {
-        lhs.value == rhs.value &&
-            lhs.highlighted == rhs.highlighted &&
-            lhs.count == rhs.count
-    }
-}
+extension CompositionFacetHits: Equatable {}
 
 extension CompositionFacetHits: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -31,12 +31,7 @@ public struct TopCountry: Codable, JSONEncodable {
     }
 }
 
-extension TopCountry: Equatable {
-    public static func ==(lhs: TopCountry, rhs: TopCountry) -> Bool {
-        lhs.country == rhs.country &&
-            lhs.count == rhs.count
-    }
-}
+extension TopCountry: Equatable {}
 
 extension TopCountry: Hashable {
     public func hash(into hasher: inout Hasher) {

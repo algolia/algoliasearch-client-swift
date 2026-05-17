@@ -31,12 +31,7 @@ public struct MetricDate: Codable, JSONEncodable {
     }
 }
 
-extension MetricDate: Equatable {
-    public static func ==(lhs: MetricDate, rhs: MetricDate) -> Bool {
-        lhs.date == rhs.date &&
-            lhs.metrics == rhs.metrics
-    }
-}
+extension MetricDate: Equatable {}
 
 extension MetricDate: Hashable {
     public func hash(into hasher: inout Hasher) {

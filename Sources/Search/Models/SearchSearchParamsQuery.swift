@@ -26,11 +26,7 @@ public struct SearchSearchParamsQuery: Codable, JSONEncodable {
     }
 }
 
-extension SearchSearchParamsQuery: Equatable {
-    public static func ==(lhs: SearchSearchParamsQuery, rhs: SearchSearchParamsQuery) -> Bool {
-        lhs.query == rhs.query
-    }
-}
+extension SearchSearchParamsQuery: Equatable {}
 
 extension SearchSearchParamsQuery: Hashable {
     public func hash(into hasher: inout Hasher) {

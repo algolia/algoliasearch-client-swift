@@ -33,12 +33,7 @@ public struct BatchResponse: Codable, JSONEncodable {
     }
 }
 
-extension BatchResponse: Equatable {
-    public static func ==(lhs: BatchResponse, rhs: BatchResponse) -> Bool {
-        lhs.taskID == rhs.taskID &&
-            lhs.objectIDs == rhs.objectIDs
-    }
-}
+extension BatchResponse: Equatable {}
 
 extension BatchResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

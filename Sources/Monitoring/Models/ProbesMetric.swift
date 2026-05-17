@@ -31,12 +31,7 @@ public struct ProbesMetric: Codable, JSONEncodable {
     }
 }
 
-extension ProbesMetric: Equatable {
-    public static func ==(lhs: ProbesMetric, rhs: ProbesMetric) -> Bool {
-        lhs.t == rhs.t &&
-            lhs.v == rhs.v
-    }
-}
+extension ProbesMetric: Equatable {}
 
 extension ProbesMetric: Hashable {
     public func hash(into hasher: inout Hasher) {

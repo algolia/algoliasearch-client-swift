@@ -36,13 +36,7 @@ public struct RecommendValue: Codable, JSONEncodable {
     }
 }
 
-extension RecommendValue: Equatable {
-    public static func ==(lhs: RecommendValue, rhs: RecommendValue) -> Bool {
-        lhs.order == rhs.order &&
-            lhs.sortRemainingBy == rhs.sortRemainingBy &&
-            lhs.hide == rhs.hide
-    }
-}
+extension RecommendValue: Equatable {}
 
 extension RecommendValue: Hashable {
     public func hash(into hasher: inout Hasher) {

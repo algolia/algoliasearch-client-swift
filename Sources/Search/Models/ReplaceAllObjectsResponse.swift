@@ -38,13 +38,7 @@ public struct ReplaceAllObjectsResponse: Codable, JSONEncodable {
     }
 }
 
-extension ReplaceAllObjectsResponse: Equatable {
-    public static func ==(lhs: ReplaceAllObjectsResponse, rhs: ReplaceAllObjectsResponse) -> Bool {
-        lhs.copyOperationResponse == rhs.copyOperationResponse &&
-            lhs.batchResponses == rhs.batchResponses &&
-            lhs.moveOperationResponse == rhs.moveOperationResponse
-    }
-}
+extension ReplaceAllObjectsResponse: Equatable {}
 
 extension ReplaceAllObjectsResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

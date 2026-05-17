@@ -31,12 +31,7 @@ public struct BaseGetApiKeyResponse: Codable, JSONEncodable {
     }
 }
 
-extension BaseGetApiKeyResponse: Equatable {
-    public static func ==(lhs: BaseGetApiKeyResponse, rhs: BaseGetApiKeyResponse) -> Bool {
-        lhs.value == rhs.value &&
-            lhs.createdAt == rhs.createdAt
-    }
-}
+extension BaseGetApiKeyResponse: Equatable {}
 
 extension BaseGetApiKeyResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

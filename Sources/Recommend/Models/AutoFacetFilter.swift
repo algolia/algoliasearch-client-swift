@@ -34,12 +34,7 @@ public struct AutoFacetFilter: Codable, JSONEncodable {
     }
 }
 
-extension AutoFacetFilter: Equatable {
-    public static func ==(lhs: AutoFacetFilter, rhs: AutoFacetFilter) -> Bool {
-        lhs.facet == rhs.facet &&
-            lhs.negative == rhs.negative
-    }
-}
+extension AutoFacetFilter: Equatable {}
 
 extension AutoFacetFilter: Hashable {
     public func hash(into hasher: inout Hasher) {

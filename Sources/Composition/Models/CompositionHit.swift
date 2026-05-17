@@ -130,17 +130,7 @@ public struct CompositionHit: Codable, JSONEncodable {
     }
 }
 
-extension CompositionHit: Equatable {
-    public static func ==(lhs: CompositionHit, rhs: CompositionHit) -> Bool {
-        lhs.objectID == rhs.objectID &&
-            lhs.highlightResult == rhs.highlightResult &&
-            lhs.snippetResult == rhs.snippetResult &&
-            lhs.rankingInfo == rhs.rankingInfo &&
-            lhs.distinctSeqID == rhs.distinctSeqID &&
-            lhs.extra == rhs.extra
-            && lhs.additionalProperties == rhs.additionalProperties
-    }
-}
+extension CompositionHit: Equatable {}
 
 extension CompositionHit: Hashable {
     public func hash(into hasher: inout Hasher) {

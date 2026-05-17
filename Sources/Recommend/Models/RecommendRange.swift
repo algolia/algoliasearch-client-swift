@@ -34,12 +34,7 @@ public struct RecommendRange: Codable, JSONEncodable {
     }
 }
 
-extension RecommendRange: Equatable {
-    public static func ==(lhs: RecommendRange, rhs: RecommendRange) -> Bool {
-        lhs.from == rhs.from &&
-            lhs.value == rhs.value
-    }
-}
+extension RecommendRange: Equatable {}
 
 extension RecommendRange: Hashable {
     public func hash(into hasher: inout Hasher) {

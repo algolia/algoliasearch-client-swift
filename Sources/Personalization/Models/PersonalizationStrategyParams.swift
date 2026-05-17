@@ -39,13 +39,7 @@ public struct PersonalizationStrategyParams: Codable, JSONEncodable {
     }
 }
 
-extension PersonalizationStrategyParams: Equatable {
-    public static func ==(lhs: PersonalizationStrategyParams, rhs: PersonalizationStrategyParams) -> Bool {
-        lhs.eventsScoring == rhs.eventsScoring &&
-            lhs.facetsScoring == rhs.facetsScoring &&
-            lhs.personalizationImpact == rhs.personalizationImpact
-    }
-}
+extension PersonalizationStrategyParams: Equatable {}
 
 extension PersonalizationStrategyParams: Hashable {
     public func hash(into hasher: inout Hasher) {

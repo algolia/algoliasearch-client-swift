@@ -35,13 +35,7 @@ public struct SearchEdit: Codable, JSONEncodable {
     }
 }
 
-extension SearchEdit: Equatable {
-    public static func ==(lhs: SearchEdit, rhs: SearchEdit) -> Bool {
-        lhs.type == rhs.type &&
-            lhs.delete == rhs.delete &&
-            lhs.insert == rhs.insert
-    }
-}
+extension SearchEdit: Equatable {}
 
 extension SearchEdit: Hashable {
     public func hash(into hasher: inout Hasher) {

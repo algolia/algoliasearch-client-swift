@@ -62,17 +62,7 @@ public struct IngestionEvent: Codable, JSONEncodable {
     }
 }
 
-extension IngestionEvent: Equatable {
-    public static func ==(lhs: IngestionEvent, rhs: IngestionEvent) -> Bool {
-        lhs.eventID == rhs.eventID &&
-            lhs.runID == rhs.runID &&
-            lhs.status == rhs.status &&
-            lhs.type == rhs.type &&
-            lhs.batchSize == rhs.batchSize &&
-            lhs.data == rhs.data &&
-            lhs.publishedAt == rhs.publishedAt
-    }
-}
+extension IngestionEvent: Equatable {}
 
 extension IngestionEvent: Hashable {
     public func hash(into hasher: inout Hasher) {

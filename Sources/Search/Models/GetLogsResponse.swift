@@ -25,11 +25,7 @@ public struct GetLogsResponse: Codable, JSONEncodable {
     }
 }
 
-extension GetLogsResponse: Equatable {
-    public static func ==(lhs: GetLogsResponse, rhs: GetLogsResponse) -> Bool {
-        lhs.logs == rhs.logs
-    }
-}
+extension GetLogsResponse: Equatable {}
 
 extension GetLogsResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

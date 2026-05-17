@@ -41,14 +41,7 @@ public struct RecommendSearchPagination: Codable, JSONEncodable {
     }
 }
 
-extension RecommendSearchPagination: Equatable {
-    public static func ==(lhs: RecommendSearchPagination, rhs: RecommendSearchPagination) -> Bool {
-        lhs.page == rhs.page &&
-            lhs.nbHits == rhs.nbHits &&
-            lhs.nbPages == rhs.nbPages &&
-            lhs.hitsPerPage == rhs.hitsPerPage
-    }
-}
+extension RecommendSearchPagination: Equatable {}
 
 extension RecommendSearchPagination: Hashable {
     public func hash(into hasher: inout Hasher) {

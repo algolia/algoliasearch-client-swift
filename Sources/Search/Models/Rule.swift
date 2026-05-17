@@ -75,19 +75,7 @@ public struct Rule: Codable, JSONEncodable {
     }
 }
 
-extension Rule: Equatable {
-    public static func ==(lhs: Rule, rhs: Rule) -> Bool {
-        lhs.objectID == rhs.objectID &&
-            lhs.conditions == rhs.conditions &&
-            lhs.consequence == rhs.consequence &&
-            lhs.description == rhs.description &&
-            lhs.enabled == rhs.enabled &&
-            lhs.validity == rhs.validity &&
-            lhs.tags == rhs.tags &&
-            lhs.scope == rhs.scope &&
-            lhs.condition == rhs.condition
-    }
-}
+extension Rule: Equatable {}
 
 extension Rule: Hashable {
     public func hash(into hasher: inout Hasher) {

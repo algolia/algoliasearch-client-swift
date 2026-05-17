@@ -241,40 +241,7 @@ public struct CompositionParams: Codable, JSONEncodable {
     }
 }
 
-extension CompositionParams: Equatable {
-    public static func ==(lhs: CompositionParams, rhs: CompositionParams) -> Bool {
-        lhs.analytics == rhs.analytics &&
-            lhs.analyticsTags == rhs.analyticsTags &&
-            lhs.aroundLatLng == rhs.aroundLatLng &&
-            lhs.aroundLatLngViaIP == rhs.aroundLatLngViaIP &&
-            lhs.aroundRadius == rhs.aroundRadius &&
-            lhs.aroundPrecision == rhs.aroundPrecision &&
-            lhs.clickAnalytics == rhs.clickAnalytics &&
-            lhs.enableABTest == rhs.enableABTest &&
-            lhs.enablePersonalization == rhs.enablePersonalization &&
-            lhs.enableReRanking == rhs.enableReRanking &&
-            lhs.enableRules == rhs.enableRules &&
-            lhs.facetFilters == rhs.facetFilters &&
-            lhs.facets == rhs.facets &&
-            lhs.filters == rhs.filters &&
-            lhs.getRankingInfo == rhs.getRankingInfo &&
-            lhs.hitsPerPage == rhs.hitsPerPage &&
-            lhs.injectedItems == rhs.injectedItems &&
-            lhs.insideBoundingBox == rhs.insideBoundingBox &&
-            lhs.insidePolygon == rhs.insidePolygon &&
-            lhs.minimumAroundRadius == rhs.minimumAroundRadius &&
-            lhs.naturalLanguages == rhs.naturalLanguages &&
-            lhs.numericFilters == rhs.numericFilters &&
-            lhs.optionalFilters == rhs.optionalFilters &&
-            lhs.page == rhs.page &&
-            lhs.query == rhs.query &&
-            lhs.queryLanguages == rhs.queryLanguages &&
-            lhs.relevancyStrictness == rhs.relevancyStrictness &&
-            lhs.ruleContexts == rhs.ruleContexts &&
-            lhs.sortBy == rhs.sortBy &&
-            lhs.userToken == rhs.userToken
-    }
-}
+extension CompositionParams: Equatable {}
 
 extension CompositionParams: Hashable {
     public func hash(into hasher: inout Hasher) {

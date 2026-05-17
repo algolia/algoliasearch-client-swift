@@ -26,14 +26,7 @@ public struct ResultsInjectedItemAppliedRulesInfoResponse: Codable, JSONEncodabl
     }
 }
 
-extension ResultsInjectedItemAppliedRulesInfoResponse: Equatable {
-    public static func ==(
-        lhs: ResultsInjectedItemAppliedRulesInfoResponse,
-        rhs: ResultsInjectedItemAppliedRulesInfoResponse
-    ) -> Bool {
-        lhs.objectID == rhs.objectID
-    }
-}
+extension ResultsInjectedItemAppliedRulesInfoResponse: Equatable {}
 
 extension ResultsInjectedItemAppliedRulesInfoResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

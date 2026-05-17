@@ -94,23 +94,7 @@ public struct Run: Codable, JSONEncodable {
     }
 }
 
-extension Run: Equatable {
-    public static func ==(lhs: Run, rhs: Run) -> Bool {
-        lhs.runID == rhs.runID &&
-            lhs.appID == rhs.appID &&
-            lhs.taskID == rhs.taskID &&
-            lhs.status == rhs.status &&
-            lhs.progress == rhs.progress &&
-            lhs.outcome == rhs.outcome &&
-            lhs.failureThreshold == rhs.failureThreshold &&
-            lhs.reason == rhs.reason &&
-            lhs.reasonCode == rhs.reasonCode &&
-            lhs.type == rhs.type &&
-            lhs.createdAt == rhs.createdAt &&
-            lhs.startedAt == rhs.startedAt &&
-            lhs.finishedAt == rhs.finishedAt
-    }
-}
+extension Run: Equatable {}
 
 extension Run: Hashable {
     public func hash(into hasher: inout Hasher) {

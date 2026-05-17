@@ -31,12 +31,7 @@ public struct BigCommerceChannel: Codable, JSONEncodable {
     }
 }
 
-extension BigCommerceChannel: Equatable {
-    public static func ==(lhs: BigCommerceChannel, rhs: BigCommerceChannel) -> Bool {
-        lhs.id == rhs.id &&
-            lhs.currencies == rhs.currencies
-    }
-}
+extension BigCommerceChannel: Equatable {}
 
 extension BigCommerceChannel: Hashable {
     public func hash(into hasher: inout Hasher) {

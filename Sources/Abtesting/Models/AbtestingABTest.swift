@@ -100,24 +100,7 @@ public struct AbtestingABTest: Codable, JSONEncodable {
     }
 }
 
-extension AbtestingABTest: Equatable {
-    public static func ==(lhs: AbtestingABTest, rhs: AbtestingABTest) -> Bool {
-        lhs.abTestID == rhs.abTestID &&
-            lhs.clickSignificance == rhs.clickSignificance &&
-            lhs.conversionSignificance == rhs.conversionSignificance &&
-            lhs.addToCartSignificance == rhs.addToCartSignificance &&
-            lhs.purchaseSignificance == rhs.purchaseSignificance &&
-            lhs.revenueSignificance == rhs.revenueSignificance &&
-            lhs.updatedAt == rhs.updatedAt &&
-            lhs.createdAt == rhs.createdAt &&
-            lhs.endAt == rhs.endAt &&
-            lhs.stoppedAt == rhs.stoppedAt &&
-            lhs.name == rhs.name &&
-            lhs.status == rhs.status &&
-            lhs.variants == rhs.variants &&
-            lhs.configuration == rhs.configuration
-    }
-}
+extension AbtestingABTest: Equatable {}
 
 extension AbtestingABTest: Hashable {
     public func hash(into hasher: inout Hasher) {

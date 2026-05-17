@@ -26,11 +26,7 @@ public struct SetPersonalizationStrategyResponse: Codable, JSONEncodable {
     }
 }
 
-extension SetPersonalizationStrategyResponse: Equatable {
-    public static func ==(lhs: SetPersonalizationStrategyResponse, rhs: SetPersonalizationStrategyResponse) -> Bool {
-        lhs.message == rhs.message
-    }
-}
+extension SetPersonalizationStrategyResponse: Equatable {}
 
 extension SetPersonalizationStrategyResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

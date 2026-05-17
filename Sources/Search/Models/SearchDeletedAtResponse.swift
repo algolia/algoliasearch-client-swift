@@ -34,12 +34,7 @@ public struct SearchDeletedAtResponse: Codable, JSONEncodable {
     }
 }
 
-extension SearchDeletedAtResponse: Equatable {
-    public static func ==(lhs: SearchDeletedAtResponse, rhs: SearchDeletedAtResponse) -> Bool {
-        lhs.taskID == rhs.taskID &&
-            lhs.deletedAt == rhs.deletedAt
-    }
-}
+extension SearchDeletedAtResponse: Equatable {}
 
 extension SearchDeletedAtResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

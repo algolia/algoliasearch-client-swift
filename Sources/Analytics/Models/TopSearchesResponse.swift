@@ -26,11 +26,7 @@ public struct TopSearchesResponse: Codable, JSONEncodable {
     }
 }
 
-extension TopSearchesResponse: Equatable {
-    public static func ==(lhs: TopSearchesResponse, rhs: TopSearchesResponse) -> Bool {
-        lhs.searches == rhs.searches
-    }
-}
+extension TopSearchesResponse: Equatable {}
 
 extension TopSearchesResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

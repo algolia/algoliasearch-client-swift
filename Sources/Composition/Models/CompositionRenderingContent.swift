@@ -39,13 +39,7 @@ public struct CompositionRenderingContent: Codable, JSONEncodable {
     }
 }
 
-extension CompositionRenderingContent: Equatable {
-    public static func ==(lhs: CompositionRenderingContent, rhs: CompositionRenderingContent) -> Bool {
-        lhs.facetOrdering == rhs.facetOrdering &&
-            lhs.redirect == rhs.redirect &&
-            lhs.widgets == rhs.widgets
-    }
-}
+extension CompositionRenderingContent: Equatable {}
 
 extension CompositionRenderingContent: Hashable {
     public func hash(into hasher: inout Hasher) {

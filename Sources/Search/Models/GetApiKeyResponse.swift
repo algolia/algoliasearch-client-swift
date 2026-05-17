@@ -96,20 +96,7 @@ public struct GetApiKeyResponse: Codable, JSONEncodable {
     }
 }
 
-extension GetApiKeyResponse: Equatable {
-    public static func ==(lhs: GetApiKeyResponse, rhs: GetApiKeyResponse) -> Bool {
-        lhs.value == rhs.value &&
-            lhs.createdAt == rhs.createdAt &&
-            lhs.acl == rhs.acl &&
-            lhs.description == rhs.description &&
-            lhs.indexes == rhs.indexes &&
-            lhs.maxHitsPerQuery == rhs.maxHitsPerQuery &&
-            lhs.maxQueriesPerIPPerHour == rhs.maxQueriesPerIPPerHour &&
-            lhs.queryParameters == rhs.queryParameters &&
-            lhs.referers == rhs.referers &&
-            lhs.validity == rhs.validity
-    }
-}
+extension GetApiKeyResponse: Equatable {}
 
 extension GetApiKeyResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

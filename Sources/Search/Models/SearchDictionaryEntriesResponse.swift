@@ -46,14 +46,7 @@ public struct SearchDictionaryEntriesResponse: Codable, JSONEncodable {
     }
 }
 
-extension SearchDictionaryEntriesResponse: Equatable {
-    public static func ==(lhs: SearchDictionaryEntriesResponse, rhs: SearchDictionaryEntriesResponse) -> Bool {
-        lhs.hits == rhs.hits &&
-            lhs.page == rhs.page &&
-            lhs.nbHits == rhs.nbHits &&
-            lhs.nbPages == rhs.nbPages
-    }
-}
+extension SearchDictionaryEntriesResponse: Equatable {}
 
 extension SearchDictionaryEntriesResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

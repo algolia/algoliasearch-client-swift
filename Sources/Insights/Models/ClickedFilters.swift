@@ -72,17 +72,7 @@ public struct ClickedFilters: Codable, JSONEncodable {
     }
 }
 
-extension ClickedFilters: Equatable {
-    public static func ==(lhs: ClickedFilters, rhs: ClickedFilters) -> Bool {
-        lhs.eventName == rhs.eventName &&
-            lhs.eventType == rhs.eventType &&
-            lhs.index == rhs.index &&
-            lhs.filters == rhs.filters &&
-            lhs.userToken == rhs.userToken &&
-            lhs.authenticatedUserToken == rhs.authenticatedUserToken &&
-            lhs.timestamp == rhs.timestamp
-    }
-}
+extension ClickedFilters: Equatable {}
 
 extension ClickedFilters: Hashable {
     public func hash(into hasher: inout Hasher) {

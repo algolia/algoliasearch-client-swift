@@ -45,15 +45,7 @@ public struct SearchRedirectRuleIndexMetadata: Codable, JSONEncodable {
     }
 }
 
-extension SearchRedirectRuleIndexMetadata: Equatable {
-    public static func ==(lhs: SearchRedirectRuleIndexMetadata, rhs: SearchRedirectRuleIndexMetadata) -> Bool {
-        lhs.source == rhs.source &&
-            lhs.dest == rhs.dest &&
-            lhs.reason == rhs.reason &&
-            lhs.succeed == rhs.succeed &&
-            lhs.data == rhs.data
-    }
-}
+extension SearchRedirectRuleIndexMetadata: Equatable {}
 
 extension SearchRedirectRuleIndexMetadata: Hashable {
     public func hash(into hasher: inout Hasher) {

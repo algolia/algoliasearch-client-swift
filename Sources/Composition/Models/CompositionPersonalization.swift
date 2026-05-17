@@ -36,13 +36,7 @@ public struct CompositionPersonalization: Codable, JSONEncodable {
     }
 }
 
-extension CompositionPersonalization: Equatable {
-    public static func ==(lhs: CompositionPersonalization, rhs: CompositionPersonalization) -> Bool {
-        lhs.filtersScore == rhs.filtersScore &&
-            lhs.rankingScore == rhs.rankingScore &&
-            lhs.score == rhs.score
-    }
-}
+extension CompositionPersonalization: Equatable {}
 
 extension CompositionPersonalization: Hashable {
     public func hash(into hasher: inout Hasher) {

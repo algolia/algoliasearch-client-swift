@@ -25,11 +25,7 @@ public struct InfrastructureResponse: Codable, JSONEncodable {
     }
 }
 
-extension InfrastructureResponse: Equatable {
-    public static func ==(lhs: InfrastructureResponse, rhs: InfrastructureResponse) -> Bool {
-        lhs.metrics == rhs.metrics
-    }
-}
+extension InfrastructureResponse: Equatable {}
 
 extension InfrastructureResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

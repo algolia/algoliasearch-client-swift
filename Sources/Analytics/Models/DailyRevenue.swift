@@ -31,12 +31,7 @@ public struct DailyRevenue: Codable, JSONEncodable {
     }
 }
 
-extension DailyRevenue: Equatable {
-    public static func ==(lhs: DailyRevenue, rhs: DailyRevenue) -> Bool {
-        lhs.currencies == rhs.currencies &&
-            lhs.date == rhs.date
-    }
-}
+extension DailyRevenue: Equatable {}
 
 extension DailyRevenue: Hashable {
     public func hash(into hasher: inout Hasher) {

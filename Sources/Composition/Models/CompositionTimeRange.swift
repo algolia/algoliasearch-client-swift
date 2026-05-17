@@ -31,12 +31,7 @@ public struct CompositionTimeRange: Codable, JSONEncodable {
     }
 }
 
-extension CompositionTimeRange: Equatable {
-    public static func ==(lhs: CompositionTimeRange, rhs: CompositionTimeRange) -> Bool {
-        lhs.from == rhs.from &&
-            lhs.until == rhs.until
-    }
-}
+extension CompositionTimeRange: Equatable {}
 
 extension CompositionTimeRange: Hashable {
     public func hash(into hasher: inout Hasher) {

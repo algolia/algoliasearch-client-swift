@@ -27,11 +27,7 @@ public struct EmptySearch: Codable, JSONEncodable {
     }
 }
 
-extension EmptySearch: Equatable {
-    public static func ==(lhs: EmptySearch, rhs: EmptySearch) -> Bool {
-        lhs.exclude == rhs.exclude
-    }
-}
+extension EmptySearch: Equatable {}
 
 extension EmptySearch: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -25,11 +25,7 @@ public struct IndexingMetric: Codable, JSONEncodable {
     }
 }
 
-extension IndexingMetric: Equatable {
-    public static func ==(lhs: IndexingMetric, rhs: IndexingMetric) -> Bool {
-        lhs.indexing == rhs.indexing
-    }
-}
+extension IndexingMetric: Equatable {}
 
 extension IndexingMetric: Hashable {
     public func hash(into hasher: inout Hasher) {

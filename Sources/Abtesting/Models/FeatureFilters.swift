@@ -37,13 +37,7 @@ public struct FeatureFilters: Codable, JSONEncodable {
     }
 }
 
-extension FeatureFilters: Equatable {
-    public static func ==(lhs: FeatureFilters, rhs: FeatureFilters) -> Bool {
-        lhs.dynamicReRanking == rhs.dynamicReRanking &&
-            lhs.aiPerso == rhs.aiPerso &&
-            lhs.multiSignalRanking == rhs.multiSignalRanking
-    }
-}
+extension FeatureFilters: Equatable {}
 
 extension FeatureFilters: Hashable {
     public func hash(into hasher: inout Hasher) {

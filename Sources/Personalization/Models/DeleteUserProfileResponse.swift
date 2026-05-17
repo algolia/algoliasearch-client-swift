@@ -33,12 +33,7 @@ public struct DeleteUserProfileResponse: Codable, JSONEncodable {
     }
 }
 
-extension DeleteUserProfileResponse: Equatable {
-    public static func ==(lhs: DeleteUserProfileResponse, rhs: DeleteUserProfileResponse) -> Bool {
-        lhs.userToken == rhs.userToken &&
-            lhs.deletedUntil == rhs.deletedUntil
-    }
-}
+extension DeleteUserProfileResponse: Equatable {}
 
 extension DeleteUserProfileResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

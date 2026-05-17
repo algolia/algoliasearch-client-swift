@@ -25,11 +25,7 @@ public struct GetDictionarySettingsResponse: Codable, JSONEncodable {
     }
 }
 
-extension GetDictionarySettingsResponse: Equatable {
-    public static func ==(lhs: GetDictionarySettingsResponse, rhs: GetDictionarySettingsResponse) -> Bool {
-        lhs.disableStandardEntries == rhs.disableStandardEntries
-    }
-}
+extension GetDictionarySettingsResponse: Equatable {}
 
 extension GetDictionarySettingsResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

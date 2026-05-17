@@ -42,14 +42,7 @@ public struct UserId: Codable, JSONEncodable {
     }
 }
 
-extension UserId: Equatable {
-    public static func ==(lhs: UserId, rhs: UserId) -> Bool {
-        lhs.userID == rhs.userID &&
-            lhs.clusterName == rhs.clusterName &&
-            lhs.nbRecords == rhs.nbRecords &&
-            lhs.dataSize == rhs.dataSize
-    }
-}
+extension UserId: Equatable {}
 
 extension UserId: Hashable {
     public func hash(into hasher: inout Hasher) {

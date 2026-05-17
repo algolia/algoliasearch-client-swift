@@ -34,13 +34,7 @@ public struct SearchForHitsOptions: Codable, JSONEncodable {
     }
 }
 
-extension SearchForHitsOptions: Equatable {
-    public static func ==(lhs: SearchForHitsOptions, rhs: SearchForHitsOptions) -> Bool {
-        lhs.indexName == rhs.indexName &&
-            lhs.type == rhs.type &&
-            lhs.extensions == rhs.extensions
-    }
-}
+extension SearchForHitsOptions: Equatable {}
 
 extension SearchForHitsOptions: Hashable {
     public func hash(into hasher: inout Hasher) {

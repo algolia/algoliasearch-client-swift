@@ -33,12 +33,7 @@ public struct SourceUpdateAlgoliaIndex: Codable, JSONEncodable {
     }
 }
 
-extension SourceUpdateAlgoliaIndex: Equatable {
-    public static func ==(lhs: SourceUpdateAlgoliaIndex, rhs: SourceUpdateAlgoliaIndex) -> Bool {
-        lhs.indexName == rhs.indexName &&
-            lhs.filters == rhs.filters
-    }
-}
+extension SourceUpdateAlgoliaIndex: Equatable {}
 
 extension SourceUpdateAlgoliaIndex: Hashable {
     public func hash(into hasher: inout Hasher) {

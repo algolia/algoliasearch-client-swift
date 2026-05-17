@@ -33,12 +33,7 @@ public struct ClickPosition: Codable, JSONEncodable {
     }
 }
 
-extension ClickPosition: Equatable {
-    public static func ==(lhs: ClickPosition, rhs: ClickPosition) -> Bool {
-        lhs.position == rhs.position &&
-            lhs.clickCount == rhs.clickCount
-    }
-}
+extension ClickPosition: Equatable {}
 
 extension ClickPosition: Hashable {
     public func hash(into hasher: inout Hasher) {

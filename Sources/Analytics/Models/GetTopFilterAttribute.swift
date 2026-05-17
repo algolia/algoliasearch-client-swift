@@ -31,12 +31,7 @@ public struct GetTopFilterAttribute: Codable, JSONEncodable {
     }
 }
 
-extension GetTopFilterAttribute: Equatable {
-    public static func ==(lhs: GetTopFilterAttribute, rhs: GetTopFilterAttribute) -> Bool {
-        lhs.attribute == rhs.attribute &&
-            lhs.count == rhs.count
-    }
-}
+extension GetTopFilterAttribute: Equatable {}
 
 extension GetTopFilterAttribute: Hashable {
     public func hash(into hasher: inout Hasher) {

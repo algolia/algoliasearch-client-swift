@@ -68,17 +68,7 @@ public struct TopHitWithAnalytics: Codable, JSONEncodable {
     }
 }
 
-extension TopHitWithAnalytics: Equatable {
-    public static func ==(lhs: TopHitWithAnalytics, rhs: TopHitWithAnalytics) -> Bool {
-        lhs.hit == rhs.hit &&
-            lhs.count == rhs.count &&
-            lhs.clickThroughRate == rhs.clickThroughRate &&
-            lhs.conversionRate == rhs.conversionRate &&
-            lhs.trackedHitCount == rhs.trackedHitCount &&
-            lhs.clickCount == rhs.clickCount &&
-            lhs.conversionCount == rhs.conversionCount
-    }
-}
+extension TopHitWithAnalytics: Equatable {}
 
 extension TopHitWithAnalytics: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -46,14 +46,7 @@ public struct TrendingItems: Codable, JSONEncodable {
     }
 }
 
-extension TrendingItems: Equatable {
-    public static func ==(lhs: TrendingItems, rhs: TrendingItems) -> Bool {
-        lhs.facetName == rhs.facetName &&
-            lhs.facetValue == rhs.facetValue &&
-            lhs.model == rhs.model &&
-            lhs.fallbackParameters == rhs.fallbackParameters
-    }
-}
+extension TrendingItems: Equatable {}
 
 extension TrendingItems: Hashable {
     public func hash(into hasher: inout Hasher) {

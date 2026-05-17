@@ -33,12 +33,7 @@ public struct RequestBody: Codable, JSONEncodable {
     }
 }
 
-extension RequestBody: Equatable {
-    public static func ==(lhs: RequestBody, rhs: RequestBody) -> Bool {
-        lhs.params == rhs.params &&
-            lhs.feedsOrder == rhs.feedsOrder
-    }
-}
+extension RequestBody: Equatable {}
 
 extension RequestBody: Hashable {
     public func hash(into hasher: inout Hasher) {

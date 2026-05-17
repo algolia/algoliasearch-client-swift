@@ -70,18 +70,7 @@ public struct SourceIndex: Codable, JSONEncodable {
     }
 }
 
-extension SourceIndex: Equatable {
-    public static func ==(lhs: SourceIndex, rhs: SourceIndex) -> Bool {
-        lhs.indexName == rhs.indexName &&
-            lhs.replicas == rhs.replicas &&
-            lhs.analyticsTags == rhs.analyticsTags &&
-            lhs.facets == rhs.facets &&
-            lhs.minHits == rhs.minHits &&
-            lhs.minLetters == rhs.minLetters &&
-            lhs.generate == rhs.generate &&
-            lhs.external == rhs.external
-    }
-}
+extension SourceIndex: Equatable {}
 
 extension SourceIndex: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -52,15 +52,7 @@ public struct QueryCategorization: Codable, JSONEncodable {
     }
 }
 
-extension QueryCategorization: Equatable {
-    public static func ==(lhs: QueryCategorization, rhs: QueryCategorization) -> Bool {
-        lhs.normalizedQuery == rhs.normalizedQuery &&
-            lhs.count == rhs.count &&
-            lhs.type == rhs.type &&
-            lhs.categories == rhs.categories &&
-            lhs.autofiltering == rhs.autofiltering
-    }
-}
+extension QueryCategorization: Equatable {}
 
 extension QueryCategorization: Hashable {
     public func hash(into hasher: inout Hasher) {

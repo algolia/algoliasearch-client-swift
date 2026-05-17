@@ -43,14 +43,7 @@ public struct GetClickThroughRateResponse: Codable, JSONEncodable {
     }
 }
 
-extension GetClickThroughRateResponse: Equatable {
-    public static func ==(lhs: GetClickThroughRateResponse, rhs: GetClickThroughRateResponse) -> Bool {
-        lhs.rate == rhs.rate &&
-            lhs.clickCount == rhs.clickCount &&
-            lhs.trackedSearchCount == rhs.trackedSearchCount &&
-            lhs.dates == rhs.dates
-    }
-}
+extension GetClickThroughRateResponse: Equatable {}
 
 extension GetClickThroughRateResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

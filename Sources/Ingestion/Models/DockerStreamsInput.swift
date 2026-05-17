@@ -26,11 +26,7 @@ public struct DockerStreamsInput: Codable, JSONEncodable {
     }
 }
 
-extension DockerStreamsInput: Equatable {
-    public static func ==(lhs: DockerStreamsInput, rhs: DockerStreamsInput) -> Bool {
-        lhs.streams == rhs.streams
-    }
-}
+extension DockerStreamsInput: Equatable {}
 
 extension DockerStreamsInput: Hashable {
     public func hash(into hasher: inout Hasher) {

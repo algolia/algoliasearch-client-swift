@@ -38,13 +38,7 @@ public struct CommercetoolsCustomFields: Codable, JSONEncodable {
     }
 }
 
-extension CommercetoolsCustomFields: Equatable {
-    public static func ==(lhs: CommercetoolsCustomFields, rhs: CommercetoolsCustomFields) -> Bool {
-        lhs.inventory == rhs.inventory &&
-            lhs.price == rhs.price &&
-            lhs.category == rhs.category
-    }
-}
+extension CommercetoolsCustomFields: Equatable {}
 
 extension CommercetoolsCustomFields: Hashable {
     public func hash(into hasher: inout Hasher) {

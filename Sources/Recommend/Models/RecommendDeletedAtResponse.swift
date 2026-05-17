@@ -34,12 +34,7 @@ public struct RecommendDeletedAtResponse: Codable, JSONEncodable {
     }
 }
 
-extension RecommendDeletedAtResponse: Equatable {
-    public static func ==(lhs: RecommendDeletedAtResponse, rhs: RecommendDeletedAtResponse) -> Bool {
-        lhs.taskID == rhs.taskID &&
-            lhs.deletedAt == rhs.deletedAt
-    }
-}
+extension RecommendDeletedAtResponse: Equatable {}
 
 extension RecommendDeletedAtResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

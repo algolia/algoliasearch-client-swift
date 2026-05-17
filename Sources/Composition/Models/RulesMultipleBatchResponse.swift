@@ -28,11 +28,7 @@ public struct RulesMultipleBatchResponse: Codable, JSONEncodable {
     }
 }
 
-extension RulesMultipleBatchResponse: Equatable {
-    public static func ==(lhs: RulesMultipleBatchResponse, rhs: RulesMultipleBatchResponse) -> Bool {
-        lhs.taskID == rhs.taskID
-    }
-}
+extension RulesMultipleBatchResponse: Equatable {}
 
 extension RulesMultipleBatchResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

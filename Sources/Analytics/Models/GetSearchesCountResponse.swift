@@ -31,12 +31,7 @@ public struct GetSearchesCountResponse: Codable, JSONEncodable {
     }
 }
 
-extension GetSearchesCountResponse: Equatable {
-    public static func ==(lhs: GetSearchesCountResponse, rhs: GetSearchesCountResponse) -> Bool {
-        lhs.count == rhs.count &&
-            lhs.dates == rhs.dates
-    }
-}
+extension GetSearchesCountResponse: Equatable {}
 
 extension GetSearchesCountResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -52,15 +52,7 @@ public struct SearchForFacetsOptions: Codable, JSONEncodable {
     }
 }
 
-extension SearchForFacetsOptions: Equatable {
-    public static func ==(lhs: SearchForFacetsOptions, rhs: SearchForFacetsOptions) -> Bool {
-        lhs.facet == rhs.facet &&
-            lhs.indexName == rhs.indexName &&
-            lhs.facetQuery == rhs.facetQuery &&
-            lhs.maxFacetHits == rhs.maxFacetHits &&
-            lhs.type == rhs.type
-    }
-}
+extension SearchForFacetsOptions: Equatable {}
 
 extension SearchForFacetsOptions: Hashable {
     public func hash(into hasher: inout Hasher) {

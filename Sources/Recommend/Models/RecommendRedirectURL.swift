@@ -26,11 +26,7 @@ public struct RecommendRedirectURL: Codable, JSONEncodable {
     }
 }
 
-extension RecommendRedirectURL: Equatable {
-    public static func ==(lhs: RecommendRedirectURL, rhs: RecommendRedirectURL) -> Bool {
-        lhs.url == rhs.url
-    }
-}
+extension RecommendRedirectURL: Equatable {}
 
 extension RecommendRedirectURL: Hashable {
     public func hash(into hasher: inout Hasher) {

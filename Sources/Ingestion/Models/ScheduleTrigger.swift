@@ -41,14 +41,7 @@ public struct ScheduleTrigger: Codable, JSONEncodable {
     }
 }
 
-extension ScheduleTrigger: Equatable {
-    public static func ==(lhs: ScheduleTrigger, rhs: ScheduleTrigger) -> Bool {
-        lhs.type == rhs.type &&
-            lhs.cron == rhs.cron &&
-            lhs.lastRun == rhs.lastRun &&
-            lhs.nextRun == rhs.nextRun
-    }
-}
+extension ScheduleTrigger: Equatable {}
 
 extension ScheduleTrigger: Hashable {
     public func hash(into hasher: inout Hasher) {

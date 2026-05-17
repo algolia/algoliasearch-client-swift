@@ -54,15 +54,7 @@ public struct AuthOAuth: Codable, JSONEncodable {
     }
 }
 
-extension AuthOAuth: Equatable {
-    public static func ==(lhs: AuthOAuth, rhs: AuthOAuth) -> Bool {
-        lhs.url == rhs.url &&
-            lhs.clientId == rhs.clientId &&
-            lhs.clientSecret == rhs.clientSecret &&
-            lhs.code == rhs.code &&
-            lhs.scope == rhs.scope
-    }
-}
+extension AuthOAuth: Equatable {}
 
 extension AuthOAuth: Hashable {
     public func hash(into hasher: inout Hasher) {

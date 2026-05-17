@@ -31,12 +31,7 @@ public struct SourceShopify: Codable, JSONEncodable {
     }
 }
 
-extension SourceShopify: Equatable {
-    public static func ==(lhs: SourceShopify, rhs: SourceShopify) -> Bool {
-        lhs.featureFlags == rhs.featureFlags &&
-            lhs.shopURL == rhs.shopURL
-    }
-}
+extension SourceShopify: Equatable {}
 
 extension SourceShopify: Hashable {
     public func hash(into hasher: inout Hasher) {

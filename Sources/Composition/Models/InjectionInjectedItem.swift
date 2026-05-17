@@ -48,15 +48,7 @@ public struct InjectionInjectedItem: Codable, JSONEncodable {
     }
 }
 
-extension InjectionInjectedItem: Equatable {
-    public static func ==(lhs: InjectionInjectedItem, rhs: InjectionInjectedItem) -> Bool {
-        lhs.key == rhs.key &&
-            lhs.source == rhs.source &&
-            lhs.position == rhs.position &&
-            lhs.length == rhs.length &&
-            lhs.metadata == rhs.metadata
-    }
-}
+extension InjectionInjectedItem: Equatable {}
 
 extension InjectionInjectedItem: Hashable {
     public func hash(into hasher: inout Hasher) {

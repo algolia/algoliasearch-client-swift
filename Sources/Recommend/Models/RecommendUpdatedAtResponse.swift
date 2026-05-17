@@ -34,12 +34,7 @@ public struct RecommendUpdatedAtResponse: Codable, JSONEncodable {
     }
 }
 
-extension RecommendUpdatedAtResponse: Equatable {
-    public static func ==(lhs: RecommendUpdatedAtResponse, rhs: RecommendUpdatedAtResponse) -> Bool {
-        lhs.taskID == rhs.taskID &&
-            lhs.updatedAt == rhs.updatedAt
-    }
-}
+extension RecommendUpdatedAtResponse: Equatable {}
 
 extension RecommendUpdatedAtResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

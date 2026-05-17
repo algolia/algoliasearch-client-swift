@@ -51,15 +51,7 @@ public struct QuerySuggestionsConfiguration: Codable, JSONEncodable {
     }
 }
 
-extension QuerySuggestionsConfiguration: Equatable {
-    public static func ==(lhs: QuerySuggestionsConfiguration, rhs: QuerySuggestionsConfiguration) -> Bool {
-        lhs.sourceIndices == rhs.sourceIndices &&
-            lhs.languages == rhs.languages &&
-            lhs.exclude == rhs.exclude &&
-            lhs.enablePersonalization == rhs.enablePersonalization &&
-            lhs.allowSpecialCharacters == rhs.allowSpecialCharacters
-    }
-}
+extension QuerySuggestionsConfiguration: Equatable {}
 
 extension QuerySuggestionsConfiguration: Hashable {
     public func hash(into hasher: inout Hasher) {

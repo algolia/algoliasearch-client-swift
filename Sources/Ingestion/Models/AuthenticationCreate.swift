@@ -39,14 +39,7 @@ public struct AuthenticationCreate: Codable, JSONEncodable {
     }
 }
 
-extension AuthenticationCreate: Equatable {
-    public static func ==(lhs: AuthenticationCreate, rhs: AuthenticationCreate) -> Bool {
-        lhs.type == rhs.type &&
-            lhs.name == rhs.name &&
-            lhs.platform == rhs.platform &&
-            lhs.input == rhs.input
-    }
-}
+extension AuthenticationCreate: Equatable {}
 
 extension AuthenticationCreate: Hashable {
     public func hash(into hasher: inout Hasher) {

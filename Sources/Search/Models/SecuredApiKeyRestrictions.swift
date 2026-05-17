@@ -65,16 +65,7 @@ public struct SecuredApiKeyRestrictions: Codable, JSONEncodable {
     }
 }
 
-extension SecuredApiKeyRestrictions: Equatable {
-    public static func ==(lhs: SecuredApiKeyRestrictions, rhs: SecuredApiKeyRestrictions) -> Bool {
-        lhs.searchParams == rhs.searchParams &&
-            lhs.filters == rhs.filters &&
-            lhs.validUntil == rhs.validUntil &&
-            lhs.restrictIndices == rhs.restrictIndices &&
-            lhs.restrictSources == rhs.restrictSources &&
-            lhs.userToken == rhs.userToken
-    }
-}
+extension SecuredApiKeyRestrictions: Equatable {}
 
 extension SecuredApiKeyRestrictions: Hashable {
     public func hash(into hasher: inout Hasher) {

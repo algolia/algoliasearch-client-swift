@@ -26,11 +26,7 @@ public struct CompositionMultipleBatchResponse: Codable, JSONEncodable {
     }
 }
 
-extension CompositionMultipleBatchResponse: Equatable {
-    public static func ==(lhs: CompositionMultipleBatchResponse, rhs: CompositionMultipleBatchResponse) -> Bool {
-        lhs.taskID == rhs.taskID
-    }
-}
+extension CompositionMultipleBatchResponse: Equatable {}
 
 extension CompositionMultipleBatchResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

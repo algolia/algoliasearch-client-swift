@@ -78,20 +78,7 @@ public struct TaskReplace: Codable, JSONEncodable {
     }
 }
 
-extension TaskReplace: Equatable {
-    public static func ==(lhs: TaskReplace, rhs: TaskReplace) -> Bool {
-        lhs.destinationID == rhs.destinationID &&
-            lhs.action == rhs.action &&
-            lhs.subscriptionAction == rhs.subscriptionAction &&
-            lhs.cron == rhs.cron &&
-            lhs.enabled == rhs.enabled &&
-            lhs.failureThreshold == rhs.failureThreshold &&
-            lhs.input == rhs.input &&
-            lhs.cursor == rhs.cursor &&
-            lhs.notifications == rhs.notifications &&
-            lhs.policies == rhs.policies
-    }
-}
+extension TaskReplace: Equatable {}
 
 extension TaskReplace: Hashable {
     public func hash(into hasher: inout Hasher) {

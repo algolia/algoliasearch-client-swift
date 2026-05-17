@@ -209,30 +209,7 @@ public struct RecommendBaseIndexSettings: Codable, JSONEncodable {
     }
 }
 
-extension RecommendBaseIndexSettings: Equatable {
-    public static func ==(lhs: RecommendBaseIndexSettings, rhs: RecommendBaseIndexSettings) -> Bool {
-        lhs.attributesForFaceting == rhs.attributesForFaceting &&
-            lhs.replicas == rhs.replicas &&
-            lhs.paginationLimitedTo == rhs.paginationLimitedTo &&
-            lhs.unretrievableAttributes == rhs.unretrievableAttributes &&
-            lhs.disableTypoToleranceOnWords == rhs.disableTypoToleranceOnWords &&
-            lhs.attributesToTransliterate == rhs.attributesToTransliterate &&
-            lhs.camelCaseAttributes == rhs.camelCaseAttributes &&
-            lhs.decompoundedAttributes == rhs.decompoundedAttributes &&
-            lhs.indexLanguages == rhs.indexLanguages &&
-            lhs.disablePrefixOnAttributes == rhs.disablePrefixOnAttributes &&
-            lhs.allowCompressionOfIntegerArray == rhs.allowCompressionOfIntegerArray &&
-            lhs.numericAttributesForFiltering == rhs.numericAttributesForFiltering &&
-            lhs.separatorsToIndex == rhs.separatorsToIndex &&
-            lhs.searchableAttributes == rhs.searchableAttributes &&
-            lhs.userData == rhs.userData &&
-            lhs.customNormalization == rhs.customNormalization &&
-            lhs.attributeForDistinct == rhs.attributeForDistinct &&
-            lhs.maxFacetHits == rhs.maxFacetHits &&
-            lhs.keepDiacriticsOnCharacters == rhs.keepDiacriticsOnCharacters &&
-            lhs.customRanking == rhs.customRanking
-    }
-}
+extension RecommendBaseIndexSettings: Equatable {}
 
 extension RecommendBaseIndexSettings: Hashable {
     public func hash(into hasher: inout Hasher) {

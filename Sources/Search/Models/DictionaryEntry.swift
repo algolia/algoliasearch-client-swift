@@ -133,18 +133,7 @@ public struct DictionaryEntry: Codable, JSONEncodable {
     }
 }
 
-extension DictionaryEntry: Equatable {
-    public static func ==(lhs: DictionaryEntry, rhs: DictionaryEntry) -> Bool {
-        lhs.objectID == rhs.objectID &&
-            lhs.language == rhs.language &&
-            lhs.word == rhs.word &&
-            lhs.words == rhs.words &&
-            lhs.decomposition == rhs.decomposition &&
-            lhs.state == rhs.state &&
-            lhs.type == rhs.type
-            && lhs.additionalProperties == rhs.additionalProperties
-    }
-}
+extension DictionaryEntry: Equatable {}
 
 extension DictionaryEntry: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -26,11 +26,7 @@ public struct CompositionMultifeedBehavior: Codable, JSONEncodable {
     }
 }
 
-extension CompositionMultifeedBehavior: Equatable {
-    public static func ==(lhs: CompositionMultifeedBehavior, rhs: CompositionMultifeedBehavior) -> Bool {
-        lhs.multifeed == rhs.multifeed
-    }
-}
+extension CompositionMultifeedBehavior: Equatable {}
 
 extension CompositionMultifeedBehavior: Hashable {
     public func hash(into hasher: inout Hasher) {

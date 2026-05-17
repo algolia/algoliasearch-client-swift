@@ -25,14 +25,7 @@ public struct CompositionSearchForFacetValuesRequest: Codable, JSONEncodable {
     }
 }
 
-extension CompositionSearchForFacetValuesRequest: Equatable {
-    public static func ==(
-        lhs: CompositionSearchForFacetValuesRequest,
-        rhs: CompositionSearchForFacetValuesRequest
-    ) -> Bool {
-        lhs.params == rhs.params
-    }
-}
+extension CompositionSearchForFacetValuesRequest: Equatable {}
 
 extension CompositionSearchForFacetValuesRequest: Hashable {
     public func hash(into hasher: inout Hasher) {

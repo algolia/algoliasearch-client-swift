@@ -71,17 +71,7 @@ public struct ConvertedFilters: Codable, JSONEncodable {
     }
 }
 
-extension ConvertedFilters: Equatable {
-    public static func ==(lhs: ConvertedFilters, rhs: ConvertedFilters) -> Bool {
-        lhs.eventName == rhs.eventName &&
-            lhs.eventType == rhs.eventType &&
-            lhs.index == rhs.index &&
-            lhs.filters == rhs.filters &&
-            lhs.userToken == rhs.userToken &&
-            lhs.authenticatedUserToken == rhs.authenticatedUserToken &&
-            lhs.timestamp == rhs.timestamp
-    }
-}
+extension ConvertedFilters: Equatable {}
 
 extension ConvertedFilters: Hashable {
     public func hash(into hasher: inout Hasher) {

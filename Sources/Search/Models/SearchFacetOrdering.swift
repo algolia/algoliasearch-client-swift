@@ -31,12 +31,7 @@ public struct SearchFacetOrdering: Codable, JSONEncodable {
     }
 }
 
-extension SearchFacetOrdering: Equatable {
-    public static func ==(lhs: SearchFacetOrdering, rhs: SearchFacetOrdering) -> Bool {
-        lhs.facets == rhs.facets &&
-            lhs.values == rhs.values
-    }
-}
+extension SearchFacetOrdering: Equatable {}
 
 extension SearchFacetOrdering: Hashable {
     public func hash(into hasher: inout Hasher) {

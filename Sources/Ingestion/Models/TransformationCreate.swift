@@ -58,16 +58,7 @@ public struct TransformationCreate: Codable, JSONEncodable {
     }
 }
 
-extension TransformationCreate: Equatable {
-    public static func ==(lhs: TransformationCreate, rhs: TransformationCreate) -> Bool {
-        lhs.code == rhs.code &&
-            lhs.name == rhs.name &&
-            lhs.type == rhs.type &&
-            lhs.input == rhs.input &&
-            lhs.description == rhs.description &&
-            lhs.authenticationIDs == rhs.authenticationIDs
-    }
-}
+extension TransformationCreate: Equatable {}
 
 extension TransformationCreate: Hashable {
     public func hash(into hasher: inout Hasher) {

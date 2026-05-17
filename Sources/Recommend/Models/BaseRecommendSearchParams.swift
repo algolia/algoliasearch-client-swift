@@ -219,38 +219,7 @@ public struct BaseRecommendSearchParams: Codable, JSONEncodable {
     }
 }
 
-extension BaseRecommendSearchParams: Equatable {
-    public static func ==(lhs: BaseRecommendSearchParams, rhs: BaseRecommendSearchParams) -> Bool {
-        lhs.similarQuery == rhs.similarQuery &&
-            lhs.filters == rhs.filters &&
-            lhs.facetFilters == rhs.facetFilters &&
-            lhs.optionalFilters == rhs.optionalFilters &&
-            lhs.numericFilters == rhs.numericFilters &&
-            lhs.tagFilters == rhs.tagFilters &&
-            lhs.sumOrFiltersScores == rhs.sumOrFiltersScores &&
-            lhs.restrictSearchableAttributes == rhs.restrictSearchableAttributes &&
-            lhs.facets == rhs.facets &&
-            lhs.facetingAfterDistinct == rhs.facetingAfterDistinct &&
-            lhs.aroundLatLng == rhs.aroundLatLng &&
-            lhs.aroundLatLngViaIP == rhs.aroundLatLngViaIP &&
-            lhs.aroundRadius == rhs.aroundRadius &&
-            lhs.aroundPrecision == rhs.aroundPrecision &&
-            lhs.minimumAroundRadius == rhs.minimumAroundRadius &&
-            lhs.insideBoundingBox == rhs.insideBoundingBox &&
-            lhs.insidePolygon == rhs.insidePolygon &&
-            lhs.naturalLanguages == rhs.naturalLanguages &&
-            lhs.ruleContexts == rhs.ruleContexts &&
-            lhs.personalizationImpact == rhs.personalizationImpact &&
-            lhs.userToken == rhs.userToken &&
-            lhs.getRankingInfo == rhs.getRankingInfo &&
-            lhs.synonyms == rhs.synonyms &&
-            lhs.clickAnalytics == rhs.clickAnalytics &&
-            lhs.analytics == rhs.analytics &&
-            lhs.analyticsTags == rhs.analyticsTags &&
-            lhs.percentileComputation == rhs.percentileComputation &&
-            lhs.enableABTest == rhs.enableABTest
-    }
-}
+extension BaseRecommendSearchParams: Equatable {}
 
 extension BaseRecommendSearchParams: Hashable {
     public func hash(into hasher: inout Hasher) {

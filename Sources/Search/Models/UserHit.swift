@@ -57,16 +57,7 @@ public struct UserHit: Codable, JSONEncodable {
     }
 }
 
-extension UserHit: Equatable {
-    public static func ==(lhs: UserHit, rhs: UserHit) -> Bool {
-        lhs.userID == rhs.userID &&
-            lhs.clusterName == rhs.clusterName &&
-            lhs.nbRecords == rhs.nbRecords &&
-            lhs.dataSize == rhs.dataSize &&
-            lhs.objectID == rhs.objectID &&
-            lhs.highlightResult == rhs.highlightResult
-    }
-}
+extension UserHit: Equatable {}
 
 extension UserHit: Hashable {
     public func hash(into hasher: inout Hasher) {

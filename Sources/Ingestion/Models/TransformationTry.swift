@@ -50,15 +50,7 @@ public struct TransformationTry: Codable, JSONEncodable {
     }
 }
 
-extension TransformationTry: Equatable {
-    public static func ==(lhs: TransformationTry, rhs: TransformationTry) -> Bool {
-        lhs.code == rhs.code &&
-            lhs.type == rhs.type &&
-            lhs.input == rhs.input &&
-            lhs.sampleRecord == rhs.sampleRecord &&
-            lhs.authentications == rhs.authentications
-    }
-}
+extension TransformationTry: Equatable {}
 
 extension TransformationTry: Hashable {
     public func hash(into hasher: inout Hasher) {

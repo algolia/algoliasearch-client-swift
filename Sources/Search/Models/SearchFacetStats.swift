@@ -41,14 +41,7 @@ public struct SearchFacetStats: Codable, JSONEncodable {
     }
 }
 
-extension SearchFacetStats: Equatable {
-    public static func ==(lhs: SearchFacetStats, rhs: SearchFacetStats) -> Bool {
-        lhs.min == rhs.min &&
-            lhs.max == rhs.max &&
-            lhs.avg == rhs.avg &&
-            lhs.sum == rhs.sum
-    }
-}
+extension SearchFacetStats: Equatable {}
 
 extension SearchFacetStats: Hashable {
     public func hash(into hasher: inout Hasher) {

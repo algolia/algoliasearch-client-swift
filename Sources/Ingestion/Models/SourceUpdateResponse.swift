@@ -36,13 +36,7 @@ public struct SourceUpdateResponse: Codable, JSONEncodable {
     }
 }
 
-extension SourceUpdateResponse: Equatable {
-    public static func ==(lhs: SourceUpdateResponse, rhs: SourceUpdateResponse) -> Bool {
-        lhs.sourceID == rhs.sourceID &&
-            lhs.name == rhs.name &&
-            lhs.updatedAt == rhs.updatedAt
-    }
-}
+extension SourceUpdateResponse: Equatable {}
 
 extension SourceUpdateResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

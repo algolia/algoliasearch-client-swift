@@ -25,11 +25,7 @@ public struct BadRequest: Codable, JSONEncodable {
     }
 }
 
-extension BadRequest: Equatable {
-    public static func ==(lhs: BadRequest, rhs: BadRequest) -> Bool {
-        lhs.reason == rhs.reason
-    }
-}
+extension BadRequest: Equatable {}
 
 extension BadRequest: Hashable {
     public func hash(into hasher: inout Hasher) {

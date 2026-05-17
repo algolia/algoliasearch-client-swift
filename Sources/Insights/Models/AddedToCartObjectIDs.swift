@@ -96,21 +96,7 @@ public struct AddedToCartObjectIDs: Codable, JSONEncodable {
     }
 }
 
-extension AddedToCartObjectIDs: Equatable {
-    public static func ==(lhs: AddedToCartObjectIDs, rhs: AddedToCartObjectIDs) -> Bool {
-        lhs.eventName == rhs.eventName &&
-            lhs.eventType == rhs.eventType &&
-            lhs.eventSubtype == rhs.eventSubtype &&
-            lhs.index == rhs.index &&
-            lhs.objectIDs == rhs.objectIDs &&
-            lhs.userToken == rhs.userToken &&
-            lhs.authenticatedUserToken == rhs.authenticatedUserToken &&
-            lhs.currency == rhs.currency &&
-            lhs.objectData == rhs.objectData &&
-            lhs.timestamp == rhs.timestamp &&
-            lhs.value == rhs.value
-    }
-}
+extension AddedToCartObjectIDs: Equatable {}
 
 extension AddedToCartObjectIDs: Hashable {
     public func hash(into hasher: inout Hasher) {

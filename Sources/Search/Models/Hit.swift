@@ -118,16 +118,7 @@ public struct Hit: Codable, JSONEncodable {
     }
 }
 
-extension Hit: Equatable {
-    public static func ==(lhs: Hit, rhs: Hit) -> Bool {
-        lhs.objectID == rhs.objectID &&
-            lhs.highlightResult == rhs.highlightResult &&
-            lhs.snippetResult == rhs.snippetResult &&
-            lhs.rankingInfo == rhs.rankingInfo &&
-            lhs.distinctSeqID == rhs.distinctSeqID
-            && lhs.additionalProperties == rhs.additionalProperties
-    }
-}
+extension Hit: Equatable {}
 
 extension Hit: Hashable {
     public func hash(into hasher: inout Hasher) {

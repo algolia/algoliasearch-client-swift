@@ -27,11 +27,7 @@ public struct AssignUserIdParams: Codable, JSONEncodable {
     }
 }
 
-extension AssignUserIdParams: Equatable {
-    public static func ==(lhs: AssignUserIdParams, rhs: AssignUserIdParams) -> Bool {
-        lhs.cluster == rhs.cluster
-    }
-}
+extension AssignUserIdParams: Equatable {}
 
 extension AssignUserIdParams: Hashable {
     public func hash(into hasher: inout Hasher) {

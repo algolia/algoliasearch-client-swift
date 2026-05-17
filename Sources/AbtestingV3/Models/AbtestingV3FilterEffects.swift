@@ -30,12 +30,7 @@ public struct AbtestingV3FilterEffects: Codable, JSONEncodable {
     }
 }
 
-extension AbtestingV3FilterEffects: Equatable {
-    public static func ==(lhs: AbtestingV3FilterEffects, rhs: AbtestingV3FilterEffects) -> Bool {
-        lhs.outliers == rhs.outliers &&
-            lhs.emptySearch == rhs.emptySearch
-    }
-}
+extension AbtestingV3FilterEffects: Equatable {}
 
 extension AbtestingV3FilterEffects: Hashable {
     public func hash(into hasher: inout Hasher) {

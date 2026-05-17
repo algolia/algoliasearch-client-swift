@@ -36,13 +36,7 @@ public struct SearchForFacetValuesParams: Codable, JSONEncodable {
     }
 }
 
-extension SearchForFacetValuesParams: Equatable {
-    public static func ==(lhs: SearchForFacetValuesParams, rhs: SearchForFacetValuesParams) -> Bool {
-        lhs.query == rhs.query &&
-            lhs.maxFacetHits == rhs.maxFacetHits &&
-            lhs.searchQuery == rhs.searchQuery
-    }
-}
+extension SearchForFacetValuesParams: Equatable {}
 
 extension SearchForFacetValuesParams: Hashable {
     public func hash(into hasher: inout Hasher) {

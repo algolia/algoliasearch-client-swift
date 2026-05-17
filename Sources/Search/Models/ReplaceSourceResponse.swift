@@ -26,11 +26,7 @@ public struct ReplaceSourceResponse: Codable, JSONEncodable {
     }
 }
 
-extension ReplaceSourceResponse: Equatable {
-    public static func ==(lhs: ReplaceSourceResponse, rhs: ReplaceSourceResponse) -> Bool {
-        lhs.updatedAt == rhs.updatedAt
-    }
-}
+extension ReplaceSourceResponse: Equatable {}
 
 extension ReplaceSourceResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -26,11 +26,7 @@ public struct InjectionMainSearchSource: Codable, JSONEncodable {
     }
 }
 
-extension InjectionMainSearchSource: Equatable {
-    public static func ==(lhs: InjectionMainSearchSource, rhs: InjectionMainSearchSource) -> Bool {
-        lhs.search == rhs.search
-    }
-}
+extension InjectionMainSearchSource: Equatable {}
 
 extension InjectionMainSearchSource: Hashable {
     public func hash(into hasher: inout Hasher) {

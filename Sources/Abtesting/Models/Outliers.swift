@@ -27,11 +27,7 @@ public struct Outliers: Codable, JSONEncodable {
     }
 }
 
-extension Outliers: Equatable {
-    public static func ==(lhs: Outliers, rhs: Outliers) -> Bool {
-        lhs.exclude == rhs.exclude
-    }
-}
+extension Outliers: Equatable {}
 
 extension Outliers: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -27,11 +27,7 @@ public struct DictionaryLanguage: Codable, JSONEncodable {
     }
 }
 
-extension DictionaryLanguage: Equatable {
-    public static func ==(lhs: DictionaryLanguage, rhs: DictionaryLanguage) -> Bool {
-        lhs.nbCustomEntries == rhs.nbCustomEntries
-    }
-}
+extension DictionaryLanguage: Equatable {}
 
 extension DictionaryLanguage: Hashable {
     public func hash(into hasher: inout Hasher) {

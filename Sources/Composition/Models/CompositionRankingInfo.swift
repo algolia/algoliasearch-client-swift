@@ -25,11 +25,7 @@ public struct CompositionRankingInfo: Codable, JSONEncodable {
     }
 }
 
-extension CompositionRankingInfo: Equatable {
-    public static func ==(lhs: CompositionRankingInfo, rhs: CompositionRankingInfo) -> Bool {
-        lhs.composed == rhs.composed
-    }
-}
+extension CompositionRankingInfo: Equatable {}
 
 extension CompositionRankingInfo: Hashable {
     public func hash(into hasher: inout Hasher) {

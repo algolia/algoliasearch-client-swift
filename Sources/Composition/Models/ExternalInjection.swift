@@ -32,12 +32,7 @@ public struct ExternalInjection: Codable, JSONEncodable {
     }
 }
 
-extension ExternalInjection: Equatable {
-    public static func ==(lhs: ExternalInjection, rhs: ExternalInjection) -> Bool {
-        lhs.objectID == rhs.objectID &&
-            lhs.metadata == rhs.metadata
-    }
-}
+extension ExternalInjection: Equatable {}
 
 extension ExternalInjection: Hashable {
     public func hash(into hasher: inout Hasher) {

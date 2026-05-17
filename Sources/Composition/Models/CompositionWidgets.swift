@@ -27,11 +27,7 @@ public struct CompositionWidgets: Codable, JSONEncodable {
     }
 }
 
-extension CompositionWidgets: Equatable {
-    public static func ==(lhs: CompositionWidgets, rhs: CompositionWidgets) -> Bool {
-        lhs.banners == rhs.banners
-    }
-}
+extension CompositionWidgets: Equatable {}
 
 extension CompositionWidgets: Hashable {
     public func hash(into hasher: inout Hasher) {

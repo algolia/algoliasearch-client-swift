@@ -34,13 +34,7 @@ public struct RelatedProducts: Codable, JSONEncodable {
     }
 }
 
-extension RelatedProducts: Equatable {
-    public static func ==(lhs: RelatedProducts, rhs: RelatedProducts) -> Bool {
-        lhs.model == rhs.model &&
-            lhs.objectID == rhs.objectID &&
-            lhs.fallbackParameters == rhs.fallbackParameters
-    }
-}
+extension RelatedProducts: Equatable {}
 
 extension RelatedProducts: Hashable {
     public func hash(into hasher: inout Hasher) {

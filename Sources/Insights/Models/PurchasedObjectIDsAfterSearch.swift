@@ -95,21 +95,7 @@ public struct PurchasedObjectIDsAfterSearch: Codable, JSONEncodable {
     }
 }
 
-extension PurchasedObjectIDsAfterSearch: Equatable {
-    public static func ==(lhs: PurchasedObjectIDsAfterSearch, rhs: PurchasedObjectIDsAfterSearch) -> Bool {
-        lhs.eventName == rhs.eventName &&
-            lhs.eventType == rhs.eventType &&
-            lhs.eventSubtype == rhs.eventSubtype &&
-            lhs.index == rhs.index &&
-            lhs.objectIDs == rhs.objectIDs &&
-            lhs.userToken == rhs.userToken &&
-            lhs.authenticatedUserToken == rhs.authenticatedUserToken &&
-            lhs.currency == rhs.currency &&
-            lhs.objectData == rhs.objectData &&
-            lhs.timestamp == rhs.timestamp &&
-            lhs.value == rhs.value
-    }
-}
+extension PurchasedObjectIDsAfterSearch: Equatable {}
 
 extension PurchasedObjectIDsAfterSearch: Hashable {
     public func hash(into hasher: inout Hasher) {

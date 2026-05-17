@@ -32,12 +32,7 @@ public struct AbtestingOutliersFilter: Codable, JSONEncodable {
     }
 }
 
-extension AbtestingOutliersFilter: Equatable {
-    public static func ==(lhs: AbtestingOutliersFilter, rhs: AbtestingOutliersFilter) -> Bool {
-        lhs.usersCount == rhs.usersCount &&
-            lhs.trackedSearchesCount == rhs.trackedSearchesCount
-    }
-}
+extension AbtestingOutliersFilter: Equatable {}
 
 extension AbtestingOutliersFilter: Hashable {
     public func hash(into hasher: inout Hasher) {

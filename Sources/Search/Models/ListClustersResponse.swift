@@ -28,11 +28,7 @@ public struct ListClustersResponse: Codable, JSONEncodable {
     }
 }
 
-extension ListClustersResponse: Equatable {
-    public static func ==(lhs: ListClustersResponse, rhs: ListClustersResponse) -> Bool {
-        lhs.topUsers == rhs.topUsers
-    }
-}
+extension ListClustersResponse: Equatable {}
 
 extension ListClustersResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

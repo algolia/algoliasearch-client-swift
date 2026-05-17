@@ -33,12 +33,7 @@ public struct Multifeed: Codable, JSONEncodable {
     }
 }
 
-extension Multifeed: Equatable {
-    public static func ==(lhs: Multifeed, rhs: Multifeed) -> Bool {
-        lhs.feeds == rhs.feeds &&
-            lhs.feedsOrder == rhs.feedsOrder
-    }
-}
+extension Multifeed: Equatable {}
 
 extension Multifeed: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -53,15 +53,7 @@ public struct Metrics: Codable, JSONEncodable {
     }
 }
 
-extension Metrics: Equatable {
-    public static func ==(lhs: Metrics, rhs: Metrics) -> Bool {
-        lhs.cpuUsage == rhs.cpuUsage &&
-            lhs.ramIndexingUsage == rhs.ramIndexingUsage &&
-            lhs.ramSearchUsage == rhs.ramSearchUsage &&
-            lhs.ssdUsage == rhs.ssdUsage &&
-            lhs.avgBuildTime == rhs.avgBuildTime
-    }
-}
+extension Metrics: Equatable {}
 
 extension Metrics: Hashable {
     public func hash(into hasher: inout Hasher) {

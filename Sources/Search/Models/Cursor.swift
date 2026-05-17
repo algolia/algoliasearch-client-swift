@@ -27,11 +27,7 @@ public struct Cursor: Codable, JSONEncodable {
     }
 }
 
-extension Cursor: Equatable {
-    public static func ==(lhs: Cursor, rhs: Cursor) -> Bool {
-        lhs.cursor == rhs.cursor
-    }
-}
+extension Cursor: Equatable {}
 
 extension Cursor: Hashable {
     public func hash(into hasher: inout Hasher) {

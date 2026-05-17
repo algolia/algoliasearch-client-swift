@@ -26,11 +26,7 @@ public struct TransformationNoCode: Codable, JSONEncodable {
     }
 }
 
-extension TransformationNoCode: Equatable {
-    public static func ==(lhs: TransformationNoCode, rhs: TransformationNoCode) -> Bool {
-        lhs.steps == rhs.steps
-    }
-}
+extension TransformationNoCode: Equatable {}
 
 extension TransformationNoCode: Hashable {
     public func hash(into hasher: inout Hasher) {

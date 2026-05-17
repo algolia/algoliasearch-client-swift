@@ -27,11 +27,7 @@ public struct TransformationCode: Codable, JSONEncodable {
     }
 }
 
-extension TransformationCode: Equatable {
-    public static func ==(lhs: TransformationCode, rhs: TransformationCode) -> Bool {
-        lhs.code == rhs.code
-    }
-}
+extension TransformationCode: Equatable {}
 
 extension TransformationCode: Hashable {
     public func hash(into hasher: inout Hasher) {

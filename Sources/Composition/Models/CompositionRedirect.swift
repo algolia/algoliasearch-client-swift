@@ -28,11 +28,7 @@ public struct CompositionRedirect: Codable, JSONEncodable {
     }
 }
 
-extension CompositionRedirect: Equatable {
-    public static func ==(lhs: CompositionRedirect, rhs: CompositionRedirect) -> Bool {
-        lhs.index == rhs.index
-    }
-}
+extension CompositionRedirect: Equatable {}
 
 extension CompositionRedirect: Hashable {
     public func hash(into hasher: inout Hasher) {

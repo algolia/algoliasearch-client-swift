@@ -32,12 +32,7 @@ public struct MappingFieldDirective: Codable, JSONEncodable {
     }
 }
 
-extension MappingFieldDirective: Equatable {
-    public static func ==(lhs: MappingFieldDirective, rhs: MappingFieldDirective) -> Bool {
-        lhs.fieldKey == rhs.fieldKey &&
-            lhs.value == rhs.value
-    }
-}
+extension MappingFieldDirective: Equatable {}
 
 extension MappingFieldDirective: Hashable {
     public func hash(into hasher: inout Hasher) {

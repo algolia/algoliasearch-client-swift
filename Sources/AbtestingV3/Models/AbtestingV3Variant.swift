@@ -65,17 +65,7 @@ public struct AbtestingV3Variant: Codable, JSONEncodable {
     }
 }
 
-extension AbtestingV3Variant: Equatable {
-    public static func ==(lhs: AbtestingV3Variant, rhs: AbtestingV3Variant) -> Bool {
-        lhs.description == rhs.description &&
-            lhs.estimatedSampleSize == rhs.estimatedSampleSize &&
-            lhs.index == rhs.index &&
-            lhs.trafficPercentage == rhs.trafficPercentage &&
-            lhs.metrics == rhs.metrics &&
-            lhs.metadata == rhs.metadata &&
-            lhs.customSearchParameters == rhs.customSearchParameters
-    }
-}
+extension AbtestingV3Variant: Equatable {}
 
 extension AbtestingV3Variant: Hashable {
     public func hash(into hasher: inout Hasher) {

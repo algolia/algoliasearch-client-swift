@@ -26,11 +26,7 @@ public struct CompositionRedirectRuleIndexData: Codable, JSONEncodable {
     }
 }
 
-extension CompositionRedirectRuleIndexData: Equatable {
-    public static func ==(lhs: CompositionRedirectRuleIndexData, rhs: CompositionRedirectRuleIndexData) -> Bool {
-        lhs.ruleObjectID == rhs.ruleObjectID
-    }
-}
+extension CompositionRedirectRuleIndexData: Equatable {}
 
 extension CompositionRedirectRuleIndexData: Hashable {
     public func hash(into hasher: inout Hasher) {

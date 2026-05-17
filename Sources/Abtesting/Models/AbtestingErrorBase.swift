@@ -71,12 +71,7 @@ public struct AbtestingErrorBase: Codable, JSONEncodable {
     }
 }
 
-extension AbtestingErrorBase: Equatable {
-    public static func ==(lhs: AbtestingErrorBase, rhs: AbtestingErrorBase) -> Bool {
-        lhs.message == rhs.message
-            && lhs.additionalProperties == rhs.additionalProperties
-    }
-}
+extension AbtestingErrorBase: Equatable {}
 
 extension AbtestingErrorBase: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -36,13 +36,7 @@ public struct TopSearch: Codable, JSONEncodable {
     }
 }
 
-extension TopSearch: Equatable {
-    public static func ==(lhs: TopSearch, rhs: TopSearch) -> Bool {
-        lhs.search == rhs.search &&
-            lhs.count == rhs.count &&
-            lhs.nbHits == rhs.nbHits
-    }
-}
+extension TopSearch: Equatable {}
 
 extension TopSearch: Hashable {
     public func hash(into hasher: inout Hasher) {

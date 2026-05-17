@@ -26,11 +26,7 @@ public struct FeedInjection: Codable, JSONEncodable {
     }
 }
 
-extension FeedInjection: Equatable {
-    public static func ==(lhs: FeedInjection, rhs: FeedInjection) -> Bool {
-        lhs.injection == rhs.injection
-    }
-}
+extension FeedInjection: Equatable {}
 
 extension FeedInjection: Hashable {
     public func hash(into hasher: inout Hasher) {

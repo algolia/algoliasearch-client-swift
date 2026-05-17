@@ -26,11 +26,7 @@ public struct Notifications: Codable, JSONEncodable {
     }
 }
 
-extension Notifications: Equatable {
-    public static func ==(lhs: Notifications, rhs: Notifications) -> Bool {
-        lhs.email == rhs.email
-    }
-}
+extension Notifications: Equatable {}
 
 extension Notifications: Hashable {
     public func hash(into hasher: inout Hasher) {

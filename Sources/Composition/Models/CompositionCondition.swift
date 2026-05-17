@@ -60,15 +60,7 @@ public struct CompositionCondition: Codable, JSONEncodable {
     }
 }
 
-extension CompositionCondition: Equatable {
-    public static func ==(lhs: CompositionCondition, rhs: CompositionCondition) -> Bool {
-        lhs.pattern == rhs.pattern &&
-            lhs.anchoring == rhs.anchoring &&
-            lhs.context == rhs.context &&
-            lhs.filters == rhs.filters &&
-            lhs.sortBy == rhs.sortBy
-    }
-}
+extension CompositionCondition: Equatable {}
 
 extension CompositionCondition: Hashable {
     public func hash(into hasher: inout Hasher) {

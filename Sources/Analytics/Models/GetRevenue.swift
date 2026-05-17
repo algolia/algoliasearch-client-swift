@@ -31,12 +31,7 @@ public struct GetRevenue: Codable, JSONEncodable {
     }
 }
 
-extension GetRevenue: Equatable {
-    public static func ==(lhs: GetRevenue, rhs: GetRevenue) -> Bool {
-        lhs.currencies == rhs.currencies &&
-            lhs.dates == rhs.dates
-    }
-}
+extension GetRevenue: Equatable {}
 
 extension GetRevenue: Hashable {
     public func hash(into hasher: inout Hasher) {

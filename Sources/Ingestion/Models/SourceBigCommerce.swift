@@ -49,15 +49,7 @@ public struct SourceBigCommerce: Codable, JSONEncodable {
     }
 }
 
-extension SourceBigCommerce: Equatable {
-    public static func ==(lhs: SourceBigCommerce, rhs: SourceBigCommerce) -> Bool {
-        lhs.storeHash == rhs.storeHash &&
-            lhs.channel == rhs.channel &&
-            lhs.customFields == rhs.customFields &&
-            lhs.productMetafields == rhs.productMetafields &&
-            lhs.variantMetafields == rhs.variantMetafields
-    }
-}
+extension SourceBigCommerce: Equatable {}
 
 extension SourceBigCommerce: Hashable {
     public func hash(into hasher: inout Hasher) {

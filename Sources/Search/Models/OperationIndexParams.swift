@@ -37,13 +37,7 @@ public struct OperationIndexParams: Codable, JSONEncodable {
     }
 }
 
-extension OperationIndexParams: Equatable {
-    public static func ==(lhs: OperationIndexParams, rhs: OperationIndexParams) -> Bool {
-        lhs.operation == rhs.operation &&
-            lhs.destination == rhs.destination &&
-            lhs.scope == rhs.scope
-    }
-}
+extension OperationIndexParams: Equatable {}
 
 extension OperationIndexParams: Hashable {
     public func hash(into hasher: inout Hasher) {

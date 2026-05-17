@@ -43,14 +43,7 @@ public struct GetAddToCartRateResponse: Codable, JSONEncodable {
     }
 }
 
-extension GetAddToCartRateResponse: Equatable {
-    public static func ==(lhs: GetAddToCartRateResponse, rhs: GetAddToCartRateResponse) -> Bool {
-        lhs.rate == rhs.rate &&
-            lhs.trackedSearchCount == rhs.trackedSearchCount &&
-            lhs.addToCartCount == rhs.addToCartCount &&
-            lhs.dates == rhs.dates
-    }
-}
+extension GetAddToCartRateResponse: Equatable {}
 
 extension GetAddToCartRateResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

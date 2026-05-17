@@ -45,15 +45,7 @@ public struct RecommendRedirectRuleIndexMetadata: Codable, JSONEncodable {
     }
 }
 
-extension RecommendRedirectRuleIndexMetadata: Equatable {
-    public static func ==(lhs: RecommendRedirectRuleIndexMetadata, rhs: RecommendRedirectRuleIndexMetadata) -> Bool {
-        lhs.source == rhs.source &&
-            lhs.dest == rhs.dest &&
-            lhs.reason == rhs.reason &&
-            lhs.succeed == rhs.succeed &&
-            lhs.data == rhs.data
-    }
-}
+extension RecommendRedirectRuleIndexMetadata: Equatable {}
 
 extension RecommendRedirectRuleIndexMetadata: Hashable {
     public func hash(into hasher: inout Hasher) {

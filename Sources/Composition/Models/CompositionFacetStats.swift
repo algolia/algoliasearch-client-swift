@@ -41,14 +41,7 @@ public struct CompositionFacetStats: Codable, JSONEncodable {
     }
 }
 
-extension CompositionFacetStats: Equatable {
-    public static func ==(lhs: CompositionFacetStats, rhs: CompositionFacetStats) -> Bool {
-        lhs.min == rhs.min &&
-            lhs.max == rhs.max &&
-            lhs.avg == rhs.avg &&
-            lhs.sum == rhs.sum
-    }
-}
+extension CompositionFacetStats: Equatable {}
 
 extension CompositionFacetStats: Hashable {
     public func hash(into hasher: inout Hasher) {

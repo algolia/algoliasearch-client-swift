@@ -26,11 +26,7 @@ public struct RecommendBannerLink: Codable, JSONEncodable {
     }
 }
 
-extension RecommendBannerLink: Equatable {
-    public static func ==(lhs: RecommendBannerLink, rhs: RecommendBannerLink) -> Bool {
-        lhs.url == rhs.url
-    }
-}
+extension RecommendBannerLink: Equatable {}
 
 extension RecommendBannerLink: Hashable {
     public func hash(into hasher: inout Hasher) {

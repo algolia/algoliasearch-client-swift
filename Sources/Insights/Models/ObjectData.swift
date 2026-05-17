@@ -35,13 +35,7 @@ public struct ObjectData: Codable, JSONEncodable {
     }
 }
 
-extension ObjectData: Equatable {
-    public static func ==(lhs: ObjectData, rhs: ObjectData) -> Bool {
-        lhs.price == rhs.price &&
-            lhs.quantity == rhs.quantity &&
-            lhs.discount == rhs.discount
-    }
-}
+extension ObjectData: Equatable {}
 
 extension ObjectData: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -30,12 +30,7 @@ public struct TransformationTryResponse: Codable, JSONEncodable {
     }
 }
 
-extension TransformationTryResponse: Equatable {
-    public static func ==(lhs: TransformationTryResponse, rhs: TransformationTryResponse) -> Bool {
-        lhs.payloads == rhs.payloads &&
-            lhs.error == rhs.error
-    }
-}
+extension TransformationTryResponse: Equatable {}
 
 extension TransformationTryResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

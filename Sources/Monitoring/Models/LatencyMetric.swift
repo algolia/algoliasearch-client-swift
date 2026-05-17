@@ -25,11 +25,7 @@ public struct LatencyMetric: Codable, JSONEncodable {
     }
 }
 
-extension LatencyMetric: Equatable {
-    public static func ==(lhs: LatencyMetric, rhs: LatencyMetric) -> Bool {
-        lhs.latency == rhs.latency
-    }
-}
+extension LatencyMetric: Equatable {}
 
 extension LatencyMetric: Hashable {
     public func hash(into hasher: inout Hasher) {

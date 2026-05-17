@@ -32,12 +32,7 @@ public struct CurrencyCode: Codable, JSONEncodable {
     }
 }
 
-extension CurrencyCode: Equatable {
-    public static func ==(lhs: CurrencyCode, rhs: CurrencyCode) -> Bool {
-        lhs.currency == rhs.currency &&
-            lhs.revenue == rhs.revenue
-    }
-}
+extension CurrencyCode: Equatable {}
 
 extension CurrencyCode: Hashable {
     public func hash(into hasher: inout Hasher) {

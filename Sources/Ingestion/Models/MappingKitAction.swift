@@ -42,14 +42,7 @@ public struct MappingKitAction: Codable, JSONEncodable {
     }
 }
 
-extension MappingKitAction: Equatable {
-    public static func ==(lhs: MappingKitAction, rhs: MappingKitAction) -> Bool {
-        lhs.id == rhs.id &&
-            lhs.enabled == rhs.enabled &&
-            lhs.trigger == rhs.trigger &&
-            lhs.fieldDirectives == rhs.fieldDirectives
-    }
-}
+extension MappingKitAction: Equatable {}
 
 extension MappingKitAction: Hashable {
     public func hash(into hasher: inout Hasher) {

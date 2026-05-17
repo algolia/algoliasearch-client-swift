@@ -63,17 +63,7 @@ public struct SourceUpdateCommercetools: Codable, JSONEncodable {
     }
 }
 
-extension SourceUpdateCommercetools: Equatable {
-    public static func ==(lhs: SourceUpdateCommercetools, rhs: SourceUpdateCommercetools) -> Bool {
-        lhs.storeKeys == rhs.storeKeys &&
-            lhs.locales == rhs.locales &&
-            lhs.url == rhs.url &&
-            lhs.fallbackIsInStockValue == rhs.fallbackIsInStockValue &&
-            lhs.productQueryPredicate == rhs.productQueryPredicate &&
-            lhs.useImagesObjects == rhs.useImagesObjects &&
-            lhs.customFields == rhs.customFields
-    }
-}
+extension SourceUpdateCommercetools: Equatable {}
 
 extension SourceUpdateCommercetools: Hashable {
     public func hash(into hasher: inout Hasher) {

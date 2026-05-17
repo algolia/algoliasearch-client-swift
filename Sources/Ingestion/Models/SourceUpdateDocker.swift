@@ -27,11 +27,7 @@ public struct SourceUpdateDocker: Codable, JSONEncodable {
     }
 }
 
-extension SourceUpdateDocker: Equatable {
-    public static func ==(lhs: SourceUpdateDocker, rhs: SourceUpdateDocker) -> Bool {
-        lhs.configuration == rhs.configuration
-    }
-}
+extension SourceUpdateDocker: Equatable {}
 
 extension SourceUpdateDocker: Hashable {
     public func hash(into hasher: inout Hasher) {

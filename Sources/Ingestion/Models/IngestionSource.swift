@@ -67,18 +67,7 @@ public struct IngestionSource: Codable, JSONEncodable {
     }
 }
 
-extension IngestionSource: Equatable {
-    public static func ==(lhs: IngestionSource, rhs: IngestionSource) -> Bool {
-        lhs.sourceID == rhs.sourceID &&
-            lhs.type == rhs.type &&
-            lhs.name == rhs.name &&
-            lhs.owner == rhs.owner &&
-            lhs.input == rhs.input &&
-            lhs.authenticationID == rhs.authenticationID &&
-            lhs.createdAt == rhs.createdAt &&
-            lhs.updatedAt == rhs.updatedAt
-    }
-}
+extension IngestionSource: Equatable {}
 
 extension IngestionSource: Hashable {
     public func hash(into hasher: inout Hasher) {

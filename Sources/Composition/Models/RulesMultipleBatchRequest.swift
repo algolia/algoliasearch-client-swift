@@ -29,12 +29,7 @@ public struct RulesMultipleBatchRequest: Codable, JSONEncodable {
     }
 }
 
-extension RulesMultipleBatchRequest: Equatable {
-    public static func ==(lhs: RulesMultipleBatchRequest, rhs: RulesMultipleBatchRequest) -> Bool {
-        lhs.action == rhs.action &&
-            lhs.body == rhs.body
-    }
-}
+extension RulesMultipleBatchRequest: Equatable {}
 
 extension RulesMultipleBatchRequest: Hashable {
     public func hash(into hasher: inout Hasher) {

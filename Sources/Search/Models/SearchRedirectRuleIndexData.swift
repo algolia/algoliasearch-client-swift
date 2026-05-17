@@ -26,11 +26,7 @@ public struct SearchRedirectRuleIndexData: Codable, JSONEncodable {
     }
 }
 
-extension SearchRedirectRuleIndexData: Equatable {
-    public static func ==(lhs: SearchRedirectRuleIndexData, rhs: SearchRedirectRuleIndexData) -> Bool {
-        lhs.ruleObjectID == rhs.ruleObjectID
-    }
-}
+extension SearchRedirectRuleIndexData: Equatable {}
 
 extension SearchRedirectRuleIndexData: Hashable {
     public func hash(into hasher: inout Hasher) {

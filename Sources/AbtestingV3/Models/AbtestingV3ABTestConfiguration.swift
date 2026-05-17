@@ -39,13 +39,7 @@ public struct AbtestingV3ABTestConfiguration: Codable, JSONEncodable {
     }
 }
 
-extension AbtestingV3ABTestConfiguration: Equatable {
-    public static func ==(lhs: AbtestingV3ABTestConfiguration, rhs: AbtestingV3ABTestConfiguration) -> Bool {
-        lhs.minimumDetectableEffect == rhs.minimumDetectableEffect &&
-            lhs.filters == rhs.filters &&
-            lhs.errorCorrection == rhs.errorCorrection
-    }
-}
+extension AbtestingV3ABTestConfiguration: Equatable {}
 
 extension AbtestingV3ABTestConfiguration: Hashable {
     public func hash(into hasher: inout Hasher) {

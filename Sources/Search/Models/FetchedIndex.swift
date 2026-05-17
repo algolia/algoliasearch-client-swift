@@ -94,22 +94,7 @@ public struct FetchedIndex: Codable, JSONEncodable {
     }
 }
 
-extension FetchedIndex: Equatable {
-    public static func ==(lhs: FetchedIndex, rhs: FetchedIndex) -> Bool {
-        lhs.name == rhs.name &&
-            lhs.createdAt == rhs.createdAt &&
-            lhs.updatedAt == rhs.updatedAt &&
-            lhs.entries == rhs.entries &&
-            lhs.dataSize == rhs.dataSize &&
-            lhs.fileSize == rhs.fileSize &&
-            lhs.lastBuildTimeS == rhs.lastBuildTimeS &&
-            lhs.numberOfPendingTasks == rhs.numberOfPendingTasks &&
-            lhs.pendingTask == rhs.pendingTask &&
-            lhs.primary == rhs.primary &&
-            lhs.replicas == rhs.replicas &&
-            lhs.virtual == rhs.virtual
-    }
-}
+extension FetchedIndex: Equatable {}
 
 extension FetchedIndex: Hashable {
     public func hash(into hasher: inout Hasher) {

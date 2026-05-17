@@ -63,15 +63,7 @@ public struct SearchExhaustive: Codable, JSONEncodable {
     }
 }
 
-extension SearchExhaustive: Equatable {
-    public static func ==(lhs: SearchExhaustive, rhs: SearchExhaustive) -> Bool {
-        lhs.facetsCount == rhs.facetsCount &&
-            lhs.facetValues == rhs.facetValues &&
-            lhs.nbHits == rhs.nbHits &&
-            lhs.rulesMatch == rhs.rulesMatch &&
-            lhs.typo == rhs.typo
-    }
-}
+extension SearchExhaustive: Equatable {}
 
 extension SearchExhaustive: Hashable {
     public func hash(into hasher: inout Hasher) {

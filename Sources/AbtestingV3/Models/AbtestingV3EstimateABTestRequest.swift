@@ -30,12 +30,7 @@ public struct AbtestingV3EstimateABTestRequest: Codable, JSONEncodable {
     }
 }
 
-extension AbtestingV3EstimateABTestRequest: Equatable {
-    public static func ==(lhs: AbtestingV3EstimateABTestRequest, rhs: AbtestingV3EstimateABTestRequest) -> Bool {
-        lhs.configuration == rhs.configuration &&
-            lhs.variants == rhs.variants
-    }
-}
+extension AbtestingV3EstimateABTestRequest: Equatable {}
 
 extension AbtestingV3EstimateABTestRequest: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -32,12 +32,7 @@ public struct Window: Codable, JSONEncodable {
     }
 }
 
-extension Window: Equatable {
-    public static func ==(lhs: Window, rhs: Window) -> Bool {
-        lhs.startDate == rhs.startDate &&
-            lhs.endDate == rhs.endDate
-    }
-}
+extension Window: Equatable {}
 
 extension Window: Hashable {
     public func hash(into hasher: inout Hasher) {

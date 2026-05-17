@@ -26,11 +26,7 @@ public struct SubscriptionTrigger: Codable, JSONEncodable {
     }
 }
 
-extension SubscriptionTrigger: Equatable {
-    public static func ==(lhs: SubscriptionTrigger, rhs: SubscriptionTrigger) -> Bool {
-        lhs.type == rhs.type
-    }
-}
+extension SubscriptionTrigger: Equatable {}
 
 extension SubscriptionTrigger: Hashable {
     public func hash(into hasher: inout Hasher) {

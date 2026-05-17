@@ -25,11 +25,7 @@ public struct InventoryResponse: Codable, JSONEncodable {
     }
 }
 
-extension InventoryResponse: Equatable {
-    public static func ==(lhs: InventoryResponse, rhs: InventoryResponse) -> Bool {
-        lhs.inventory == rhs.inventory
-    }
-}
+extension InventoryResponse: Equatable {}
 
 extension InventoryResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

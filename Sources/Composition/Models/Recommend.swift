@@ -49,15 +49,7 @@ public struct Recommend: Codable, JSONEncodable {
     }
 }
 
-extension Recommend: Equatable {
-    public static func ==(lhs: Recommend, rhs: Recommend) -> Bool {
-        lhs.indexName == rhs.indexName &&
-            lhs.model == rhs.model &&
-            lhs.threshold == rhs.threshold &&
-            lhs.queryParameters == rhs.queryParameters &&
-            lhs.fallbackParameters == rhs.fallbackParameters
-    }
-}
+extension Recommend: Equatable {}
 
 extension Recommend: Hashable {
     public func hash(into hasher: inout Hasher) {

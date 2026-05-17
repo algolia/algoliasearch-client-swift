@@ -64,17 +64,7 @@ public struct SourceBigQuery: Codable, JSONEncodable {
     }
 }
 
-extension SourceBigQuery: Equatable {
-    public static func ==(lhs: SourceBigQuery, rhs: SourceBigQuery) -> Bool {
-        lhs.projectID == rhs.projectID &&
-            lhs.datasetID == rhs.datasetID &&
-            lhs.dataType == rhs.dataType &&
-            lhs.table == rhs.table &&
-            lhs.tablePrefix == rhs.tablePrefix &&
-            lhs.customSQLRequest == rhs.customSQLRequest &&
-            lhs.uniqueIDColumn == rhs.uniqueIDColumn
-    }
-}
+extension SourceBigQuery: Equatable {}
 
 extension SourceBigQuery: Hashable {
     public func hash(into hasher: inout Hasher) {

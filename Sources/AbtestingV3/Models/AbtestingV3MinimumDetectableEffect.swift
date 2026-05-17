@@ -32,12 +32,7 @@ public struct AbtestingV3MinimumDetectableEffect: Codable, JSONEncodable {
     }
 }
 
-extension AbtestingV3MinimumDetectableEffect: Equatable {
-    public static func ==(lhs: AbtestingV3MinimumDetectableEffect, rhs: AbtestingV3MinimumDetectableEffect) -> Bool {
-        lhs.size == rhs.size &&
-            lhs.metric == rhs.metric
-    }
-}
+extension AbtestingV3MinimumDetectableEffect: Equatable {}
 
 extension AbtestingV3MinimumDetectableEffect: Hashable {
     public func hash(into hasher: inout Hasher) {

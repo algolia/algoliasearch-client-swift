@@ -26,11 +26,7 @@ public struct AuthenticationSearch: Codable, JSONEncodable {
     }
 }
 
-extension AuthenticationSearch: Equatable {
-    public static func ==(lhs: AuthenticationSearch, rhs: AuthenticationSearch) -> Bool {
-        lhs.authenticationIDs == rhs.authenticationIDs
-    }
-}
+extension AuthenticationSearch: Equatable {}
 
 extension AuthenticationSearch: Hashable {
     public func hash(into hasher: inout Hasher) {

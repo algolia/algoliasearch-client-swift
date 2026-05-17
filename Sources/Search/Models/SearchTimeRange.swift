@@ -31,12 +31,7 @@ public struct SearchTimeRange: Codable, JSONEncodable {
     }
 }
 
-extension SearchTimeRange: Equatable {
-    public static func ==(lhs: SearchTimeRange, rhs: SearchTimeRange) -> Bool {
-        lhs.from == rhs.from &&
-            lhs.until == rhs.until
-    }
-}
+extension SearchTimeRange: Equatable {}
 
 extension SearchTimeRange: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -84,13 +84,7 @@ public struct SearchSynonymsResponse: Codable, JSONEncodable {
     }
 }
 
-extension SearchSynonymsResponse: Equatable {
-    public static func ==(lhs: SearchSynonymsResponse, rhs: SearchSynonymsResponse) -> Bool {
-        lhs.hits == rhs.hits &&
-            lhs.nbHits == rhs.nbHits
-            && lhs.additionalProperties == rhs.additionalProperties
-    }
-}
+extension SearchSynonymsResponse: Equatable {}
 
 extension SearchSynonymsResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

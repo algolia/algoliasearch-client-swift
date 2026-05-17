@@ -26,11 +26,7 @@ public struct CompositionBannerLink: Codable, JSONEncodable {
     }
 }
 
-extension CompositionBannerLink: Equatable {
-    public static func ==(lhs: CompositionBannerLink, rhs: CompositionBannerLink) -> Bool {
-        lhs.url == rhs.url
-    }
-}
+extension CompositionBannerLink: Equatable {}
 
 extension CompositionBannerLink: Hashable {
     public func hash(into hasher: inout Hasher) {

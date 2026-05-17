@@ -85,18 +85,7 @@ public struct ApiKey: Codable, JSONEncodable {
     }
 }
 
-extension ApiKey: Equatable {
-    public static func ==(lhs: ApiKey, rhs: ApiKey) -> Bool {
-        lhs.acl == rhs.acl &&
-            lhs.description == rhs.description &&
-            lhs.indexes == rhs.indexes &&
-            lhs.maxHitsPerQuery == rhs.maxHitsPerQuery &&
-            lhs.maxQueriesPerIPPerHour == rhs.maxQueriesPerIPPerHour &&
-            lhs.queryParameters == rhs.queryParameters &&
-            lhs.referers == rhs.referers &&
-            lhs.validity == rhs.validity
-    }
-}
+extension ApiKey: Equatable {}
 
 extension ApiKey: Hashable {
     public func hash(into hasher: inout Hasher) {

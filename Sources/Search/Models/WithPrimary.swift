@@ -26,11 +26,7 @@ public struct WithPrimary: Codable, JSONEncodable {
     }
 }
 
-extension WithPrimary: Equatable {
-    public static func ==(lhs: WithPrimary, rhs: WithPrimary) -> Bool {
-        lhs.primary == rhs.primary
-    }
-}
+extension WithPrimary: Equatable {}
 
 extension WithPrimary: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -121,25 +121,7 @@ public struct TopSearchWithRevenueAnalytics: Codable, JSONEncodable {
     }
 }
 
-extension TopSearchWithRevenueAnalytics: Equatable {
-    public static func ==(lhs: TopSearchWithRevenueAnalytics, rhs: TopSearchWithRevenueAnalytics) -> Bool {
-        lhs.search == rhs.search &&
-            lhs.count == rhs.count &&
-            lhs.clickThroughRate == rhs.clickThroughRate &&
-            lhs.averageClickPosition == rhs.averageClickPosition &&
-            lhs.clickPositions == rhs.clickPositions &&
-            lhs.conversionRate == rhs.conversionRate &&
-            lhs.trackedSearchCount == rhs.trackedSearchCount &&
-            lhs.clickCount == rhs.clickCount &&
-            lhs.conversionCount == rhs.conversionCount &&
-            lhs.nbHits == rhs.nbHits &&
-            lhs.currencies == rhs.currencies &&
-            lhs.addToCartRate == rhs.addToCartRate &&
-            lhs.addToCartCount == rhs.addToCartCount &&
-            lhs.purchaseRate == rhs.purchaseRate &&
-            lhs.purchaseCount == rhs.purchaseCount
-    }
-}
+extension TopSearchWithRevenueAnalytics: Equatable {}
 
 extension TopSearchWithRevenueAnalytics: Hashable {
     public func hash(into hasher: inout Hasher) {

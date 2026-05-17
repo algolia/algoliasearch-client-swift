@@ -100,23 +100,7 @@ public struct SearchRankingInfo: Codable, JSONEncodable {
     }
 }
 
-extension SearchRankingInfo: Equatable {
-    public static func ==(lhs: SearchRankingInfo, rhs: SearchRankingInfo) -> Bool {
-        lhs.filters == rhs.filters &&
-            lhs.firstMatchedWord == rhs.firstMatchedWord &&
-            lhs.geoDistance == rhs.geoDistance &&
-            lhs.geoPrecision == rhs.geoPrecision &&
-            lhs.matchedGeoLocation == rhs.matchedGeoLocation &&
-            lhs.personalization == rhs.personalization &&
-            lhs.nbExactWords == rhs.nbExactWords &&
-            lhs.nbTypos == rhs.nbTypos &&
-            lhs.promoted == rhs.promoted &&
-            lhs.proximityDistance == rhs.proximityDistance &&
-            lhs.userScore == rhs.userScore &&
-            lhs.words == rhs.words &&
-            lhs.promotedByReRanking == rhs.promotedByReRanking
-    }
-}
+extension SearchRankingInfo: Equatable {}
 
 extension SearchRankingInfo: Hashable {
     public func hash(into hasher: inout Hasher) {

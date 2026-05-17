@@ -72,12 +72,7 @@ public struct HitMetadata: Codable, JSONEncodable {
     }
 }
 
-extension HitMetadata: Equatable {
-    public static func ==(lhs: HitMetadata, rhs: HitMetadata) -> Bool {
-        lhs.injectedItemKey == rhs.injectedItemKey
-            && lhs.additionalProperties == rhs.additionalProperties
-    }
-}
+extension HitMetadata: Equatable {}
 
 extension HitMetadata: Hashable {
     public func hash(into hasher: inout Hasher) {

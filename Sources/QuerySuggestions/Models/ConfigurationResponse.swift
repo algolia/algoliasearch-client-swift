@@ -63,17 +63,7 @@ public struct ConfigurationResponse: Codable, JSONEncodable {
     }
 }
 
-extension ConfigurationResponse: Equatable {
-    public static func ==(lhs: ConfigurationResponse, rhs: ConfigurationResponse) -> Bool {
-        lhs.appID == rhs.appID &&
-            lhs.indexName == rhs.indexName &&
-            lhs.sourceIndices == rhs.sourceIndices &&
-            lhs.languages == rhs.languages &&
-            lhs.exclude == rhs.exclude &&
-            lhs.enablePersonalization == rhs.enablePersonalization &&
-            lhs.allowSpecialCharacters == rhs.allowSpecialCharacters
-    }
-}
+extension ConfigurationResponse: Equatable {}
 
 extension ConfigurationResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

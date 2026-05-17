@@ -336,51 +336,7 @@ public struct SearchIndexSettingsAsSearchParams: Codable, JSONEncodable {
     }
 }
 
-extension SearchIndexSettingsAsSearchParams: Equatable {
-    public static func ==(lhs: SearchIndexSettingsAsSearchParams, rhs: SearchIndexSettingsAsSearchParams) -> Bool {
-        lhs.attributesToRetrieve == rhs.attributesToRetrieve &&
-            lhs.ranking == rhs.ranking &&
-            lhs.relevancyStrictness == rhs.relevancyStrictness &&
-            lhs.attributesToHighlight == rhs.attributesToHighlight &&
-            lhs.attributesToSnippet == rhs.attributesToSnippet &&
-            lhs.highlightPreTag == rhs.highlightPreTag &&
-            lhs.highlightPostTag == rhs.highlightPostTag &&
-            lhs.snippetEllipsisText == rhs.snippetEllipsisText &&
-            lhs.restrictHighlightAndSnippetArrays == rhs.restrictHighlightAndSnippetArrays &&
-            lhs.hitsPerPage == rhs.hitsPerPage &&
-            lhs.minWordSizefor1Typo == rhs.minWordSizefor1Typo &&
-            lhs.minWordSizefor2Typos == rhs.minWordSizefor2Typos &&
-            lhs.typoTolerance == rhs.typoTolerance &&
-            lhs.allowTyposOnNumericTokens == rhs.allowTyposOnNumericTokens &&
-            lhs.disableTypoToleranceOnAttributes == rhs.disableTypoToleranceOnAttributes &&
-            lhs.ignorePlurals == rhs.ignorePlurals &&
-            lhs.removeStopWords == rhs.removeStopWords &&
-            lhs.queryLanguages == rhs.queryLanguages &&
-            lhs.decompoundQuery == rhs.decompoundQuery &&
-            lhs.enableRules == rhs.enableRules &&
-            lhs.enablePersonalization == rhs.enablePersonalization &&
-            lhs.queryType == rhs.queryType &&
-            lhs.removeWordsIfNoResults == rhs.removeWordsIfNoResults &&
-            lhs.mode == rhs.mode &&
-            lhs.semanticSearch == rhs.semanticSearch &&
-            lhs.advancedSyntax == rhs.advancedSyntax &&
-            lhs.optionalWords == rhs.optionalWords &&
-            lhs.disableExactOnAttributes == rhs.disableExactOnAttributes &&
-            lhs.exactOnSingleWordQuery == rhs.exactOnSingleWordQuery &&
-            lhs.alternativesAsExact == rhs.alternativesAsExact &&
-            lhs.advancedSyntaxFeatures == rhs.advancedSyntaxFeatures &&
-            lhs.distinct == rhs.distinct &&
-            lhs.replaceSynonymsInHighlight == rhs.replaceSynonymsInHighlight &&
-            lhs.minProximity == rhs.minProximity &&
-            lhs.responseFields == rhs.responseFields &&
-            lhs.maxValuesPerFacet == rhs.maxValuesPerFacet &&
-            lhs.sortFacetValuesBy == rhs.sortFacetValuesBy &&
-            lhs.attributeCriteriaComputedByMinProximity == rhs.attributeCriteriaComputedByMinProximity &&
-            lhs.renderingContent == rhs.renderingContent &&
-            lhs.enableReRanking == rhs.enableReRanking &&
-            lhs.reRankingApplyFilter == rhs.reRankingApplyFilter
-    }
-}
+extension SearchIndexSettingsAsSearchParams: Equatable {}
 
 extension SearchIndexSettingsAsSearchParams: Hashable {
     public func hash(into hasher: inout Hasher) {

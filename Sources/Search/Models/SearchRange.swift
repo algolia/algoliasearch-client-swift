@@ -34,12 +34,7 @@ public struct SearchRange: Codable, JSONEncodable {
     }
 }
 
-extension SearchRange: Equatable {
-    public static func ==(lhs: SearchRange, rhs: SearchRange) -> Bool {
-        lhs.from == rhs.from &&
-            lhs.value == rhs.value
-    }
-}
+extension SearchRange: Equatable {}
 
 extension SearchRange: Hashable {
     public func hash(into hasher: inout Hasher) {

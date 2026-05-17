@@ -27,11 +27,7 @@ public struct DeleteCompositionAction: Codable, JSONEncodable {
     }
 }
 
-extension DeleteCompositionAction: Equatable {
-    public static func ==(lhs: DeleteCompositionAction, rhs: DeleteCompositionAction) -> Bool {
-        lhs.objectID == rhs.objectID
-    }
-}
+extension DeleteCompositionAction: Equatable {}
 
 extension DeleteCompositionAction: Hashable {
     public func hash(into hasher: inout Hasher) {

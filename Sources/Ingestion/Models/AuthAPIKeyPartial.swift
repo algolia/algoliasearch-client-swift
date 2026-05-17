@@ -27,11 +27,7 @@ public struct AuthAPIKeyPartial: Codable, JSONEncodable {
     }
 }
 
-extension AuthAPIKeyPartial: Equatable {
-    public static func ==(lhs: AuthAPIKeyPartial, rhs: AuthAPIKeyPartial) -> Bool {
-        lhs.key == rhs.key
-    }
-}
+extension AuthAPIKeyPartial: Equatable {}
 
 extension AuthAPIKeyPartial: Hashable {
     public func hash(into hasher: inout Hasher) {

@@ -37,13 +37,7 @@ public struct GetAverageClickPositionResponse: Codable, JSONEncodable {
     }
 }
 
-extension GetAverageClickPositionResponse: Equatable {
-    public static func ==(lhs: GetAverageClickPositionResponse, rhs: GetAverageClickPositionResponse) -> Bool {
-        lhs.average == rhs.average &&
-            lhs.clickCount == rhs.clickCount &&
-            lhs.dates == rhs.dates
-    }
-}
+extension GetAverageClickPositionResponse: Equatable {}
 
 extension GetAverageClickPositionResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

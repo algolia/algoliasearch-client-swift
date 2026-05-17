@@ -33,13 +33,7 @@ public struct RunListResponse: Codable, JSONEncodable {
     }
 }
 
-extension RunListResponse: Equatable {
-    public static func ==(lhs: RunListResponse, rhs: RunListResponse) -> Bool {
-        lhs.runs == rhs.runs &&
-            lhs.pagination == rhs.pagination &&
-            lhs.window == rhs.window
-    }
-}
+extension RunListResponse: Equatable {}
 
 extension RunListResponse: Hashable {
     public func hash(into hasher: inout Hasher) {

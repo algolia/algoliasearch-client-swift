@@ -85,19 +85,7 @@ public struct ClickedObjectIDsAfterSearch: Codable, JSONEncodable {
     }
 }
 
-extension ClickedObjectIDsAfterSearch: Equatable {
-    public static func ==(lhs: ClickedObjectIDsAfterSearch, rhs: ClickedObjectIDsAfterSearch) -> Bool {
-        lhs.eventName == rhs.eventName &&
-            lhs.eventType == rhs.eventType &&
-            lhs.index == rhs.index &&
-            lhs.objectIDs == rhs.objectIDs &&
-            lhs.positions == rhs.positions &&
-            lhs.queryID == rhs.queryID &&
-            lhs.userToken == rhs.userToken &&
-            lhs.authenticatedUserToken == rhs.authenticatedUserToken &&
-            lhs.timestamp == rhs.timestamp
-    }
-}
+extension ClickedObjectIDsAfterSearch: Equatable {}
 
 extension ClickedObjectIDsAfterSearch: Hashable {
     public func hash(into hasher: inout Hasher) {

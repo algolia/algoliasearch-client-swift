@@ -73,17 +73,7 @@ public struct ConvertedObjectIDs: Codable, JSONEncodable {
     }
 }
 
-extension ConvertedObjectIDs: Equatable {
-    public static func ==(lhs: ConvertedObjectIDs, rhs: ConvertedObjectIDs) -> Bool {
-        lhs.eventName == rhs.eventName &&
-            lhs.eventType == rhs.eventType &&
-            lhs.index == rhs.index &&
-            lhs.objectIDs == rhs.objectIDs &&
-            lhs.userToken == rhs.userToken &&
-            lhs.authenticatedUserToken == rhs.authenticatedUserToken &&
-            lhs.timestamp == rhs.timestamp
-    }
-}
+extension ConvertedObjectIDs: Equatable {}
 
 extension ConvertedObjectIDs: Hashable {
     public func hash(into hasher: inout Hasher) {

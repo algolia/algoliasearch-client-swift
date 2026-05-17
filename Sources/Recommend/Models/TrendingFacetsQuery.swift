@@ -53,15 +53,7 @@ public struct TrendingFacetsQuery: Codable, JSONEncodable {
     }
 }
 
-extension TrendingFacetsQuery: Equatable {
-    public static func ==(lhs: TrendingFacetsQuery, rhs: TrendingFacetsQuery) -> Bool {
-        lhs.indexName == rhs.indexName &&
-            lhs.threshold == rhs.threshold &&
-            lhs.maxRecommendations == rhs.maxRecommendations &&
-            lhs.facetName == rhs.facetName &&
-            lhs.model == rhs.model
-    }
-}
+extension TrendingFacetsQuery: Equatable {}
 
 extension TrendingFacetsQuery: Hashable {
     public func hash(into hasher: inout Hasher) {
