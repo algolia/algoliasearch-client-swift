@@ -13,7 +13,11 @@ public struct SourceIndex: Codable, JSONEncodable {
     /// If true, Query Suggestions uses all replica indices to find popular searches. If false, only the primary index
     /// is used.
     public var replicas: Bool?
+    /// Analytics tags for filtering the popular searches. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments).
     public var analyticsTags: [String]?
+    /// Facets to use as top categories with your suggestions.  If provided, Query Suggestions adds the top facet values
+    /// to each suggestion.
     public var facets: [Facet]?
     /// Minimum number of hits required to be included as a suggestion.  A search query must at least generate `minHits`
     /// search results to be included in the Query Suggestions index.
@@ -21,7 +25,15 @@ public struct SourceIndex: Codable, JSONEncodable {
     /// Minimum letters required to be included as a suggestion.  A search query must be at least `minLetters` long to
     /// be included in the Query Suggestions index.
     public var minLetters: Int?
+    /// Facets used for generating query suggestions from facet values.  For example, if you set `generate: [\"color\",
+    /// \"brand\"]`, combinations from the facet values are added as query suggestions, such as \"blue adidas\", \"red
+    /// adidas\", \"blue nike\", \"red nike\", etc.  You can include nested lists.
     public var generate: [[String]]?
+    /// Algolia indices with popular searches to use as query suggestions.  Records of these indices must have these
+    /// attributes:  - `query`: search query which will be added as a suggestion - `count`: measure of popularity of
+    /// that search query  For example, you can export popular searches from an external analytics provider, such as
+    /// Google Analytics or Adobe Analytics, and feed this data into an Algolia index. You can use this index to
+    /// generate query suggestions until your Algolia Analytics has collected enough data.
     public var external: [String]?
 
     public init(

@@ -9,10 +9,20 @@ import Foundation
 public struct AbtestingABTest: Codable, JSONEncodable {
     /// Unique A/B test identifier.
     public var abTestID: Int
+    /// A/B test significance calculated from click events.  Values of 0.95 or higher can be considered significant,
+    /// that is, the difference between A and B variants is _not_ due to random variations. Lower values have a.
     public var clickSignificance: Double?
+    /// A/B test significance calculated from conversion events.  Values of 0.95 or higher can be considered
+    /// significant, that is, the difference between A and B variants is _not_ due to random variations.
     public var conversionSignificance: Double?
+    /// A/B test significance calculated from add-to-cart events.  Values of 0.95 or higher can be considered
+    /// significant, that is, the difference between A and B variants is _not_ due to random variations.
     public var addToCartSignificance: Double?
+    /// A/B test significance calculated from purchase events.  Values of 0.95 or higher can be considered significant,
+    /// that is, the difference between A and B variants is _not_ due to random variations.
     public var purchaseSignificance: Double?
+    /// A/B test significance calculated from revenue data.  Values of 0.95 or higher can be considered significant,
+    /// that is, the difference between A and B variants is _not_ due to random variations.
     public var revenueSignificance: [String: Double]?
     /// Date and time when the A/B test was last updated, in RFC 3339 format.
     public var updatedAt: String
