@@ -10,8 +10,6 @@ import Foundation
 public struct FetchedIndexAbTest: Codable, JSONEncodable {
     /// A/B test ID.
     public var id: Int
-    /// Whether the A/B test is a dark test (server-side measured, not user-facing). Only present when true.
-    public var isDark: Bool?
     /// A/B test schema version. Only present for v2 and later tests.
     public var version: Int?
     /// A/B test type. Only present for v2 and later tests. Currently always `index-configuration`.
@@ -22,14 +20,12 @@ public struct FetchedIndexAbTest: Codable, JSONEncodable {
 
     public init(
         id: Int,
-        isDark: Bool? = nil,
         version: Int? = nil,
         type: String? = nil,
         target: FetchedIndexAbTestTarget? = nil,
         variants: [FetchedIndexAbTestVariant]
     ) {
         self.id = id
-        self.isDark = isDark
         self.version = version
         self.type = type
         self.target = target
@@ -38,7 +34,6 @@ public struct FetchedIndexAbTest: Codable, JSONEncodable {
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
-        case isDark
         case version
         case type
         case target
@@ -50,7 +45,6 @@ public struct FetchedIndexAbTest: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.id, forKey: .id)
-        try container.encodeIfPresent(self.isDark, forKey: .isDark)
         try container.encodeIfPresent(self.version, forKey: .version)
         try container.encodeIfPresent(self.type, forKey: .type)
         try container.encodeIfPresent(self.target, forKey: .target)
@@ -63,7 +57,6 @@ extension FetchedIndexAbTest: Equatable {}
 extension FetchedIndexAbTest: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.id.hashValue)
-        hasher.combine(self.isDark?.hashValue)
         hasher.combine(self.version?.hashValue)
         hasher.combine(self.type?.hashValue)
         hasher.combine(self.target?.hashValue)
