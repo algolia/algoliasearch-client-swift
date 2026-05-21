@@ -31,6 +31,10 @@ public struct FetchedIndex: Codable, JSONEncodable {
     public var replicas: [String]?
     /// Only present if the index is a [virtual replica](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/how-to/sort-an-index-alphabetically/#virtual-replicas).
     public var virtual: Bool?
+    public var abTest: FetchedIndexAbTest?
+    /// Name of the index that owns the A/B test configuration. Only present when this index participates in an A/B test
+    /// configured on another index.
+    public var sourceABTest: String?
 
     public init(
         name: String,
@@ -44,7 +48,9 @@ public struct FetchedIndex: Codable, JSONEncodable {
         pendingTask: Bool,
         primary: String? = nil,
         replicas: [String]? = nil,
-        virtual: Bool? = nil
+        virtual: Bool? = nil,
+        abTest: FetchedIndexAbTest? = nil,
+        sourceABTest: String? = nil
     ) {
         self.name = name
         self.createdAt = createdAt
@@ -58,6 +64,8 @@ public struct FetchedIndex: Codable, JSONEncodable {
         self.primary = primary
         self.replicas = replicas
         self.virtual = virtual
+        self.abTest = abTest
+        self.sourceABTest = sourceABTest
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -73,6 +81,8 @@ public struct FetchedIndex: Codable, JSONEncodable {
         case primary
         case replicas
         case virtual
+        case abTest
+        case sourceABTest
     }
 
     // Encodable protocol methods
@@ -91,6 +101,8 @@ public struct FetchedIndex: Codable, JSONEncodable {
         try container.encodeIfPresent(self.primary, forKey: .primary)
         try container.encodeIfPresent(self.replicas, forKey: .replicas)
         try container.encodeIfPresent(self.virtual, forKey: .virtual)
+        try container.encodeIfPresent(self.abTest, forKey: .abTest)
+        try container.encodeIfPresent(self.sourceABTest, forKey: .sourceABTest)
     }
 }
 
@@ -110,5 +122,7 @@ extension FetchedIndex: Hashable {
         hasher.combine(self.primary?.hashValue)
         hasher.combine(self.replicas?.hashValue)
         hasher.combine(self.virtual?.hashValue)
+        hasher.combine(self.abTest?.hashValue)
+        hasher.combine(self.sourceABTest?.hashValue)
     }
 }
