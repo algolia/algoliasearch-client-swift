@@ -76,8 +76,6 @@ open class Transporter {
             body = "{}".data(using: .utf8)
         }
 
-        urlComponents.percentEncodedPath = path
-
         if let percentEncodedQueryItems = APIHelper.mapValuesToQueryItems(requestOptions?.queryParameters) {
             urlComponents.percentEncodedQueryItems = percentEncodedQueryItems
         }
@@ -86,6 +84,15 @@ open class Transporter {
             let rawTimeout =
                 requestOptions?.timeout(for: callType) ?? self.configuration.timeout(for: callType)
             let timeout = TimeInterval(host.retryCount + 1) * rawTimeout
+
+            let hostComponents = URLComponents(url: host.url, resolvingAgainstBaseURL: true)
+            let basePath = hostComponents?.percentEncodedPath ?? ""
+            if basePath.isEmpty || basePath == "/" {
+                urlComponents.percentEncodedPath = path
+            } else {
+                let trimmedBase = basePath.hasSuffix("/") ? String(basePath.dropLast()) : basePath
+                urlComponents.percentEncodedPath = trimmedBase + path
+            }
 
             guard let url = urlComponents.url(relativeTo: host.url) else {
                 throw AlgoliaError.requestError(GenericError(description: "Malformed URL"))
