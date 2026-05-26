@@ -9,6 +9,7 @@ import Foundation
 public enum SearchResult<T: Codable>: Codable, JSONEncodable, AbstractEncodable {
     case searchResponse(SearchResponse<T>)
     case searchForFacetValuesResponse(SearchForFacetValuesResponse)
+    case searchResponsePartial(SearchResponsePartial<T>)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -16,6 +17,8 @@ public enum SearchResult<T: Codable>: Codable, JSONEncodable, AbstractEncodable 
         case let .searchResponse(value):
             try container.encode(value)
         case let .searchForFacetValuesResponse(value):
+            try container.encode(value)
+        case let .searchResponsePartial(value):
             try container.encode(value)
         }
     }
@@ -26,6 +29,8 @@ public enum SearchResult<T: Codable>: Codable, JSONEncodable, AbstractEncodable 
             self = .searchResponse(value)
         } else if let value = try? container.decode(SearchForFacetValuesResponse.self) {
             self = .searchForFacetValuesResponse(value)
+        } else if let value = try? container.decode(SearchResponsePartial<T>.self) {
+            self = .searchResponsePartial(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -40,6 +45,8 @@ public enum SearchResult<T: Codable>: Codable, JSONEncodable, AbstractEncodable 
             value as SearchResponse
         case let .searchForFacetValuesResponse(value):
             value as SearchForFacetValuesResponse
+        case let .searchResponsePartial(value):
+            value as SearchResponsePartial
         }
     }
 }
