@@ -6,7 +6,7 @@
 //
 
 #if COCOAPODS
-    typealias BridgedTask = _Concurrency.Task
+    public typealias BridgedTask = _Concurrency.Task
 #else
-    typealias BridgedTask = Task
+    public typealias BridgedTask = Task
 #endif

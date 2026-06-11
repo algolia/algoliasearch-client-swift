@@ -1,3 +1,8 @@
+## [9.44.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.43.2...9.44.0)
+
+- [16fcd89b03](https://github.com/algolia/api-clients-automation/commit/16fcd89b03) feat(swift): add TransformationOptions and WithTransformation helpers ([#6466](https://github.com/algolia/api-clients-automation/pull/6466)) by [@MarioAlexandruDan](https://github.com/MarioAlexandruDan/)
+- [7f2ce8cd3a](https://github.com/algolia/api-clients-automation/commit/7f2ce8cd3a) feat(clients): Agent Studio v1 ([#6097](https://github.com/algolia/api-clients-automation/pull/6097)) by [@Fluf22](https://github.com/Fluf22/)
+
 ## [9.43.2](https://github.com/algolia/algoliasearch-client-swift/compare/9.43.1...9.43.2)
 
 - [84ebc480a8](https://github.com/algolia/api-clients-automation/commit/84ebc480a8) chore(deps): dependencies 2026-05-15 ([#6400](https://github.com/algolia/api-clients-automation/pull/6400)) by [@Fluf22](https://github.com/Fluf22/)

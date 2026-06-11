@@ -5,10 +5,14 @@ import Foundation
 #if canImport(AlgoliaCore)
     import AlgoliaCore
 #endif
+#if canImport(AlgoliaIngestion)
+    import AlgoliaIngestion
+#endif
 
 open class SearchClient {
     public private(set) var configuration: SearchClientConfiguration
     private var transporter: Transporter
+    var _ingestionClient: IngestionClient?
 
     var appID: String {
         self.configuration.appID

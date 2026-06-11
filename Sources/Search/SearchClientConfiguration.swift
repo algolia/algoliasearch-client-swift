@@ -9,12 +9,18 @@ import Foundation
 public struct SearchClientConfiguration: BaseConfiguration, Credentials {
     public let appID: String
     public var apiKey: String
+    // KEEP IN SYNC: the overridable fields below (writeTimeout, readTimeout, hosts, compression,
+    // defaultHeaders) are mirrored as optional overrides on `TransformationOptions`. If you add,
+    // remove, or rename one here, mirror the change on `TransformationOptions`, and vice versa.
     public var writeTimeout: TimeInterval
     public var readTimeout: TimeInterval
     public var logLevel: LogLevel
     public var defaultHeaders: [String: String]?
     public var hosts: [RetryableHost]
     public let compression: CompressionAlgorithm
+
+    /// Options for the ingestion transporter used by `*WithTransformation` helpers.
+    public var transformationOptions: TransformationOptions?
 
     public init(
         appID: String,
@@ -24,7 +30,8 @@ public struct SearchClientConfiguration: BaseConfiguration, Credentials {
         logLevel: LogLevel = DefaultConfiguration.default.logLevel,
         defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders,
         hosts: [RetryableHost]? = nil,
-        compression: CompressionAlgorithm = .none
+        compression: CompressionAlgorithm = .none,
+        transformationOptions: TransformationOptions? = nil
     ) throws {
         guard !appID.isEmpty else {
             throw AlgoliaError.invalidCredentials("appId")
@@ -45,6 +52,7 @@ public struct SearchClientConfiguration: BaseConfiguration, Credentials {
             "Content-Type": "application/json",
         ].merging(defaultHeaders ?? [:]) { _, new in new }
         self.compression = compression
+        self.transformationOptions = transformationOptions
 
         UserAgentController.append(UserAgent(title: "Search", version: Version.current.description))
 

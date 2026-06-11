@@ -13,6 +13,9 @@ public struct AbtestingV3ClientConfiguration: BaseConfiguration, Credentials {
 
     public let appID: String
     public var apiKey: String
+    // KEEP IN SYNC: the overridable fields below (writeTimeout, readTimeout, hosts, compression,
+    // defaultHeaders) are mirrored as optional overrides on `TransformationOptions`. If you add,
+    // remove, or rename one here, mirror the change on `TransformationOptions`, and vice versa.
     public var writeTimeout: TimeInterval
     public var readTimeout: TimeInterval
     public var logLevel: LogLevel

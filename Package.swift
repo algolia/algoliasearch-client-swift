@@ -57,6 +57,7 @@ products.append(
 [
     "Abtesting",
     "AbtestingV3",
+    "AgentStudio",
     "Analytics",
     "Composition",
     "Ingestion",
@@ -67,12 +68,13 @@ products.append(
     "Recommend",
     "Search",
 ].enumerated().forEach { _, library in
+    let libraryExtraDeps: [Target.Dependency] = library == "Search" ? [.target(name: "AlgoliaIngestion")] : []
     targets.append(
         .target(
             name: "Algolia\(library)",
             dependencies: [
                 .target(name: "AlgoliaCore"),
-            ] + extraTargetDependencies,
+            ] + libraryExtraDeps + extraTargetDependencies,
             path: "Sources/\(library)",
             resources: [
                 .copy("../../PrivacyInfo.xcprivacy"),
