@@ -56,6 +56,8 @@ public extension SearchClient {
     /// - parameter batchSize: Number of records per push call. Defaults to 1000.
     /// - parameter referenceIndexName: Source index whose transformation is applied to `indexName`.
     /// - parameter requestOptions: Optional per-request options.
+    /// - parameter chunkedOptions: Shared options forwarded to every nested ingestion event wait (currently
+    ///   `maxRetries`).
     /// - returns: `[IngestionWatchResponse]`
     @discardableResult
     internal func chunkedPush(
@@ -65,7 +67,8 @@ public extension SearchClient {
         waitForTasks: Bool = false,
         batchSize: Int = 1000,
         referenceIndexName: String? = nil,
-        requestOptions: RequestOptions? = nil
+        requestOptions: RequestOptions? = nil,
+        chunkedOptions: ChunkedHelperOptions = ChunkedHelperOptions()
     ) async throws -> [IngestionWatchResponse] {
         guard batchSize > 0 else {
             throw AlgoliaError.runtimeError("`batchSize` must be greater than 0")
@@ -107,6 +110,7 @@ public extension SearchClient {
                     ingestionClient: ingestionClient,
                     runID: response.runID,
                     eventID: eventID,
+                    maxRetries: chunkedOptions.maxRetries,
                     requestOptions: requestOptions
                 )
             }
@@ -125,6 +129,7 @@ public extension SearchClient {
     /// - parameter waitForTasks: Whether to wait for ingestion tasks to complete. Defaults to `false`.
     /// - parameter batchSize: Number of records per push call. Defaults to 1000.
     /// - parameter requestOptions: Optional per-request options.
+    /// - parameter chunkedOptions: Shared options forwarded to the nested `chunkedPush` call.
     /// - returns: `[IngestionWatchResponse]`
     @discardableResult
     func saveObjectsWithTransformation(
@@ -132,7 +137,8 @@ public extension SearchClient {
         objects: [[String: AnyCodable]],
         waitForTasks: Bool = false,
         batchSize: Int = 1000,
-        requestOptions: RequestOptions? = nil
+        requestOptions: RequestOptions? = nil,
+        chunkedOptions: ChunkedHelperOptions = ChunkedHelperOptions()
     ) async throws -> [IngestionWatchResponse] {
         try await self.chunkedPush(
             indexName: indexName,
@@ -140,7 +146,8 @@ public extension SearchClient {
             action: .addObject,
             waitForTasks: waitForTasks,
             batchSize: batchSize,
-            requestOptions: requestOptions
+            requestOptions: requestOptions,
+            chunkedOptions: chunkedOptions
         )
     }
 
@@ -153,6 +160,7 @@ public extension SearchClient {
     /// - parameter waitForTasks: Whether to wait for ingestion tasks to complete. Defaults to `false`.
     /// - parameter batchSize: Number of records per push call. Defaults to 1000.
     /// - parameter requestOptions: Optional per-request options.
+    /// - parameter chunkedOptions: Shared options forwarded to the nested `chunkedPush` call.
     /// - returns: `[IngestionWatchResponse]`
     @discardableResult
     func partialUpdateObjectsWithTransformation(
@@ -161,7 +169,8 @@ public extension SearchClient {
         createIfNotExists: Bool = true,
         waitForTasks: Bool = false,
         batchSize: Int = 1000,
-        requestOptions: RequestOptions? = nil
+        requestOptions: RequestOptions? = nil,
+        chunkedOptions: ChunkedHelperOptions = ChunkedHelperOptions()
     ) async throws -> [IngestionWatchResponse] {
         try await self.chunkedPush(
             indexName: indexName,
@@ -169,7 +178,8 @@ public extension SearchClient {
             action: createIfNotExists ? .partialUpdateObject : .partialUpdateObjectNoCreate,
             waitForTasks: waitForTasks,
             batchSize: batchSize,
-            requestOptions: requestOptions
+            requestOptions: requestOptions,
+            chunkedOptions: chunkedOptions
         )
     }
 
@@ -181,6 +191,8 @@ public extension SearchClient {
     /// - parameter batchSize: Number of records per push call. Defaults to 1000.
     /// - parameter scopes: Index data to copy before pushing. Defaults to `[.settings, .rules, .synonyms]`.
     /// - parameter requestOptions: Optional per-request options.
+    /// - parameter chunkedOptions: Shared options forwarded to the nested `chunkedPush` call and to every
+    ///   internal `waitForTask` call (copy, copy-rules, move).
     /// - returns: `ReplaceAllObjectsWithTransformationResponse`
     @discardableResult
     func replaceAllObjectsWithTransformation(
@@ -188,7 +200,8 @@ public extension SearchClient {
         objects: [[String: AnyCodable]],
         batchSize: Int = 1000,
         scopes: [ScopeType] = [.settings, .rules, .synonyms],
-        requestOptions: RequestOptions? = nil
+        requestOptions: RequestOptions? = nil,
+        chunkedOptions: ChunkedHelperOptions = ChunkedHelperOptions()
     ) async throws -> ReplaceAllObjectsWithTransformationResponse {
         _ = try self.resolvedIngestionClient()
 
@@ -212,12 +225,14 @@ public extension SearchClient {
                 waitForTasks: true,
                 batchSize: batchSize,
                 referenceIndexName: indexName,
-                requestOptions: requestOptions
+                requestOptions: requestOptions,
+                chunkedOptions: chunkedOptions
             )
 
             try await waitForTask(
                 indexName: tmpIndexName,
                 taskID: copyOperationResponse.taskID,
+                maxRetries: chunkedOptions.maxRetries,
                 requestOptions: requestOptions
             )
 
@@ -233,6 +248,7 @@ public extension SearchClient {
             try await waitForTask(
                 indexName: tmpIndexName,
                 taskID: copyOperationResponse.taskID,
+                maxRetries: chunkedOptions.maxRetries,
                 requestOptions: requestOptions
             )
 
@@ -247,6 +263,7 @@ public extension SearchClient {
             try await waitForTask(
                 indexName: tmpIndexName,
                 taskID: moveOperationResponse.taskID,
+                maxRetries: chunkedOptions.maxRetries,
                 requestOptions: requestOptions
             )
 
@@ -273,7 +290,7 @@ private func waitForIngestionEvent(
     ingestionClient: IngestionClient,
     runID: String,
     eventID: String,
-    maxRetries: Int = 100,
+    maxRetries: Int = ChunkedHelperOptions.defaultMaxRetries,
     requestOptions: RequestOptions? = nil
 ) async throws {
     var retryCount = 0
@@ -304,7 +321,7 @@ private func waitForIngestionEvent(
                 retryCount >= maxRetries
             },
             message: { _ in
-                "The maximum number of retries exceeded. (\(retryCount)/\(maxRetries))"
+                "Stopped waiting for the task after \(maxRetries) retries. This does not mean the operation failed; it may still complete. If you need to keep polling, retry with a higher maxRetries."
             }
         )
     )
