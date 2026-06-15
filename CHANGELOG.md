@@ -1,3 +1,7 @@
+## [9.45.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.44.0...9.45.0)
+
+- [84c1374b82](https://github.com/algolia/api-clients-automation/commit/84c1374b82) feat(clients): expose maximum number of retries ([#6460](https://github.com/algolia/api-clients-automation/pull/6460)) by [@eric-zaharia](https://github.com/eric-zaharia/)
+
 ## [9.44.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.43.2...9.44.0)
 
 - [16fcd89b03](https://github.com/algolia/api-clients-automation/commit/16fcd89b03) feat(swift): add TransformationOptions and WithTransformation helpers ([#6466](https://github.com/algolia/api-clients-automation/pull/6466)) by [@MarioAlexandruDan](https://github.com/MarioAlexandruDan/)
