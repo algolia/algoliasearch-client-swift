@@ -6,8 +6,6 @@ import Foundation
     import AlgoliaCore
 #endif
 
-/// - Warning: The Agent Studio API is in beta and subject to breaking changes. See [Agent Studio API
-/// docs](https://www.algolia.com/doc/rest-api/agent-studio).
 open class AgentStudioClient {
     public private(set) var configuration: AgentStudioClientConfiguration
     private var transporter: Transporter
