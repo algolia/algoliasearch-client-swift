@@ -1,3 +1,7 @@
+## [9.46.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.45.0...9.46.0)
+
+- [52ebd28f58](https://github.com/algolia/api-clients-automation/commit/52ebd28f58) feat(clients): release Agent Studio package updates ([#6573](https://github.com/algolia/api-clients-automation/pull/6573)) by [@Fluf22](https://github.com/Fluf22/)
+
 ## [9.45.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.44.0...9.45.0)
 
 - [84c1374b82](https://github.com/algolia/api-clients-automation/commit/84c1374b82) feat(clients): expose maximum number of retries ([#6460](https://github.com/algolia/api-clients-automation/pull/6460)) by [@eric-zaharia](https://github.com/eric-zaharia/)
