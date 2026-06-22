@@ -1827,15 +1827,15 @@ open class SearchClient {
     /// to reduce the size of the API response. By default, all retrievable attributes are returned.  `objectID` is
     /// always retrieved.  Attributes included in `unretrievableAttributes` won't be retrieved unless the request is
     /// authenticated with the admin API key.  (optional)
-    /// - returns: AnyCodable
+    /// - returns: T
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getObject(
+    open func getObject<T: Codable>(
         indexName: String,
         objectID: String,
         attributesToRetrieve: [String]? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> AnyCodable {
-        let response: Response<AnyCodable> = try await getObjectWithHTTPInfo(
+    ) async throws -> T {
+        let response: Response<T> = try await getObjectWithHTTPInfo(
             indexName: indexName,
             objectID: objectID,
             attributesToRetrieve: attributesToRetrieve,
@@ -1863,8 +1863,113 @@ open class SearchClient {
     // always
     // retrieved.  Attributes included in `unretrievableAttributes` won't be retrieved unless the request is
     // authenticated with the admin API key.  (optional)
-    // - returns: RequestBuilder<AnyCodable>
+    // - returns: RequestBuilder<T>
 
+    open func getObjectWithHTTPInfo<T: Codable>(
+        indexName: String,
+        objectID: String,
+        attributesToRetrieve: [String]? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<T> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "getObject")
+        }
+
+        guard !objectID.isEmpty else {
+            throw AlgoliaError.invalidArgument("objectID", "getObject")
+        }
+
+        var resourcePath = "/1/indexes/{indexName}/{objectID}"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{indexName}",
+            with: indexNamePostEscape,
+            options: .literal,
+            range: nil
+        )
+        let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
+        let objectIDPostEscape = objectIDPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{objectID}",
+            with: objectIDPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?] = [
+            "attributesToRetrieve": attributesToRetrieve?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
+    /// - parameter objectID: (path) Unique record identifier.
+    /// - parameter attributesToRetrieve: (query) Attributes to include with the records in the response. This is useful
+    /// to reduce the size of the API response. By default, all retrievable attributes are returned.  `objectID` is
+    /// always retrieved.  Attributes included in `unretrievableAttributes` won't be retrieved unless the request is
+    /// authenticated with the admin API key.  (optional)
+    /// - returns: AnyCodable
+    @available(
+        *,
+        deprecated,
+        message: "This untyped `AnyCodable` overload is deprecated. Annotate the result with a `Codable` type to use the generic `getObject` instead, e.g. `let object: MyType = try await client.getObject(...)`. It will be removed in a future version."
+    )
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getObject(
+        indexName: String,
+        objectID: String,
+        attributesToRetrieve: [String]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> AnyCodable {
+        let response: Response<AnyCodable> = try await getObjectWithHTTPInfo(
+            indexName: indexName,
+            objectID: objectID,
+            attributesToRetrieve: attributesToRetrieve,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    /// Retrieves one record by its object ID.  To retrieve more than one record, use the [`objects`
+    /// operation](https://www.algolia.com/doc/rest-api/search/get-objects).
+    /// Required API Key ACLs:
+    ///  - search
+    ///
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
+    ///
+    /// - parameter objectID: (path) Unique record identifier.
+    ///
+    /// - parameter attributesToRetrieve: (query) Attributes to include with the records in the response. This is useful
+    /// to reduce the size of the API response. By default, all retrievable attributes are returned.  `objectID` is
+    /// always retrieved.  Attributes included in `unretrievableAttributes` won't be retrieved unless the request is
+    /// authenticated with the admin API key.  (optional)
+    /// - returns: RequestBuilder<AnyCodable>
+    @available(
+        *,
+        deprecated,
+        message: "This untyped `AnyCodable` overload is deprecated. Annotate the result with a `Codable` type to use the generic `getObjectWithHTTPInfo` instead, e.g. `let response: Response<MyType> = try await client.getObjectWithHTTPInfo(...)`. It will be removed in a future version."
+    )
     open func getObjectWithHTTPInfo(
         indexName: String,
         objectID: String,

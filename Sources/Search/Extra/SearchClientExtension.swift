@@ -583,7 +583,8 @@ public extension SearchClient {
         batchSize: Int = 1000,
         scopes: [ScopeType] = [.settings, .rules, .synonyms],
         requestOptions: RequestOptions? = nil,
-        chunkedOptions: ChunkedHelperOptions = ChunkedHelperOptions()
+        chunkedOptions: ChunkedHelperOptions = ChunkedHelperOptions(maxRetries: ChunkedHelperOptions
+            .defaultReplaceAllObjectsMaxRetries)
     ) async throws -> ReplaceAllObjectsResponse {
         let tmpIndexName = "\(indexName)_tmp_\(Int.random(in: 1_000_000 ..< 10_000_000))"
 

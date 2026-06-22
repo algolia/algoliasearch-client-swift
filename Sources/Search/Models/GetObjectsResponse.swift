@@ -10,9 +10,9 @@ public struct GetObjectsResponse<T: Codable>: Codable, JSONEncodable {
     /// An optional status message.
     public var message: String?
     /// Retrieved records.
-    public var results: [T]
+    public var results: [T?]
 
-    public init(message: String? = nil, results: [T]) {
+    public init(message: String? = nil, results: [T?]) {
         self.message = message
         self.results = results
     }
