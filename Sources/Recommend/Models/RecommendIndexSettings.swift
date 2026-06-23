@@ -121,16 +121,6 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
     /// prefix the attribute with a dash and combine it with the `*`: `[\"*\", \"-ATTRIBUTE\"]`. - The `objectID`
     /// attribute is always included.
     public var attributesToRetrieve: [String]?
-    /// Determines the order in which Algolia returns your results.  By default, each entry corresponds to a [ranking
-    /// criteria](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria). The
-    /// tie-breaking algorithm sequentially applies each criterion in the order they're specified. If you configure a
-    /// replica index for [sorting by an
-    /// attribute](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/how-to/sort-by-attribute),
-    /// you put the sorting attribute at the top of the list.  **Modifiers**  - `asc(\"ATTRIBUTE\")`.   Sort the index
-    /// by the values of an attribute, in ascending order. - `desc(\"ATTRIBUTE\")`.   Sort the index by the values of an
-    /// attribute, in descending order.  Before you modify the default setting, test your changes in the dashboard, and
-    /// by [A/B testing](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing).
-    public var ranking: [String]?
     /// Relevancy threshold below which less relevant results aren't included in the results You can only set
     /// `relevancyStrictness` on [virtual replica indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/#what-are-virtual-replicas).
     /// Use this setting to strike a balance between the relevance and number of returned results.
@@ -186,8 +176,6 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
     /// characters](https://www.charactercodes.net/category/non-spacing_mark). For example, `Gartenstühle` won't be
     /// decompounded if the `ü` consists of `u` (U+0075) and `◌̈` (U+0308).
     public var decompoundQuery: Bool?
-    /// Whether to enable rules.
-    public var enableRules: Bool?
     /// Whether to enable Personalization.
     public var enablePersonalization: Bool?
     public var queryType: RecommendQueryType?
@@ -278,7 +266,6 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         keepDiacriticsOnCharacters: String? = nil,
         customRanking: [String]? = nil,
         attributesToRetrieve: [String]? = nil,
-        ranking: [String]? = nil,
         relevancyStrictness: Int? = nil,
         attributesToHighlight: [String]? = nil,
         attributesToSnippet: [String]? = nil,
@@ -295,7 +282,6 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         removeStopWords: RecommendRemoveStopWords? = nil,
         queryLanguages: [RecommendSupportedLanguage]? = nil,
         decompoundQuery: Bool? = nil,
-        enableRules: Bool? = nil,
         enablePersonalization: Bool? = nil,
         queryType: RecommendQueryType? = nil,
         removeWordsIfNoResults: RecommendRemoveWordsIfNoResults? = nil,
@@ -337,7 +323,6 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         self.keepDiacriticsOnCharacters = keepDiacriticsOnCharacters
         self.customRanking = customRanking
         self.attributesToRetrieve = attributesToRetrieve
-        self.ranking = ranking
         self.relevancyStrictness = relevancyStrictness
         self.attributesToHighlight = attributesToHighlight
         self.attributesToSnippet = attributesToSnippet
@@ -354,7 +339,6 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         self.removeStopWords = removeStopWords
         self.queryLanguages = queryLanguages
         self.decompoundQuery = decompoundQuery
-        self.enableRules = enableRules
         self.enablePersonalization = enablePersonalization
         self.queryType = queryType
         self.removeWordsIfNoResults = removeWordsIfNoResults
@@ -398,7 +382,6 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         case keepDiacriticsOnCharacters
         case customRanking
         case attributesToRetrieve
-        case ranking
         case relevancyStrictness
         case attributesToHighlight
         case attributesToSnippet
@@ -415,7 +398,6 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         case removeStopWords
         case queryLanguages
         case decompoundQuery
-        case enableRules
         case enablePersonalization
         case queryType
         case removeWordsIfNoResults
@@ -462,7 +444,6 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         try container.encodeIfPresent(self.keepDiacriticsOnCharacters, forKey: .keepDiacriticsOnCharacters)
         try container.encodeIfPresent(self.customRanking, forKey: .customRanking)
         try container.encodeIfPresent(self.attributesToRetrieve, forKey: .attributesToRetrieve)
-        try container.encodeIfPresent(self.ranking, forKey: .ranking)
         try container.encodeIfPresent(self.relevancyStrictness, forKey: .relevancyStrictness)
         try container.encodeIfPresent(self.attributesToHighlight, forKey: .attributesToHighlight)
         try container.encodeIfPresent(self.attributesToSnippet, forKey: .attributesToSnippet)
@@ -482,7 +463,6 @@ public struct RecommendIndexSettings: Codable, JSONEncodable {
         try container.encodeIfPresent(self.removeStopWords, forKey: .removeStopWords)
         try container.encodeIfPresent(self.queryLanguages, forKey: .queryLanguages)
         try container.encodeIfPresent(self.decompoundQuery, forKey: .decompoundQuery)
-        try container.encodeIfPresent(self.enableRules, forKey: .enableRules)
         try container.encodeIfPresent(self.enablePersonalization, forKey: .enablePersonalization)
         try container.encodeIfPresent(self.queryType, forKey: .queryType)
         try container.encodeIfPresent(self.removeWordsIfNoResults, forKey: .removeWordsIfNoResults)
@@ -533,7 +513,6 @@ extension RecommendIndexSettings: Hashable {
         hasher.combine(self.keepDiacriticsOnCharacters?.hashValue)
         hasher.combine(self.customRanking?.hashValue)
         hasher.combine(self.attributesToRetrieve?.hashValue)
-        hasher.combine(self.ranking?.hashValue)
         hasher.combine(self.relevancyStrictness?.hashValue)
         hasher.combine(self.attributesToHighlight?.hashValue)
         hasher.combine(self.attributesToSnippet?.hashValue)
@@ -550,7 +529,6 @@ extension RecommendIndexSettings: Hashable {
         hasher.combine(self.removeStopWords?.hashValue)
         hasher.combine(self.queryLanguages?.hashValue)
         hasher.combine(self.decompoundQuery?.hashValue)
-        hasher.combine(self.enableRules?.hashValue)
         hasher.combine(self.enablePersonalization?.hashValue)
         hasher.combine(self.queryType?.hashValue)
         hasher.combine(self.removeWordsIfNoResults?.hashValue)

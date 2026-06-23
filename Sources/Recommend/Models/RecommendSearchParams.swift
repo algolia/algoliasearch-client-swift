@@ -28,7 +28,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
     /// matches if it matches at least one element of the array.  For more information, see
     /// [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering).
     public var filters: String?
-    public var facetFilters: RecommendFacetFilters?
     public var optionalFilters: RecommendOptionalFilters?
     public var numericFilters: RecommendNumericFilters?
     public var tagFilters: RecommendTagFilters?
@@ -91,8 +90,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
     public var analyticsTags: [String]?
     /// Whether to include this search when calculating processing-time percentiles.
     public var percentileComputation: Bool?
-    /// Whether to enable A/B testing for this search.
-    public var enableABTest: Bool?
     /// Search query.
     public var query: String?
     /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting). 
@@ -208,16 +205,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
     /// prefix the attribute with a dash and combine it with the `*`: `[\"*\", \"-ATTRIBUTE\"]`. - The `objectID`
     /// attribute is always included.
     public var attributesToRetrieve: [String]?
-    /// Determines the order in which Algolia returns your results.  By default, each entry corresponds to a [ranking
-    /// criteria](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria). The
-    /// tie-breaking algorithm sequentially applies each criterion in the order they're specified. If you configure a
-    /// replica index for [sorting by an
-    /// attribute](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/how-to/sort-by-attribute),
-    /// you put the sorting attribute at the top of the list.  **Modifiers**  - `asc(\"ATTRIBUTE\")`.   Sort the index
-    /// by the values of an attribute, in ascending order. - `desc(\"ATTRIBUTE\")`.   Sort the index by the values of an
-    /// attribute, in descending order.  Before you modify the default setting, test your changes in the dashboard, and
-    /// by [A/B testing](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing).
-    public var ranking: [String]?
     /// Relevancy threshold below which less relevant results aren't included in the results You can only set
     /// `relevancyStrictness` on [virtual replica indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/#what-are-virtual-replicas).
     /// Use this setting to strike a balance between the relevance and number of returned results.
@@ -273,8 +260,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
     /// characters](https://www.charactercodes.net/category/non-spacing_mark). For example, `Gartenstühle` won't be
     /// decompounded if the `ü` consists of `u` (U+0075) and `◌̈` (U+0308).
     public var decompoundQuery: Bool?
-    /// Whether to enable rules.
-    public var enableRules: Bool?
     /// Whether to enable Personalization.
     public var enablePersonalization: Bool?
     public var queryType: RecommendQueryType?
@@ -342,11 +327,12 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
     /// setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
     public var reRankingApplyFilter: RecommendReRankingApplyFilter?
+    /// Whether to enable rules.
+    public var enableRules: Bool?
 
     public init(
         similarQuery: String? = nil,
         filters: String? = nil,
-        facetFilters: RecommendFacetFilters? = nil,
         optionalFilters: RecommendOptionalFilters? = nil,
         numericFilters: RecommendNumericFilters? = nil,
         tagFilters: RecommendTagFilters? = nil,
@@ -371,7 +357,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         analytics: Bool? = nil,
         analyticsTags: [String]? = nil,
         percentileComputation: Bool? = nil,
-        enableABTest: Bool? = nil,
         query: String? = nil,
         attributesForFaceting: [String]? = nil,
         replicas: [String]? = nil,
@@ -394,7 +379,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         keepDiacriticsOnCharacters: String? = nil,
         customRanking: [String]? = nil,
         attributesToRetrieve: [String]? = nil,
-        ranking: [String]? = nil,
         relevancyStrictness: Int? = nil,
         attributesToHighlight: [String]? = nil,
         attributesToSnippet: [String]? = nil,
@@ -411,7 +395,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         removeStopWords: RecommendRemoveStopWords? = nil,
         queryLanguages: [RecommendSupportedLanguage]? = nil,
         decompoundQuery: Bool? = nil,
-        enableRules: Bool? = nil,
         enablePersonalization: Bool? = nil,
         queryType: RecommendQueryType? = nil,
         removeWordsIfNoResults: RecommendRemoveWordsIfNoResults? = nil,
@@ -430,11 +413,11 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         attributeCriteriaComputedByMinProximity: Bool? = nil,
         renderingContent: RecommendRenderingContent? = nil,
         enableReRanking: Bool? = nil,
-        reRankingApplyFilter: RecommendReRankingApplyFilter? = nil
+        reRankingApplyFilter: RecommendReRankingApplyFilter? = nil,
+        enableRules: Bool? = nil
     ) {
         self.similarQuery = similarQuery
         self.filters = filters
-        self.facetFilters = facetFilters
         self.optionalFilters = optionalFilters
         self.numericFilters = numericFilters
         self.tagFilters = tagFilters
@@ -459,7 +442,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         self.analytics = analytics
         self.analyticsTags = analyticsTags
         self.percentileComputation = percentileComputation
-        self.enableABTest = enableABTest
         self.query = query
         self.attributesForFaceting = attributesForFaceting
         self.replicas = replicas
@@ -482,7 +464,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         self.keepDiacriticsOnCharacters = keepDiacriticsOnCharacters
         self.customRanking = customRanking
         self.attributesToRetrieve = attributesToRetrieve
-        self.ranking = ranking
         self.relevancyStrictness = relevancyStrictness
         self.attributesToHighlight = attributesToHighlight
         self.attributesToSnippet = attributesToSnippet
@@ -499,7 +480,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         self.removeStopWords = removeStopWords
         self.queryLanguages = queryLanguages
         self.decompoundQuery = decompoundQuery
-        self.enableRules = enableRules
         self.enablePersonalization = enablePersonalization
         self.queryType = queryType
         self.removeWordsIfNoResults = removeWordsIfNoResults
@@ -519,12 +499,12 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         self.renderingContent = renderingContent
         self.enableReRanking = enableReRanking
         self.reRankingApplyFilter = reRankingApplyFilter
+        self.enableRules = enableRules
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case similarQuery
         case filters
-        case facetFilters
         case optionalFilters
         case numericFilters
         case tagFilters
@@ -549,7 +529,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         case analytics
         case analyticsTags
         case percentileComputation
-        case enableABTest
         case query
         case attributesForFaceting
         case replicas
@@ -572,7 +551,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         case keepDiacriticsOnCharacters
         case customRanking
         case attributesToRetrieve
-        case ranking
         case relevancyStrictness
         case attributesToHighlight
         case attributesToSnippet
@@ -589,7 +567,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         case removeStopWords
         case queryLanguages
         case decompoundQuery
-        case enableRules
         case enablePersonalization
         case queryType
         case removeWordsIfNoResults
@@ -609,6 +586,7 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         case renderingContent
         case enableReRanking
         case reRankingApplyFilter
+        case enableRules
     }
 
     // Encodable protocol methods
@@ -617,7 +595,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.similarQuery, forKey: .similarQuery)
         try container.encodeIfPresent(self.filters, forKey: .filters)
-        try container.encodeIfPresent(self.facetFilters, forKey: .facetFilters)
         try container.encodeIfPresent(self.optionalFilters, forKey: .optionalFilters)
         try container.encodeIfPresent(self.numericFilters, forKey: .numericFilters)
         try container.encodeIfPresent(self.tagFilters, forKey: .tagFilters)
@@ -642,7 +619,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.analytics, forKey: .analytics)
         try container.encodeIfPresent(self.analyticsTags, forKey: .analyticsTags)
         try container.encodeIfPresent(self.percentileComputation, forKey: .percentileComputation)
-        try container.encodeIfPresent(self.enableABTest, forKey: .enableABTest)
         try container.encodeIfPresent(self.query, forKey: .query)
         try container.encodeIfPresent(self.attributesForFaceting, forKey: .attributesForFaceting)
         try container.encodeIfPresent(self.replicas, forKey: .replicas)
@@ -665,7 +641,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.keepDiacriticsOnCharacters, forKey: .keepDiacriticsOnCharacters)
         try container.encodeIfPresent(self.customRanking, forKey: .customRanking)
         try container.encodeIfPresent(self.attributesToRetrieve, forKey: .attributesToRetrieve)
-        try container.encodeIfPresent(self.ranking, forKey: .ranking)
         try container.encodeIfPresent(self.relevancyStrictness, forKey: .relevancyStrictness)
         try container.encodeIfPresent(self.attributesToHighlight, forKey: .attributesToHighlight)
         try container.encodeIfPresent(self.attributesToSnippet, forKey: .attributesToSnippet)
@@ -685,7 +660,6 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.removeStopWords, forKey: .removeStopWords)
         try container.encodeIfPresent(self.queryLanguages, forKey: .queryLanguages)
         try container.encodeIfPresent(self.decompoundQuery, forKey: .decompoundQuery)
-        try container.encodeIfPresent(self.enableRules, forKey: .enableRules)
         try container.encodeIfPresent(self.enablePersonalization, forKey: .enablePersonalization)
         try container.encodeIfPresent(self.queryType, forKey: .queryType)
         try container.encodeIfPresent(self.removeWordsIfNoResults, forKey: .removeWordsIfNoResults)
@@ -708,6 +682,7 @@ public struct RecommendSearchParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.renderingContent, forKey: .renderingContent)
         try container.encodeIfPresent(self.enableReRanking, forKey: .enableReRanking)
         try container.encodeIfPresent(self.reRankingApplyFilter, forKey: .reRankingApplyFilter)
+        try container.encodeIfPresent(self.enableRules, forKey: .enableRules)
     }
 }
 
@@ -717,7 +692,6 @@ extension RecommendSearchParams: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.similarQuery?.hashValue)
         hasher.combine(self.filters?.hashValue)
-        hasher.combine(self.facetFilters?.hashValue)
         hasher.combine(self.optionalFilters?.hashValue)
         hasher.combine(self.numericFilters?.hashValue)
         hasher.combine(self.tagFilters?.hashValue)
@@ -742,7 +716,6 @@ extension RecommendSearchParams: Hashable {
         hasher.combine(self.analytics?.hashValue)
         hasher.combine(self.analyticsTags?.hashValue)
         hasher.combine(self.percentileComputation?.hashValue)
-        hasher.combine(self.enableABTest?.hashValue)
         hasher.combine(self.query?.hashValue)
         hasher.combine(self.attributesForFaceting?.hashValue)
         hasher.combine(self.replicas?.hashValue)
@@ -765,7 +738,6 @@ extension RecommendSearchParams: Hashable {
         hasher.combine(self.keepDiacriticsOnCharacters?.hashValue)
         hasher.combine(self.customRanking?.hashValue)
         hasher.combine(self.attributesToRetrieve?.hashValue)
-        hasher.combine(self.ranking?.hashValue)
         hasher.combine(self.relevancyStrictness?.hashValue)
         hasher.combine(self.attributesToHighlight?.hashValue)
         hasher.combine(self.attributesToSnippet?.hashValue)
@@ -782,7 +754,6 @@ extension RecommendSearchParams: Hashable {
         hasher.combine(self.removeStopWords?.hashValue)
         hasher.combine(self.queryLanguages?.hashValue)
         hasher.combine(self.decompoundQuery?.hashValue)
-        hasher.combine(self.enableRules?.hashValue)
         hasher.combine(self.enablePersonalization?.hashValue)
         hasher.combine(self.queryType?.hashValue)
         hasher.combine(self.removeWordsIfNoResults?.hashValue)
@@ -802,5 +773,6 @@ extension RecommendSearchParams: Hashable {
         hasher.combine(self.renderingContent?.hashValue)
         hasher.combine(self.enableReRanking?.hashValue)
         hasher.combine(self.reRankingApplyFilter?.hashValue)
+        hasher.combine(self.enableRules?.hashValue)
     }
 }

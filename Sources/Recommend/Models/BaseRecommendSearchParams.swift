@@ -27,7 +27,6 @@ public struct BaseRecommendSearchParams: Codable, JSONEncodable {
     /// matches if it matches at least one element of the array.  For more information, see
     /// [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering).
     public var filters: String?
-    public var facetFilters: RecommendFacetFilters?
     public var optionalFilters: RecommendOptionalFilters?
     public var numericFilters: RecommendNumericFilters?
     public var tagFilters: RecommendTagFilters?
@@ -90,13 +89,10 @@ public struct BaseRecommendSearchParams: Codable, JSONEncodable {
     public var analyticsTags: [String]?
     /// Whether to include this search when calculating processing-time percentiles.
     public var percentileComputation: Bool?
-    /// Whether to enable A/B testing for this search.
-    public var enableABTest: Bool?
 
     public init(
         similarQuery: String? = nil,
         filters: String? = nil,
-        facetFilters: RecommendFacetFilters? = nil,
         optionalFilters: RecommendOptionalFilters? = nil,
         numericFilters: RecommendNumericFilters? = nil,
         tagFilters: RecommendTagFilters? = nil,
@@ -120,12 +116,10 @@ public struct BaseRecommendSearchParams: Codable, JSONEncodable {
         clickAnalytics: Bool? = nil,
         analytics: Bool? = nil,
         analyticsTags: [String]? = nil,
-        percentileComputation: Bool? = nil,
-        enableABTest: Bool? = nil
+        percentileComputation: Bool? = nil
     ) {
         self.similarQuery = similarQuery
         self.filters = filters
-        self.facetFilters = facetFilters
         self.optionalFilters = optionalFilters
         self.numericFilters = numericFilters
         self.tagFilters = tagFilters
@@ -150,13 +144,11 @@ public struct BaseRecommendSearchParams: Codable, JSONEncodable {
         self.analytics = analytics
         self.analyticsTags = analyticsTags
         self.percentileComputation = percentileComputation
-        self.enableABTest = enableABTest
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case similarQuery
         case filters
-        case facetFilters
         case optionalFilters
         case numericFilters
         case tagFilters
@@ -181,7 +173,6 @@ public struct BaseRecommendSearchParams: Codable, JSONEncodable {
         case analytics
         case analyticsTags
         case percentileComputation
-        case enableABTest
     }
 
     // Encodable protocol methods
@@ -190,7 +181,6 @@ public struct BaseRecommendSearchParams: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.similarQuery, forKey: .similarQuery)
         try container.encodeIfPresent(self.filters, forKey: .filters)
-        try container.encodeIfPresent(self.facetFilters, forKey: .facetFilters)
         try container.encodeIfPresent(self.optionalFilters, forKey: .optionalFilters)
         try container.encodeIfPresent(self.numericFilters, forKey: .numericFilters)
         try container.encodeIfPresent(self.tagFilters, forKey: .tagFilters)
@@ -215,7 +205,6 @@ public struct BaseRecommendSearchParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.analytics, forKey: .analytics)
         try container.encodeIfPresent(self.analyticsTags, forKey: .analyticsTags)
         try container.encodeIfPresent(self.percentileComputation, forKey: .percentileComputation)
-        try container.encodeIfPresent(self.enableABTest, forKey: .enableABTest)
     }
 }
 
@@ -225,7 +214,6 @@ extension BaseRecommendSearchParams: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.similarQuery?.hashValue)
         hasher.combine(self.filters?.hashValue)
-        hasher.combine(self.facetFilters?.hashValue)
         hasher.combine(self.optionalFilters?.hashValue)
         hasher.combine(self.numericFilters?.hashValue)
         hasher.combine(self.tagFilters?.hashValue)
@@ -250,6 +238,5 @@ extension BaseRecommendSearchParams: Hashable {
         hasher.combine(self.analytics?.hashValue)
         hasher.combine(self.analyticsTags?.hashValue)
         hasher.combine(self.percentileComputation?.hashValue)
-        hasher.combine(self.enableABTest?.hashValue)
     }
 }
