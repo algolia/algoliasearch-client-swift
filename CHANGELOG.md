@@ -1,3 +1,9 @@
+## [9.46.2](https://github.com/algolia/algoliasearch-client-swift/compare/9.46.1...9.46.2)
+
+- [035c03ecad](https://github.com/algolia/api-clients-automation/commit/035c03ecad) fix(specs): BREAKING CHANGE – remove recommend query params overridden by the API ([#6604](https://github.com/algolia/api-clients-automation/pull/6604)) by [@raed667](https://github.com/raed667/)
+  - The `ranking`, `facetFilters`, and `enableABTest` parameters have been removed from the Recommend request, and `enableRules` from its fallback parameters, as the Recommend API ignores them. API behavior is unchanged, but code setting these fields must be updated.
+- [5031c65633](https://github.com/algolia/api-clients-automation/commit/5031c65633) chore(deps): dependencies 2026-06-15 ([#6508](https://github.com/algolia/api-clients-automation/pull/6508)) by [@algolia-api-clients-automation-bot[bot]](https://github.com/apps/algolia-api-clients-automation-bot)
+
 ## [9.46.1](https://github.com/algolia/algoliasearch-client-swift/compare/9.46.0...9.46.1)
 
 - [a676cd9cef](https://github.com/algolia/api-clients-automation/commit/a676cd9cef) fix(clients): bump replaceAllObjects default maxRetries from 100 to 800 ([#6580](https://github.com/algolia/api-clients-automation/pull/6580)) by [@Fluf22](https://github.com/Fluf22/)
