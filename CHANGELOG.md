@@ -1,3 +1,7 @@
+## [9.46.3](https://github.com/algolia/algoliasearch-client-swift/compare/9.46.2...9.46.3)
+
+- [ac68c1a79c](https://github.com/algolia/api-clients-automation/commit/ac68c1a79c) fix(specs): add facetFilters back to recommend fallbackParameters ([#6727](https://github.com/algolia/api-clients-automation/pull/6727)) by [@raed667](https://github.com/raed667/)
+
 ## [9.46.2](https://github.com/algolia/algoliasearch-client-swift/compare/9.46.1...9.46.2)
 
 - [035c03ecad](https://github.com/algolia/api-clients-automation/commit/035c03ecad) fix(specs): BREAKING CHANGE – remove recommend query params overridden by the API ([#6604](https://github.com/algolia/api-clients-automation/pull/6604)) by [@raed667](https://github.com/raed667/)
