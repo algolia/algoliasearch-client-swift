@@ -327,6 +327,7 @@ public struct FallbackParams: Codable, JSONEncodable {
     /// setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
     public var reRankingApplyFilter: RecommendReRankingApplyFilter?
+    public var facetFilters: RecommendFacetFilters?
 
     public init(
         similarQuery: String? = nil,
@@ -411,7 +412,8 @@ public struct FallbackParams: Codable, JSONEncodable {
         attributeCriteriaComputedByMinProximity: Bool? = nil,
         renderingContent: RecommendRenderingContent? = nil,
         enableReRanking: Bool? = nil,
-        reRankingApplyFilter: RecommendReRankingApplyFilter? = nil
+        reRankingApplyFilter: RecommendReRankingApplyFilter? = nil,
+        facetFilters: RecommendFacetFilters? = nil
     ) {
         self.similarQuery = similarQuery
         self.filters = filters
@@ -496,6 +498,7 @@ public struct FallbackParams: Codable, JSONEncodable {
         self.renderingContent = renderingContent
         self.enableReRanking = enableReRanking
         self.reRankingApplyFilter = reRankingApplyFilter
+        self.facetFilters = facetFilters
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -582,6 +585,7 @@ public struct FallbackParams: Codable, JSONEncodable {
         case renderingContent
         case enableReRanking
         case reRankingApplyFilter
+        case facetFilters
     }
 
     // Encodable protocol methods
@@ -677,6 +681,7 @@ public struct FallbackParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.renderingContent, forKey: .renderingContent)
         try container.encodeIfPresent(self.enableReRanking, forKey: .enableReRanking)
         try container.encodeIfPresent(self.reRankingApplyFilter, forKey: .reRankingApplyFilter)
+        try container.encodeIfPresent(self.facetFilters, forKey: .facetFilters)
     }
 }
 
@@ -767,5 +772,6 @@ extension FallbackParams: Hashable {
         hasher.combine(self.renderingContent?.hashValue)
         hasher.combine(self.enableReRanking?.hashValue)
         hasher.combine(self.reRankingApplyFilter?.hashValue)
+        hasher.combine(self.facetFilters?.hashValue)
     }
 }
