@@ -72,9 +72,10 @@ public struct UnknownToolConfig: Codable, JSONEncodable {
 
         self.name = try container.decode(String.self, forKey: .name)
         self.type = try container.decode(String.self, forKey: .type)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("name")
-        nonAdditionalPropertyKeys.insert("type")
+        let nonAdditionalPropertyKeys: Set = [
+            "name",
+            "type",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

@@ -73,9 +73,10 @@ public struct SearchSynonymsResponse: Codable, JSONEncodable {
 
         self.hits = try container.decode([SynonymHit].self, forKey: .hits)
         self.nbHits = try container.decode(Int.self, forKey: .nbHits)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("hits")
-        nonAdditionalPropertyKeys.insert("nbHits")
+        let nonAdditionalPropertyKeys: Set = [
+            "hits",
+            "nbHits",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

@@ -29,10 +29,8 @@ open class URLSessionRequestBuilder: RequestBuilder {
     }
 
     @discardableResult
-    open func execute<T: Decodable>(urlRequest: URLRequest, timeout: TimeInterval) async throws
+    open func execute<T: Decodable>(urlRequest: URLRequest, timeout _: TimeInterval) async throws
     -> Response<T> {
-        self.sessionManager.configuration.timeoutIntervalForResource = timeout
-
         var (responseData, httpResponse): (Data?, URLResponse?) = (nil, nil)
         do {
             #if canImport(FoundationNetworking)

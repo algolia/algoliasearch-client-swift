@@ -62,8 +62,9 @@ public struct HitMetadata: Codable, JSONEncodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.injectedItemKey = try container.decodeIfPresent(String.self, forKey: .injectedItemKey)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("_injectedItemKey")
+        let nonAdditionalPropertyKeys: Set = [
+            "_injectedItemKey",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

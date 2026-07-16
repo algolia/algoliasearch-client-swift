@@ -117,14 +117,15 @@ public struct DictionaryEntry: Codable, JSONEncodable {
         self.decomposition = try container.decodeIfPresent([String].self, forKey: .decomposition)
         self.state = try container.decodeIfPresent(DictionaryEntryState.self, forKey: .state)
         self.type = try container.decodeIfPresent(DictionaryEntryType.self, forKey: .type)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("objectID")
-        nonAdditionalPropertyKeys.insert("language")
-        nonAdditionalPropertyKeys.insert("word")
-        nonAdditionalPropertyKeys.insert("words")
-        nonAdditionalPropertyKeys.insert("decomposition")
-        nonAdditionalPropertyKeys.insert("state")
-        nonAdditionalPropertyKeys.insert("type")
+        let nonAdditionalPropertyKeys: Set = [
+            "objectID",
+            "language",
+            "word",
+            "words",
+            "decomposition",
+            "state",
+            "type",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

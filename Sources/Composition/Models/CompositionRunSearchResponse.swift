@@ -70,9 +70,10 @@ public struct CompositionRunSearchResponse: Codable, JSONEncodable {
 
         self.objectID = try container.decode(String.self, forKey: .objectID)
         self.appliedRules = try container.decodeIfPresent([CompositionRunAppliedRules].self, forKey: .appliedRules)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("objectID")
-        nonAdditionalPropertyKeys.insert("appliedRules")
+        let nonAdditionalPropertyKeys: Set = [
+            "objectID",
+            "appliedRules",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

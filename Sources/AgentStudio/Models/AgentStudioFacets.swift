@@ -61,8 +61,9 @@ public struct AgentStudioFacets: Codable, JSONEncodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.order = try container.decodeIfPresent([String].self, forKey: .order)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("order")
+        let nonAdditionalPropertyKeys: Set = [
+            "order",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

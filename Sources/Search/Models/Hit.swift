@@ -104,12 +104,13 @@ public struct Hit: Codable, JSONEncodable {
         self.snippetResult = try container.decodeIfPresent([String: SearchSnippetResult].self, forKey: .snippetResult)
         self.rankingInfo = try container.decodeIfPresent(SearchRankingInfo.self, forKey: .rankingInfo)
         self.distinctSeqID = try container.decodeIfPresent(Int.self, forKey: .distinctSeqID)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("objectID")
-        nonAdditionalPropertyKeys.insert("_highlightResult")
-        nonAdditionalPropertyKeys.insert("_snippetResult")
-        nonAdditionalPropertyKeys.insert("_rankingInfo")
-        nonAdditionalPropertyKeys.insert("_distinctSeqID")
+        let nonAdditionalPropertyKeys: Set = [
+            "objectID",
+            "_highlightResult",
+            "_snippetResult",
+            "_rankingInfo",
+            "_distinctSeqID",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

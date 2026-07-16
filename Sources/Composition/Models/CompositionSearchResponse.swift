@@ -70,9 +70,10 @@ public struct CompositionSearchResponse<T: Codable>: Codable, JSONEncodable {
 
         self.compositions = try container.decodeIfPresent(CompositionsSearchResponse.self, forKey: .compositions)
         self.results = try container.decode([SearchResultsItem<T>].self, forKey: .results)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("compositions")
-        nonAdditionalPropertyKeys.insert("results")
+        let nonAdditionalPropertyKeys: Set = [
+            "compositions",
+            "results",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

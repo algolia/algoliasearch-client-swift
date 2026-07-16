@@ -63,8 +63,9 @@ public struct PushTaskRecords: Codable, JSONEncodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.objectID = try container.decode(String.self, forKey: .objectID)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("objectID")
+        let nonAdditionalPropertyKeys: Set = [
+            "objectID",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

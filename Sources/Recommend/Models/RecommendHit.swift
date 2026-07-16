@@ -115,13 +115,14 @@ public struct RecommendHit: Codable, JSONEncodable {
         self.rankingInfo = try container.decodeIfPresent(RecommendRankingInfo.self, forKey: .rankingInfo)
         self.distinctSeqID = try container.decodeIfPresent(Int.self, forKey: .distinctSeqID)
         self.score = try container.decodeIfPresent(Double.self, forKey: .score)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("objectID")
-        nonAdditionalPropertyKeys.insert("_highlightResult")
-        nonAdditionalPropertyKeys.insert("_snippetResult")
-        nonAdditionalPropertyKeys.insert("_rankingInfo")
-        nonAdditionalPropertyKeys.insert("_distinctSeqID")
-        nonAdditionalPropertyKeys.insert("_score")
+        let nonAdditionalPropertyKeys: Set = [
+            "objectID",
+            "_highlightResult",
+            "_snippetResult",
+            "_rankingInfo",
+            "_distinctSeqID",
+            "_score",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

@@ -87,11 +87,12 @@ public struct SearchHits<T: Codable>: Codable, JSONEncodable {
         self.query = try container.decodeIfPresent(String.self, forKey: .query)
         self.params = try container.decodeIfPresent(String.self, forKey: .params)
         self.extensions = try container.decodeIfPresent(ResponseExtensions.self, forKey: .extensions)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("hits")
-        nonAdditionalPropertyKeys.insert("query")
-        nonAdditionalPropertyKeys.insert("params")
-        nonAdditionalPropertyKeys.insert("extensions")
+        let nonAdditionalPropertyKeys: Set = [
+            "hits",
+            "query",
+            "params",
+            "extensions",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

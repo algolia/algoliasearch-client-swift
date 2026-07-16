@@ -66,8 +66,9 @@ public struct UserMessageMetadataV5: Codable, JSONEncodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.turnContext = try container.decodeIfPresent([String: AnyCodable].self, forKey: .turnContext)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("turnContext")
+        let nonAdditionalPropertyKeys: Set = [
+            "turnContext",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

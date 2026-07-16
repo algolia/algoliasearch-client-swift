@@ -73,9 +73,10 @@ public struct ResultsInjectedItemInfoResponse: Codable, JSONEncodable {
             [ResultsInjectedItemAppliedRulesInfoResponse].self,
             forKey: .appliedRules
         )
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("key")
-        nonAdditionalPropertyKeys.insert("appliedRules")
+        let nonAdditionalPropertyKeys: Set = [
+            "key",
+            "appliedRules",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

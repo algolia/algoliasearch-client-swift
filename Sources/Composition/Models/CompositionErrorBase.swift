@@ -61,8 +61,9 @@ public struct CompositionErrorBase: Codable, JSONEncodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.message = try container.decodeIfPresent(String.self, forKey: .message)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("message")
+        let nonAdditionalPropertyKeys: Set = [
+            "message",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

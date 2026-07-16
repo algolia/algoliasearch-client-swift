@@ -373,41 +373,42 @@ public struct SearchResponse<T: Codable>: Codable, JSONEncodable {
         self.query = try container.decodeIfPresent(String.self, forKey: .query)
         self.params = try container.decodeIfPresent(String.self, forKey: .params)
         self.extensions = try container.decodeIfPresent(ResponseExtensions.self, forKey: .extensions)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("abTestID")
-        nonAdditionalPropertyKeys.insert("abTestVariantID")
-        nonAdditionalPropertyKeys.insert("aroundLatLng")
-        nonAdditionalPropertyKeys.insert("automaticRadius")
-        nonAdditionalPropertyKeys.insert("exhaustive")
-        nonAdditionalPropertyKeys.insert("appliedRules")
-        nonAdditionalPropertyKeys.insert("exhaustiveFacetsCount")
-        nonAdditionalPropertyKeys.insert("exhaustiveNbHits")
-        nonAdditionalPropertyKeys.insert("exhaustiveTypo")
-        nonAdditionalPropertyKeys.insert("facets")
-        nonAdditionalPropertyKeys.insert("facets_stats")
-        nonAdditionalPropertyKeys.insert("index")
-        nonAdditionalPropertyKeys.insert("indexUsed")
-        nonAdditionalPropertyKeys.insert("message")
-        nonAdditionalPropertyKeys.insert("nbSortedHits")
-        nonAdditionalPropertyKeys.insert("parsedQuery")
-        nonAdditionalPropertyKeys.insert("processingTimeMS")
-        nonAdditionalPropertyKeys.insert("processingTimingsMS")
-        nonAdditionalPropertyKeys.insert("queryAfterRemoval")
-        nonAdditionalPropertyKeys.insert("redirect")
-        nonAdditionalPropertyKeys.insert("renderingContent")
-        nonAdditionalPropertyKeys.insert("serverTimeMS")
-        nonAdditionalPropertyKeys.insert("serverUsed")
-        nonAdditionalPropertyKeys.insert("userData")
-        nonAdditionalPropertyKeys.insert("queryID")
-        nonAdditionalPropertyKeys.insert("_automaticInsights")
-        nonAdditionalPropertyKeys.insert("page")
-        nonAdditionalPropertyKeys.insert("nbHits")
-        nonAdditionalPropertyKeys.insert("nbPages")
-        nonAdditionalPropertyKeys.insert("hitsPerPage")
-        nonAdditionalPropertyKeys.insert("hits")
-        nonAdditionalPropertyKeys.insert("query")
-        nonAdditionalPropertyKeys.insert("params")
-        nonAdditionalPropertyKeys.insert("extensions")
+        let nonAdditionalPropertyKeys: Set = [
+            "abTestID",
+            "abTestVariantID",
+            "aroundLatLng",
+            "automaticRadius",
+            "exhaustive",
+            "appliedRules",
+            "exhaustiveFacetsCount",
+            "exhaustiveNbHits",
+            "exhaustiveTypo",
+            "facets",
+            "facets_stats",
+            "index",
+            "indexUsed",
+            "message",
+            "nbSortedHits",
+            "parsedQuery",
+            "processingTimeMS",
+            "processingTimingsMS",
+            "queryAfterRemoval",
+            "redirect",
+            "renderingContent",
+            "serverTimeMS",
+            "serverUsed",
+            "userData",
+            "queryID",
+            "_automaticInsights",
+            "page",
+            "nbHits",
+            "nbPages",
+            "hitsPerPage",
+            "hits",
+            "query",
+            "params",
+            "extensions",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

@@ -297,33 +297,34 @@ public struct SearchBaseSearchResponse: Codable, JSONEncodable {
         self.userData = try container.decodeIfPresent(AnyCodable.self, forKey: .userData)
         self.queryID = try container.decodeIfPresent(String.self, forKey: .queryID)
         self.automaticInsights = try container.decodeIfPresent(Bool.self, forKey: .automaticInsights)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("abTestID")
-        nonAdditionalPropertyKeys.insert("abTestVariantID")
-        nonAdditionalPropertyKeys.insert("aroundLatLng")
-        nonAdditionalPropertyKeys.insert("automaticRadius")
-        nonAdditionalPropertyKeys.insert("exhaustive")
-        nonAdditionalPropertyKeys.insert("appliedRules")
-        nonAdditionalPropertyKeys.insert("exhaustiveFacetsCount")
-        nonAdditionalPropertyKeys.insert("exhaustiveNbHits")
-        nonAdditionalPropertyKeys.insert("exhaustiveTypo")
-        nonAdditionalPropertyKeys.insert("facets")
-        nonAdditionalPropertyKeys.insert("facets_stats")
-        nonAdditionalPropertyKeys.insert("index")
-        nonAdditionalPropertyKeys.insert("indexUsed")
-        nonAdditionalPropertyKeys.insert("message")
-        nonAdditionalPropertyKeys.insert("nbSortedHits")
-        nonAdditionalPropertyKeys.insert("parsedQuery")
-        nonAdditionalPropertyKeys.insert("processingTimeMS")
-        nonAdditionalPropertyKeys.insert("processingTimingsMS")
-        nonAdditionalPropertyKeys.insert("queryAfterRemoval")
-        nonAdditionalPropertyKeys.insert("redirect")
-        nonAdditionalPropertyKeys.insert("renderingContent")
-        nonAdditionalPropertyKeys.insert("serverTimeMS")
-        nonAdditionalPropertyKeys.insert("serverUsed")
-        nonAdditionalPropertyKeys.insert("userData")
-        nonAdditionalPropertyKeys.insert("queryID")
-        nonAdditionalPropertyKeys.insert("_automaticInsights")
+        let nonAdditionalPropertyKeys: Set = [
+            "abTestID",
+            "abTestVariantID",
+            "aroundLatLng",
+            "automaticRadius",
+            "exhaustive",
+            "appliedRules",
+            "exhaustiveFacetsCount",
+            "exhaustiveNbHits",
+            "exhaustiveTypo",
+            "facets",
+            "facets_stats",
+            "index",
+            "indexUsed",
+            "message",
+            "nbSortedHits",
+            "parsedQuery",
+            "processingTimeMS",
+            "processingTimingsMS",
+            "queryAfterRemoval",
+            "redirect",
+            "renderingContent",
+            "serverTimeMS",
+            "serverUsed",
+            "userData",
+            "queryID",
+            "_automaticInsights",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

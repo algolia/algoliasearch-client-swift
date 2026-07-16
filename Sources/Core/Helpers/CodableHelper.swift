@@ -44,7 +44,6 @@ open class CodableHelper {
     private static var defaultJSONEncoder: JSONEncoder = {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .formatted(CodableHelper.dateFormatter)
-        encoder.outputFormatting = .prettyPrinted
         return encoder
     }()
 }

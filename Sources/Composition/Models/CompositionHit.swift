@@ -115,13 +115,14 @@ public struct CompositionHit: Codable, JSONEncodable {
         self.rankingInfo = try container.decodeIfPresent(HitRankingInfo.self, forKey: .rankingInfo)
         self.distinctSeqID = try container.decodeIfPresent(Int.self, forKey: .distinctSeqID)
         self.extra = try container.decodeIfPresent(HitMetadata.self, forKey: .extra)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("objectID")
-        nonAdditionalPropertyKeys.insert("_highlightResult")
-        nonAdditionalPropertyKeys.insert("_snippetResult")
-        nonAdditionalPropertyKeys.insert("_rankingInfo")
-        nonAdditionalPropertyKeys.insert("_distinctSeqID")
-        nonAdditionalPropertyKeys.insert("_extra")
+        let nonAdditionalPropertyKeys: Set = [
+            "objectID",
+            "_highlightResult",
+            "_snippetResult",
+            "_rankingInfo",
+            "_distinctSeqID",
+            "_extra",
+        ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,
