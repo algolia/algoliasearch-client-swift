@@ -186,6 +186,9 @@ public extension SearchClient {
     /// Helper: Similar to `replaceAllObjects` but routes records through the Ingestion transformation pipeline.
     /// `transformationOptions` must be set via `SearchClientConfiguration(transformationOptions:)` before creating the
     /// client.
+    ///
+    /// - Warning: Calling this method with an empty `objects` list replaces the index with an empty one,
+    ///   deleting all existing records.
     /// - parameter indexName: The index to replace objects in.
     /// - parameter objects: The new objects. Each must include an `objectID` key.
     /// - parameter batchSize: Number of records per push call. Defaults to 1000.
@@ -205,6 +208,12 @@ public extension SearchClient {
             .defaultReplaceAllObjectsMaxRetries)
     ) async throws -> ReplaceAllObjectsWithTransformationResponse {
         _ = try self.resolvedIngestionClient()
+
+        if objects.isEmpty {
+            let warning =
+                "Warning: replaceAllObjectsWithTransformation was called with an empty list of objects, which will delete all records currently in the \"\(indexName)\" index.\n"
+            self.emitWarning(warning)
+        }
 
         let tmpIndexName = "\(indexName)_tmp_\(Int.random(in: 1_000_000 ..< 10_000_000))"
 

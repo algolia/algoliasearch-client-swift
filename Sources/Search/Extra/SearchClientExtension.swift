@@ -568,6 +568,9 @@ public extension SearchClient {
     ///
     /// See https://api-clients-automation.netlify.app/docs/custom-helpers/#replaceallobjects for implementation
     /// details.
+    ///
+    /// - Warning: Calling this method with an empty `objects` list replaces the index with an empty one,
+    ///   deleting all existing records.
     /// - parameter indexName: The name of the index where to replace the objects
     /// - parameter objects: The new objects
     /// - parameter batchSize: The maximum number of objects to include in a batch
@@ -586,6 +589,12 @@ public extension SearchClient {
         chunkedOptions: ChunkedHelperOptions = ChunkedHelperOptions(maxRetries: ChunkedHelperOptions
             .defaultReplaceAllObjectsMaxRetries)
     ) async throws -> ReplaceAllObjectsResponse {
+        if objects.isEmpty {
+            let warning =
+                "Warning: replaceAllObjects was called with an empty list of objects, which will delete all records currently in the \"\(indexName)\" index.\n"
+            self.emitWarning(warning)
+        }
+
         let tmpIndexName = "\(indexName)_tmp_\(Int.random(in: 1_000_000 ..< 10_000_000))"
 
         do {
@@ -738,5 +747,13 @@ public extension SearchClient {
             requestOptions: requestOptions
         )
         return try helper.mergeResponses(responses)
+    }
+}
+
+extension SearchClient {
+    /// Best-effort diagnostic output: a warning must never crash the caller, so write failures
+    /// (closed or redirected stderr) are swallowed.
+    func emitWarning(_ message: String) {
+        try? FileHandle.standardError.write(contentsOf: Data(message.utf8))
     }
 }
