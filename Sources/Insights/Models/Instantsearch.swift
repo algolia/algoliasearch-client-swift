@@ -6,22 +6,11 @@ import Foundation
     import AlgoliaCore
 #endif
 
-/// Use this event to track when users convert after a previous Algolia request. For example, a user clicks on an item
-/// in the search results to view the product detail page. Then, the user adds the item to their shopping cart.  If
-/// you're building your category pages with Algolia, you'll also use this event.
-public struct ConvertedObjectIDsAfterSearch: Codable, JSONEncodable {
+public struct Instantsearch: Codable, JSONEncodable {
     /// Event name, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework)
     /// framework.
     public var eventName: String
-    public var eventType: ConversionEvent
-    /// Index name (case-sensitive) to which the event's items belong.
-    public var index: String
-    /// Object IDs of the records that are part of the event.
-    public var objectIDs: [String]
-    /// Unique identifier for a search query.  The query ID is required for events related to search or browse requests.
-    /// If you add `clickAnalytics: true` as a search request parameter, the query ID is included in the API response.
-    /// For agentic analytics events, the query ID may be prefixed with `message_` followed by any printable string.
-    public var queryID: String
+    public var eventType: InstantsearchEvent
     /// Anonymous or pseudonymous user identifier.  Don't use personally identifiable information in user tokens. For
     /// more information, see [User token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken).
     public var userToken: String
@@ -34,36 +23,33 @@ public struct ConvertedObjectIDsAfterSearch: Codable, JSONEncodable {
     /// Timestamp of the event, measured in milliseconds since the Unix epoch. Must be no older than 30 days. If not
     /// provided, we use the time at which the request was received.
     public var timestamp: Int64?
+    /// Unique identifier for an agent session. Used to correlate instantsearch events with a specific agent
+    /// interaction.
+    public var agentID: String?
 
     public init(
         eventName: String,
-        eventType: ConversionEvent,
-        index: String,
-        objectIDs: [String],
-        queryID: String,
+        eventType: InstantsearchEvent,
         userToken: String,
         authenticatedUserToken: String? = nil,
-        timestamp: Int64? = nil
+        timestamp: Int64? = nil,
+        agentID: String? = nil
     ) {
         self.eventName = eventName
         self.eventType = eventType
-        self.index = index
-        self.objectIDs = objectIDs
-        self.queryID = queryID
         self.userToken = userToken
         self.authenticatedUserToken = authenticatedUserToken
         self.timestamp = timestamp
+        self.agentID = agentID
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case eventName
         case eventType
-        case index
-        case objectIDs
-        case queryID
         case userToken
         case authenticatedUserToken
         case timestamp
+        case agentID
     }
 
     // Encodable protocol methods
@@ -72,26 +58,22 @@ public struct ConvertedObjectIDsAfterSearch: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.eventName, forKey: .eventName)
         try container.encode(self.eventType, forKey: .eventType)
-        try container.encode(self.index, forKey: .index)
-        try container.encode(self.objectIDs, forKey: .objectIDs)
-        try container.encode(self.queryID, forKey: .queryID)
         try container.encode(self.userToken, forKey: .userToken)
         try container.encodeIfPresent(self.authenticatedUserToken, forKey: .authenticatedUserToken)
         try container.encodeIfPresent(self.timestamp, forKey: .timestamp)
+        try container.encodeIfPresent(self.agentID, forKey: .agentID)
     }
 }
 
-extension ConvertedObjectIDsAfterSearch: Equatable {}
+extension Instantsearch: Equatable {}
 
-extension ConvertedObjectIDsAfterSearch: Hashable {
+extension Instantsearch: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.eventName.hashValue)
         hasher.combine(self.eventType.hashValue)
-        hasher.combine(self.index.hashValue)
-        hasher.combine(self.objectIDs.hashValue)
-        hasher.combine(self.queryID.hashValue)
         hasher.combine(self.userToken.hashValue)
         hasher.combine(self.authenticatedUserToken?.hashValue)
         hasher.combine(self.timestamp?.hashValue)
+        hasher.combine(self.agentID?.hashValue)
     }
 }
