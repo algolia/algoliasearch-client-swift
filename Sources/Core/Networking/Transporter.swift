@@ -59,6 +59,11 @@ open class Transporter {
 
         let callType: CallType = useReadTransporter ? CallType.read : httpMethod.toCallType()
         let hostIterator: HostIterator = self.retryStrategy.retryableHosts(for: callType)
+
+        // The Request-ID is minted once per execution, before the host loop, so that every
+        // retry attempt shares the same value and each subsequent call gets a fresh one.
+        // The caller-precedence rules live in `RequestID.withRequestID`.
+        let requestOptions = RequestID.withRequestID(requestOptions, configuration: self.configuration)
         let headers: [String: String] = requestOptions?.headers ?? [:]
         var body: Data? = nil
         var urlComponents = URLComponents()

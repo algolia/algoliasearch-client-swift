@@ -11,6 +11,12 @@
 import Foundation
 
 public extension SearchClient {
+    /// Derives the request options carrying the Request-ID shared by every request of one
+    /// helper invocation. See ``RequestID/withRequestID(_:configuration:)``.
+    internal func withRequestID(_ requestOptions: RequestOptions?) -> RequestOptions? {
+        RequestID.withRequestID(requestOptions, configuration: self.configuration)
+    }
+
     /// Wait for a task to complete
     /// - parameter taskID: The id of the task to wait for
     /// - parameter indexName: The name of the index to wait for
@@ -28,6 +34,7 @@ public extension SearchClient {
         },
         requestOptions: RequestOptions? = nil
     ) async throws -> GetTaskResponse {
+        let requestOptions = self.withRequestID(requestOptions)
         var retryCount = 0
 
         return try await createIterable(
@@ -69,6 +76,7 @@ public extension SearchClient {
         },
         requestOptions: RequestOptions? = nil
     ) async throws -> GetTaskResponse {
+        let requestOptions = self.withRequestID(requestOptions)
         var retryCount = 0
 
         return try await createIterable(
@@ -114,6 +122,7 @@ public extension SearchClient {
         },
         requestOptions: RequestOptions? = nil
     ) async throws -> GetApiKeyResponse? {
+        let requestOptions = self.withRequestID(requestOptions)
         var retryCount = 0
 
         if operation == .update {
@@ -243,6 +252,7 @@ public extension SearchClient {
         aggregator: @escaping (BrowseResponse<T>) -> Void,
         requestOptions: RequestOptions? = nil
     ) async throws -> BrowseResponse<T> {
+        let requestOptions = self.withRequestID(requestOptions)
         var updatedBrowseParams = browseParams
         if updatedBrowseParams.hitsPerPage == nil {
             updatedBrowseParams.hitsPerPage = 1000
@@ -280,6 +290,7 @@ public extension SearchClient {
         aggregator: @escaping (SearchRulesResponse) -> Void,
         requestOptions: RequestOptions? = nil
     ) async throws -> SearchRulesResponse {
+        let requestOptions = self.withRequestID(requestOptions)
         let hitsPerPage = searchRulesParams.hitsPerPage ?? 1000
 
         return try await createIterable(
@@ -323,6 +334,7 @@ public extension SearchClient {
         aggregator: @escaping (SearchSynonymsResponse) -> Void,
         requestOptions: RequestOptions? = nil
     ) async throws -> SearchSynonymsResponse {
+        let requestOptions = self.withRequestID(requestOptions)
         let hitsPerPage = 1000
 
         var updatedSearchSynonymsParams = searchSynonymsParams
@@ -444,6 +456,7 @@ public extension SearchClient {
         requestOptions: RequestOptions? = nil,
         chunkedOptions: ChunkedHelperOptions = ChunkedHelperOptions()
     ) async throws -> [BatchResponse] {
+        let requestOptions = self.withRequestID(requestOptions)
         let batches = stride(from: 0, to: objects.count, by: batchSize).map {
             Array(objects[$0 ..< min($0 + batchSize, objects.count)])
         }
@@ -589,6 +602,8 @@ public extension SearchClient {
         chunkedOptions: ChunkedHelperOptions = ChunkedHelperOptions(maxRetries: ChunkedHelperOptions
             .defaultReplaceAllObjectsMaxRetries)
     ) async throws -> ReplaceAllObjectsResponse {
+        let requestOptions = self.withRequestID(requestOptions)
+
         if objects.isEmpty {
             let warning =
                 "Warning: replaceAllObjects was called with an empty list of objects, which will delete all records currently in the \"\(indexName)\" index.\n"
@@ -660,7 +675,10 @@ public extension SearchClient {
                 moveOperationResponse: moveOperationResponse
             )
         } catch {
-            _ = try? await self.deleteIndex(indexName: tmpIndexName)
+            _ = try? await self.deleteIndex(
+                indexName: tmpIndexName,
+                requestOptions: requestOptions?.withoutTimeoutsAndBody()
+            )
 
             throw error
         }

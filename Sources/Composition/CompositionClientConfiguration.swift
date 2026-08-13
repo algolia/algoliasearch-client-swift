@@ -18,6 +18,11 @@ public struct CompositionClientConfiguration: BaseConfiguration, Credentials {
     public var defaultHeaders: [String: String]?
     public var hosts: [RetryableHost]
     public let compression: CompressionAlgorithm
+    // Request-ID tracing is only supported by the search, recommend and
+    // composition APIs; computed so that it cannot be opted out of or into.
+    public var requestIDEnabled: Bool {
+        true
+    }
 
     public init(
         appID: String,

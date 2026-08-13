@@ -209,6 +209,10 @@ public extension SearchClient {
     ) async throws -> ReplaceAllObjectsWithTransformationResponse {
         _ = try self.resolvedIngestionClient()
 
+        // The shared Request-ID only covers the search-side calls: the ingestion push goes
+        // to an API that must not receive the header.
+        let searchRequestOptions = self.withRequestID(requestOptions)
+
         if objects.isEmpty {
             let warning =
                 "Warning: replaceAllObjectsWithTransformation was called with an empty list of objects, which will delete all records currently in the \"\(indexName)\" index.\n"
@@ -225,7 +229,7 @@ public extension SearchClient {
                     destination: tmpIndexName,
                     scope: scopes
                 ),
-                requestOptions: requestOptions
+                requestOptions: searchRequestOptions
             )
 
             let ingestionWatchResponses = try await chunkedPush(
@@ -243,7 +247,7 @@ public extension SearchClient {
                 indexName: tmpIndexName,
                 taskID: copyOperationResponse.taskID,
                 maxRetries: chunkedOptions.maxRetries,
-                requestOptions: requestOptions
+                requestOptions: searchRequestOptions
             )
 
             copyOperationResponse = try await operationIndex(
@@ -253,13 +257,13 @@ public extension SearchClient {
                     destination: tmpIndexName,
                     scope: scopes
                 ),
-                requestOptions: requestOptions
+                requestOptions: searchRequestOptions
             )
             try await waitForTask(
                 indexName: tmpIndexName,
                 taskID: copyOperationResponse.taskID,
                 maxRetries: chunkedOptions.maxRetries,
-                requestOptions: requestOptions
+                requestOptions: searchRequestOptions
             )
 
             let moveOperationResponse = try await operationIndex(
@@ -268,13 +272,13 @@ public extension SearchClient {
                     operation: .move,
                     destination: indexName
                 ),
-                requestOptions: requestOptions
+                requestOptions: searchRequestOptions
             )
             try await waitForTask(
                 indexName: tmpIndexName,
                 taskID: moveOperationResponse.taskID,
                 maxRetries: chunkedOptions.maxRetries,
-                requestOptions: requestOptions
+                requestOptions: searchRequestOptions
             )
 
             let watchResponses = try ingestionWatchResponses.map { r -> SearchWatchResponse in
@@ -288,7 +292,10 @@ public extension SearchClient {
                 moveOperationResponse: moveOperationResponse
             )
         } catch {
-            _ = try? await deleteIndex(indexName: tmpIndexName)
+            _ = try? await deleteIndex(
+                indexName: tmpIndexName,
+                requestOptions: searchRequestOptions?.withoutTimeoutsAndBody()
+            )
             throw error
         }
     }
