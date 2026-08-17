@@ -893,6 +893,47 @@ open class AnalyticsClient {
         )
     }
 
+    /// - returns: Catalog
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getPatternsFields(requestOptions: RequestOptions? = nil) async throws -> Catalog {
+        let response: Response<Catalog> = try await getPatternsFieldsWithHTTPInfo(requestOptions: requestOptions)
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Beta**: this endpoint is under active development and may change without notice.  Returns the static catalog of
+    // analytics fields, grouped by domain and usage (metrics, filters, groups, distributions). No authentication is
+    // required. Use it to discover valid `(domain, kind)` pairs before building the other `/3/patterns/_*` queries; two
+    // fields are combinable in one query only when their `roots` intersect. Each entry's `requires` lists the ACLs
+    // needed when that field is actually used in a query.
+    //
+    //     - returns: RequestBuilder<Catalog>
+
+    open func getPatternsFieldsWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil) async throws
+    -> Response<Catalog> {
+        let resourcePath = "/3/patterns/fields"
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
     /// - parameter index: (query) Index name.
     /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
@@ -2149,6 +2190,260 @@ open class AnalyticsClient {
 
         return try await self.transporter.send(
             method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter distributionPayload: (body)
+    /// - parameter index: (query) Comma-separated list of indices the request runs on, used for authorization. Required
+    /// for index-restricted API keys and must match the indices supplied in the request body's `indices` parameter;
+    /// optional for unrestricted keys.  (optional)
+    /// - returns: [String: AnyCodable]
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func queryPatternsDistribution(
+        distributionPayload: DistributionPayload,
+        index: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> [String: AnyCodable] {
+        let response: Response<[String: AnyCodable]> = try await queryPatternsDistributionWithHTTPInfo(
+            distributionPayload: distributionPayload,
+            index: index,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Beta**: this endpoint is under active development and may change without notice.  Buckets one or more numeric
+    // fields into histograms and returns an object keyed by `histogram<Field>`, each mapping a bin label to a count.
+    // `distributions` and `parameters` are required; `filters` is optional. Discover valid field kinds per domain with
+    // `/3/patterns/fields`.
+    // Required API Key ACLs:
+    //  - analytics
+    //
+    // - parameter distributionPayload: (body)
+    //
+    // - parameter index: (query) Comma-separated list of indices the request runs on, used for authorization. Required
+    // for index-restricted API keys and must match the indices supplied in the request body's `indices` parameter;
+    // optional for unrestricted keys.  (optional)
+    // - returns: RequestBuilder<[String: AnyCodable]>
+
+    open func queryPatternsDistributionWithHTTPInfo(
+        distributionPayload: DistributionPayload,
+        index: String? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<[String: AnyCodable]> {
+        let resourcePath = "/3/patterns/distribution"
+        let body = distributionPayload
+        let queryParameters: [String: Any?] = [
+            "index": index?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter scalarPayload: (body)
+    /// - parameter index: (query) Comma-separated list of indices the request runs on, used for authorization. Required
+    /// for index-restricted API keys and must match the indices supplied in the request body's `indices` parameter;
+    /// optional for unrestricted keys.  (optional)
+    /// - returns: [String: AnyCodable]
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func queryPatternsScalar(
+        scalarPayload: ScalarPayload,
+        index: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> [String: AnyCodable] {
+        let response: Response<[String: AnyCodable]> = try await queryPatternsScalarWithHTTPInfo(
+            scalarPayload: scalarPayload,
+            index: index,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Beta**: this endpoint is under active development and may change without notice.  Aggregates the requested
+    // `metrics` over the whole period and returns a single object keyed by metric kind. `metrics` and `parameters` are
+    // required; `filters` is optional. Discover valid field kinds per domain with `/3/patterns/fields`.
+    // Required API Key ACLs:
+    //  - analytics
+    //
+    // - parameter scalarPayload: (body)
+    //
+    // - parameter index: (query) Comma-separated list of indices the request runs on, used for authorization. Required
+    // for index-restricted API keys and must match the indices supplied in the request body's `indices` parameter;
+    // optional for unrestricted keys.  (optional)
+    // - returns: RequestBuilder<[String: AnyCodable]>
+
+    open func queryPatternsScalarWithHTTPInfo(
+        scalarPayload: ScalarPayload,
+        index: String? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<[String: AnyCodable]> {
+        let resourcePath = "/3/patterns/scalar"
+        let body = scalarPayload
+        let queryParameters: [String: Any?] = [
+            "index": index?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter tablePayload: (body)
+    /// - parameter index: (query) Comma-separated list of indices the request runs on, used for authorization. Required
+    /// for index-restricted API keys and must match the indices supplied in the request body's `indices` parameter;
+    /// optional for unrestricted keys.  (optional)
+    /// - returns: TableResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func queryPatternsTable(
+        tablePayload: TablePayload,
+        index: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> TableResponse {
+        let response: Response<TableResponse> = try await queryPatternsTableWithHTTPInfo(
+            tablePayload: tablePayload,
+            index: index,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Beta**: this endpoint is under active development and may change without notice.  Returns `rows`, each a flat
+    // object of the requested fields. `metrics` and `parameters` are required; `groupBy`, `filters`, and `orderBy` are
+    // optional, though `orderBy` is required when `groupBy` is set. Discover valid field kinds per domain with
+    // `/3/patterns/fields`.
+    // Required API Key ACLs:
+    //  - analytics
+    //
+    // - parameter tablePayload: (body)
+    //
+    // - parameter index: (query) Comma-separated list of indices the request runs on, used for authorization. Required
+    // for index-restricted API keys and must match the indices supplied in the request body's `indices` parameter;
+    // optional for unrestricted keys.  (optional)
+    // - returns: RequestBuilder<TableResponse>
+
+    open func queryPatternsTableWithHTTPInfo(
+        tablePayload: TablePayload,
+        index: String? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TableResponse> {
+        let resourcePath = "/3/patterns/table"
+        let body = tablePayload
+        let queryParameters: [String: Any?] = [
+            "index": index?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter timeseriesPayload: (body)
+    /// - parameter index: (query) Comma-separated list of indices the request runs on, used for authorization. Required
+    /// for index-restricted API keys and must match the indices supplied in the request body's `indices` parameter;
+    /// optional for unrestricted keys.  (optional)
+    /// - returns: TimeseriesResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func queryPatternsTimeseries(
+        timeseriesPayload: TimeseriesPayload,
+        index: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> TimeseriesResponse {
+        let response: Response<TimeseriesResponse> = try await queryPatternsTimeseriesWithHTTPInfo(
+            timeseriesPayload: timeseriesPayload,
+            index: index,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Beta**: this endpoint is under active development and may change without notice.  Returns one time series per
+    // `groupBy` combination, each with period `totals` and a per-day metric breakdown. `metrics` and `parameters` are
+    // required; `groupBy` and `filters` are optional. Discover valid field kinds per domain with `/3/patterns/fields`.
+    // Required API Key ACLs:
+    //  - analytics
+    //
+    // - parameter timeseriesPayload: (body)
+    //
+    // - parameter index: (query) Comma-separated list of indices the request runs on, used for authorization. Required
+    // for index-restricted API keys and must match the indices supplied in the request body's `indices` parameter;
+    // optional for unrestricted keys.  (optional)
+    // - returns: RequestBuilder<TimeseriesResponse>
+
+    open func queryPatternsTimeseriesWithHTTPInfo(
+        timeseriesPayload: TimeseriesPayload,
+        index: String? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TimeseriesResponse> {
+        let resourcePath = "/3/patterns/timeseries"
+        let body = timeseriesPayload
+        let queryParameters: [String: Any?] = [
+            "index": index?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
             path: resourcePath,
             data: body,
             requestOptions: RequestOptions(
