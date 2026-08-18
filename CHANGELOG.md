@@ -1,3 +1,14 @@
+## [9.47.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.46.3...9.47.0)
+
+- [b6d1eb31c7](https://github.com/algolia/api-clients-automation/commit/b6d1eb31c7) fix(swift): try String first when decoding AnyCodable values ([#6722](https://github.com/algolia/api-clients-automation/pull/6722)) by [@MarioAlexandruDan](https://github.com/MarioAlexandruDan/)
+- [6e83cca8ee](https://github.com/algolia/api-clients-automation/commit/6e83cca8ee) fix(swift): add warning in replaceAllObjects for empty objects ([#6615](https://github.com/algolia/api-clients-automation/pull/6615)) by [@eric-zaharia](https://github.com/eric-zaharia/)
+- [3bee6d1dee](https://github.com/algolia/api-clients-automation/commit/3bee6d1dee) chore(ci): pin all GitHub Action refs to commit SHAs (API-475) ([#6819](https://github.com/algolia/api-clients-automation/pull/6819)) by [@MarioAlexandruDan](https://github.com/MarioAlexandruDan/)
+- [22af756864](https://github.com/algolia/api-clients-automation/commit/22af756864) chore(deps): dependencies 2026-07-20 ([#6733](https://github.com/algolia/api-clients-automation/pull/6733)) by [@algolia-api-clients-automation-bot[bot]](https://github.com/apps/algolia-api-clients-automation-bot)
+- [1f389d1f7f](https://github.com/algolia/api-clients-automation/commit/1f389d1f7f) feat(specs): add agentic analytics support to insights spec ([#6876](https://github.com/algolia/api-clients-automation/pull/6876)) by [@sirockin](https://github.com/sirockin/)
+- [65cc642811](https://github.com/algolia/api-clients-automation/commit/65cc642811) feat(specs): add decision (declared winner) to abtesting-v3 ABTest ([#6732](https://github.com/algolia/api-clients-automation/pull/6732)) by [@cdhawke](https://github.com/cdhawke/)
+- [da92ee46a4](https://github.com/algolia/api-clients-automation/commit/da92ee46a4) feat(swift): Request-ID and Correlation-ID support ([#6874](https://github.com/algolia/api-clients-automation/pull/6874)) by [@MarioAlexandruDan](https://github.com/MarioAlexandruDan/)
+- [637defc23a](https://github.com/algolia/api-clients-automation/commit/637defc23a) feat(specs): add analytics v3 pattern endpoints ([#6795](https://github.com/algolia/api-clients-automation/pull/6795)) by [@Niamsy](https://github.com/Niamsy/)
+
 ## [9.46.3](https://github.com/algolia/algoliasearch-client-swift/compare/9.46.2...9.46.3)
 
 - [ac68c1a79c](https://github.com/algolia/api-clients-automation/commit/ac68c1a79c) fix(specs): add facetFilters back to recommend fallbackParameters ([#6727](https://github.com/algolia/api-clients-automation/pull/6727)) by [@raed667](https://github.com/raed667/)
