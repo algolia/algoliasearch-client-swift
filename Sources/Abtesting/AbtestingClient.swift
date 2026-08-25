@@ -34,6 +34,7 @@ open class AbtestingClient {
 
     /// - parameter addABTestsRequest: (body)
     /// - returns: AbtestingABTestResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func addABTests(
         addABTestsRequest: AbtestingAddABTestsRequest,
@@ -51,12 +52,14 @@ open class AbtestingClient {
         return body
     }
 
-    // Creates a new A/B test.
-    // Required API Key ACLs:
-    //  - editSettings
-    //
-    // - parameter addABTestsRequest: (body)
-    // - returns: RequestBuilder<AbtestingABTestResponse>
+    /// This endpoint is deprecated. Use the A/B Testing API v3 instead.  Replaced by `POST /3/abtests`.  Creates a new
+    /// A/B test.
+    /// Required API Key ACLs:
+    ///  - editSettings
+    ///
+    /// - parameter addABTestsRequest: (body)
+    /// - returns: RequestBuilder<AbtestingABTestResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func addABTestsWithHTTPInfo(
         addABTestsRequest: AbtestingAddABTestsRequest,
@@ -355,6 +358,7 @@ open class AbtestingClient {
 
     /// - parameter id: (path) Unique A/B test identifier.
     /// - returns: AbtestingABTestResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteABTest(id: Int, requestOptions: RequestOptions? = nil) async throws -> AbtestingABTestResponse {
         let response: Response<AbtestingABTestResponse> = try await deleteABTestWithHTTPInfo(
@@ -369,12 +373,14 @@ open class AbtestingClient {
         return body
     }
 
-    // Deletes an A/B test by its ID.
-    // Required API Key ACLs:
-    //  - editSettings
-    //
-    // - parameter id: (path) Unique A/B test identifier.
-    // - returns: RequestBuilder<AbtestingABTestResponse>
+    /// This endpoint is deprecated. Use the A/B Testing API v3 instead.  Replaced by `DELETE /3/abtests/{id}`.  Deletes
+    /// an A/B test by its ID.
+    /// Required API Key ACLs:
+    ///  - editSettings
+    ///
+    /// - parameter id: (path) Unique A/B test identifier.
+    /// - returns: RequestBuilder<AbtestingABTestResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func deleteABTestWithHTTPInfo(
         id: Int,
@@ -404,6 +410,7 @@ open class AbtestingClient {
 
     /// - parameter estimateABTestRequest: (body)
     /// - returns: AbtestingEstimateABTestResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func estimateABTest(
         estimateABTestRequest: AbtestingEstimateABTestRequest,
@@ -421,13 +428,15 @@ open class AbtestingClient {
         return body
     }
 
-    // Given the traffic percentage and the expected effect size, this endpoint estimates the sample size and duration
-    // of an A/B test based on historical traffic.
-    // Required API Key ACLs:
-    //  - analytics
-    //
-    // - parameter estimateABTestRequest: (body)
-    // - returns: RequestBuilder<AbtestingEstimateABTestResponse>
+    /// This endpoint is deprecated. Use the A/B Testing API v3 instead.  Replaced by `POST /3/abtests/estimate`.  Given
+    /// the traffic percentage and the expected effect size, this endpoint estimates the sample size and duration of an
+    /// A/B test based on historical traffic.
+    /// Required API Key ACLs:
+    ///  - analytics
+    ///
+    /// - parameter estimateABTestRequest: (body)
+    /// - returns: RequestBuilder<AbtestingEstimateABTestResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func estimateABTestWithHTTPInfo(
         estimateABTestRequest: AbtestingEstimateABTestRequest,
@@ -454,6 +463,7 @@ open class AbtestingClient {
 
     /// - parameter id: (path) Unique A/B test identifier.
     /// - returns: AbtestingABTest
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getABTest(id: Int, requestOptions: RequestOptions? = nil) async throws -> AbtestingABTest {
         let response: Response<AbtestingABTest> = try await getABTestWithHTTPInfo(
@@ -468,12 +478,14 @@ open class AbtestingClient {
         return body
     }
 
-    // Retrieves the details for an A/B test by its ID.
-    // Required API Key ACLs:
-    //  - analytics
-    //
-    // - parameter id: (path) Unique A/B test identifier.
-    // - returns: RequestBuilder<AbtestingABTest>
+    /// This endpoint is deprecated. Use the A/B Testing API v3 instead.  Replaced by `GET /3/abtests/{id}`.  Retrieves
+    /// the details for an A/B test by its ID.
+    /// Required API Key ACLs:
+    ///  - analytics
+    ///
+    /// - parameter id: (path) Unique A/B test identifier.
+    /// - returns: RequestBuilder<AbtestingABTest>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func getABTestWithHTTPInfo(
         id: Int,
@@ -508,6 +520,7 @@ open class AbtestingClient {
     /// - parameter indexSuffix: (query) Index name suffix. Only A/B tests for indices ending with this string are
     /// included in the response. (optional)
     /// - returns: AbtestingListABTestsResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func listABTests(
         offset: Int? = nil,
@@ -531,20 +544,22 @@ open class AbtestingClient {
         return body
     }
 
-    // Lists all A/B tests you configured for this application.
-    // Required API Key ACLs:
-    //  - analytics
-    //
-    // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    //
-    // - parameter limit: (query) Number of items to return. (optional, default to 10)
-    //
-    // - parameter indexPrefix: (query) Index name prefix. Only A/B tests for indices starting with this string are
-    // included in the response. (optional)
-    //
-    // - parameter indexSuffix: (query) Index name suffix. Only A/B tests for indices ending with this string are
-    // included in the response. (optional)
-    // - returns: RequestBuilder<AbtestingListABTestsResponse>
+    /// This endpoint is deprecated. Use the A/B Testing API v3 instead.  Replaced by `GET /3/abtests`.  Lists all A/B
+    /// tests you configured for this application.
+    /// Required API Key ACLs:
+    ///  - analytics
+    ///
+    /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
+    ///
+    /// - parameter limit: (query) Number of items to return. (optional, default to 10)
+    ///
+    /// - parameter indexPrefix: (query) Index name prefix. Only A/B tests for indices starting with this string are
+    /// included in the response. (optional)
+    ///
+    /// - parameter indexSuffix: (query) Index name suffix. Only A/B tests for indices ending with this string are
+    /// included in the response. (optional)
+    /// - returns: RequestBuilder<AbtestingListABTestsResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func listABTestsWithHTTPInfo(
         offset: Int? = nil,
@@ -579,6 +594,7 @@ open class AbtestingClient {
 
     /// - parameter id: (path) Unique A/B test identifier.
     /// - returns: AbtestingABTestResponse
+    @available(*, deprecated, message: "This operation is deprecated.")
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func stopABTest(id: Int, requestOptions: RequestOptions? = nil) async throws -> AbtestingABTestResponse {
         let response: Response<AbtestingABTestResponse> = try await stopABTestWithHTTPInfo(
@@ -593,12 +609,14 @@ open class AbtestingClient {
         return body
     }
 
-    // Stops an A/B test by its ID.  You can't restart stopped A/B tests.
-    // Required API Key ACLs:
-    //  - editSettings
-    //
-    // - parameter id: (path) Unique A/B test identifier.
-    // - returns: RequestBuilder<AbtestingABTestResponse>
+    /// This endpoint is deprecated. Use the A/B Testing API v3 instead.  Replaced by `POST /3/abtests/{id}/stop`. 
+    /// Stops an A/B test by its ID.  You can't restart stopped A/B tests.
+    /// Required API Key ACLs:
+    ///  - editSettings
+    ///
+    /// - parameter id: (path) Unique A/B test identifier.
+    /// - returns: RequestBuilder<AbtestingABTestResponse>
+    @available(*, deprecated, message: "This operation is deprecated.")
 
     open func stopABTestWithHTTPInfo(
         id: Int,
