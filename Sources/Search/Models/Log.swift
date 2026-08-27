@@ -7,6 +7,8 @@ import Foundation
 #endif
 
 public struct Log: Codable, JSONEncodable {
+    /// Correlation ID of the logged API request, also returned in that request's `Correlation-ID` response header.
+    public var cid: String?
     /// Date and time of the API request, in RFC 3339 format.
     public var timestamp: String
     /// HTTP method of the request.
@@ -39,6 +41,7 @@ public struct Log: Codable, JSONEncodable {
     public var innerQueries: [LogQuery]?
 
     public init(
+        cid: String? = nil,
         timestamp: String,
         method: String,
         answerCode: String,
@@ -55,6 +58,7 @@ public struct Log: Codable, JSONEncodable {
         queryNbHits: String? = nil,
         innerQueries: [LogQuery]? = nil
     ) {
+        self.cid = cid
         self.timestamp = timestamp
         self.method = method
         self.answerCode = answerCode
@@ -73,6 +77,7 @@ public struct Log: Codable, JSONEncodable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case cid
         case timestamp
         case method
         case answerCode = "answer_code"
@@ -94,6 +99,7 @@ public struct Log: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(self.cid, forKey: .cid)
         try container.encode(self.timestamp, forKey: .timestamp)
         try container.encode(self.method, forKey: .method)
         try container.encode(self.answerCode, forKey: .answerCode)
@@ -116,6 +122,7 @@ extension Log: Equatable {}
 
 extension Log: Hashable {
     public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.cid?.hashValue)
         hasher.combine(self.timestamp.hashValue)
         hasher.combine(self.method.hashValue)
         hasher.combine(self.answerCode.hashValue)

@@ -24,8 +24,6 @@ public struct AbtestingV3ABTest: Codable, JSONEncodable {
     /// additional variants are indexes with changed settings that you want to test against the control.
     public var variants: [AbtestingV3Variant]
     public var configuration: AbtestingV3ABTestConfiguration?
-    /// Unique migrated A/B test identifier.
-    public var migratedAbTestID: Int?
     public var decision: Decision?
 
     public init(
@@ -38,7 +36,6 @@ public struct AbtestingV3ABTest: Codable, JSONEncodable {
         status: AbtestingV3Status,
         variants: [AbtestingV3Variant],
         configuration: AbtestingV3ABTestConfiguration? = nil,
-        migratedAbTestID: Int? = nil,
         decision: Decision? = nil
     ) {
         self.abTestID = abTestID
@@ -50,7 +47,6 @@ public struct AbtestingV3ABTest: Codable, JSONEncodable {
         self.status = status
         self.variants = variants
         self.configuration = configuration
-        self.migratedAbTestID = migratedAbTestID
         self.decision = decision
     }
 
@@ -64,7 +60,6 @@ public struct AbtestingV3ABTest: Codable, JSONEncodable {
         case status
         case variants
         case configuration
-        case migratedAbTestID
         case decision
     }
 
@@ -81,7 +76,6 @@ public struct AbtestingV3ABTest: Codable, JSONEncodable {
         try container.encode(self.status, forKey: .status)
         try container.encode(self.variants, forKey: .variants)
         try container.encodeIfPresent(self.configuration, forKey: .configuration)
-        try container.encodeIfPresent(self.migratedAbTestID, forKey: .migratedAbTestID)
         try container.encodeIfPresent(self.decision, forKey: .decision)
     }
 }
@@ -99,7 +93,6 @@ extension AbtestingV3ABTest: Hashable {
         hasher.combine(self.status.hashValue)
         hasher.combine(self.variants.hashValue)
         hasher.combine(self.configuration?.hashValue)
-        hasher.combine(self.migratedAbTestID?.hashValue)
         hasher.combine(self.decision?.hashValue)
     }
 }
