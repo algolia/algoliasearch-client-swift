@@ -27,6 +27,11 @@ jobs:
       - name: Publish on CocoaPods
         run: |
           set -eo pipefail
+          version=$(sed -n "s/.*s\.version = '\(.*\)'.*/\1/p" AlgoliaSearchClient.podspec)
+          if curl -sf https://trunk.cocoapods.org/api/v1/pods/AlgoliaSearchClient | jq -e --arg v "$version" '.versions[] | select(.name == $v)' > /dev/null; then
+            echo "AlgoliaSearchClient $version is already on CocoaPods, skipping the push"
+            exit 0
+          fi
           pod trunk push --allow-warnings --verbose AlgoliaSearchClient.podspec
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
