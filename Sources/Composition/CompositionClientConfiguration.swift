@@ -10,7 +10,7 @@ public struct CompositionClientConfiguration: BaseConfiguration, Credentials {
     public let appID: String
     public var apiKey: String
     // KEEP IN SYNC: the overridable fields below (writeTimeout, readTimeout, hosts, compression,
-    // defaultHeaders) are mirrored as optional overrides on `TransformationOptions`. If you add,
+    // defaultHeaders, maxRateLimitRetries) are mirrored as optional overrides on `TransformationOptions`. If you add,
     // remove, or rename one here, mirror the change on `TransformationOptions`, and vice versa.
     public var writeTimeout: TimeInterval
     public var readTimeout: TimeInterval
@@ -18,6 +18,8 @@ public struct CompositionClientConfiguration: BaseConfiguration, Credentials {
     public var defaultHeaders: [String: String]?
     public var hosts: [RetryableHost]
     public let compression: CompressionAlgorithm
+    /// How many times a 429 is waited out on the same host. Default 3; 0 fails on the first 429.
+    public var maxRateLimitRetries: Int
     // Request-ID tracing is only supported by the search, recommend and
     // composition APIs; computed so that it cannot be opted out of or into.
     public var requestIDEnabled: Bool {
@@ -32,7 +34,8 @@ public struct CompositionClientConfiguration: BaseConfiguration, Credentials {
         logLevel: LogLevel = DefaultConfiguration.default.logLevel,
         defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders,
         hosts: [RetryableHost]? = nil,
-        compression: CompressionAlgorithm = .none
+        compression: CompressionAlgorithm = .none,
+        maxRateLimitRetries: Int = RateLimitRetry.defaultMaxRetries
     ) throws {
         guard !appID.isEmpty else {
             throw AlgoliaError.invalidCredentials("appId")
@@ -53,6 +56,7 @@ public struct CompositionClientConfiguration: BaseConfiguration, Credentials {
             "Content-Type": "application/json",
         ].merging(defaultHeaders ?? [:]) { _, new in new }
         self.compression = compression
+        self.maxRateLimitRetries = maxRateLimitRetries
 
         UserAgentController.append(UserAgent(title: "Composition", version: Version.current.description))
 

@@ -34,6 +34,9 @@ public protocol BaseConfiguration {
     /// protocol existential would statically dispatch to the extension default and ignore
     /// the conforming type's value.
     var requestIDEnabled: Bool { get }
+
+    /// How many times a 429 is waited out on the same host. Default 3; 0 fails on the first 429.
+    var maxRateLimitRetries: Int { get }
 }
 
 public extension BaseConfiguration {
@@ -44,6 +47,11 @@ public extension BaseConfiguration {
     /// options or the default headers is never overwritten.
     var requestIDEnabled: Bool {
         false
+    }
+
+    /// How many times a 429 is waited out on the same host. Default 3; 0 fails on the first 429.
+    var maxRateLimitRetries: Int {
+        RateLimitRetry.defaultMaxRetries
     }
 }
 
@@ -69,4 +77,5 @@ public struct DefaultConfiguration: BaseConfiguration {
     public var defaultHeaders: [String: String]? = [:]
     public var hosts: [RetryableHost] = []
     public let compression: CompressionAlgorithm = .none
+    public let maxRateLimitRetries: Int = RateLimitRetry.defaultMaxRetries
 }

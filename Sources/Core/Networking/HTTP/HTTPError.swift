@@ -21,6 +21,9 @@ public struct HTTPError: Error, CustomStringConvertible {
     /// Quote it when contacting Algolia support.
     public let correlationID: String?
 
+    /// Response headers, keyed as the server sent them. Used to read Retry-After.
+    public let headers: [String: String]
+
     public var description: String {
         let base = "Status code: \(self.statusCode) Message: \(self.message?.description ?? "No message")"
         guard let correlationID = self.correlationID else {
@@ -39,14 +42,21 @@ public struct HTTPError: Error, CustomStringConvertible {
         self.init(
             statusCode: response.statusCode,
             message: message,
-            correlationID: Self.correlationID(from: response)
+            correlationID: Self.correlationID(from: response),
+            headers: Self.headers(from: response)
         )
     }
 
-    public init(statusCode: HTTPStatusСode, message: ErrorMessage?, correlationID: String? = nil) {
+    public init(
+        statusCode: HTTPStatusСode,
+        message: ErrorMessage?,
+        correlationID: String? = nil,
+        headers: [String: String] = [:]
+    ) {
         self.statusCode = statusCode
         self.message = message
         self.correlationID = correlationID
+        self.headers = headers
     }
 
     /// Reads the Correlation-ID header case-insensitively: `allHeaderFields` keeps the
@@ -61,5 +71,15 @@ public struct HTTPError: Error, CustomStringConvertible {
         }
 
         return nil
+    }
+
+    private static func headers(from response: HTTPURLResponse) -> [String: String] {
+        var result: [String: String] = [:]
+        for (key, value) in response.allHeaderFields {
+            if let name = key as? String, let stringValue = value as? String {
+                result[name] = stringValue
+            }
+        }
+        return result
     }
 }
