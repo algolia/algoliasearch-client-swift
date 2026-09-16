@@ -6,9 +6,11 @@ import Foundation
     import AlgoliaCore
 #endif
 
-/// An object that contains the extra key-value pairs provided in the injectedItem definition.
+/// An object that contains the extra key-value pairs provided in the injectedItem definition. Only present on hits
+/// inserted by an injectedItem that defines metadata, either in its `metadata` field or sent by an external source.
 public struct HitMetadata: Codable, JSONEncodable {
-    /// The key of the injectedItem that inserted this metadata.
+    /// The key of the injectedItem that inserted this metadata. Only present when the injectedItem's
+    /// `metadata.hits.addItemKey` is `true`.
     public var injectedItemKey: String?
 
     public init(injectedItemKey: String? = nil) {
