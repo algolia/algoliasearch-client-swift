@@ -8,7 +8,9 @@ import Foundation
 
 /// Adds the provided metadata to each injected hit via an `_extra` attribute.
 public struct InjectedItemHitsMetadata: Codable, JSONEncodable {
-    /// When true, the `_injectedItemKey` field is set in the `_extra` object of each affected hit.
+    /// When true, each affected hit's `_extra` object includes an `_injectedItemKey` field identifying the injectedItem
+    /// that inserted it. Defaults to false, meaning hits don't include `_injectedItemKey`. To identify injected hits
+    /// without this flag, define your own key-value pairs in `extra`.
     public var addItemKey: Bool?
     /// The user-defined key-value pairs that will be placed in the `_extra` field of each affected hit.
     public var extra: [String: AnyCodable]?
