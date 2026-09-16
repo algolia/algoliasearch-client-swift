@@ -13,7 +13,7 @@ public struct CatalogEntry: Codable, JSONEncodable {
     public var description: String
     /// Root stages the field depends on. Two fields are combinable in one query only when their roots intersect.
     public var roots: [String]
-    /// Public ACL identifiers required to read the field, for example `clickAnalyticsEnabled`.
+    /// Public ACL identifiers required to read the field, for example `revenueAnalyticsEnabled`.
     public var requires: [String]
 
     public init(kind: String, description: String, roots: [String], requires: [String]) {
