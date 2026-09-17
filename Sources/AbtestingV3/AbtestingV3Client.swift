@@ -81,6 +81,65 @@ open class AbtestingV3Client {
         )
     }
 
+    /// - parameter id: (path) Unique A/B test identifier.
+    /// - parameter variantId: (path) One-based index of the A/B test variant. The control is variant 1.
+    /// - returns: Void
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func applyVariantSettings(id: Int, variantId: Int, requestOptions: RequestOptions? = nil) async throws {
+        try await self.applyVariantSettingsWithHTTPInfo(id: id, variantId: variantId, requestOptions: requestOptions)
+    }
+
+    /// Applies the captured settings of the given variant to the control index.  The settings must first be captured
+    /// with the `saveVariantSettings` operation. To revert previously applied settings on the control index, use this
+    /// operation with the control variant (variant 1).  Settings can be applied up to 14 days after the A/B test ends,
+    /// and reverted up to 15 days after. Later requests return `400`.  Each set of captured settings can only be
+    /// applied once, and settings that were reverted can't be applied again. Both cases return `400`.  The control
+    /// index must not be in use by an active A/B test. Otherwise, the request returns `422`.
+    /// Required API Key ACLs:
+    ///  - analytics
+    ///  - editSettings
+    ///
+    /// - parameter id: (path) Unique A/B test identifier.
+    ///
+    /// - parameter variantId: (path) One-based index of the A/B test variant. The control is variant 1.
+    /// - returns: RequestBuilder<Void>
+    @discardableResult
+    open func applyVariantSettingsWithHTTPInfo(
+        id: Int,
+        variantId: Int,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<AnyCodable> {
+        var resourcePath = "/3/abtests/{id}/settings/{variantId}/apply"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let variantIdPreEscape = "\(APIHelper.mapValueToPathItem(variantId))"
+        let variantIdPostEscape = variantIdPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{variantId}",
+            with: variantIdPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
     /// - parameter path: (path) Path of the endpoint, for example `1/newFeature`.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
     /// - returns: AnyCodable
@@ -502,6 +561,58 @@ open class AbtestingV3Client {
     }
 
     /// - parameter id: (path) Unique A/B test identifier.
+    /// - returns: ABTestSettingsResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getABTestSettings(id: Int, requestOptions: RequestOptions? = nil) async throws -> ABTestSettingsResponse {
+        let response: Response<ABTestSettingsResponse> = try await getABTestSettingsWithHTTPInfo(
+            id: id,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieves the settings captured for each variant of an A/B test, and whether another active A/B test is using the
+    // control index.  Settings are captured by the `saveVariantSettings` operation. The response includes an entry for
+    // the control (variant 1) alongside the captured variant, so the control's original configuration can be restored
+    // later.  Returns `404` if the A/B test doesn't exist or no settings have been captured for it.
+    // Required API Key ACLs:
+    //  - analytics
+    //
+    // - parameter id: (path) Unique A/B test identifier.
+    // - returns: RequestBuilder<ABTestSettingsResponse>
+
+    open func getABTestSettingsWithHTTPInfo(
+        id: Int,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<ABTestSettingsResponse> {
+        var resourcePath = "/3/abtests/{id}/settings"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter id: (path) Unique A/B test identifier.
     /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter metric: (query) List of metrics to retrieve. If not specified, all metrics are returned. (optional)
@@ -651,6 +762,78 @@ open class AbtestingV3Client {
 
         return try await self.transporter.send(
             method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter id: (path) Unique A/B test identifier.
+    /// - parameter variantId: (path) One-based index of the A/B test variant. The control is variant 1.
+    /// - parameter saveSettingsRequest: (body)
+    /// - returns: Void
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func saveVariantSettings(
+        id: Int,
+        variantId: Int,
+        saveSettingsRequest: SaveSettingsRequest,
+        requestOptions: RequestOptions? = nil
+    ) async throws {
+        try await self.saveVariantSettingsWithHTTPInfo(
+            id: id,
+            variantId: variantId,
+            saveSettingsRequest: saveSettingsRequest,
+            requestOptions: requestOptions
+        )
+    }
+
+    /// Captures the settings of the given variant and of the control, then stops the A/B test.  The captured settings
+    /// can later be applied to the control index with the `applyVariantSettings` operation, and read back with the
+    /// `getABTestSettings` operation.  The A/B test must have reached 80% of its planned duration. Earlier requests
+    /// return `400`.  Settings can only be captured once per A/B test. A second request returns `409`.  `synonyms` and
+    /// `enableRules` are not captured, so applying the captured settings never changes them on the control index.
+    /// Required API Key ACLs:
+    ///  - analytics
+    ///  - editSettings
+    ///
+    /// - parameter id: (path) Unique A/B test identifier.
+    ///
+    /// - parameter variantId: (path) One-based index of the A/B test variant. The control is variant 1.
+    ///
+    /// - parameter saveSettingsRequest: (body)
+    /// - returns: RequestBuilder<Void>
+    @discardableResult
+    open func saveVariantSettingsWithHTTPInfo(
+        id: Int,
+        variantId: Int,
+        saveSettingsRequest: SaveSettingsRequest,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<AnyCodable> {
+        var resourcePath = "/3/abtests/{id}/settings/{variantId}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let variantIdPreEscape = "\(APIHelper.mapValueToPathItem(variantId))"
+        let variantIdPostEscape = variantIdPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{variantId}",
+            with: variantIdPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body = saveSettingsRequest
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
             path: resourcePath,
             data: body,
             requestOptions: RequestOptions(
