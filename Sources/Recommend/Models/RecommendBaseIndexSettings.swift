@@ -29,7 +29,7 @@ public struct RecommendBaseIndexSettings: Codable, JSONEncodable {
     /// Maximum number of search results that can be obtained through pagination.  Higher pagination limits might slow
     /// down your search. For pagination limits above 1,000, the sorting of results beyond the 1,000th hit can't be
     /// guaranteed.
-    public var paginationLimitedTo: Int?
+    public var paginationLimitedTo: Int64?
     /// Attributes that can't be retrieved at query time.  This can be useful if you want to use an attribute for
     /// ranking or to [restrict
     /// access](https://www.algolia.com/doc/guides/security/api-keys/how-to/user-restricted-access-to-data), but don't
@@ -118,7 +118,7 @@ public struct RecommendBaseIndexSettings: Codable, JSONEncodable {
     public init(
         attributesForFaceting: [String]? = nil,
         replicas: [String]? = nil,
-        paginationLimitedTo: Int? = nil,
+        paginationLimitedTo: Int64? = nil,
         unretrievableAttributes: [String]? = nil,
         disableTypoToleranceOnWords: [String]? = nil,
         attributesToTransliterate: [String]? = nil,

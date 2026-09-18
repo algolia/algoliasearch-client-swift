@@ -80,8 +80,6 @@ open class Transporter {
 
         if httpMethod == .get {
             body = nil
-        } else if body == nil, httpMethod != .delete {
-            body = "{}".data(using: .utf8)
         }
 
         if let percentEncodedQueryItems = APIHelper.mapValuesToQueryItems(requestOptions?.queryParameters) {

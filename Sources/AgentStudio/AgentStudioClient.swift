@@ -322,7 +322,7 @@ open class AgentStudioClient {
     }
 
     // Create a completion for the specified agent.  This endpoint handles two types of requests: 1. Normal completion
-    // request: User message -> Agent response 2. Tool approval response: User approval -> Execute tool -> Agent response  Tool Approval Flow (for MCP tools with requiresApproval: true): - Request 1: User sends message -> Agent requests tool call -> Return approval request - Request 2: User approves -> Execute tool -> Agent continues with result.
+    // request: User message -> Agent response 2. Tool approval response: User approval -> Execute tool -> Agent response  Tool Approval Flow (for MCP tools with requiresApproval: true): - Request 1: User sends message -> Agent requests tool call -> Return approval request. - Request 2: User approves -> Execute tool -> Agent continues with result.
     // Required API Key ACLs:
     //  - search
     //

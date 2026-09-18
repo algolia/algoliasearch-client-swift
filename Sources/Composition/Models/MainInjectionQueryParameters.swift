@@ -7,41 +7,43 @@ import Foundation
 #endif
 
 public struct MainInjectionQueryParameters: Codable, JSONEncodable {
-    /// Whether to support phrase matching and excluding words from search queries Use the `advancedSyntaxFeatures`
+    /// Whether to support phrase matching and excluding words from search queries. Use the `advancedSyntaxFeatures`
     /// parameter to control which feature is supported.
     public var advancedSyntax: Bool?
-    /// Advanced search syntax features you want to support - `exactPhrase`.   Phrases in quotes must match exactly.  
-    /// For example, `sparkly blue \"iPhone case\"` only returns records with the exact string \"iPhone case\" -
+    /// Advanced search syntax features you want to support. - `exactPhrase`.   Phrases in quotes must match exactly.  
+    /// For example, `sparkly blue \"iPhone case\"` only returns records with the exact string \"iPhone case\". -
     /// `excludeWords`.   Query words prefixed with a `-` must not occur in a record.   For example, `search -engine`
-    /// matches records that contain \"search\" but not \"engine\" This setting only has an effect if `advancedSyntax`
+    /// matches records that contain \"search\" but not \"engine\". This setting only has an effect if `advancedSyntax`
     /// is true.
     public var advancedSyntaxFeatures: [CompositionAdvancedSyntaxFeatures]?
-    /// Whether to allow typos on numbers in the search query Turn off this setting to reduce the number of irrelevant
+    /// Whether to allow typos on numbers in the search query. Turn off this setting to reduce the number of irrelevant
     /// matches when searching in large sets of similar numbers.
     public var allowTyposOnNumericTokens: Bool?
-    /// Determine which plurals and synonyms should be considered an exact matches By default, Algolia treats singular
+    /// Determine which plurals and synonyms should be considered an exact matches. By default, Algolia treats singular
     /// and plural forms of a word, and single-word synonyms, as
     /// [exact](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/#exact)
-    /// matches when searching. For example - \"swimsuit\" and \"swimsuits\" are treated the same - \"swimsuit\" and
-    /// \"swimwear\" are treated the same (if they are [synonyms](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/adding-synonyms/#regular-synonyms))
+    /// matches when searching. For example: - \"swimsuit\" and \"swimsuits\" are treated the same. - \"swimsuit\" and
+    /// \"swimwear\" are treated the same (if they are [synonyms](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/adding-synonyms/#regular-synonyms)).
     /// - `ignorePlurals`.   Plurals and similar declensions added by the `ignorePlurals` setting are considered exact
-    /// matches - `singleWordSynonym`.   Single-word synonyms, such as \"NY\" = \"NYC\", are considered exact matches -
-    /// `multiWordsSynonym`.   Multi-word synonyms, such as \"NY\" = \"New York\", are considered exact matches.
+    /// matches. - `singleWordSynonym`.   Single-word synonyms, such as \"NY\" = \"NYC\", are considered exact matches.
+    /// - `multiWordsSynonym`.   Multi-word synonyms, such as \"NY\" = \"New York\", are considered exact matches.
     public var alternativesAsExact: [CompositionAlternativesAsExact]?
-    /// Whether the best matching attribute should be determined by minimum proximity This setting only affects ranking
+    /// Whether the best matching attribute should be determined by minimum proximity. This setting only affects ranking
     /// if the Attribute ranking criterion comes before Proximity in the `ranking` setting. If true, the best matching
     /// attribute is selected based on the minimum proximity of multiple matches. Otherwise, the best matching attribute
-    /// is determined by the order in the `searchableAttributes` setting.
+    /// is determined by the order in the `searchableAttributes` setting.  Prefer `attributeCriteriaComputedBy`, which
+    /// expresses the same two behaviors and adds the `sum` strategy. If you set both, `attributeCriteriaComputedBy`
+    /// takes precedence.
     public var attributeCriteriaComputedByMinProximity: Bool?
-    /// Attributes to highlight By default, all searchable attributes are highlighted. Use `*` to highlight all
+    /// Attributes to highlight. By default, all searchable attributes are highlighted. Use `*` to highlight all
     /// attributes or use an empty array `[]` to turn off highlighting. Attribute names are case-sensitive With
     /// highlighting, strings that match the search query are surrounded by HTML tags defined by `highlightPreTag` and
     /// `highlightPostTag`. You can use this to visually highlight matching parts of a search query in your UI For more
     /// information, see [Highlighting and snippeting](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/highlighting-snippeting/js).
     public var attributesToHighlight: [String]?
-    /// Attributes to include in the API response To reduce the size of your response, you can retrieve only some of the
-    /// attributes. Attribute names are case-sensitive - `*` retrieves all attributes, except attributes included in the
-    /// `customRanking` and `unretrievableAttributes` settings. - To retrieve all attributes except a specific one,
+    /// Attributes to include in the API response. To reduce the size of your response, you can retrieve only some of
+    /// the attributes. Attribute names are case-sensitive - `*` retrieves all attributes, except attributes included in
+    /// the `customRanking` and `unretrievableAttributes` settings. - To retrieve all attributes except a specific one,
     /// prefix the attribute with a dash and combine it with the `*`: `[\"*\", \"-ATTRIBUTE\"]`. - The `objectID`
     /// attribute is always included.
     public var attributesToRetrieve: [String]?
@@ -50,7 +52,7 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     /// will also be wrapped by HTML tags for highlighting. You can adjust the number of words with the following
     /// notation: `ATTRIBUTE:NUMBER`, where `NUMBER` is the number of words to be extracted.
     public var attributesToSnippet: [String]?
-    /// Whether to include a `queryID` attribute in the response The query ID is a unique identifier for a search query
+    /// Whether to include a `queryID` attribute in the response. The query ID is a unique identifier for a search query
     /// and is required for tracking [click and conversion
     /// events](https://www.algolia.com/doc/guides/sending-events/getting-started).
     public var clickAnalytics: Bool?
@@ -64,7 +66,7 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance).
     /// Attribute names are case-sensitive Returning only exact matches can help when - [Searching in hyphenated attributes](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/how-to/how-to-search-in-hyphenated-attributes).
     /// - Reducing the number of matches when you have too many.   This can happen with attributes that are long blocks
-    /// of text, such as product descriptions Consider alternatives such as `disableTypoToleranceOnWords` or adding
+    /// of text, such as product descriptions. Consider alternatives such as `disableTypoToleranceOnWords` or adding
     /// synonyms if your attributes have intentional unusual spellings that might look like typos.
     public var disableTypoToleranceOnAttributes: [String]?
     public var distinct: CompositionDistinct?
@@ -72,8 +74,8 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     public var enableABTest: Bool?
     /// Whether to enable Personalization.
     public var enablePersonalization: Bool?
-    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking) This
-    /// setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
+    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking).
+    /// This setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
     /// Whether to enable rules.
     public var enableRules: Bool?
@@ -100,7 +102,7 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     /// HTML tag to insert before the highlighted parts in all highlighted results and snippets.
     public var highlightPreTag: String?
     public var ignorePlurals: CompositionIgnorePlurals?
-    /// Minimum proximity score for two matching words This adjusts the [Proximity ranking criterion](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/#proximity)
+    /// Minimum proximity score for two matching words. This adjusts the [Proximity ranking criterion](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/#proximity)
     /// by equally scoring matches that are farther apart For example, if `minProximity` is 2, neighboring matches and
     /// matches with one word between them would have the same score.
     public var minProximity: Int?
@@ -109,7 +111,7 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     /// Minimum number of characters a word in the search query must contain to accept matches with [two typos](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configuring-word-length-for-typos).
     public var minWordSizefor2Typos: Int?
     /// ISO language codes that adjust settings that are useful for processing natural language queries (as opposed to
-    /// keyword searches) - Sets `removeStopWords` and `ignorePlurals` to the list of provided languages. - Sets
+    /// keyword searches). - Sets `removeStopWords` and `ignorePlurals` to the list of provided languages. - Sets
     /// `removeWordsIfNoResults` to `allOptional`. - Adds a `natural_language` attribute to `ruleContexts` and
     /// `analyticsTags`.
     public var naturalLanguages: [CompositionSupportedLanguage]?
@@ -118,7 +120,7 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     public var optionalWords: CompositionOptionalWords?
     /// Whether to include this search when calculating processing-time percentiles.
     public var percentileComputation: Bool?
-    /// Impact that Personalization should have on this search The higher this value is, the more Personalization
+    /// Impact that Personalization should have on this search. The higher this value is, the more Personalization
     /// determines the ranking compared to other factors. For more information, see [Understanding Personalization impact](https://www.algolia.com/doc/guides/personalization/personalizing-results/in-depth/configuring-personalization/#understanding-personalization-impact).
     public var personalizationImpact: Int?
     /// Languages for language-specific query processing steps such as plurals, stop-word removal, and word-detection
@@ -132,13 +134,13 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     public var queryType: CompositionQueryType?
     public var removeStopWords: CompositionRemoveStopWords?
     public var removeWordsIfNoResults: CompositionRemoveWordsIfNoResults?
-    /// Whether to replace a highlighted word with the matched synonym By default, the original words are highlighted
+    /// Whether to replace a highlighted word with the matched synonym. By default, the original words are highlighted
     /// even if a synonym matches. For example, with `home` as a synonym for `house` and a search for `home`, records
     /// matching either \"home\" or \"house\" are included in the search results, and either \"home\" or \"house\" are
     /// highlighted With `replaceSynonymsInHighlight` set to `true`, a search for `home` still matches the same records,
     /// but all occurrences of \"house\" are replaced by \"home\" in the highlighted response.
     public var replaceSynonymsInHighlight: Bool?
-    /// Properties to include in the API response of search and browse requests By default, all response properties are
+    /// Properties to include in the API response of search and browse requests. By default, all response properties are
     /// included. To reduce the response size, you can select which properties should be included An empty list may lead
     /// to an empty API response (except properties you can't exclude) You can't exclude these properties: `message`,
     /// `warning`, `cursor`, `abTestVariantID`, or any property added by setting `getRankingInfo` to true Your search
@@ -151,7 +153,7 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     public var restrictHighlightAndSnippetArrays: Bool?
     /// Restricts a search to a subset of your searchable attributes. Attribute names are case-sensitive.
     public var restrictSearchableAttributes: [String]?
-    /// Assigns a rule context to the search query [Rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#whats-a-context)
+    /// Assigns a rule context to the search query. [Rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#whats-a-context)
     /// are strings that you can use to trigger matching rules.
     public var ruleContexts: [String]?
     /// String used as an ellipsis indicator when a snippet is truncated.
@@ -159,14 +161,14 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     /// Whether to take into account an index's synonyms for this search.
     public var synonyms: Bool?
     public var typoTolerance: CompositionTypoTolerance?
-    /// Whether faceting should be applied after deduplication with `distinct` This leads to accurate facet counts when
+    /// Whether faceting should be applied after deduplication with `distinct`. This leads to accurate facet counts when
     /// using faceting in combination with `distinct`. It's usually better to use `afterDistinct` modifiers in the
     /// `attributesForFaceting` setting, as `facetingAfterDistinct` only computes correct facet counts if all records
     /// have the same facet values for the `attributeForDistinct`.
     public var facetingAfterDistinct: Bool?
-    /// Facets for which to retrieve facet values that match the search criteria and the number of matching facet values
-    /// To retrieve all facets, use the wildcard character `*`. To retrieve disjunctive facets lists, annotate any
-    /// facets with the `disjunctive` modifier. For more information, see [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts)
+    /// Facets for which to retrieve facet values that match the search criteria and the number of matching facet
+    /// values. To retrieve all facets, use the wildcard character `*`. To retrieve disjunctive facets lists, annotate
+    /// any facets with the `disjunctive` modifier. For more information, see [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts)
     /// and [disjunctive faceting for Smart Groups](https://www.algolia.com/doc/guides/managing-results/compositions/search-based-groups#facets-including-disjunctive-faceting).
     public var facets: [String]?
     /// Number of hits per page.
@@ -174,13 +176,13 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     /// Maximum number of facet values to return for each facet.
     public var maxValuesPerFacet: Int?
     public var renderingContent: CompositionRenderingContent?
-    /// Order in which to retrieve facet values - `count`.   Facet values are retrieved by decreasing count.   The count
-    /// is the number of matching records containing this facet value - `alpha`.   Retrieve facet values alphabetically
-    /// This setting doesn't influence how facet values are displayed in your UI (see `renderingContent`). For more
-    /// information, see [facet value
+    /// Order in which to retrieve facet values. - `count`.   Facet values are retrieved by decreasing count.   The
+    /// count is the number of matching records containing this facet value. - `alpha`.   Retrieve facet values
+    /// alphabetically. This setting doesn't influence how facet values are displayed in your UI (see
+    /// `renderingContent`). For more information, see [facet value
     /// display](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/facet-display/js).
     public var sortFacetValuesBy: String?
-    /// Whether to sum all filter scores If true, all filter scores are summed. Otherwise, the maximum filter score is
+    /// Whether to sum all filter scores. If true, all filter scores are summed. Otherwise, the maximum filter score is
     /// kept. For more information, see [filter scores](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/in-depth/filter-scoring/#accumulating-scores-with-sumorfiltersscores).
     public var sumOrFiltersScores: Bool?
 

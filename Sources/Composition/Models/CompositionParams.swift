@@ -21,7 +21,7 @@ public struct CompositionParams: Codable, JSONEncodable {
     public var aroundLatLngViaIP: Bool?
     public var aroundRadius: CompositionAroundRadius?
     public var aroundPrecision: CompositionAroundPrecision?
-    /// Whether to include a `queryID` attribute in the response The query ID is a unique identifier for a search query
+    /// Whether to include a `queryID` attribute in the response. The query ID is a unique identifier for a search query
     /// and is required for tracking [click and conversion
     /// events](https://www.algolia.com/doc/guides/sending-events/getting-started).
     public var clickAnalytics: Bool?
@@ -30,15 +30,15 @@ public struct CompositionParams: Codable, JSONEncodable {
     public var enableABTest: Bool?
     /// Whether to enable Personalization.
     public var enablePersonalization: Bool?
-    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking) This
-    /// setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
+    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking).
+    /// This setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
     /// Whether to enable composition rules.
     public var enableRules: Bool?
     public var facetFilters: CompositionFacetFilters?
-    /// Facets for which to retrieve facet values that match the search criteria and the number of matching facet values
-    /// To retrieve all facets, use the wildcard character `*`. To retrieve disjunctive facets lists, annotate any
-    /// facets with the `disjunctive` modifier. For more information, see [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts)
+    /// Facets for which to retrieve facet values that match the search criteria and the number of matching facet
+    /// values. To retrieve all facets, use the wildcard character `*`. To retrieve disjunctive facets lists, annotate
+    /// any facets with the `disjunctive` modifier. For more information, see [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts)
     /// and [disjunctive faceting for Smart Groups](https://www.algolia.com/doc/guides/managing-results/compositions/search-based-groups#facets-including-disjunctive-faceting).
     public var facets: [String]?
     /// Filter expression to only include items that match the filter criteria in the response.  You can use these
@@ -71,7 +71,7 @@ public struct CompositionParams: Codable, JSONEncodable {
     /// Minimum radius (in meters) for a search around a location when `aroundRadius` isn't set.
     public var minimumAroundRadius: Int?
     /// ISO language codes that adjust settings that are useful for processing natural language queries (as opposed to
-    /// keyword searches) - Sets `removeStopWords` and `ignorePlurals` to the list of provided languages. - Sets
+    /// keyword searches). - Sets `removeStopWords` and `ignorePlurals` to the list of provided languages. - Sets
     /// `removeWordsIfNoResults` to `allOptional`. - Adds a `natural_language` attribute to `ruleContexts` and
     /// `analyticsTags`.
     public var naturalLanguages: [CompositionSupportedLanguage]?
@@ -89,11 +89,11 @@ public struct CompositionParams: Codable, JSONEncodable {
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
     /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations).
     public var queryLanguages: [CompositionSupportedLanguage]?
-    /// Relevancy threshold below which less relevant results aren't included in the results You can only set
+    /// Relevancy threshold below which less relevant results aren't included in the results. You can only set
     /// `relevancyStrictness` on [virtual replica indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/#what-are-virtual-replicas).
     /// Use this setting to strike a balance between the relevance and number of returned results.
     public var relevancyStrictness: Int?
-    /// Assigns a rule context to the run query [Rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#whats-a-context)
+    /// Assigns a rule context to the run query. [Rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#whats-a-context)
     /// are strings that you can use to trigger matching rules.
     public var ruleContexts: [String]?
     /// Indicates which sorting strategy to apply for the request. The value must match one of the labels defined in the
