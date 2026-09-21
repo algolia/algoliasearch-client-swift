@@ -7,9 +7,12 @@ import Foundation
 #endif
 
 public struct MetricResult: Codable, JSONEncodable {
+    /// Metric name. Revenue per search results use `revenue_per_search`.
     public var name: String
     /// Date and time when the metric was last updated, in RFC 3339 format.
     public var updatedAt: String
+    /// Metric value. For `revenue_per_search`, this is the winsorized mean revenue per search in the specified
+    /// currency.
     public var value: Double
     /// The upper bound of the 95% confidence interval for the metric value. The confidence interval is calculated using
     /// either the relative ratio or relative difference between the metric values for the control and the variant.
@@ -21,10 +24,10 @@ public struct MetricResult: Codable, JSONEncodable {
     /// Relative ratio is used for metrics that are ratios (e.g., click-through rate, conversion rate), while relative
     /// difference is used for continuous metrics (e.g., revenue).
     public var valueCILow: Double?
-    /// PValue for the first variant (control) will always be 0. For the other variants, pValue is calculated for the
-    /// current variant based on the control.
-    public var pValue: Double
-    /// Dimension defined during test creation.
+    /// P-value for this variant compared to the control. Omitted when no p-value is available for this metric.
+    public var pValue: Double?
+    /// Dimension defined during test creation. For revenue metrics, including `revenue_per_search`, this is the
+    /// currency.
     public var dimension: String?
     public var metadata: MetricMetadata?
     /// The value that was computed during error correction. It is used to determine significance of the metric pValue.
@@ -33,6 +36,7 @@ public struct MetricResult: Codable, JSONEncodable {
     public var criticalValue: Double?
     /// Whether the pValue is significant or not based on the critical value and the error correction algorithm used.
     public var significant: Bool?
+    public var bayesian: BayesianMetricResult?
 
     public init(
         name: String,
@@ -40,11 +44,12 @@ public struct MetricResult: Codable, JSONEncodable {
         value: Double,
         valueCIHigh: Double? = nil,
         valueCILow: Double? = nil,
-        pValue: Double,
+        pValue: Double? = nil,
         dimension: String? = nil,
         metadata: MetricMetadata? = nil,
         criticalValue: Double? = nil,
-        significant: Bool? = nil
+        significant: Bool? = nil,
+        bayesian: BayesianMetricResult? = nil
     ) {
         self.name = name
         self.updatedAt = updatedAt
@@ -56,6 +61,7 @@ public struct MetricResult: Codable, JSONEncodable {
         self.metadata = metadata
         self.criticalValue = criticalValue
         self.significant = significant
+        self.bayesian = bayesian
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -69,6 +75,7 @@ public struct MetricResult: Codable, JSONEncodable {
         case metadata
         case criticalValue
         case significant
+        case bayesian
     }
 
     // Encodable protocol methods
@@ -80,11 +87,12 @@ public struct MetricResult: Codable, JSONEncodable {
         try container.encode(self.value, forKey: .value)
         try container.encodeIfPresent(self.valueCIHigh, forKey: .valueCIHigh)
         try container.encodeIfPresent(self.valueCILow, forKey: .valueCILow)
-        try container.encode(self.pValue, forKey: .pValue)
+        try container.encodeIfPresent(self.pValue, forKey: .pValue)
         try container.encodeIfPresent(self.dimension, forKey: .dimension)
         try container.encodeIfPresent(self.metadata, forKey: .metadata)
         try container.encodeIfPresent(self.criticalValue, forKey: .criticalValue)
         try container.encodeIfPresent(self.significant, forKey: .significant)
+        try container.encodeIfPresent(self.bayesian, forKey: .bayesian)
     }
 }
 
@@ -97,10 +105,11 @@ extension MetricResult: Hashable {
         hasher.combine(self.value.hashValue)
         hasher.combine(self.valueCIHigh?.hashValue)
         hasher.combine(self.valueCILow?.hashValue)
-        hasher.combine(self.pValue.hashValue)
+        hasher.combine(self.pValue?.hashValue)
         hasher.combine(self.dimension?.hashValue)
         hasher.combine(self.metadata?.hashValue)
         hasher.combine(self.criticalValue?.hashValue)
         hasher.combine(self.significant?.hashValue)
+        hasher.combine(self.bayesian?.hashValue)
     }
 }

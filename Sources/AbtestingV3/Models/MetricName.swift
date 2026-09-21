@@ -12,6 +12,7 @@ public enum MetricName: String, Codable, CaseIterable {
     case userCount = "user_count"
     case trackedUserCount = "tracked_user_count"
     case noResultCount = "no_result_count"
+    case trackedNoResultCount = "tracked_no_result_count"
     case addToCartCount = "add_to_cart_count"
     case purchaseCount = "purchase_count"
     case clickedSearchCount = "clicked_search_count"
@@ -22,6 +23,8 @@ public enum MetricName: String, Codable, CaseIterable {
     case purchaseRate = "purchase_rate"
     case averageClickPosition = "average_click_position"
     case revenue
+    case revenuePerSearch = "revenue_per_search"
+    case averageOrderValue = "average_order_value"
 }
 
 extension MetricName: Hashable {}

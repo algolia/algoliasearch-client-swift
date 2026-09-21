@@ -6,7 +6,8 @@ import Foundation
     import AlgoliaCore
 #endif
 
-/// Configuration for the smallest difference between test variants you want to detect.
+/// Configuration for the smallest difference between test variants you want to detect, used to estimate the required
+/// sample size.
 public struct AbtestingV3MinimumDetectableEffect: Codable, JSONEncodable {
     /// Smallest difference in an observable metric between variants. For example, to detect a 10% difference between
     /// variants, set this value to 0.1.

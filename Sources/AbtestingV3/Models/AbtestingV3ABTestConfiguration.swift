@@ -12,21 +12,29 @@ public struct AbtestingV3ABTestConfiguration: Codable, JSONEncodable {
     /// List of metric filters applied to the test population.
     public var filters: [MetricsFilter]?
     public var errorCorrection: ErrorCorrectionType?
+    public var method: AnalysisMethod?
+    public var primaryMetric: PrimaryMetric?
 
     public init(
         minimumDetectableEffect: AbtestingV3MinimumDetectableEffect? = nil,
         filters: [MetricsFilter]? = nil,
-        errorCorrection: ErrorCorrectionType? = nil
+        errorCorrection: ErrorCorrectionType? = nil,
+        method: AnalysisMethod? = nil,
+        primaryMetric: PrimaryMetric? = nil
     ) {
         self.minimumDetectableEffect = minimumDetectableEffect
         self.filters = filters
         self.errorCorrection = errorCorrection
+        self.method = method
+        self.primaryMetric = primaryMetric
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case minimumDetectableEffect
         case filters
         case errorCorrection
+        case method
+        case primaryMetric
     }
 
     // Encodable protocol methods
@@ -36,6 +44,8 @@ public struct AbtestingV3ABTestConfiguration: Codable, JSONEncodable {
         try container.encodeIfPresent(self.minimumDetectableEffect, forKey: .minimumDetectableEffect)
         try container.encodeIfPresent(self.filters, forKey: .filters)
         try container.encodeIfPresent(self.errorCorrection, forKey: .errorCorrection)
+        try container.encodeIfPresent(self.method, forKey: .method)
+        try container.encodeIfPresent(self.primaryMetric, forKey: .primaryMetric)
     }
 }
 
@@ -46,5 +56,7 @@ extension AbtestingV3ABTestConfiguration: Hashable {
         hasher.combine(self.minimumDetectableEffect?.hashValue)
         hasher.combine(self.filters?.hashValue)
         hasher.combine(self.errorCorrection?.hashValue)
+        hasher.combine(self.method?.hashValue)
+        hasher.combine(self.primaryMetric?.hashValue)
     }
 }

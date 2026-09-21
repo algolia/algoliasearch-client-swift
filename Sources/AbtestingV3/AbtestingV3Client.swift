@@ -512,11 +512,20 @@ open class AbtestingV3Client {
     }
 
     /// - parameter id: (path) Unique A/B test identifier.
+    /// - parameter methods: (query) Statistical analysis results to include, as a comma-separated list. When omitted,
+    /// each test uses its configured method, or `frequentist` if no method is configured. Request both methods to
+    /// include both sets of available results. This doesn't change the test configuration or compute missing results.
+    /// Duplicate values aren't allowed.  (optional)
     /// - returns: AbtestingV3ABTest
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getABTest(id: Int, requestOptions: RequestOptions? = nil) async throws -> AbtestingV3ABTest {
+    open func getABTest(
+        id: Int,
+        methods: [AnalysisMethod]? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> AbtestingV3ABTest {
         let response: Response<AbtestingV3ABTest> = try await getABTestWithHTTPInfo(
             id: id,
+            methods: methods,
             requestOptions: requestOptions
         )
 
@@ -532,10 +541,17 @@ open class AbtestingV3Client {
     //  - analytics
     //
     // - parameter id: (path) Unique A/B test identifier.
+    //
+    // - parameter methods: (query) Statistical analysis results to include, as a comma-separated list. When omitted,
+    // each test uses its configured method, or `frequentist` if no method is configured. Request both methods to
+    // include
+    // both sets of available results. This doesn't change the test configuration or compute missing results. Duplicate
+    // values aren't allowed.  (optional)
     // - returns: RequestBuilder<AbtestingV3ABTest>
 
     open func getABTestWithHTTPInfo(
         id: Int,
+        methods: [AnalysisMethod]? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<AbtestingV3ABTest> {
         var resourcePath = "/3/abtests/{id}"
@@ -543,7 +559,9 @@ open class AbtestingV3Client {
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
         resourcePath = resourcePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
         let body: AnyCodable? = nil
-        let queryParameters: [String: Any?]? = nil
+        let queryParameters: [String: Any?] = [
+            "methods": methods?.encodeToJSON(),
+        ]
 
         let nillableHeaders: [String: Any?]? = nil
 
@@ -616,6 +634,10 @@ open class AbtestingV3Client {
     /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter metric: (query) List of metrics to retrieve. If not specified, all metrics are returned. (optional)
+    /// - parameter methods: (query) Statistical analysis results to include, as a comma-separated list. When omitted,
+    /// each test uses its configured method, or `frequentist` if no method is configured. Request both methods to
+    /// include both sets of available results. This doesn't change the test configuration or compute missing results.
+    /// Duplicate values aren't allowed.  (optional)
     /// - returns: Timeseries
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTimeseries(
@@ -623,6 +645,7 @@ open class AbtestingV3Client {
         startDate: String? = nil,
         endDate: String? = nil,
         metric: [MetricName]? = nil,
+        methods: [AnalysisMethod]? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws -> Timeseries {
         let response: Response<Timeseries> = try await getTimeseriesWithHTTPInfo(
@@ -630,6 +653,7 @@ open class AbtestingV3Client {
             startDate: startDate,
             endDate: endDate,
             metric: metric,
+            methods: methods,
             requestOptions: requestOptions
         )
 
@@ -651,6 +675,12 @@ open class AbtestingV3Client {
     // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
     // - parameter metric: (query) List of metrics to retrieve. If not specified, all metrics are returned. (optional)
+    //
+    // - parameter methods: (query) Statistical analysis results to include, as a comma-separated list. When omitted,
+    // each test uses its configured method, or `frequentist` if no method is configured. Request both methods to
+    // include
+    // both sets of available results. This doesn't change the test configuration or compute missing results. Duplicate
+    // values aren't allowed.  (optional)
     // - returns: RequestBuilder<Timeseries>
 
     open func getTimeseriesWithHTTPInfo(
@@ -658,6 +688,7 @@ open class AbtestingV3Client {
         startDate: String? = nil,
         endDate: String? = nil,
         metric: [MetricName]? = nil,
+        methods: [AnalysisMethod]? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<Timeseries> {
         var resourcePath = "/3/abtests/{id}/timeseries"
@@ -669,6 +700,7 @@ open class AbtestingV3Client {
             "startDate": startDate?.encodeToJSON(),
             "endDate": endDate?.encodeToJSON(),
             "metric": metric?.encodeToJSON(),
+            "methods": methods?.encodeToJSON(),
         ]
 
         let nillableHeaders: [String: Any?]? = nil
@@ -694,6 +726,10 @@ open class AbtestingV3Client {
     /// included in the response. (optional)
     /// - parameter direction: (query) Sort order for A/B tests by start date. Use 'asc' for ascending or 'desc' for
     /// descending. Active A/B tests are always listed first.  (optional)
+    /// - parameter methods: (query) Statistical analysis results to include, as a comma-separated list. When omitted,
+    /// each test uses its configured method, or `frequentist` if no method is configured. Request both methods to
+    /// include both sets of available results. This doesn't change the test configuration or compute missing results.
+    /// Duplicate values aren't allowed.  (optional)
     /// - returns: AbtestingV3ListABTestsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func listABTests(
@@ -702,6 +738,7 @@ open class AbtestingV3Client {
         indexPrefix: String? = nil,
         indexSuffix: String? = nil,
         direction: AbtestingV3Direction? = nil,
+        methods: [AnalysisMethod]? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws -> AbtestingV3ListABTestsResponse {
         let response: Response<AbtestingV3ListABTestsResponse> = try await listABTestsWithHTTPInfo(
@@ -710,6 +747,7 @@ open class AbtestingV3Client {
             indexPrefix: indexPrefix,
             indexSuffix: indexSuffix,
             direction: direction,
+            methods: methods,
             requestOptions: requestOptions
         )
 
@@ -736,6 +774,12 @@ open class AbtestingV3Client {
     //
     // - parameter direction: (query) Sort order for A/B tests by start date. Use 'asc' for ascending or 'desc' for
     // descending. Active A/B tests are always listed first.  (optional)
+    //
+    // - parameter methods: (query) Statistical analysis results to include, as a comma-separated list. When omitted,
+    // each test uses its configured method, or `frequentist` if no method is configured. Request both methods to
+    // include
+    // both sets of available results. This doesn't change the test configuration or compute missing results. Duplicate
+    // values aren't allowed.  (optional)
     // - returns: RequestBuilder<AbtestingV3ListABTestsResponse>
 
     open func listABTestsWithHTTPInfo(
@@ -744,6 +788,7 @@ open class AbtestingV3Client {
         indexPrefix: String? = nil,
         indexSuffix: String? = nil,
         direction: AbtestingV3Direction? = nil,
+        methods: [AnalysisMethod]? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<AbtestingV3ListABTestsResponse> {
         let resourcePath = "/3/abtests"
@@ -754,6 +799,7 @@ open class AbtestingV3Client {
             "indexPrefix": indexPrefix?.encodeToJSON(),
             "indexSuffix": indexSuffix?.encodeToJSON(),
             "direction": direction?.encodeToJSON(),
+            "methods": methods?.encodeToJSON(),
         ]
 
         let nillableHeaders: [String: Any?]? = nil
