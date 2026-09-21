@@ -9,6 +9,8 @@ import Foundation
 public struct AbtestingV3AddABTestsRequest: Codable, JSONEncodable {
     /// A/B test name.
     public var name: String
+    /// Expected outcome of the A/B test.
+    public var hypothesis: String?
     /// A/B test variants.
     public var variants: [AbtestingV3AddABTestsVariant]
     /// A/B test metrics involved in the test. Only these metrics will be considered when calculating results.
@@ -19,12 +21,14 @@ public struct AbtestingV3AddABTestsRequest: Codable, JSONEncodable {
 
     public init(
         name: String,
+        hypothesis: String? = nil,
         variants: [AbtestingV3AddABTestsVariant],
         metrics: [CreateMetric],
         configuration: AbtestingV3ABTestConfiguration? = nil,
         endAt: String
     ) {
         self.name = name
+        self.hypothesis = hypothesis
         self.variants = variants
         self.metrics = metrics
         self.configuration = configuration
@@ -33,6 +37,7 @@ public struct AbtestingV3AddABTestsRequest: Codable, JSONEncodable {
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
+        case hypothesis
         case variants
         case metrics
         case configuration
@@ -44,6 +49,7 @@ public struct AbtestingV3AddABTestsRequest: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.name, forKey: .name)
+        try container.encodeIfPresent(self.hypothesis, forKey: .hypothesis)
         try container.encode(self.variants, forKey: .variants)
         try container.encode(self.metrics, forKey: .metrics)
         try container.encodeIfPresent(self.configuration, forKey: .configuration)
@@ -56,6 +62,7 @@ extension AbtestingV3AddABTestsRequest: Equatable {}
 extension AbtestingV3AddABTestsRequest: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.name.hashValue)
+        hasher.combine(self.hypothesis?.hashValue)
         hasher.combine(self.variants.hashValue)
         hasher.combine(self.metrics.hashValue)
         hasher.combine(self.configuration?.hashValue)

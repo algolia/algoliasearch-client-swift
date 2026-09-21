@@ -19,6 +19,8 @@ public struct AbtestingV3ABTest: Codable, JSONEncodable {
     public var stoppedAt: String?
     /// A/B test name.
     public var name: String
+    /// Expected outcome of the A/B test.
+    public var hypothesis: String
     public var status: AbtestingV3Status
     /// A/B test variants.  The first variant is your _control_ index, typically your production index. All of the
     /// additional variants are indexes with changed settings that you want to test against the control.
@@ -33,6 +35,7 @@ public struct AbtestingV3ABTest: Codable, JSONEncodable {
         endAt: String,
         stoppedAt: String? = nil,
         name: String,
+        hypothesis: String,
         status: AbtestingV3Status,
         variants: [AbtestingV3Variant],
         configuration: AbtestingV3ABTestConfiguration? = nil,
@@ -44,6 +47,7 @@ public struct AbtestingV3ABTest: Codable, JSONEncodable {
         self.endAt = endAt
         self.stoppedAt = stoppedAt
         self.name = name
+        self.hypothesis = hypothesis
         self.status = status
         self.variants = variants
         self.configuration = configuration
@@ -57,6 +61,7 @@ public struct AbtestingV3ABTest: Codable, JSONEncodable {
         case endAt
         case stoppedAt
         case name
+        case hypothesis
         case status
         case variants
         case configuration
@@ -73,6 +78,7 @@ public struct AbtestingV3ABTest: Codable, JSONEncodable {
         try container.encode(self.endAt, forKey: .endAt)
         try container.encodeIfPresent(self.stoppedAt, forKey: .stoppedAt)
         try container.encode(self.name, forKey: .name)
+        try container.encode(self.hypothesis, forKey: .hypothesis)
         try container.encode(self.status, forKey: .status)
         try container.encode(self.variants, forKey: .variants)
         try container.encodeIfPresent(self.configuration, forKey: .configuration)
@@ -90,6 +96,7 @@ extension AbtestingV3ABTest: Hashable {
         hasher.combine(self.endAt.hashValue)
         hasher.combine(self.stoppedAt?.hashValue)
         hasher.combine(self.name.hashValue)
+        hasher.combine(self.hypothesis.hashValue)
         hasher.combine(self.status.hashValue)
         hasher.combine(self.variants.hashValue)
         hasher.combine(self.configuration?.hashValue)
