@@ -10,15 +10,24 @@ public struct CompositionSearchResponse<T: Codable>: Codable, JSONEncodable {
     public var compositions: CompositionsSearchResponse?
     /// Search results.
     public var results: [SearchResultsItem<T>]
+    /// Non-critical errors encountered while processing the request that may have affected the returned results (for
+    /// example, an external provider failure that fell back to another result set).
+    public var errors: [ProcessingError]?
 
-    public init(compositions: CompositionsSearchResponse? = nil, results: [SearchResultsItem<T>]) {
+    public init(
+        compositions: CompositionsSearchResponse? = nil,
+        results: [SearchResultsItem<T>],
+        errors: [ProcessingError]? = nil
+    ) {
         self.compositions = compositions
         self.results = results
+        self.errors = errors
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case compositions
         case results
+        case errors
     }
 
     public var additionalProperties: [String: AnyCodable] = [:]
@@ -43,9 +52,11 @@ public struct CompositionSearchResponse<T: Codable>: Codable, JSONEncodable {
             throw GenericError(description: "Failed to cast")
         }
         self.results = results
+        self.errors = dictionary["errors"]?.value as? [ProcessingError]
+
         for (key, value) in dictionary {
             switch key {
-            case "compositions", "results":
+            case "compositions", "results", "errors":
                 continue
             default:
                 self.additionalProperties[key] = value
@@ -59,6 +70,7 @@ public struct CompositionSearchResponse<T: Codable>: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.compositions, forKey: .compositions)
         try container.encode(self.results, forKey: .results)
+        try container.encodeIfPresent(self.errors, forKey: .errors)
         var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
         try additionalPropertiesContainer.encodeMap(self.additionalProperties)
     }
@@ -70,9 +82,11 @@ public struct CompositionSearchResponse<T: Codable>: Codable, JSONEncodable {
 
         self.compositions = try container.decodeIfPresent(CompositionsSearchResponse.self, forKey: .compositions)
         self.results = try container.decode([SearchResultsItem<T>].self, forKey: .results)
+        self.errors = try container.decodeIfPresent([ProcessingError].self, forKey: .errors)
         let nonAdditionalPropertyKeys: Set = [
             "compositions",
             "results",
+            "errors",
         ]
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
@@ -85,7 +99,8 @@ public struct CompositionSearchResponse<T: Codable>: Codable, JSONEncodable {
 extension CompositionSearchResponse: Equatable where T: Equatable {
     public static func ==(lhs: CompositionSearchResponse<T>, rhs: CompositionSearchResponse<T>) -> Bool {
         lhs.compositions == rhs.compositions &&
-            lhs.results == rhs.results
+            lhs.results == rhs.results &&
+            lhs.errors == rhs.errors
             && lhs.additionalProperties == rhs.additionalProperties
     }
 }
@@ -94,6 +109,7 @@ extension CompositionSearchResponse: Hashable where T: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.compositions?.hashValue)
         hasher.combine(self.results.hashValue)
+        hasher.combine(self.errors?.hashValue)
         hasher.combine(self.additionalProperties.hashValue)
     }
 }

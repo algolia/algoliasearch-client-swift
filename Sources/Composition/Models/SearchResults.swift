@@ -9,13 +9,18 @@ import Foundation
 public struct SearchResults<T: Codable>: Codable, JSONEncodable {
     /// Search results.
     public var results: [SearchResultsItem<T>]
+    /// Non-critical errors encountered while processing the request that may have affected the returned results (for
+    /// example, an external provider failure that fell back to another result set).
+    public var errors: [ProcessingError]?
 
-    public init(results: [SearchResultsItem<T>]) {
+    public init(results: [SearchResultsItem<T>], errors: [ProcessingError]? = nil) {
         self.results = results
+        self.errors = errors
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case results
+        case errors
     }
 
     // Encodable protocol methods
@@ -23,17 +28,20 @@ public struct SearchResults<T: Codable>: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.results, forKey: .results)
+        try container.encodeIfPresent(self.errors, forKey: .errors)
     }
 }
 
 extension SearchResults: Equatable where T: Equatable {
     public static func ==(lhs: SearchResults<T>, rhs: SearchResults<T>) -> Bool {
-        lhs.results == rhs.results
+        lhs.results == rhs.results &&
+            lhs.errors == rhs.errors
     }
 }
 
 extension SearchResults: Hashable where T: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.results.hashValue)
+        hasher.combine(self.errors?.hashValue)
     }
 }

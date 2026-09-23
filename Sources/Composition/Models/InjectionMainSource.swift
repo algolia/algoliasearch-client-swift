@@ -10,6 +10,7 @@ import Foundation
 public enum InjectionMainSource: Codable, JSONEncodable, AbstractEncodable {
     case injectionMainSearchSource(InjectionMainSearchSource)
     case injectionMainRecommendSource(InjectionMainRecommendSource)
+    case injectionMainExternalProviderSource(InjectionMainExternalProviderSource)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -17,6 +18,8 @@ public enum InjectionMainSource: Codable, JSONEncodable, AbstractEncodable {
         case let .injectionMainSearchSource(value):
             try container.encode(value)
         case let .injectionMainRecommendSource(value):
+            try container.encode(value)
+        case let .injectionMainExternalProviderSource(value):
             try container.encode(value)
         }
     }
@@ -27,6 +30,8 @@ public enum InjectionMainSource: Codable, JSONEncodable, AbstractEncodable {
             self = .injectionMainSearchSource(value)
         } else if let value = try? container.decode(InjectionMainRecommendSource.self) {
             self = .injectionMainRecommendSource(value)
+        } else if let value = try? container.decode(InjectionMainExternalProviderSource.self) {
+            self = .injectionMainExternalProviderSource(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -44,6 +49,8 @@ public enum InjectionMainSource: Codable, JSONEncodable, AbstractEncodable {
             value as InjectionMainSearchSource
         case let .injectionMainRecommendSource(value):
             value as InjectionMainRecommendSource
+        case let .injectionMainExternalProviderSource(value):
+            value as InjectionMainExternalProviderSource
         }
     }
 }
