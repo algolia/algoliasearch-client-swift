@@ -10,13 +10,16 @@ import Foundation
 public struct RecommendWidgets: Codable, JSONEncodable {
     /// Banners defined in the Merchandising Studio for a given search.
     public var banners: [RecommendBanner]?
+    public var resultCard: RecommendResultCard?
 
-    public init(banners: [RecommendBanner]? = nil) {
+    public init(banners: [RecommendBanner]? = nil, resultCard: RecommendResultCard? = nil) {
         self.banners = banners
+        self.resultCard = resultCard
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case banners
+        case resultCard
     }
 
     // Encodable protocol methods
@@ -24,6 +27,7 @@ public struct RecommendWidgets: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.banners, forKey: .banners)
+        try container.encodeIfPresent(self.resultCard, forKey: .resultCard)
     }
 }
 
@@ -32,5 +36,6 @@ extension RecommendWidgets: Equatable {}
 extension RecommendWidgets: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.banners?.hashValue)
+        hasher.combine(self.resultCard?.hashValue)
     }
 }

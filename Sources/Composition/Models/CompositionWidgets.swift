@@ -10,13 +10,16 @@ import Foundation
 public struct CompositionWidgets: Codable, JSONEncodable {
     /// Banners defined in the Merchandising Studio for a given search.
     public var banners: [CompositionBanner]?
+    public var resultCard: CompositionResultCard?
 
-    public init(banners: [CompositionBanner]? = nil) {
+    public init(banners: [CompositionBanner]? = nil, resultCard: CompositionResultCard? = nil) {
         self.banners = banners
+        self.resultCard = resultCard
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case banners
+        case resultCard
     }
 
     // Encodable protocol methods
@@ -24,6 +27,7 @@ public struct CompositionWidgets: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.banners, forKey: .banners)
+        try container.encodeIfPresent(self.resultCard, forKey: .resultCard)
     }
 }
 
@@ -32,5 +36,6 @@ extension CompositionWidgets: Equatable {}
 extension CompositionWidgets: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.banners?.hashValue)
+        hasher.combine(self.resultCard?.hashValue)
     }
 }
