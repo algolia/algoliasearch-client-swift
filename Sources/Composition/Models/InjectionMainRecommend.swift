@@ -6,7 +6,7 @@ import Foundation
     import AlgoliaCore
 #endif
 
-public struct MainRecommend: Codable, JSONEncodable {
+public struct InjectionMainRecommend: Codable, JSONEncodable {
     /// Index to retrieve recommendations from.
     public var indexName: String
     public var model: Model
@@ -49,9 +49,9 @@ public struct MainRecommend: Codable, JSONEncodable {
     }
 }
 
-extension MainRecommend: Equatable {}
+extension InjectionMainRecommend: Equatable {}
 
-extension MainRecommend: Hashable {
+extension InjectionMainRecommend: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.indexName.hashValue)
         hasher.combine(self.model.hashValue)

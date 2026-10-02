@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct InjectedItemSearch: Codable, JSONEncodable {
-    /// Composition Index name.
+    /// Algolia index used to retrieve records.
     public var index: String
     public var params: BaseInjectionQueryParameters?
 

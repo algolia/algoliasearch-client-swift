@@ -6,21 +6,18 @@ import Foundation
     import AlgoliaCore
 #endif
 
-public struct InjectedItemExternal: Codable, JSONEncodable {
+public struct InjectionMainSearch: Codable, JSONEncodable {
     /// Algolia index used to retrieve records.
     public var index: String
-    public var ordering: ExternalOrdering?
-    public var params: BaseInjectionQueryParameters?
+    public var params: MainInjectionQueryParameters?
 
-    public init(index: String, ordering: ExternalOrdering? = nil, params: BaseInjectionQueryParameters? = nil) {
+    public init(index: String, params: MainInjectionQueryParameters? = nil) {
         self.index = index
-        self.ordering = ordering
         self.params = params
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case index
-        case ordering
         case params
     }
 
@@ -29,17 +26,15 @@ public struct InjectedItemExternal: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.index, forKey: .index)
-        try container.encodeIfPresent(self.ordering, forKey: .ordering)
         try container.encodeIfPresent(self.params, forKey: .params)
     }
 }
 
-extension InjectedItemExternal: Equatable {}
+extension InjectionMainSearch: Equatable {}
 
-extension InjectedItemExternal: Hashable {
+extension InjectionMainSearch: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.index.hashValue)
-        hasher.combine(self.ordering?.hashValue)
         hasher.combine(self.params?.hashValue)
     }
 }

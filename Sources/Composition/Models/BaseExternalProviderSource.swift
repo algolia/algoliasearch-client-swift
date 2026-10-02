@@ -6,7 +6,7 @@ import Foundation
     import AlgoliaCore
 #endif
 
-public struct InjectedItemExternalProvider: Codable, JSONEncodable {
+public struct BaseExternalProviderSource: Codable, JSONEncodable {
     /// Algolia index used to fetch the records.
     public var index: String
     /// Identifier of the external provider configuration.
@@ -14,20 +14,17 @@ public struct InjectedItemExternalProvider: Codable, JSONEncodable {
     /// Default values for the configuration placeholders that are not reserved Composition placeholders.
     public var configurationParams: [String: AnyCodable]?
     public var ordering: ExternalProviderOrdering?
-    public var params: BaseInjectionQueryParameters?
 
     public init(
         index: String,
         configurationID: String,
         configurationParams: [String: AnyCodable]? = nil,
-        ordering: ExternalProviderOrdering? = nil,
-        params: BaseInjectionQueryParameters? = nil
+        ordering: ExternalProviderOrdering? = nil
     ) {
         self.index = index
         self.configurationID = configurationID
         self.configurationParams = configurationParams
         self.ordering = ordering
-        self.params = params
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -35,7 +32,6 @@ public struct InjectedItemExternalProvider: Codable, JSONEncodable {
         case configurationID
         case configurationParams
         case ordering
-        case params
     }
 
     // Encodable protocol methods
@@ -46,18 +42,16 @@ public struct InjectedItemExternalProvider: Codable, JSONEncodable {
         try container.encode(self.configurationID, forKey: .configurationID)
         try container.encodeIfPresent(self.configurationParams, forKey: .configurationParams)
         try container.encodeIfPresent(self.ordering, forKey: .ordering)
-        try container.encodeIfPresent(self.params, forKey: .params)
     }
 }
 
-extension InjectedItemExternalProvider: Equatable {}
+extension BaseExternalProviderSource: Equatable {}
 
-extension InjectedItemExternalProvider: Hashable {
+extension BaseExternalProviderSource: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.index.hashValue)
         hasher.combine(self.configurationID.hashValue)
         hasher.combine(self.configurationParams?.hashValue)
         hasher.combine(self.ordering?.hashValue)
-        hasher.combine(self.params?.hashValue)
     }
 }

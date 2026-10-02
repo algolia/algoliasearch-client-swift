@@ -115,9 +115,10 @@ open class Transporter {
             request.setValue(
                 UserAgentController.httpHeaderValue, forHTTPHeaderField: "User-Agent".capitalized
             )
-            if self.configuration.compression == .gzip {
-                request.setValue("gzip", forHTTPHeaderField: "Accept-Encoding".capitalized)
+            // Always advertise gzip support for responses, independently of the request compression.
+            request.setValue("gzip", forHTTPHeaderField: "Accept-Encoding".capitalized)
 
+            if self.configuration.compression == .gzip {
                 if let bodyData = body {
                     request.setValue("gzip", forHTTPHeaderField: "Content-Encoding".capitalized)
 

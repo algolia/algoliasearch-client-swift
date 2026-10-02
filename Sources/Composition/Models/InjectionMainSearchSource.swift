@@ -8,9 +8,9 @@ import Foundation
 
 /// Organic result set will originate from a search request performed on the specified index.
 public struct InjectionMainSearchSource: Codable, JSONEncodable {
-    public var search: MainSearch
+    public var search: InjectionMainSearch
 
-    public init(search: MainSearch) {
+    public init(search: InjectionMainSearch) {
         self.search = search
     }
 

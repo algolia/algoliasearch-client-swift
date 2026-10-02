@@ -6,36 +6,36 @@ import Foundation
     import AlgoliaCore
 #endif
 
-public struct MainExternalProvider: Codable, JSONEncodable {
+public struct InjectionMainExternalProvider: Codable, JSONEncodable {
     /// Algolia index used to fetch the records.
     public var index: String
     /// Identifier of the external provider configuration.
     public var configurationID: String
     /// Default values for the configuration placeholders that are not reserved Composition placeholders.
     public var configurationParams: [String: AnyCodable]?
-    public var params: MainInjectionQueryParameters?
     public var ordering: ExternalProviderOrdering?
+    public var params: MainInjectionQueryParameters?
 
     public init(
         index: String,
         configurationID: String,
         configurationParams: [String: AnyCodable]? = nil,
-        params: MainInjectionQueryParameters? = nil,
-        ordering: ExternalProviderOrdering? = nil
+        ordering: ExternalProviderOrdering? = nil,
+        params: MainInjectionQueryParameters? = nil
     ) {
         self.index = index
         self.configurationID = configurationID
         self.configurationParams = configurationParams
-        self.params = params
         self.ordering = ordering
+        self.params = params
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case index
         case configurationID
         case configurationParams
-        case params
         case ordering
+        case params
     }
 
     // Encodable protocol methods
@@ -45,19 +45,19 @@ public struct MainExternalProvider: Codable, JSONEncodable {
         try container.encode(self.index, forKey: .index)
         try container.encode(self.configurationID, forKey: .configurationID)
         try container.encodeIfPresent(self.configurationParams, forKey: .configurationParams)
-        try container.encodeIfPresent(self.params, forKey: .params)
         try container.encodeIfPresent(self.ordering, forKey: .ordering)
+        try container.encodeIfPresent(self.params, forKey: .params)
     }
 }
 
-extension MainExternalProvider: Equatable {}
+extension InjectionMainExternalProvider: Equatable {}
 
-extension MainExternalProvider: Hashable {
+extension InjectionMainExternalProvider: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.index.hashValue)
         hasher.combine(self.configurationID.hashValue)
         hasher.combine(self.configurationParams?.hashValue)
-        hasher.combine(self.params?.hashValue)
         hasher.combine(self.ordering?.hashValue)
+        hasher.combine(self.params?.hashValue)
     }
 }

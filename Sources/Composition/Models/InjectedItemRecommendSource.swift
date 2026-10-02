@@ -8,9 +8,9 @@ import Foundation
 
 /// Injected items will originate from a recommendation request performed on the specified index.
 public struct InjectedItemRecommendSource: Codable, JSONEncodable {
-    public var recommend: Recommend
+    public var recommend: InjectedItemRecommend
 
-    public init(recommend: Recommend) {
+    public init(recommend: InjectedItemRecommend) {
         self.recommend = recommend
     }
 

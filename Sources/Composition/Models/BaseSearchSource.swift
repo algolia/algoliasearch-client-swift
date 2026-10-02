@@ -6,30 +6,30 @@ import Foundation
     import AlgoliaCore
 #endif
 
-/// Organic result set will originate from a recommend request.
-public struct InjectionMainRecommendSource: Codable, JSONEncodable {
-    public var recommend: InjectionMainRecommend
+public struct BaseSearchSource: Codable, JSONEncodable {
+    /// Algolia index used to retrieve records.
+    public var index: String
 
-    public init(recommend: InjectionMainRecommend) {
-        self.recommend = recommend
+    public init(index: String) {
+        self.index = index
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case recommend
+        case index
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.recommend, forKey: .recommend)
+        try container.encode(self.index, forKey: .index)
     }
 }
 
-extension InjectionMainRecommendSource: Equatable {}
+extension BaseSearchSource: Equatable {}
 
-extension InjectionMainRecommendSource: Hashable {
+extension BaseSearchSource: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.recommend.hashValue)
+        hasher.combine(self.index.hashValue)
     }
 }

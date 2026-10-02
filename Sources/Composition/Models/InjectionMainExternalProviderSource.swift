@@ -8,9 +8,9 @@ import Foundation
 
 /// Organic result set will originate from a request to an external provider configuration.
 public struct InjectionMainExternalProviderSource: Codable, JSONEncodable {
-    public var externalProvider: MainExternalProvider
+    public var externalProvider: InjectionMainExternalProvider
 
-    public init(externalProvider: MainExternalProvider) {
+    public init(externalProvider: InjectionMainExternalProvider) {
         self.externalProvider = externalProvider
     }
 
