@@ -12,6 +12,7 @@ public enum ProviderInputNullable: Codable, JSONEncodable, AbstractEncodable {
     case openAIProviderInput(OpenAIProviderInput)
     case baseProviderInput(BaseProviderInput)
     case anthropicProviderInput(AnthropicProviderInput)
+    case xAIProviderInput(XAIProviderInput)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -25,6 +26,8 @@ public enum ProviderInputNullable: Codable, JSONEncodable, AbstractEncodable {
         case let .baseProviderInput(value):
             try container.encode(value)
         case let .anthropicProviderInput(value):
+            try container.encode(value)
+        case let .xAIProviderInput(value):
             try container.encode(value)
         }
     }
@@ -41,6 +44,8 @@ public enum ProviderInputNullable: Codable, JSONEncodable, AbstractEncodable {
             self = .baseProviderInput(value)
         } else if let value = try? container.decode(AnthropicProviderInput.self) {
             self = .anthropicProviderInput(value)
+        } else if let value = try? container.decode(XAIProviderInput.self) {
+            self = .xAIProviderInput(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -64,6 +69,8 @@ public enum ProviderInputNullable: Codable, JSONEncodable, AbstractEncodable {
             value as BaseProviderInput
         case let .anthropicProviderInput(value):
             value as AnthropicProviderInput
+        case let .xAIProviderInput(value):
+            value as XAIProviderInput
         }
     }
 }

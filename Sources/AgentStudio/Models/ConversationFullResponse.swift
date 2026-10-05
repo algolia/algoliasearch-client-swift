@@ -22,7 +22,9 @@ public struct ConversationFullResponse: Codable, JSONEncodable {
     public var totalTokens: Int?
     public var conversationMetadata: ConversationMetadata?
     public var feedback: [FeedbackResponse]?
+    public var impactAnalytics: ImpactAnalytics?
     public var messages: [MessageResponse]
+    public var analyticsDegraded: Bool?
 
     public init(
         id: String,
@@ -39,7 +41,9 @@ public struct ConversationFullResponse: Codable, JSONEncodable {
         totalTokens: Int? = nil,
         conversationMetadata: ConversationMetadata? = nil,
         feedback: [FeedbackResponse]? = nil,
-        messages: [MessageResponse]
+        impactAnalytics: ImpactAnalytics? = nil,
+        messages: [MessageResponse],
+        analyticsDegraded: Bool? = nil
     ) {
         self.id = id
         self.agentId = agentId
@@ -55,7 +59,9 @@ public struct ConversationFullResponse: Codable, JSONEncodable {
         self.totalTokens = totalTokens
         self.conversationMetadata = conversationMetadata
         self.feedback = feedback
+        self.impactAnalytics = impactAnalytics
         self.messages = messages
+        self.analyticsDegraded = analyticsDegraded
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -73,7 +79,9 @@ public struct ConversationFullResponse: Codable, JSONEncodable {
         case totalTokens
         case conversationMetadata
         case feedback
+        case impactAnalytics
         case messages
+        case analyticsDegraded
     }
 
     // Encodable protocol methods
@@ -94,7 +102,9 @@ public struct ConversationFullResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.totalTokens, forKey: .totalTokens)
         try container.encodeIfPresent(self.conversationMetadata, forKey: .conversationMetadata)
         try container.encodeIfPresent(self.feedback, forKey: .feedback)
+        try container.encodeIfPresent(self.impactAnalytics, forKey: .impactAnalytics)
         try container.encode(self.messages, forKey: .messages)
+        try container.encodeIfPresent(self.analyticsDegraded, forKey: .analyticsDegraded)
     }
 }
 
@@ -116,6 +126,8 @@ extension ConversationFullResponse: Hashable {
         hasher.combine(self.totalTokens?.hashValue)
         hasher.combine(self.conversationMetadata?.hashValue)
         hasher.combine(self.feedback?.hashValue)
+        hasher.combine(self.impactAnalytics?.hashValue)
         hasher.combine(self.messages.hashValue)
+        hasher.combine(self.analyticsDegraded?.hashValue)
     }
 }

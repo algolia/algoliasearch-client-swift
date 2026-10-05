@@ -6,38 +6,49 @@ import Foundation
     import AlgoliaCore
 #endif
 
-/// Configuration for the algolia_display_results tool.
-public struct AlgoliaDisplayResultsToolConfig: Codable, JSONEncodable {
+/// Configuration for the algolia_grouped_results tool.
+public struct AlgoliaGroupedResultsToolConfig: Codable, JSONEncodable {
     public var name: String?
-    public var type: String
+    /// When true, a successful tool invocation ends the agent graph (no further LLM turn). Use for chat experiences
+    /// where the tool payload IS the final response. Leave false to let the main LLM produce a concluding assistant
+    /// message after the tool runs.
+    public var isTerminal: Bool?
+    /// Minimum number of result groups.
     public var minGroups: Int?
+    /// Maximum number of result groups.
     public var maxGroups: Int?
+    /// Minimum hits per group.
     public var minResultsPerGroup: Int?
+    /// Maximum hits per group.
     public var maxResultsPerGroup: Int?
+    public var type: String
 
     public init(
         name: String? = nil,
-        type: String,
+        isTerminal: Bool? = nil,
         minGroups: Int? = nil,
         maxGroups: Int? = nil,
         minResultsPerGroup: Int? = nil,
-        maxResultsPerGroup: Int? = nil
+        maxResultsPerGroup: Int? = nil,
+        type: String
     ) {
         self.name = name
-        self.type = type
+        self.isTerminal = isTerminal
         self.minGroups = minGroups
         self.maxGroups = maxGroups
         self.minResultsPerGroup = minResultsPerGroup
         self.maxResultsPerGroup = maxResultsPerGroup
+        self.type = type
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
-        case type
+        case isTerminal
         case minGroups
         case maxGroups
         case minResultsPerGroup
         case maxResultsPerGroup
+        case type
     }
 
     // Encodable protocol methods
@@ -45,23 +56,25 @@ public struct AlgoliaDisplayResultsToolConfig: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.name, forKey: .name)
-        try container.encode(self.type, forKey: .type)
+        try container.encodeIfPresent(self.isTerminal, forKey: .isTerminal)
         try container.encodeIfPresent(self.minGroups, forKey: .minGroups)
         try container.encodeIfPresent(self.maxGroups, forKey: .maxGroups)
         try container.encodeIfPresent(self.minResultsPerGroup, forKey: .minResultsPerGroup)
         try container.encodeIfPresent(self.maxResultsPerGroup, forKey: .maxResultsPerGroup)
+        try container.encode(self.type, forKey: .type)
     }
 }
 
-extension AlgoliaDisplayResultsToolConfig: Equatable {}
+extension AlgoliaGroupedResultsToolConfig: Equatable {}
 
-extension AlgoliaDisplayResultsToolConfig: Hashable {
+extension AlgoliaGroupedResultsToolConfig: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.name?.hashValue)
-        hasher.combine(self.type.hashValue)
+        hasher.combine(self.isTerminal?.hashValue)
         hasher.combine(self.minGroups?.hashValue)
         hasher.combine(self.maxGroups?.hashValue)
         hasher.combine(self.minResultsPerGroup?.hashValue)
         hasher.combine(self.maxResultsPerGroup?.hashValue)
+        hasher.combine(self.type.hashValue)
     }
 }

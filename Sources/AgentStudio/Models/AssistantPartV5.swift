@@ -7,14 +7,18 @@ import Foundation
 #endif
 
 public enum AssistantPartV5: Codable, JSONEncodable, AbstractEncodable {
+    case dataGuardrailViolationPartV5(DataGuardrailViolationPartV5)
     case toolPartV5(ToolPartV5)
     case stepStartPartV5(StepStartPartV5)
     case textPartV5(TextPartV5)
     case reasoningPartV5(ReasoningPartV5)
+    case dataPartV5(DataPartV5)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
+        case let .dataGuardrailViolationPartV5(value):
+            try container.encode(value)
         case let .toolPartV5(value):
             try container.encode(value)
         case let .stepStartPartV5(value):
@@ -23,12 +27,16 @@ public enum AssistantPartV5: Codable, JSONEncodable, AbstractEncodable {
             try container.encode(value)
         case let .reasoningPartV5(value):
             try container.encode(value)
+        case let .dataPartV5(value):
+            try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(ToolPartV5.self) {
+        if let value = try? container.decode(DataGuardrailViolationPartV5.self) {
+            self = .dataGuardrailViolationPartV5(value)
+        } else if let value = try? container.decode(ToolPartV5.self) {
             self = .toolPartV5(value)
         } else if let value = try? container.decode(StepStartPartV5.self) {
             self = .stepStartPartV5(value)
@@ -36,6 +44,8 @@ public enum AssistantPartV5: Codable, JSONEncodable, AbstractEncodable {
             self = .textPartV5(value)
         } else if let value = try? container.decode(ReasoningPartV5.self) {
             self = .reasoningPartV5(value)
+        } else if let value = try? container.decode(DataPartV5.self) {
+            self = .dataPartV5(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -46,6 +56,8 @@ public enum AssistantPartV5: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
+        case let .dataGuardrailViolationPartV5(value):
+            value as DataGuardrailViolationPartV5
         case let .toolPartV5(value):
             value as ToolPartV5
         case let .stepStartPartV5(value):
@@ -54,6 +66,8 @@ public enum AssistantPartV5: Codable, JSONEncodable, AbstractEncodable {
             value as TextPartV5
         case let .reasoningPartV5(value):
             value as ReasoningPartV5
+        case let .dataPartV5(value):
+            value as DataPartV5
         }
     }
 }

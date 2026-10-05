@@ -14,7 +14,7 @@ public struct AgentTestConfiguration: Codable, JSONEncodable {
     public var instructions: String
     public var systemPrompt: String?
     public var config: [String: AnyCodable]
-    public var tools: [ToolConfigInput]
+    public var tools: [ItemsUnion]
 
     public init(
         id: String? = nil,
@@ -23,7 +23,7 @@ public struct AgentTestConfiguration: Codable, JSONEncodable {
         instructions: String,
         systemPrompt: String? = nil,
         config: [String: AnyCodable],
-        tools: [ToolConfigInput]
+        tools: [ItemsUnion]
     ) {
         self.id = id
         self.providerId = providerId

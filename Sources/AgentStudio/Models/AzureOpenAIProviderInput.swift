@@ -10,7 +10,7 @@ import Foundation
 public struct AzureOpenAIProviderInput: Codable, JSONEncodable {
     public var apiKey: String
     public var azureEndpoint: String
-    /// Azure model deployment name is required.
+    /// Azure model deployment name.
     public var azureDeployment: String
     public var apiVersion: String?
 

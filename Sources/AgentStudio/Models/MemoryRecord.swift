@@ -6,10 +6,7 @@ import Foundation
     import AlgoliaCore
 #endif
 
-/// Universal storage model for all memory types (semantic, episodic).  This is the ONLY model that touches storage
-/// (Algolia). Domain models (SemanticMemory, EpisodicMemory) are used for LLM extraction and converted to MemoryRecord
-/// before saving.  See https://langchain-ai.github.io/langmem/concepts/conceptual_guide/#memory-types for memory type
-/// definitions.
+/// A stored memory record.
 public struct MemoryRecord: Codable, JSONEncodable {
     public var memoryType: MemoryType?
     public var episode: Episode?
@@ -17,14 +14,15 @@ public struct MemoryRecord: Codable, JSONEncodable {
     public var text: String
     /// Verbatim conversation extract, not paraphrased.
     public var rawExtract: String
-    /// 5-20 free-form keywords: entities, context, search terms (any words).
+    /// Keywords for retrieval: entities, context, search terms.
     public var keywords: [String]?
-    /// 2-4 topics ONLY from this list: [complaints, entertainment, family, feedback, finance, food, goals, health,
-    /// history, hobbies, learning, praise, preferences, schedule, shopping, technical, travel, work].
+    /// Topics that classify the memory. Each must be one of: [complaints, entertainment, family, feedback, finance,
+    /// food, goals, health, history, hobbies, learning, praise, preferences, schedule, shopping, technical, travel,
+    /// work].
     public var topics: [String]?
     /// Arbitrary labels/themes for flexible categorization (e.g., 'Q1-goals', 'paris-trip', 'vip-customer').
     public var tags: [String]?
-    /// 3-5 natural phrases that should trigger this memory.
+    /// Phrases that cause the API to recall this memory.
     public var recallTriggers: [String]?
     /// ObjectID of existing memory to update. Leave empty for new memory.
     public var objectID: String?

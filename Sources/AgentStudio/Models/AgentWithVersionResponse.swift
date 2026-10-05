@@ -16,7 +16,7 @@ public struct AgentWithVersionResponse: Codable, JSONEncodable {
     public var instructions: String
     public var systemPrompt: String?
     public var config: [String: AnyCodable]
-    public var tools: [ToolConfigInput]?
+    public var tools: [ToolConfigOutput]?
     public var templateType: String?
     public var createdAt: String
     public var updatedAt: String?
@@ -32,7 +32,7 @@ public struct AgentWithVersionResponse: Codable, JSONEncodable {
         instructions: String,
         systemPrompt: String? = nil,
         config: [String: AnyCodable],
-        tools: [ToolConfigInput]? = nil,
+        tools: [ToolConfigOutput]? = nil,
         templateType: String? = nil,
         createdAt: String,
         updatedAt: String?,

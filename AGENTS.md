@@ -140,21 +140,6 @@ func myAsyncFunction() async throws {
 }
 ```
 
-### Optionals
-
-```swift
-// Use optional binding
-if let hits = response.hits {
-    // hits is non-optional here
-}
-
-// Or guard
-guard let hits = response.hits else { return }
-
-// Optional chaining
-let count = response.hits?.count ?? 0
-```
-
 ### Codable
 
 ```swift
@@ -167,27 +152,6 @@ struct SearchParams: Codable {
         case query
         case hitsPerPage = "hitsPerPage"
     }
-}
-```
-
-### Value vs Reference Types
-
-```swift
-// Prefer struct (value type) for data
-struct SearchParams { ... }  // ✓
-
-// Use class only when reference semantics needed
-class SearchClient { ... }   // Client needs reference
-```
-
-### Platform Availability
-
-```swift
-// Check availability for newer APIs
-if #available(iOS 15.0, macOS 12.0, *) {
-    // Use newer API
-} else {
-    // Fallback
 }
 ```
 

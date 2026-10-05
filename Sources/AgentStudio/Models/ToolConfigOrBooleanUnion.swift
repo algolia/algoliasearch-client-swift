@@ -6,7 +6,7 @@ import Foundation
     import AlgoliaCore
 #endif
 
-public enum ToolConfig: Codable, JSONEncodable, AbstractEncodable {
+public enum ToolConfigOrBooleanUnion: Codable, JSONEncodable, AbstractEncodable {
     case mcpToolConfig(McpToolConfig)
     case bool(Bool)
 
@@ -29,7 +29,10 @@ public enum ToolConfig: Codable, JSONEncodable, AbstractEncodable {
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
-                .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of ToolConfig")
+                .init(
+                    codingPath: decoder.codingPath,
+                    debugDescription: "Unable to decode instance of ToolConfigOrBooleanUnion"
+                )
             )
         }
     }
@@ -44,5 +47,5 @@ public enum ToolConfig: Codable, JSONEncodable, AbstractEncodable {
     }
 }
 
-extension ToolConfig: Equatable {}
-extension ToolConfig: Hashable {}
+extension ToolConfigOrBooleanUnion: Equatable {}
+extension ToolConfigOrBooleanUnion: Hashable {}

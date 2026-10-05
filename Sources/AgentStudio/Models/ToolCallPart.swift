@@ -11,6 +11,7 @@ public struct ToolCallPart: Codable, JSONEncodable {
     public var toolCallId: String
     public var toolName: String
     public var args: AnyCodable?
+    public var rawArgs: [String: AnyCodable]?
     public var requiresApproval: Bool?
     public var providerOptions: [String: AnyCodable]?
 
@@ -19,6 +20,7 @@ public struct ToolCallPart: Codable, JSONEncodable {
         toolCallId: String,
         toolName: String,
         args: AnyCodable?,
+        rawArgs: [String: AnyCodable]? = nil,
         requiresApproval: Bool? = nil,
         providerOptions: [String: AnyCodable]? = nil
     ) {
@@ -26,6 +28,7 @@ public struct ToolCallPart: Codable, JSONEncodable {
         self.toolCallId = toolCallId
         self.toolName = toolName
         self.args = args
+        self.rawArgs = rawArgs
         self.requiresApproval = requiresApproval
         self.providerOptions = providerOptions
     }
@@ -35,6 +38,7 @@ public struct ToolCallPart: Codable, JSONEncodable {
         case toolCallId
         case toolName
         case args
+        case rawArgs
         case requiresApproval
         case providerOptions
     }
@@ -47,6 +51,7 @@ public struct ToolCallPart: Codable, JSONEncodable {
         try container.encode(self.toolCallId, forKey: .toolCallId)
         try container.encode(self.toolName, forKey: .toolName)
         try container.encode(self.args, forKey: .args)
+        try container.encodeIfPresent(self.rawArgs, forKey: .rawArgs)
         try container.encodeIfPresent(self.requiresApproval, forKey: .requiresApproval)
         try container.encodeIfPresent(self.providerOptions, forKey: .providerOptions)
     }
@@ -60,6 +65,7 @@ extension ToolCallPart: Hashable {
         hasher.combine(self.toolCallId.hashValue)
         hasher.combine(self.toolName.hashValue)
         hasher.combine(self.args.hashValue)
+        hasher.combine(self.rawArgs?.hashValue)
         hasher.combine(self.requiresApproval?.hashValue)
         hasher.combine(self.providerOptions?.hashValue)
     }

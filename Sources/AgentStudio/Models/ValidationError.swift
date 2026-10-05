@@ -10,23 +10,17 @@ public struct ValidationError: Codable, JSONEncodable {
     public var loc: [LocationItemUnion]
     public var msg: String
     public var type: String
-    public var input: AnyCodable?
-    public var ctx: AnyCodable?
 
-    public init(loc: [LocationItemUnion], msg: String, type: String, input: AnyCodable? = nil, ctx: AnyCodable? = nil) {
+    public init(loc: [LocationItemUnion], msg: String, type: String) {
         self.loc = loc
         self.msg = msg
         self.type = type
-        self.input = input
-        self.ctx = ctx
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case loc
         case msg
         case type
-        case input
-        case ctx
     }
 
     // Encodable protocol methods
@@ -36,8 +30,6 @@ public struct ValidationError: Codable, JSONEncodable {
         try container.encode(self.loc, forKey: .loc)
         try container.encode(self.msg, forKey: .msg)
         try container.encode(self.type, forKey: .type)
-        try container.encodeIfPresent(self.input, forKey: .input)
-        try container.encodeIfPresent(self.ctx, forKey: .ctx)
     }
 }
 
@@ -48,7 +40,5 @@ extension ValidationError: Hashable {
         hasher.combine(self.loc.hashValue)
         hasher.combine(self.msg.hashValue)
         hasher.combine(self.type.hashValue)
-        hasher.combine(self.input?.hashValue)
-        hasher.combine(self.ctx?.hashValue)
     }
 }

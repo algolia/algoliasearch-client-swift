@@ -6,7 +6,7 @@ import Foundation
     import AlgoliaCore
 #endif
 
-/// Model for tool invocation in a Message.
+/// A tool invocation in a message.
 public struct ToolInvocationV4: Codable, JSONEncodable {
     public var toolCallId: String
     public var toolName: String

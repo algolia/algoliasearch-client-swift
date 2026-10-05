@@ -10,19 +10,21 @@ public struct ProviderAuthenticationResponse: Codable, JSONEncodable {
     public var id: String
     public var name: String
     public var providerName: String
-    public var input: ProviderInput
+    public var input: InputUnion
     public var createdAt: String
     public var updatedAt: String
     public var lastUsedAt: String?
+    public var isAlgoliaManaged: Bool?
 
     public init(
         id: String,
         name: String,
         providerName: String,
-        input: ProviderInput,
+        input: InputUnion,
         createdAt: String,
         updatedAt: String,
-        lastUsedAt: String? = nil
+        lastUsedAt: String? = nil,
+        isAlgoliaManaged: Bool? = nil
     ) {
         self.id = id
         self.name = name
@@ -31,6 +33,7 @@ public struct ProviderAuthenticationResponse: Codable, JSONEncodable {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.lastUsedAt = lastUsedAt
+        self.isAlgoliaManaged = isAlgoliaManaged
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -41,6 +44,7 @@ public struct ProviderAuthenticationResponse: Codable, JSONEncodable {
         case createdAt
         case updatedAt
         case lastUsedAt
+        case isAlgoliaManaged
     }
 
     // Encodable protocol methods
@@ -54,6 +58,7 @@ public struct ProviderAuthenticationResponse: Codable, JSONEncodable {
         try container.encode(self.createdAt, forKey: .createdAt)
         try container.encode(self.updatedAt, forKey: .updatedAt)
         try container.encodeIfPresent(self.lastUsedAt, forKey: .lastUsedAt)
+        try container.encodeIfPresent(self.isAlgoliaManaged, forKey: .isAlgoliaManaged)
     }
 }
 
@@ -68,5 +73,6 @@ extension ProviderAuthenticationResponse: Hashable {
         hasher.combine(self.createdAt.hashValue)
         hasher.combine(self.updatedAt.hashValue)
         hasher.combine(self.lastUsedAt?.hashValue)
+        hasher.combine(self.isAlgoliaManaged?.hashValue)
     }
 }

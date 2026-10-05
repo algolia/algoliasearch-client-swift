@@ -6,13 +6,15 @@ import Foundation
     import AlgoliaCore
 #endif
 
-/// Model for tool invocation in a Message.
+/// A tool invocation in a message.
 public struct ToolPartV5: Codable, JSONEncodable {
     public var type: String
     public var toolCallId: String
     public var state: ToolState?
     public var input: [String: AnyCodable]?
+    public var rawInput: [String: AnyCodable]?
     public var output: [String: AnyCodable]?
+    public var outputMetadata: [String: AnyCodable]?
     public var errorText: String?
     public var providerOptions: [String: AnyCodable]?
     public var requiresApproval: Bool?
@@ -24,7 +26,9 @@ public struct ToolPartV5: Codable, JSONEncodable {
         toolCallId: String,
         state: ToolState? = nil,
         input: [String: AnyCodable]? = nil,
+        rawInput: [String: AnyCodable]? = nil,
         output: [String: AnyCodable]? = nil,
+        outputMetadata: [String: AnyCodable]? = nil,
         errorText: String? = nil,
         providerOptions: [String: AnyCodable]? = nil,
         requiresApproval: Bool? = nil,
@@ -35,7 +39,9 @@ public struct ToolPartV5: Codable, JSONEncodable {
         self.toolCallId = toolCallId
         self.state = state
         self.input = input
+        self.rawInput = rawInput
         self.output = output
+        self.outputMetadata = outputMetadata
         self.errorText = errorText
         self.providerOptions = providerOptions
         self.requiresApproval = requiresApproval
@@ -48,7 +54,9 @@ public struct ToolPartV5: Codable, JSONEncodable {
         case toolCallId
         case state
         case input
+        case rawInput
         case output
+        case outputMetadata
         case errorText
         case providerOptions
         case requiresApproval
@@ -64,7 +72,9 @@ public struct ToolPartV5: Codable, JSONEncodable {
         try container.encode(self.toolCallId, forKey: .toolCallId)
         try container.encodeIfPresent(self.state, forKey: .state)
         try container.encodeIfPresent(self.input, forKey: .input)
+        try container.encodeIfPresent(self.rawInput, forKey: .rawInput)
         try container.encodeIfPresent(self.output, forKey: .output)
+        try container.encodeIfPresent(self.outputMetadata, forKey: .outputMetadata)
         try container.encodeIfPresent(self.errorText, forKey: .errorText)
         try container.encodeIfPresent(self.providerOptions, forKey: .providerOptions)
         try container.encodeIfPresent(self.requiresApproval, forKey: .requiresApproval)
@@ -81,7 +91,9 @@ extension ToolPartV5: Hashable {
         hasher.combine(self.toolCallId.hashValue)
         hasher.combine(self.state?.hashValue)
         hasher.combine(self.input?.hashValue)
+        hasher.combine(self.rawInput?.hashValue)
         hasher.combine(self.output?.hashValue)
+        hasher.combine(self.outputMetadata?.hashValue)
         hasher.combine(self.errorText?.hashValue)
         hasher.combine(self.providerOptions?.hashValue)
         hasher.combine(self.requiresApproval?.hashValue)

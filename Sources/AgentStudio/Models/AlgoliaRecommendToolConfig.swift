@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Configuration for the Algolia Recommend tool. Allows specifying recommend models and related parameters.
-public struct AlgoliaRecommendToolConfigInput: Codable, JSONEncodable {
+public struct AlgoliaRecommendToolConfig: Codable, JSONEncodable {
     public var name: String
     public var type: String
     public var allowedConfigs: [AlgoliaRecommendToolIndexConfig]?
@@ -43,9 +43,9 @@ public struct AlgoliaRecommendToolConfigInput: Codable, JSONEncodable {
     }
 }
 
-extension AlgoliaRecommendToolConfigInput: Equatable {}
+extension AlgoliaRecommendToolConfig: Equatable {}
 
-extension AlgoliaRecommendToolConfigInput: Hashable {
+extension AlgoliaRecommendToolConfig: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.name.hashValue)
         hasher.combine(self.type.hashValue)

@@ -12,19 +12,31 @@ public struct ToolResultPart: Codable, JSONEncodable {
     public var toolName: String
     public var output: ToolResultOutput
     public var providerOptions: [String: AnyCodable]?
+    public var mcpConfigId: String?
+    public var mcpConfigName: String?
+    public var isTerminal: Bool?
+    public var outputMetadata: [String: AnyCodable]?
 
     public init(
         type: String,
         toolCallId: String,
         toolName: String,
         output: ToolResultOutput,
-        providerOptions: [String: AnyCodable]? = nil
+        providerOptions: [String: AnyCodable]? = nil,
+        mcpConfigId: String? = nil,
+        mcpConfigName: String? = nil,
+        isTerminal: Bool? = nil,
+        outputMetadata: [String: AnyCodable]? = nil
     ) {
         self.type = type
         self.toolCallId = toolCallId
         self.toolName = toolName
         self.output = output
         self.providerOptions = providerOptions
+        self.mcpConfigId = mcpConfigId
+        self.mcpConfigName = mcpConfigName
+        self.isTerminal = isTerminal
+        self.outputMetadata = outputMetadata
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -33,6 +45,10 @@ public struct ToolResultPart: Codable, JSONEncodable {
         case toolName
         case output
         case providerOptions
+        case mcpConfigId
+        case mcpConfigName
+        case isTerminal
+        case outputMetadata
     }
 
     // Encodable protocol methods
@@ -44,6 +60,10 @@ public struct ToolResultPart: Codable, JSONEncodable {
         try container.encode(self.toolName, forKey: .toolName)
         try container.encode(self.output, forKey: .output)
         try container.encodeIfPresent(self.providerOptions, forKey: .providerOptions)
+        try container.encodeIfPresent(self.mcpConfigId, forKey: .mcpConfigId)
+        try container.encodeIfPresent(self.mcpConfigName, forKey: .mcpConfigName)
+        try container.encodeIfPresent(self.isTerminal, forKey: .isTerminal)
+        try container.encodeIfPresent(self.outputMetadata, forKey: .outputMetadata)
     }
 }
 
@@ -56,5 +76,9 @@ extension ToolResultPart: Hashable {
         hasher.combine(self.toolName.hashValue)
         hasher.combine(self.output.hashValue)
         hasher.combine(self.providerOptions?.hashValue)
+        hasher.combine(self.mcpConfigId?.hashValue)
+        hasher.combine(self.mcpConfigName?.hashValue)
+        hasher.combine(self.isTerminal?.hashValue)
+        hasher.combine(self.outputMetadata?.hashValue)
     }
 }

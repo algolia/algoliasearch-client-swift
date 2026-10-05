@@ -15,6 +15,7 @@ public struct ToolApprovalRequestPart: Codable, JSONEncodable {
     public var providerOptions: [String: AnyCodable]?
     public var argsHash: String?
     public var appID: String?
+    public var conversationId: String?
 
     public init(
         type: String,
@@ -24,7 +25,8 @@ public struct ToolApprovalRequestPart: Codable, JSONEncodable {
         description: String? = nil,
         providerOptions: [String: AnyCodable]? = nil,
         argsHash: String? = nil,
-        appID: String? = nil
+        appID: String? = nil,
+        conversationId: String? = nil
     ) {
         self.type = type
         self.toolCallId = toolCallId
@@ -34,6 +36,7 @@ public struct ToolApprovalRequestPart: Codable, JSONEncodable {
         self.providerOptions = providerOptions
         self.argsHash = argsHash
         self.appID = appID
+        self.conversationId = conversationId
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -45,6 +48,7 @@ public struct ToolApprovalRequestPart: Codable, JSONEncodable {
         case providerOptions
         case argsHash
         case appID = "appId"
+        case conversationId
     }
 
     // Encodable protocol methods
@@ -59,6 +63,7 @@ public struct ToolApprovalRequestPart: Codable, JSONEncodable {
         try container.encodeIfPresent(self.providerOptions, forKey: .providerOptions)
         try container.encodeIfPresent(self.argsHash, forKey: .argsHash)
         try container.encodeIfPresent(self.appID, forKey: .appID)
+        try container.encodeIfPresent(self.conversationId, forKey: .conversationId)
     }
 }
 
@@ -74,5 +79,6 @@ extension ToolApprovalRequestPart: Hashable {
         hasher.combine(self.providerOptions?.hashValue)
         hasher.combine(self.argsHash?.hashValue)
         hasher.combine(self.appID?.hashValue)
+        hasher.combine(self.conversationId?.hashValue)
     }
 }

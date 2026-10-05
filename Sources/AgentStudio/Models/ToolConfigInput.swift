@@ -10,8 +10,7 @@ public enum ToolConfigInput: Codable, JSONEncodable, AbstractEncodable {
     case clientSideToolConfig(ClientSideToolConfig)
     case mcpServerToolConfig(McpServerToolConfig)
     case algoliaSearchToolConfig(AlgoliaSearchToolConfig)
-    case algoliaRecommendToolConfigInput(AlgoliaRecommendToolConfigInput)
-    case algoliaDisplayResultsToolConfig(AlgoliaDisplayResultsToolConfig)
+    case algoliaRecommendToolConfig(AlgoliaRecommendToolConfig)
     case unknownToolConfig(UnknownToolConfig)
 
     public func encode(to encoder: Encoder) throws {
@@ -23,9 +22,7 @@ public enum ToolConfigInput: Codable, JSONEncodable, AbstractEncodable {
             try container.encode(value)
         case let .algoliaSearchToolConfig(value):
             try container.encode(value)
-        case let .algoliaRecommendToolConfigInput(value):
-            try container.encode(value)
-        case let .algoliaDisplayResultsToolConfig(value):
+        case let .algoliaRecommendToolConfig(value):
             try container.encode(value)
         case let .unknownToolConfig(value):
             try container.encode(value)
@@ -37,11 +34,8 @@ public enum ToolConfigInput: Codable, JSONEncodable, AbstractEncodable {
         if let jsonObject = try? container.decode([String: AnyCodable].self),
            let discriminatorValue = jsonObject["type"]?.value as? String {
             switch discriminatorValue {
-            case "algolia_display_results":
-                self = try .algoliaDisplayResultsToolConfig(container.decode(AlgoliaDisplayResultsToolConfig.self))
-                return
             case "algolia_recommend":
-                self = try .algoliaRecommendToolConfigInput(container.decode(AlgoliaRecommendToolConfigInput.self))
+                self = try .algoliaRecommendToolConfig(container.decode(AlgoliaRecommendToolConfig.self))
                 return
             case "algolia_search_index":
                 self = try .algoliaSearchToolConfig(container.decode(AlgoliaSearchToolConfig.self))
@@ -65,10 +59,8 @@ public enum ToolConfigInput: Codable, JSONEncodable, AbstractEncodable {
             self = .mcpServerToolConfig(value)
         } else if let value = try? container.decode(AlgoliaSearchToolConfig.self) {
             self = .algoliaSearchToolConfig(value)
-        } else if let value = try? container.decode(AlgoliaRecommendToolConfigInput.self) {
-            self = .algoliaRecommendToolConfigInput(value)
-        } else if let value = try? container.decode(AlgoliaDisplayResultsToolConfig.self) {
-            self = .algoliaDisplayResultsToolConfig(value)
+        } else if let value = try? container.decode(AlgoliaRecommendToolConfig.self) {
+            self = .algoliaRecommendToolConfig(value)
         } else if let value = try? container.decode(UnknownToolConfig.self) {
             self = .unknownToolConfig(value)
         } else {
@@ -87,10 +79,8 @@ public enum ToolConfigInput: Codable, JSONEncodable, AbstractEncodable {
             value as McpServerToolConfig
         case let .algoliaSearchToolConfig(value):
             value as AlgoliaSearchToolConfig
-        case let .algoliaRecommendToolConfigInput(value):
-            value as AlgoliaRecommendToolConfigInput
-        case let .algoliaDisplayResultsToolConfig(value):
-            value as AlgoliaDisplayResultsToolConfig
+        case let .algoliaRecommendToolConfig(value):
+            value as AlgoliaRecommendToolConfig
         case let .unknownToolConfig(value):
             value as UnknownToolConfig
         }

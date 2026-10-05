@@ -17,7 +17,13 @@ public struct MessageResponse: Codable, JSONEncodable {
     public var model: String?
     public var inputTokens: Int?
     public var outputTokens: Int?
-    public var turnContext: [String: String]?
+    public var reasoningTokens: Int?
+    public var inputTokenDetails: [String: Int]?
+    public var outputTokenDetails: [String: Int]?
+    public var isCacheHit: Bool?
+    public var turnContext: [String: AnyCodable]?
+    public var events: [MessageEvent]?
+    public var guardrail: GuardrailOutcome?
 
     public init(
         id: String,
@@ -29,7 +35,13 @@ public struct MessageResponse: Codable, JSONEncodable {
         model: String? = nil,
         inputTokens: Int? = nil,
         outputTokens: Int? = nil,
-        turnContext: [String: String]? = nil
+        reasoningTokens: Int? = nil,
+        inputTokenDetails: [String: Int]? = nil,
+        outputTokenDetails: [String: Int]? = nil,
+        isCacheHit: Bool? = nil,
+        turnContext: [String: AnyCodable]? = nil,
+        events: [MessageEvent]? = nil,
+        guardrail: GuardrailOutcome? = nil
     ) {
         self.id = id
         self.conversationId = conversationId
@@ -40,7 +52,13 @@ public struct MessageResponse: Codable, JSONEncodable {
         self.model = model
         self.inputTokens = inputTokens
         self.outputTokens = outputTokens
+        self.reasoningTokens = reasoningTokens
+        self.inputTokenDetails = inputTokenDetails
+        self.outputTokenDetails = outputTokenDetails
+        self.isCacheHit = isCacheHit
         self.turnContext = turnContext
+        self.events = events
+        self.guardrail = guardrail
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -53,7 +71,13 @@ public struct MessageResponse: Codable, JSONEncodable {
         case model
         case inputTokens
         case outputTokens
+        case reasoningTokens
+        case inputTokenDetails
+        case outputTokenDetails
+        case isCacheHit
         case turnContext
+        case events
+        case guardrail
     }
 
     // Encodable protocol methods
@@ -69,7 +93,13 @@ public struct MessageResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.model, forKey: .model)
         try container.encodeIfPresent(self.inputTokens, forKey: .inputTokens)
         try container.encodeIfPresent(self.outputTokens, forKey: .outputTokens)
+        try container.encodeIfPresent(self.reasoningTokens, forKey: .reasoningTokens)
+        try container.encodeIfPresent(self.inputTokenDetails, forKey: .inputTokenDetails)
+        try container.encodeIfPresent(self.outputTokenDetails, forKey: .outputTokenDetails)
+        try container.encodeIfPresent(self.isCacheHit, forKey: .isCacheHit)
         try container.encodeIfPresent(self.turnContext, forKey: .turnContext)
+        try container.encodeIfPresent(self.events, forKey: .events)
+        try container.encodeIfPresent(self.guardrail, forKey: .guardrail)
     }
 }
 
@@ -86,6 +116,12 @@ extension MessageResponse: Hashable {
         hasher.combine(self.model?.hashValue)
         hasher.combine(self.inputTokens?.hashValue)
         hasher.combine(self.outputTokens?.hashValue)
+        hasher.combine(self.reasoningTokens?.hashValue)
+        hasher.combine(self.inputTokenDetails?.hashValue)
+        hasher.combine(self.outputTokenDetails?.hashValue)
+        hasher.combine(self.isCacheHit?.hashValue)
         hasher.combine(self.turnContext?.hashValue)
+        hasher.combine(self.events?.hashValue)
+        hasher.combine(self.guardrail?.hashValue)
     }
 }

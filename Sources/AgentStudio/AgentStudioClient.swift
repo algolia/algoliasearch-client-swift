@@ -162,6 +162,66 @@ open class AgentStudioClient {
         )
     }
 
+    /// - parameter contextCompactRequest: (body)
+    /// - returns: ContextResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func compactContext(
+        contextCompactRequest: ContextCompactRequest,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> ContextResponse {
+        let response: Response<ContextResponse> = try await compactContextWithHTTPInfo(
+            contextCompactRequest: contextCompactRequest,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Summarize the older part of a conversation into a single user message via the caller's LLM.  Everything except
+    // the trailing `keepLastMessages` messages is summarized; the summary is returned as a user-role message followed
+    // by
+    // the kept tail verbatim. Your provider runs the summary, so the provider adds the cost to your account.  A
+    // conversation too large for the summarizer's context window is split into chunks that each fit, summarized
+    // concurrently, then merged in a reduce pass - so payload size alone does not fail the request. When the
+    // conversation still cannot be summarized (it needs more chunks than the server allows, or the chunk summaries will
+    // not converge), the response is a `400`, not a `500`.  Two optional controls shape the output. `instructions` adds
+    // caller guidance inside the server-owned prompt frame, so it steers the summary without the model echoing the
+    // wording back. `targetTokensEstimate` sets a desired summary size, translated into word-count guidance.  The
+    // `compaction` block reports what happened: `compacted` is `false` when the payload passed through untouched
+    // (nothing older than the kept tail), alongside chunk/pass counts and the summarizer's own token usage.
+    // Required API Key ACLs:
+    //  - search
+    //
+    // - parameter contextCompactRequest: (body)
+    // - returns: RequestBuilder<ContextResponse>
+
+    open func compactContextWithHTTPInfo(
+        contextCompactRequest: ContextCompactRequest,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<ContextResponse> {
+        let resourcePath = "/agent-studio/1/unstable/context/compact"
+        let body = contextCompactRequest
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
     /// - parameter agentConfigCreate: (body)
     /// - returns: AgentWithVersionResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -294,7 +354,7 @@ open class AgentStudioClient {
     open func createAgentCompletion(
         agentId: String,
         compatibilityMode: CompatibilityMode,
-        agentCompletionRequest: AgentCompletionRequest,
+        agentCompletionRequest: AgentCompletionRequestUnion,
         stream: Bool? = nil,
         cache: Bool? = nil,
         memory: Bool? = nil,
@@ -322,7 +382,7 @@ open class AgentStudioClient {
     }
 
     // Create a completion for the specified agent.  This endpoint handles two types of requests: 1. Normal completion
-    // request: User message -> Agent response 2. Tool approval response: User approval -> Execute tool -> Agent response  Tool Approval Flow (for MCP tools with requiresApproval: true): - Request 1: User sends message -> Agent requests tool call -> Return approval request. - Request 2: User approves -> Execute tool -> Agent continues with result.
+    // request: User message -> Agent response 2. Tool approval response: User approval -> Execute tool -> Agent response  Tool Approval Flow (for MCP tools with requiresApproval: true): - Request 1: User sends message -> Agent requests tool call -> Return approval request - Request 2: User approves -> Execute tool -> Agent continues with result.
     // Required API Key ACLs:
     //  - search
     //
@@ -348,7 +408,7 @@ open class AgentStudioClient {
     open func createAgentCompletionWithHTTPInfo(
         agentId: String,
         compatibilityMode: CompatibilityMode,
-        agentCompletionRequest: AgentCompletionRequest,
+        agentCompletionRequest: AgentCompletionRequestUnion,
         stream: Bool? = nil,
         cache: Bool? = nil,
         memory: Bool? = nil,
@@ -382,6 +442,102 @@ open class AgentStudioClient {
         let nillableHeaders: [String: Any?]? = [
             "X-Algolia-Secure-User-Token": xAlgoliaSecureUserToken?.encodeToJSON(),
         ]
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter agentId: (path) The agentId.
+    /// - parameter taskRequest: (body)
+    /// - parameter stream: (query) Whether to stream the response or not. (optional, default to false)
+    /// - parameter cache: (query) Use cached responses if available. (optional, default to true)
+    /// - parameter analytics: (query) Set to false to skip endpoint-specific analytics for this task call (default:
+    /// true). Disables the task analytics event; operational metrics and traces are always emitted. (optional, default
+    /// to true)
+    /// - returns: TaskResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func createAgentTask(
+        agentId: String,
+        taskRequest: TaskRequest,
+        stream: Bool? = nil,
+        cache: Bool? = nil,
+        analytics: Bool? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> TaskResponse {
+        let response: Response<TaskResponse> = try await createAgentTaskWithHTTPInfo(
+            agentId: agentId,
+            taskRequest: taskRequest,
+            stream: stream,
+            cache: cache,
+            analytics: analytics,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Run a configured task and return the generated object as ``{ output }``.  With ``?stream=true``, returns the raw
+    // partial JSON text stream expected by AI SDK v5 ``useObject``. The streamed JSON is the task output itself.
+    // Required API Key ACLs:
+    //  - search
+    //
+    // - parameter agentId: (path) The agentId.
+    //
+    // - parameter taskRequest: (body)
+    //
+    // - parameter stream: (query) Whether to stream the response or not. (optional, default to false)
+    //
+    // - parameter cache: (query) Use cached responses if available. (optional, default to true)
+    //
+    // - parameter analytics: (query) Set to false to skip endpoint-specific analytics for this task call (default:
+    // true). Disables the task analytics event; operational metrics and traces are always emitted. (optional, default
+    // to
+    // true)
+    // - returns: RequestBuilder<TaskResponse>
+
+    open func createAgentTaskWithHTTPInfo(
+        agentId: String,
+        taskRequest: TaskRequest,
+        stream: Bool? = nil,
+        cache: Bool? = nil,
+        analytics: Bool? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<TaskResponse> {
+        guard !agentId.isEmpty else {
+            throw AlgoliaError.invalidArgument("agentId", "createAgentTask")
+        }
+
+        var resourcePath = "/agent-studio/1/agents/{agentId}/tasks"
+        let agentIdPreEscape = "\(APIHelper.mapValueToPathItem(agentId))"
+        let agentIdPostEscape = agentIdPreEscape
+            .addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(
+            of: "{agentId}",
+            with: agentIdPostEscape,
+            options: .literal,
+            range: nil
+        )
+        let body = taskRequest
+        let queryParameters: [String: Any?] = [
+            "stream": stream?.encodeToJSON(),
+            "cache": cache?.encodeToJSON(),
+            "analytics": analytics?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
 
         let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
@@ -884,7 +1040,7 @@ open class AgentStudioClient {
         )
     }
 
-    /// Deletes the conversations matching the given filers.
+    /// Deletes the conversations matching the given filters.
     /// Required API Key ACLs:
     ///  - logs
     ///
@@ -1498,6 +1654,10 @@ open class AgentStudioClient {
     /// - parameter conversationId: (path) The conversationId.
     /// - parameter agentId: (path) The agentId.
     /// - parameter includeFeedback: (query) Include feedback for the conversation. (optional, default to false)
+    /// - parameter includeMessageEvents: (query) Include Insights events attributed to each assistant message.
+    /// (optional, default to false)
+    /// - parameter includeImpactAnalytics: (query) Include outcome signals (hasView, hasClick, hasConversion) for the
+    /// conversation. (optional, default to false)
     /// - parameter xAlgoliaSecureUserToken: (header) The X-Algolia-Secure-User-Token. (optional)
     /// - returns: ConversationFullResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1505,6 +1665,8 @@ open class AgentStudioClient {
         conversationId: String,
         agentId: String,
         includeFeedback: Bool? = nil,
+        includeMessageEvents: Bool? = nil,
+        includeImpactAnalytics: Bool? = nil,
         xAlgoliaSecureUserToken: String? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws -> ConversationFullResponse {
@@ -1512,6 +1674,8 @@ open class AgentStudioClient {
             conversationId: conversationId,
             agentId: agentId,
             includeFeedback: includeFeedback,
+            includeMessageEvents: includeMessageEvents,
+            includeImpactAnalytics: includeImpactAnalytics,
             xAlgoliaSecureUserToken: xAlgoliaSecureUserToken,
             requestOptions: requestOptions
         )
@@ -1533,6 +1697,12 @@ open class AgentStudioClient {
     //
     // - parameter includeFeedback: (query) Include feedback for the conversation. (optional, default to false)
     //
+    // - parameter includeMessageEvents: (query) Include Insights events attributed to each assistant message.
+    // (optional, default to false)
+    //
+    // - parameter includeImpactAnalytics: (query) Include outcome signals (hasView, hasClick, hasConversion) for the
+    // conversation. (optional, default to false)
+    //
     // - parameter xAlgoliaSecureUserToken: (header) The X-Algolia-Secure-User-Token. (optional)
     // - returns: RequestBuilder<ConversationFullResponse>
 
@@ -1540,6 +1710,8 @@ open class AgentStudioClient {
         conversationId: String,
         agentId: String,
         includeFeedback: Bool? = nil,
+        includeMessageEvents: Bool? = nil,
+        includeImpactAnalytics: Bool? = nil,
         xAlgoliaSecureUserToken: String? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<ConversationFullResponse> {
@@ -1573,6 +1745,8 @@ open class AgentStudioClient {
         let body: AnyCodable? = nil
         let queryParameters: [String: Any?] = [
             "includeFeedback": includeFeedback?.encodeToJSON(),
+            "includeMessageEvents": includeMessageEvents?.encodeToJSON(),
+            "includeImpactAnalytics": includeImpactAnalytics?.encodeToJSON(),
         ]
 
         let nillableHeaders: [String: Any?]? = [
@@ -1791,7 +1965,7 @@ open class AgentStudioClient {
         )
     }
 
-    /// Invalidate cached completions for this agent. Filter with `before` (exclusive).
+    /// Invalidate cached completions and task outputs for this agent. Filter with `before` (exclusive).
     /// Required API Key ACLs:
     ///  - editSettings
     ///
@@ -1908,6 +2082,11 @@ open class AgentStudioClient {
     /// - parameter feedbackVote: (query) Filter by feedback value (requires includeFeedback=true). (optional)
     /// - parameter page: (query) Page number. (optional, default to 1)
     /// - parameter limit: (query) Items per page. (optional, default to 20)
+    /// - parameter includeImpactAnalytics: (query) Include impact analytics (hasView, hasClick, hasConversion) per
+    /// conversation. (optional)
+    /// - parameter clicked: (query) Filter by conversations with at least one item click. (optional)
+    /// - parameter converted: (query) Filter by conversations with at least one conversion. (optional)
+    /// - parameter hasAlgoliaSearch: (query) Filter by conversations where the search tool was used. (optional)
     /// - parameter xAlgoliaSecureUserToken: (header) The X-Algolia-Secure-User-Token. (optional)
     /// - returns: PaginatedConversationsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1919,6 +2098,10 @@ open class AgentStudioClient {
         feedbackVote: Int? = nil,
         page: Int? = nil,
         limit: Int? = nil,
+        includeImpactAnalytics: Bool? = nil,
+        clicked: Bool? = nil,
+        converted: Bool? = nil,
+        hasAlgoliaSearch: Bool? = nil,
         xAlgoliaSecureUserToken: String? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws -> PaginatedConversationsResponse {
@@ -1930,6 +2113,10 @@ open class AgentStudioClient {
             feedbackVote: feedbackVote,
             page: page,
             limit: limit,
+            includeImpactAnalytics: includeImpactAnalytics,
+            clicked: clicked,
+            converted: converted,
+            hasAlgoliaSearch: hasAlgoliaSearch,
             xAlgoliaSecureUserToken: xAlgoliaSecureUserToken,
             requestOptions: requestOptions
         )
@@ -1959,6 +2146,15 @@ open class AgentStudioClient {
     //
     // - parameter limit: (query) Items per page. (optional, default to 20)
     //
+    // - parameter includeImpactAnalytics: (query) Include impact analytics (hasView, hasClick, hasConversion) per
+    // conversation. (optional)
+    //
+    // - parameter clicked: (query) Filter by conversations with at least one item click. (optional)
+    //
+    // - parameter converted: (query) Filter by conversations with at least one conversion. (optional)
+    //
+    // - parameter hasAlgoliaSearch: (query) Filter by conversations where the search tool was used. (optional)
+    //
     // - parameter xAlgoliaSecureUserToken: (header) The X-Algolia-Secure-User-Token. (optional)
     // - returns: RequestBuilder<PaginatedConversationsResponse>
 
@@ -1970,6 +2166,10 @@ open class AgentStudioClient {
         feedbackVote: Int? = nil,
         page: Int? = nil,
         limit: Int? = nil,
+        includeImpactAnalytics: Bool? = nil,
+        clicked: Bool? = nil,
+        converted: Bool? = nil,
+        hasAlgoliaSearch: Bool? = nil,
         xAlgoliaSecureUserToken: String? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<PaginatedConversationsResponse> {
@@ -1995,6 +2195,10 @@ open class AgentStudioClient {
             "feedbackVote": feedbackVote?.encodeToJSON(),
             "page": page?.encodeToJSON(),
             "limit": limit?.encodeToJSON(),
+            "includeImpactAnalytics": includeImpactAnalytics?.encodeToJSON(),
+            "clicked": clicked?.encodeToJSON(),
+            "converted": converted?.encodeToJSON(),
+            "hasAlgoliaSearch": hasAlgoliaSearch?.encodeToJSON(),
         ]
 
         let nillableHeaders: [String: Any?]? = [
@@ -2354,6 +2558,59 @@ open class AgentStudioClient {
         )
     }
 
+    /// - parameter contextTrimRequest: (body)
+    /// - returns: ContextResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func trimContext(
+        contextTrimRequest: ContextTrimRequest,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> ContextResponse {
+        let response: Response<ContextResponse> = try await trimContextWithHTTPInfo(
+            contextTrimRequest: contextTrimRequest,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Deterministically trim a conversation payload (no LLM calls).  Keep the last N messages and/or fit a heuristic
+    // token budget, optionally dropping tool parts from what is kept (tool parts are stripped before the budget is
+    // applied). Returns the trimmed messages plus before/after stats.  With no constraints set, the messages are
+    // returned unchanged and only the stats are computed - a deliberate, cheap \"how big is my context?\" probe (no LLM
+    // call, no mutation).
+    // Required API Key ACLs:
+    //  - search
+    //
+    // - parameter contextTrimRequest: (body)
+    // - returns: RequestBuilder<ContextResponse>
+
+    open func trimContextWithHTTPInfo(
+        contextTrimRequest: ContextTrimRequest,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<ContextResponse> {
+        let resourcePath = "/agent-studio/1/unstable/context/trim"
+        let body = contextTrimRequest
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
     /// - parameter agentId: (path) The agentId.
     /// - returns: AgentWithVersionResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -2516,6 +2773,55 @@ open class AgentStudioClient {
     ) async throws -> Response<ApplicationConfigResponse> {
         let resourcePath = "/agent-studio/1/configuration"
         let body = applicationConfigPatch
+        let queryParameters: [String: Any?]? = nil
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "PATCH",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - parameter feedbackUpdateRequest: (body)
+    /// - returns: FeedbackResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func updateFeedback(
+        feedbackUpdateRequest: FeedbackUpdateRequest,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> FeedbackResponse {
+        let response: Response<FeedbackResponse> = try await updateFeedbackWithHTTPInfo(
+            feedbackUpdateRequest: feedbackUpdateRequest,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Update an existing feedback entry.
+    // Required API Key ACLs:
+    //  - search
+    //
+    // - parameter feedbackUpdateRequest: (body)
+    // - returns: RequestBuilder<FeedbackResponse>
+
+    open func updateFeedbackWithHTTPInfo(
+        feedbackUpdateRequest: FeedbackUpdateRequest,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<FeedbackResponse> {
+        let resourcePath = "/agent-studio/1/feedback"
+        let body = feedbackUpdateRequest
         let queryParameters: [String: Any?]? = nil
 
         let nillableHeaders: [String: Any?]? = nil

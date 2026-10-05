@@ -14,7 +14,7 @@ public struct McpServerToolConfig: Codable, JSONEncodable {
     public var type: String
     /// Stable unique identifier for this MCP tool.
     public var id: String?
-    public var allowedTools: [String: ToolConfig]?
+    public var allowedTools: [String: ToolConfigOrBooleanUnion]?
 
     public init(
         url: String,
@@ -23,7 +23,7 @@ public struct McpServerToolConfig: Codable, JSONEncodable {
         name: String,
         type: String,
         id: String? = nil,
-        allowedTools: [String: ToolConfig]? = nil
+        allowedTools: [String: ToolConfigOrBooleanUnion]? = nil
     ) {
         self.url = url
         self.transport = transport

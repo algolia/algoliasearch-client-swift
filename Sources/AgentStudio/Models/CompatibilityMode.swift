@@ -10,6 +10,7 @@ import Foundation
 public enum CompatibilityMode: String, Codable, CaseIterable {
     case aiSdk4 = "ai-sdk-4"
     case aiSdk5 = "ai-sdk-5"
+    case agUi = "ag-ui"
 }
 
 extension CompatibilityMode: Hashable {}

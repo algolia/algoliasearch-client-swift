@@ -10,17 +10,29 @@ public struct AlgoliaSearchToolConfig: Codable, JSONEncodable {
     public var name: String
     public var type: String
     public var indices: [AlgoliaSearchToolIndexConfig]
+    public var mode: ModeEnum?
+    public var allowUnlistedIndices: Bool?
 
-    public init(name: String, type: String, indices: [AlgoliaSearchToolIndexConfig]) {
+    public init(
+        name: String,
+        type: String,
+        indices: [AlgoliaSearchToolIndexConfig],
+        mode: ModeEnum? = nil,
+        allowUnlistedIndices: Bool? = nil
+    ) {
         self.name = name
         self.type = type
         self.indices = indices
+        self.mode = mode
+        self.allowUnlistedIndices = allowUnlistedIndices
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case type
         case indices
+        case mode
+        case allowUnlistedIndices
     }
 
     // Encodable protocol methods
@@ -30,6 +42,8 @@ public struct AlgoliaSearchToolConfig: Codable, JSONEncodable {
         try container.encode(self.name, forKey: .name)
         try container.encode(self.type, forKey: .type)
         try container.encode(self.indices, forKey: .indices)
+        try container.encodeIfPresent(self.mode, forKey: .mode)
+        try container.encodeIfPresent(self.allowUnlistedIndices, forKey: .allowUnlistedIndices)
     }
 }
 
@@ -40,5 +54,7 @@ extension AlgoliaSearchToolConfig: Hashable {
         hasher.combine(self.name.hashValue)
         hasher.combine(self.type.hashValue)
         hasher.combine(self.indices.hashValue)
+        hasher.combine(self.mode?.hashValue)
+        hasher.combine(self.allowUnlistedIndices?.hashValue)
     }
 }

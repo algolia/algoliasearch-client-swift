@@ -14,6 +14,7 @@ public struct IndexSearchParameters: Codable, JSONEncodable {
     public var page: NumberParam?
     public var attributesToRetrieve: StringArrayParam?
     public var responseFields: StringArrayParam?
+    public var distinct: BooleanParam?
     public var facets: FacetsParam?
     public var custom: [String: AnyCodable]?
 
@@ -23,6 +24,7 @@ public struct IndexSearchParameters: Codable, JSONEncodable {
         page: NumberParam? = nil,
         attributesToRetrieve: StringArrayParam? = nil,
         responseFields: StringArrayParam? = nil,
+        distinct: BooleanParam? = nil,
         facets: FacetsParam? = nil,
         custom: [String: AnyCodable]? = nil
     ) {
@@ -31,6 +33,7 @@ public struct IndexSearchParameters: Codable, JSONEncodable {
         self.page = page
         self.attributesToRetrieve = attributesToRetrieve
         self.responseFields = responseFields
+        self.distinct = distinct
         self.facets = facets
         self.custom = custom
     }
@@ -41,6 +44,7 @@ public struct IndexSearchParameters: Codable, JSONEncodable {
         case page
         case attributesToRetrieve
         case responseFields
+        case distinct
         case facets
         case custom
     }
@@ -54,6 +58,7 @@ public struct IndexSearchParameters: Codable, JSONEncodable {
         try container.encodeIfPresent(self.page, forKey: .page)
         try container.encodeIfPresent(self.attributesToRetrieve, forKey: .attributesToRetrieve)
         try container.encodeIfPresent(self.responseFields, forKey: .responseFields)
+        try container.encodeIfPresent(self.distinct, forKey: .distinct)
         try container.encodeIfPresent(self.facets, forKey: .facets)
         try container.encodeIfPresent(self.custom, forKey: .custom)
     }
@@ -68,6 +73,7 @@ extension IndexSearchParameters: Hashable {
         hasher.combine(self.page?.hashValue)
         hasher.combine(self.attributesToRetrieve?.hashValue)
         hasher.combine(self.responseFields?.hashValue)
+        hasher.combine(self.distinct?.hashValue)
         hasher.combine(self.facets?.hashValue)
         hasher.combine(self.custom?.hashValue)
     }

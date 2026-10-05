@@ -6,8 +6,7 @@ import Foundation
     import AlgoliaCore
 #endif
 
-/// OpenAI-compatible provider input. Contrary to the OpenAIProviderInput, the base_url is required. A model is required
-/// to verify connectivity and get saved as the default model. This can later be changed at the Agent level.
+/// Input for a provider with an OpenAI-compatible API.
 public struct OpenAICompatibleProviderInput: Codable, JSONEncodable {
     public var apiKey: String
     public var baseUrl: String

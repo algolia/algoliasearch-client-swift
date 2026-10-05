@@ -9,15 +9,18 @@ import Foundation
 public struct PaginatedConversationsResponse: Codable, JSONEncodable {
     public var data: [ConversationBaseResponse]
     public var pagination: PaginationMetadata
+    public var analyticsDegraded: Bool?
 
-    public init(data: [ConversationBaseResponse], pagination: PaginationMetadata) {
+    public init(data: [ConversationBaseResponse], pagination: PaginationMetadata, analyticsDegraded: Bool? = nil) {
         self.data = data
         self.pagination = pagination
+        self.analyticsDegraded = analyticsDegraded
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case data
         case pagination
+        case analyticsDegraded
     }
 
     // Encodable protocol methods
@@ -26,6 +29,7 @@ public struct PaginatedConversationsResponse: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.data, forKey: .data)
         try container.encode(self.pagination, forKey: .pagination)
+        try container.encodeIfPresent(self.analyticsDegraded, forKey: .analyticsDegraded)
     }
 }
 
@@ -35,5 +39,6 @@ extension PaginatedConversationsResponse: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.data.hashValue)
         hasher.combine(self.pagination.hashValue)
+        hasher.combine(self.analyticsDegraded?.hashValue)
     }
 }

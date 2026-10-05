@@ -22,6 +22,7 @@ public struct ConversationBaseResponse: Codable, JSONEncodable {
     public var totalTokens: Int?
     public var conversationMetadata: ConversationMetadata?
     public var feedback: [FeedbackResponse]?
+    public var impactAnalytics: ImpactAnalytics?
 
     public init(
         id: String,
@@ -37,7 +38,8 @@ public struct ConversationBaseResponse: Codable, JSONEncodable {
         totalOutputTokens: Int? = nil,
         totalTokens: Int? = nil,
         conversationMetadata: ConversationMetadata? = nil,
-        feedback: [FeedbackResponse]? = nil
+        feedback: [FeedbackResponse]? = nil,
+        impactAnalytics: ImpactAnalytics? = nil
     ) {
         self.id = id
         self.agentId = agentId
@@ -53,6 +55,7 @@ public struct ConversationBaseResponse: Codable, JSONEncodable {
         self.totalTokens = totalTokens
         self.conversationMetadata = conversationMetadata
         self.feedback = feedback
+        self.impactAnalytics = impactAnalytics
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -70,6 +73,7 @@ public struct ConversationBaseResponse: Codable, JSONEncodable {
         case totalTokens
         case conversationMetadata
         case feedback
+        case impactAnalytics
     }
 
     // Encodable protocol methods
@@ -90,6 +94,7 @@ public struct ConversationBaseResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.totalTokens, forKey: .totalTokens)
         try container.encodeIfPresent(self.conversationMetadata, forKey: .conversationMetadata)
         try container.encodeIfPresent(self.feedback, forKey: .feedback)
+        try container.encodeIfPresent(self.impactAnalytics, forKey: .impactAnalytics)
     }
 }
 
@@ -111,5 +116,6 @@ extension ConversationBaseResponse: Hashable {
         hasher.combine(self.totalTokens?.hashValue)
         hasher.combine(self.conversationMetadata?.hashValue)
         hasher.combine(self.feedback?.hashValue)
+        hasher.combine(self.impactAnalytics?.hashValue)
     }
 }
