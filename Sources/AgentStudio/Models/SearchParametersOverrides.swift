@@ -18,6 +18,12 @@ public struct SearchParametersOverrides: Codable, JSONEncodable {
     public var enablePersonalization: Bool?
     public var personalizationImpact: Int?
     public var optionalFilters: OptionalFiltersUnion?
+    public var aroundLatLng: String?
+    public var aroundRadius: AroundRadiusUnion?
+    public var aroundPrecision: AroundPrecisionUnion?
+    public var minimumAroundRadius: Int?
+    public var insideBoundingBox: InsideBoundingBoxUnion?
+    public var insidePolygon: InsidePolygonUnion?
 
     public init(
         filters: String? = nil,
@@ -27,7 +33,13 @@ public struct SearchParametersOverrides: Codable, JSONEncodable {
         userToken: String? = nil,
         enablePersonalization: Bool? = nil,
         personalizationImpact: Int? = nil,
-        optionalFilters: OptionalFiltersUnion? = nil
+        optionalFilters: OptionalFiltersUnion? = nil,
+        aroundLatLng: String? = nil,
+        aroundRadius: AroundRadiusUnion? = nil,
+        aroundPrecision: AroundPrecisionUnion? = nil,
+        minimumAroundRadius: Int? = nil,
+        insideBoundingBox: InsideBoundingBoxUnion? = nil,
+        insidePolygon: InsidePolygonUnion? = nil
     ) {
         self.filters = filters
         self.attributesToRetrieve = attributesToRetrieve
@@ -37,6 +49,12 @@ public struct SearchParametersOverrides: Codable, JSONEncodable {
         self.enablePersonalization = enablePersonalization
         self.personalizationImpact = personalizationImpact
         self.optionalFilters = optionalFilters
+        self.aroundLatLng = aroundLatLng
+        self.aroundRadius = aroundRadius
+        self.aroundPrecision = aroundPrecision
+        self.minimumAroundRadius = minimumAroundRadius
+        self.insideBoundingBox = insideBoundingBox
+        self.insidePolygon = insidePolygon
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -48,6 +66,12 @@ public struct SearchParametersOverrides: Codable, JSONEncodable {
         case enablePersonalization
         case personalizationImpact
         case optionalFilters
+        case aroundLatLng
+        case aroundRadius
+        case aroundPrecision
+        case minimumAroundRadius
+        case insideBoundingBox
+        case insidePolygon
     }
 
     // Encodable protocol methods
@@ -62,6 +86,12 @@ public struct SearchParametersOverrides: Codable, JSONEncodable {
         try container.encodeIfPresent(self.enablePersonalization, forKey: .enablePersonalization)
         try container.encodeIfPresent(self.personalizationImpact, forKey: .personalizationImpact)
         try container.encodeIfPresent(self.optionalFilters, forKey: .optionalFilters)
+        try container.encodeIfPresent(self.aroundLatLng, forKey: .aroundLatLng)
+        try container.encodeIfPresent(self.aroundRadius, forKey: .aroundRadius)
+        try container.encodeIfPresent(self.aroundPrecision, forKey: .aroundPrecision)
+        try container.encodeIfPresent(self.minimumAroundRadius, forKey: .minimumAroundRadius)
+        try container.encodeIfPresent(self.insideBoundingBox, forKey: .insideBoundingBox)
+        try container.encodeIfPresent(self.insidePolygon, forKey: .insidePolygon)
     }
 }
 
@@ -77,5 +107,11 @@ extension SearchParametersOverrides: Hashable {
         hasher.combine(self.enablePersonalization?.hashValue)
         hasher.combine(self.personalizationImpact?.hashValue)
         hasher.combine(self.optionalFilters?.hashValue)
+        hasher.combine(self.aroundLatLng?.hashValue)
+        hasher.combine(self.aroundRadius?.hashValue)
+        hasher.combine(self.aroundPrecision?.hashValue)
+        hasher.combine(self.minimumAroundRadius?.hashValue)
+        hasher.combine(self.insideBoundingBox?.hashValue)
+        hasher.combine(self.insidePolygon?.hashValue)
     }
 }
