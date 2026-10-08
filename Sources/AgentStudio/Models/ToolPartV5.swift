@@ -16,6 +16,7 @@ public struct ToolPartV5: Codable, JSONEncodable {
     public var output: [String: AnyCodable]?
     public var outputMetadata: [String: AnyCodable]?
     public var errorText: String?
+    public var terminal: Bool?
     public var providerOptions: [String: AnyCodable]?
     public var requiresApproval: Bool?
     public var description: String?
@@ -30,6 +31,7 @@ public struct ToolPartV5: Codable, JSONEncodable {
         output: [String: AnyCodable]? = nil,
         outputMetadata: [String: AnyCodable]? = nil,
         errorText: String? = nil,
+        terminal: Bool? = nil,
         providerOptions: [String: AnyCodable]? = nil,
         requiresApproval: Bool? = nil,
         description: String? = nil,
@@ -43,6 +45,7 @@ public struct ToolPartV5: Codable, JSONEncodable {
         self.output = output
         self.outputMetadata = outputMetadata
         self.errorText = errorText
+        self.terminal = terminal
         self.providerOptions = providerOptions
         self.requiresApproval = requiresApproval
         self.description = description
@@ -58,6 +61,7 @@ public struct ToolPartV5: Codable, JSONEncodable {
         case output
         case outputMetadata
         case errorText
+        case terminal
         case providerOptions
         case requiresApproval
         case description
@@ -76,6 +80,7 @@ public struct ToolPartV5: Codable, JSONEncodable {
         try container.encodeIfPresent(self.output, forKey: .output)
         try container.encodeIfPresent(self.outputMetadata, forKey: .outputMetadata)
         try container.encodeIfPresent(self.errorText, forKey: .errorText)
+        try container.encodeIfPresent(self.terminal, forKey: .terminal)
         try container.encodeIfPresent(self.providerOptions, forKey: .providerOptions)
         try container.encodeIfPresent(self.requiresApproval, forKey: .requiresApproval)
         try container.encodeIfPresent(self.description, forKey: .description)
@@ -95,6 +100,7 @@ extension ToolPartV5: Hashable {
         hasher.combine(self.output?.hashValue)
         hasher.combine(self.outputMetadata?.hashValue)
         hasher.combine(self.errorText?.hashValue)
+        hasher.combine(self.terminal?.hashValue)
         hasher.combine(self.providerOptions?.hashValue)
         hasher.combine(self.requiresApproval?.hashValue)
         hasher.combine(self.description?.hashValue)

@@ -18,6 +18,7 @@ public struct SearchParametersOverrides: Codable, JSONEncodable {
     public var enablePersonalization: Bool?
     public var personalizationImpact: Int?
     public var optionalFilters: OptionalFiltersUnion?
+    public var facetFilters: FacetFiltersUnionSearchParametersOverrides?
     public var aroundLatLng: String?
     public var aroundRadius: AroundRadiusUnion?
     public var aroundPrecision: AroundPrecisionUnion?
@@ -34,6 +35,7 @@ public struct SearchParametersOverrides: Codable, JSONEncodable {
         enablePersonalization: Bool? = nil,
         personalizationImpact: Int? = nil,
         optionalFilters: OptionalFiltersUnion? = nil,
+        facetFilters: FacetFiltersUnionSearchParametersOverrides? = nil,
         aroundLatLng: String? = nil,
         aroundRadius: AroundRadiusUnion? = nil,
         aroundPrecision: AroundPrecisionUnion? = nil,
@@ -49,6 +51,7 @@ public struct SearchParametersOverrides: Codable, JSONEncodable {
         self.enablePersonalization = enablePersonalization
         self.personalizationImpact = personalizationImpact
         self.optionalFilters = optionalFilters
+        self.facetFilters = facetFilters
         self.aroundLatLng = aroundLatLng
         self.aroundRadius = aroundRadius
         self.aroundPrecision = aroundPrecision
@@ -66,6 +69,7 @@ public struct SearchParametersOverrides: Codable, JSONEncodable {
         case enablePersonalization
         case personalizationImpact
         case optionalFilters
+        case facetFilters
         case aroundLatLng
         case aroundRadius
         case aroundPrecision
@@ -86,6 +90,7 @@ public struct SearchParametersOverrides: Codable, JSONEncodable {
         try container.encodeIfPresent(self.enablePersonalization, forKey: .enablePersonalization)
         try container.encodeIfPresent(self.personalizationImpact, forKey: .personalizationImpact)
         try container.encodeIfPresent(self.optionalFilters, forKey: .optionalFilters)
+        try container.encodeIfPresent(self.facetFilters, forKey: .facetFilters)
         try container.encodeIfPresent(self.aroundLatLng, forKey: .aroundLatLng)
         try container.encodeIfPresent(self.aroundRadius, forKey: .aroundRadius)
         try container.encodeIfPresent(self.aroundPrecision, forKey: .aroundPrecision)
@@ -107,6 +112,7 @@ extension SearchParametersOverrides: Hashable {
         hasher.combine(self.enablePersonalization?.hashValue)
         hasher.combine(self.personalizationImpact?.hashValue)
         hasher.combine(self.optionalFilters?.hashValue)
+        hasher.combine(self.facetFilters?.hashValue)
         hasher.combine(self.aroundLatLng?.hashValue)
         hasher.combine(self.aroundRadius?.hashValue)
         hasher.combine(self.aroundPrecision?.hashValue)

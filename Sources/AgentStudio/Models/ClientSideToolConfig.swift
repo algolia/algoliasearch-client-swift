@@ -11,12 +11,23 @@ public struct ClientSideToolConfig: Codable, JSONEncodable {
     public var type: String
     public var description: String
     public var inputSchema: ClientToolsArgsSchema
+    /// Server-side declaration that this tool is display/render-only: a resolved result ends the turn and the model is
+    /// not re-invoked on it (CR-11753). The client's terminal claim on a tool result is honored only when this agrees;
+    /// leave false for data tools whose result the model must reason about.
+    public var isTerminal: Bool?
 
-    public init(name: String, type: String, description: String, inputSchema: ClientToolsArgsSchema) {
+    public init(
+        name: String,
+        type: String,
+        description: String,
+        inputSchema: ClientToolsArgsSchema,
+        isTerminal: Bool? = nil
+    ) {
         self.name = name
         self.type = type
         self.description = description
         self.inputSchema = inputSchema
+        self.isTerminal = isTerminal
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -24,6 +35,7 @@ public struct ClientSideToolConfig: Codable, JSONEncodable {
         case type
         case description
         case inputSchema
+        case isTerminal
     }
 
     // Encodable protocol methods
@@ -34,6 +46,7 @@ public struct ClientSideToolConfig: Codable, JSONEncodable {
         try container.encode(self.type, forKey: .type)
         try container.encode(self.description, forKey: .description)
         try container.encode(self.inputSchema, forKey: .inputSchema)
+        try container.encodeIfPresent(self.isTerminal, forKey: .isTerminal)
     }
 }
 
@@ -45,5 +58,6 @@ extension ClientSideToolConfig: Hashable {
         hasher.combine(self.type.hashValue)
         hasher.combine(self.description.hashValue)
         hasher.combine(self.inputSchema.hashValue)
+        hasher.combine(self.isTerminal?.hashValue)
     }
 }
