@@ -60,7 +60,7 @@ public struct SearchBaseIndexSettings: Codable, JSONEncodable {
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
     /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations).
     public var indexLanguages: [SearchSupportedLanguage]?
-    /// Searchable attributes for which you want to turn off [prefix matching](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/#adjusting-prefix-search).
+    /// Searchable attributes for which you want to turn off [prefix matching](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/#adjust-prefix-search).
     /// Attribute names are case-sensitive.
     public var disablePrefixOnAttributes: [String]?
     /// Whether arrays with exclusively non-negative integers should be compressed for better performance. If true, the

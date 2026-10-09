@@ -106,9 +106,9 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     /// by equally scoring matches that are farther apart For example, if `minProximity` is 2, neighboring matches and
     /// matches with one word between them would have the same score.
     public var minProximity: Int?
-    /// Minimum number of characters a word in the search query must contain to accept matches with [one typo](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configuring-word-length-for-typos).
+    /// Minimum number of characters a word in the search query must contain to accept matches with [one typo](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configure-word-size-threshold-for-typos).
     public var minWordSizefor1Typo: Int?
-    /// Minimum number of characters a word in the search query must contain to accept matches with [two typos](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configuring-word-length-for-typos).
+    /// Minimum number of characters a word in the search query must contain to accept matches with [two typos](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configure-word-size-threshold-for-typos).
     public var minWordSizefor2Typos: Int?
     /// ISO language codes that adjust settings that are useful for processing natural language queries (as opposed to
     /// keyword searches). - Sets `removeStopWords` and `ignorePlurals` to the list of provided languages. - Sets
@@ -153,7 +153,7 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     public var restrictHighlightAndSnippetArrays: Bool?
     /// Restricts a search to a subset of your searchable attributes. Attribute names are case-sensitive.
     public var restrictSearchableAttributes: [String]?
-    /// Assigns a rule context to the search query. [Rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#whats-a-context)
+    /// Assigns a rule context to the search query. [Rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#assign-context)
     /// are strings that you can use to trigger matching rules.
     public var ruleContexts: [String]?
     /// String used as an ellipsis indicator when a snippet is truncated.
@@ -183,7 +183,7 @@ public struct MainInjectionQueryParameters: Codable, JSONEncodable {
     /// display](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/facet-display/js).
     public var sortFacetValuesBy: String?
     /// Whether to sum all filter scores. If true, all filter scores are summed. Otherwise, the maximum filter score is
-    /// kept. For more information, see [filter scores](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/in-depth/filter-scoring/#accumulating-scores-with-sumorfiltersscores).
+    /// kept. For more information, see [filter scores](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/in-depth/filter-scoring/#accumulate-scores-with-sumorfiltersscores).
     public var sumOrFiltersScores: Bool?
 
     public init(

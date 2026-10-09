@@ -16,7 +16,7 @@ import Foundation
 /// increases by 1:   results 1 to 1,000 require 1 matched word; results 1,001 to 2,000 need 2 matched words. - If
 /// `optionalWords` has 10 or more words, the required number of matched words increases by the number of optional words
 /// divided by 5 (rounded down).   Example: with 18 optional words, results 1 to 1,000 require 1 matched word; results
-/// 1,001 to 2,000 need 4 matched words.  For more information, see [Optional words](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/empty-or-insufficient-results/#creating-a-list-of-optional-words).
+/// 1,001 to 2,000 need 4 matched words.  For more information, see [Optional words](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/empty-or-insufficient-results/#create-a-list-of-optional-words).
 public enum SearchOptionalWords: Codable, JSONEncodable, AbstractEncodable {
     case string(String)
     case arrayOfString([String])

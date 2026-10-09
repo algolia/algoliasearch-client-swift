@@ -14,7 +14,7 @@ public struct BaseRecommendIndexSettings: Codable, JSONEncodable {
     /// attribute is always included.
     public var attributesToRetrieve: [String]?
     /// Relevancy threshold below which less relevant results aren't included in the results. You can only set
-    /// `relevancyStrictness` on [virtual replica indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/#what-are-virtual-replicas).
+    /// `relevancyStrictness` on [virtual replica indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/#standard-and-virtual-replicas).
     /// Use this setting to strike a balance between the relevance and number of returned results.
     public var relevancyStrictness: Int?
     /// Attributes to highlight. By default, all searchable attributes are highlighted. Use `*` to highlight all
@@ -37,9 +37,9 @@ public struct BaseRecommendIndexSettings: Codable, JSONEncodable {
     /// Whether to restrict highlighting and snippeting to items that at least partially matched the search query. By
     /// default, all items are highlighted and snippeted.
     public var restrictHighlightAndSnippetArrays: Bool?
-    /// Minimum number of characters a word in the search query must contain to accept matches with [one typo](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configuring-word-length-for-typos).
+    /// Minimum number of characters a word in the search query must contain to accept matches with [one typo](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configure-word-size-threshold-for-typos).
     public var minWordSizefor1Typo: Int?
-    /// Minimum number of characters a word in the search query must contain to accept matches with [two typos](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configuring-word-length-for-typos).
+    /// Minimum number of characters a word in the search query must contain to accept matches with [two typos](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configure-word-size-threshold-for-typos).
     public var minWordSizefor2Typos: Int?
     public var typoTolerance: RecommendTypoTolerance?
     /// Whether to allow typos on numbers in the search query. Turn off this setting to reduce the number of irrelevant
@@ -62,7 +62,7 @@ public struct BaseRecommendIndexSettings: Codable, JSONEncodable {
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
     /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations).
     public var queryLanguages: [RecommendSupportedLanguage]?
-    /// Whether to split compound words in the query into their building blocks. For more information, see [Word segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#splitting-compound-words).
+    /// Whether to split compound words in the query into their building blocks. For more information, see [Word segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#split-compound-words).
     /// Word segmentation is supported for these languages: German, Dutch, Finnish, Swedish, and Norwegian.
     /// Decompounding doesn't work for words with [non-spacing mark Unicode
     /// characters](https://www.charactercodes.net/category/non-spacing_mark). For example, `Gartenstühle` won't be

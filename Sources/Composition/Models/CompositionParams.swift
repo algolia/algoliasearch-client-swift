@@ -90,10 +90,10 @@ public struct CompositionParams: Codable, JSONEncodable {
     /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations).
     public var queryLanguages: [CompositionSupportedLanguage]?
     /// Relevancy threshold below which less relevant results aren't included in the results. You can only set
-    /// `relevancyStrictness` on [virtual replica indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/#what-are-virtual-replicas).
+    /// `relevancyStrictness` on [virtual replica indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/#standard-and-virtual-replicas).
     /// Use this setting to strike a balance between the relevance and number of returned results.
     public var relevancyStrictness: Int?
-    /// Assigns a rule context to the run query. [Rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#whats-a-context)
+    /// Assigns a rule context to the run query. [Rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#assign-context)
     /// are strings that you can use to trigger matching rules.
     public var ruleContexts: [String]?
     /// Indicates which sorting strategy to apply for the request. The value must match one of the labels defined in the

@@ -19,6 +19,9 @@ public struct SourceUpdateCommercetools: Codable, JSONEncodable {
     public var productQueryPredicate: String?
     /// When set to true, the connector indexes objects with all images attributes instead of only the URLs.
     public var useImagesObjects: Bool?
+    /// When set to true, the connector uses the complete category path (e.g. \"Root > Level 1 > Category name\") in
+    /// `categoriesCustomFields`.
+    public var categoriesCustomFieldsFullPath: Bool?
     public var customFields: CommercetoolsCustomFields?
 
     public init(
@@ -28,6 +31,7 @@ public struct SourceUpdateCommercetools: Codable, JSONEncodable {
         fallbackIsInStockValue: Bool? = nil,
         productQueryPredicate: String? = nil,
         useImagesObjects: Bool? = nil,
+        categoriesCustomFieldsFullPath: Bool? = nil,
         customFields: CommercetoolsCustomFields? = nil
     ) {
         self.storeKeys = storeKeys
@@ -36,6 +40,7 @@ public struct SourceUpdateCommercetools: Codable, JSONEncodable {
         self.fallbackIsInStockValue = fallbackIsInStockValue
         self.productQueryPredicate = productQueryPredicate
         self.useImagesObjects = useImagesObjects
+        self.categoriesCustomFieldsFullPath = categoriesCustomFieldsFullPath
         self.customFields = customFields
     }
 
@@ -46,6 +51,7 @@ public struct SourceUpdateCommercetools: Codable, JSONEncodable {
         case fallbackIsInStockValue
         case productQueryPredicate
         case useImagesObjects
+        case categoriesCustomFieldsFullPath
         case customFields
     }
 
@@ -59,6 +65,7 @@ public struct SourceUpdateCommercetools: Codable, JSONEncodable {
         try container.encodeIfPresent(self.fallbackIsInStockValue, forKey: .fallbackIsInStockValue)
         try container.encodeIfPresent(self.productQueryPredicate, forKey: .productQueryPredicate)
         try container.encodeIfPresent(self.useImagesObjects, forKey: .useImagesObjects)
+        try container.encodeIfPresent(self.categoriesCustomFieldsFullPath, forKey: .categoriesCustomFieldsFullPath)
         try container.encodeIfPresent(self.customFields, forKey: .customFields)
     }
 }
@@ -73,6 +80,7 @@ extension SourceUpdateCommercetools: Hashable {
         hasher.combine(self.fallbackIsInStockValue?.hashValue)
         hasher.combine(self.productQueryPredicate?.hashValue)
         hasher.combine(self.useImagesObjects?.hashValue)
+        hasher.combine(self.categoriesCustomFieldsFullPath?.hashValue)
         hasher.combine(self.customFields?.hashValue)
     }
 }

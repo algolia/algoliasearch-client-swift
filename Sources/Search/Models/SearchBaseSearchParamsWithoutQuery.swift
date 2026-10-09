@@ -32,7 +32,7 @@ public struct SearchBaseSearchParamsWithoutQuery: Codable, JSONEncodable {
     public var numericFilters: SearchNumericFilters?
     public var tagFilters: SearchTagFilters?
     /// Whether to sum all filter scores. If true, all filter scores are summed. Otherwise, the maximum filter score is
-    /// kept. For more information, see [filter scores](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/in-depth/filter-scoring/#accumulating-scores-with-sumorfiltersscores).
+    /// kept. For more information, see [filter scores](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/in-depth/filter-scoring/#accumulate-scores-with-sumorfiltersscores).
     public var sumOrFiltersScores: Bool?
     /// Restricts a search to a subset of your searchable attributes. Attribute names are case-sensitive.
     public var restrictSearchableAttributes: [String]?
@@ -72,7 +72,7 @@ public struct SearchBaseSearchParamsWithoutQuery: Codable, JSONEncodable {
     /// `removeWordsIfNoResults` to `allOptional`. - Adds a `natural_language` attribute to `ruleContexts` and
     /// `analyticsTags`.
     public var naturalLanguages: [SearchSupportedLanguage]?
-    /// Assigns a rule context to the search query. [Rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#whats-a-context)
+    /// Assigns a rule context to the search query. [Rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#assign-context)
     /// are strings that you can use to trigger matching rules.
     public var ruleContexts: [String]?
     /// Impact that Personalization should have on this search. The higher this value is, the more Personalization
