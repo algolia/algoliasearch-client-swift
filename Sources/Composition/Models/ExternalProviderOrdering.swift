@@ -6,10 +6,10 @@ import Foundation
     import AlgoliaCore
 #endif
 
-/// Ordering to apply on the items retrieved from the external provider. 'default' uses the relevance ranking from the
-/// Algolia retrieval step. 'providerDefined' uses the ordering returned by the external provider.
+/// Ordering to apply on the items retrieved from the external provider. 'algoliaDefined' uses the relevance ranking
+/// from the Algolia retrieval step. 'providerDefined' uses the ordering returned by the external provider.
 public enum ExternalProviderOrdering: String, Codable, CaseIterable {
-    case `default`
+    case algoliaDefined
     case providerDefined
 }
 

@@ -6,8 +6,10 @@ import Foundation
     import AlgoliaCore
 #endif
 
-/// A/B test statistical analysis method. When omitted, the test is treated as `frequentist`. The server doesn't write a
-/// default value back to the configuration.
+/// A/B test statistical analysis method. When omitted, new A/B tests use `bayesian`. They use `frequentist` instead
+/// only if no primary metric that supports Bayesian analysis is available. The selected method is saved in the A/B test
+/// configuration. Older A/B tests, created before methods were saved, may have no method in their configuration. These
+/// tests use `frequentist`.
 public enum AnalysisMethod: String, Codable, CaseIterable {
     case bayesian
     case frequentist
