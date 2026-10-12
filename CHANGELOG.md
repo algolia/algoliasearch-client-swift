@@ -1,3 +1,7 @@
+## [9.50.1](https://github.com/algolia/algoliasearch-client-swift/compare/9.50.0...9.50.1)
+
+- [f2854eb518](https://github.com/algolia/api-clients-automation/commit/f2854eb518) chore(ci): bump ruby/setup-ruby to v1.329.0 to support Ruby 4.0.7 ([#7142](https://github.com/algolia/api-clients-automation/pull/7142)) by [@Fluf22](https://github.com/Fluf22/)
+
 ## [9.50.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.49.0...9.50.0)
 
 BREAKING CHANGES: this minor version includes breaking changes (A/B Testing V3 API, request bodies, Agent Studio API). See below for more details.
