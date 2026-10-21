@@ -2858,9 +2858,8 @@ open class SearchClient {
     // Copies or moves (renames) an index within the same Algolia application.  Notes: - Existing destination indices
     // are overwritten, except for their analytics data. - If the destination index doesn't exist yet, it's created. -
     // This operation is resource-intensive.  **Copy**  - If the source index doesn't exist, copying creates a new index
-    // with 0 records and default settings. - API keys from the source index are merged with the existing keys in the
-    // destination index. - You can't copy the `enableReRanking`, `mode`, and `replicas` settings. - You can't copy to a
-    // destination index that already has replicas. - Be aware of the [size
+    // with 0 records and default settings. - You can't copy the `enableReRanking`, `mode`, and `replicas` settings. -
+    // You can't copy to a destination index that already has replicas. - Be aware of the [size
     // limits](https://www.algolia.com/doc/guides/scaling/algolia-service-limits/#application-record-and-index-limits).
     // -
     // For more information, see [Copy indices](https://www.algolia.com/doc/guides/sending-and-managing-data/manage-indices-and-apps/manage-indices/how-to/copy-indices).
