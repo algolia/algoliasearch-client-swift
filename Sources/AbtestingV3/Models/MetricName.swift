@@ -25,6 +25,22 @@ public enum MetricName: String, Codable, CaseIterable {
     case revenue
     case revenuePerSearch = "revenue_per_search"
     case averageOrderValue = "average_order_value"
+    case clickedUsersCount = "clicked_users_count"
+    case convertedUsersCount = "converted_users_count"
+    case addToCartUsersCount = "add_to_cart_users_count"
+    case purchaseUsersCount = "purchase_users_count"
+    case usersWithNoResultsCount = "users_with_no_results_count"
+    case clickedUsersRate = "clicked_users_rate"
+    case convertedUsersRate = "converted_users_rate"
+    case addToCartUsersRate = "add_to_cart_users_rate"
+    case purchaseUsersRate = "purchase_users_rate"
+    case avgClickThroughRatePerUser = "avg_click_through_rate_per_user"
+    case avgConversionRatePerUser = "avg_conversion_rate_per_user"
+    case avgPurchaseRatePerUser = "avg_purchase_rate_per_user"
+    case avgAddToCartRatePerUser = "avg_add_to_cart_rate_per_user"
+    case avgClickPositionPerUser = "avg_click_position_per_user"
+    case winsorizedRevenuePerUser = "winsorized_revenue_per_user"
+    case winsorizedRevenuePerPurchaser = "winsorized_revenue_per_purchaser"
 }
 
 extension MetricName: Hashable {}

@@ -633,7 +633,8 @@ open class AbtestingV3Client {
     /// - parameter id: (path) Unique A/B test identifier.
     /// - parameter startDate: (query) Start date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     /// - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
-    /// - parameter metric: (query) List of metrics to retrieve. If not specified, all metrics are returned. (optional)
+    /// - parameter metric: (query) Metrics to retrieve, as a comma-separated list. If not specified, all metrics are
+    /// returned. (optional)
     /// - parameter methods: (query) Statistical analysis results to include, as a comma-separated list. When omitted,
     /// each test uses its configured method, or `frequentist` if no method is configured. Request both methods to
     /// include both sets of available results. This doesn't change the test configuration or compute missing results.
@@ -674,7 +675,8 @@ open class AbtestingV3Client {
     //
     // - parameter endDate: (query) End date of the period to analyze, in `YYYY-MM-DD` format. (optional)
     //
-    // - parameter metric: (query) List of metrics to retrieve. If not specified, all metrics are returned. (optional)
+    // - parameter metric: (query) Metrics to retrieve, as a comma-separated list. If not specified, all metrics are
+    // returned. (optional)
     //
     // - parameter methods: (query) Statistical analysis results to include, as a comma-separated list. When omitted,
     // each test uses its configured method, or `frequentist` if no method is configured. Request both methods to
