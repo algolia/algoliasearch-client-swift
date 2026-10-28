@@ -9,8 +9,9 @@ import Foundation
 public struct AbtestingV3Variant: Codable, JSONEncodable {
     /// Description for this variant.
     public var description: String
-    /// Estimated number of searches required to achieve the desired statistical significance.  The A/B test
-    /// configuration must include a `minimumDetectableEffect` setting for this number to be included in the response.
+    /// Estimated number of searches, or users for user-level rates (metrics ending in `UsersRate`), required to achieve
+    /// the desired statistical significance.  The A/B test configuration must include a `minimumDetectableEffect`
+    /// setting for this number to be included in the response.
     public var estimatedSampleSize: Int?
     /// Index name of the A/B test variant (case-sensitive).
     public var index: String

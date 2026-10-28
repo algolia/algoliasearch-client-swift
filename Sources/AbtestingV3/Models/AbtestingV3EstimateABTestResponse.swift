@@ -11,7 +11,8 @@ public struct AbtestingV3EstimateABTestResponse: Codable, JSONEncodable {
     /// value is based on historical traffic.
     public var durationDays: Int64?
     /// Sample size estimates for each variant. The first element is the control variant. Each element is the estimated
-    /// number of searches required to achieve the desired statistical significance.
+    /// number of searches, or users for user-level rates (metrics ending in `UsersRate`), required to achieve the
+    /// desired statistical significance.
     public var sampleSizes: [Int64]?
 
     public init(durationDays: Int64? = nil, sampleSizes: [Int64]? = nil) {

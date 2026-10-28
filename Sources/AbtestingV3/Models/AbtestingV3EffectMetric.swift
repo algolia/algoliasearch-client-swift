@@ -6,13 +6,19 @@ import Foundation
     import AlgoliaCore
 #endif
 
-/// Metric for which you want to detect the smallest relative difference.
+/// Metric for which you want to detect the smallest relative difference. Metrics ending in `UsersRate` are user-level
+/// rates: the share of tracked users with at least one search with a click, conversion, add-to-cart, or purchase. For
+/// these metrics, sample sizes count users instead of searches.
 public enum AbtestingV3EffectMetric: String, Codable, CaseIterable {
     case addToCartRate
     case clickThroughRate
     case conversionRate
     case purchaseRate
     case noResultsRate
+    case addToCartUsersRate
+    case clickedUsersRate
+    case convertedUsersRate
+    case purchaseUsersRate
 }
 
 extension AbtestingV3EffectMetric: Hashable {}
