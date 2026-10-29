@@ -1,3 +1,9 @@
+## [9.51.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.50.1...9.51.0)
+
+- [c2153f09a5](https://github.com/algolia/api-clients-automation/commit/c2153f09a5) fix(specs): remove obsolete index-key copy note ([#7177](https://github.com/algolia/api-clients-automation/pull/7177)) by [@xroche](https://github.com/xroche/)
+- [75e309924e](https://github.com/algolia/api-clients-automation/commit/75e309924e) clients(clients): cache host state only on change ([#7202](https://github.com/algolia/api-clients-automation/pull/7202)) by [@zigzagdev](https://github.com/zigzagdev/)
+- [e7642ce951](https://github.com/algolia/api-clients-automation/commit/e7642ce951) feat(specs): add user metrics to abtesting-v3 timeseries enum ([#7181](https://github.com/algolia/api-clients-automation/pull/7181)) by [@stevenMevans](https://github.com/stevenMevans/)
+
 ## [9.50.1](https://github.com/algolia/algoliasearch-client-swift/compare/9.50.0...9.50.1)
 
 - [f2854eb518](https://github.com/algolia/api-clients-automation/commit/f2854eb518) chore(ci): bump ruby/setup-ruby to v1.329.0 to support Ruby 4.0.7 ([#7142](https://github.com/algolia/api-clients-automation/pull/7142)) by [@Fluf22](https://github.com/Fluf22/)
