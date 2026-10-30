@@ -24,7 +24,10 @@ jobs:
       - name: Install CocoaPods
         run: gem install cocoapods
 
+      # CocoaPods trunk is going read-only: a failed push must not fail the release.
       - name: Publish on CocoaPods
+        id: cocoapods
+        continue-on-error: true
         run: |
           set -eo pipefail
           version=$(sed -n "s/.*s\.version = '\(.*\)'.*/\1/p" AlgoliaSearchClient.podspec)
@@ -35,3 +38,7 @@ jobs:
           pod trunk push --allow-warnings --verbose AlgoliaSearchClient.podspec
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+
+      - name: Warn when the CocoaPods publish failed
+        if: steps.cocoapods.outcome == 'failure'
+        run: echo "::warning title=release-warning: CocoaPods publish failed::AlgoliaSearchClient was not pushed to CocoaPods trunk; the release itself is unaffected (SwiftPM is the primary distribution)."
