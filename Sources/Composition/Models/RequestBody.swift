@@ -14,21 +14,33 @@ public struct RequestBody: Codable, JSONEncodable {
     /// value defined in the behavior is used. When neither value is present, all feeds are processed.
     public var feedsOrder: [String]?
     public var externalProvider: ExternalProvider?
+    /// Per-feed parameters for `multifeed` compositions. Each key is a feed ID.  Feed `params` take precedence over the
+    /// root `params`. A feed inherits every root key it doesn't set. A feed value replaces the root value instead of
+    /// combining with it. This applies to every key, including `filters`, `facetFilters`, `optionalFilters`, and
+    /// `analyticsTags`. For example, `filters` must repeat the common values. An empty value such as `filters: \"\"`
+    /// discards the root value.  The API validates feed `params` like the root `params`. An unsupported parameter
+    /// returns a 400 error.  A feed ID may not exist in the composition (for example, because a rule removed it). The
+    /// response reports it in the `errors` field but request still succeeds.  Rules match once per request, against the
+    /// root `params` only.
+    public var feeds: [String: FeedRequest]?
 
     public init(
         params: CompositionParams? = nil,
         feedsOrder: [String]? = nil,
-        externalProvider: ExternalProvider? = nil
+        externalProvider: ExternalProvider? = nil,
+        feeds: [String: FeedRequest]? = nil
     ) {
         self.params = params
         self.feedsOrder = feedsOrder
         self.externalProvider = externalProvider
+        self.feeds = feeds
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case params
         case feedsOrder
         case externalProvider
+        case feeds
     }
 
     // Encodable protocol methods
@@ -38,6 +50,7 @@ public struct RequestBody: Codable, JSONEncodable {
         try container.encodeIfPresent(self.params, forKey: .params)
         try container.encodeIfPresent(self.feedsOrder, forKey: .feedsOrder)
         try container.encodeIfPresent(self.externalProvider, forKey: .externalProvider)
+        try container.encodeIfPresent(self.feeds, forKey: .feeds)
     }
 }
 
@@ -48,5 +61,6 @@ extension RequestBody: Hashable {
         hasher.combine(self.params?.hashValue)
         hasher.combine(self.feedsOrder?.hashValue)
         hasher.combine(self.externalProvider?.hashValue)
+        hasher.combine(self.feeds?.hashValue)
     }
 }
