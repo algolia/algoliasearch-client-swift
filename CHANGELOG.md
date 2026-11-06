@@ -1,3 +1,10 @@
+## [9.52.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.51.0...9.52.0)
+
+- [e6933da012](https://github.com/algolia/api-clients-automation/commit/e6933da012) fix(specs): clarify maxHitsPerQuery is a per-page limit ([#7210](https://github.com/algolia/api-clients-automation/pull/7210)) by [@kai687](https://github.com/kai687/)
+- [af6b0913d3](https://github.com/algolia/api-clients-automation/commit/af6b0913d3) ci(swift): make CocoaPods publish non-blocking and report it in Slack ([#7208](https://github.com/algolia/api-clients-automation/pull/7208)) by [@Fluf22](https://github.com/Fluf22/)
+- [0a3cbbb29b](https://github.com/algolia/api-clients-automation/commit/0a3cbbb29b) feat(specs): add per-feed params to Composition run request ([#7199](https://github.com/algolia/api-clients-automation/pull/7199)) by [@ben-kalmus](https://github.com/ben-kalmus/)
+- [8456d9eb14](https://github.com/algolia/api-clients-automation/commit/8456d9eb14) feat(specs): support `algoliaDefined` ordering in external sources ([#7212](https://github.com/algolia/api-clients-automation/pull/7212)) by [@aiordache](https://github.com/aiordache/)
+
 ## [9.51.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.50.1...9.51.0)
 
 - [c2153f09a5](https://github.com/algolia/api-clients-automation/commit/c2153f09a5) fix(specs): remove obsolete index-key copy note ([#7177](https://github.com/algolia/api-clients-automation/pull/7177)) by [@xroche](https://github.com/xroche/)
