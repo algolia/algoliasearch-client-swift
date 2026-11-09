@@ -34,6 +34,7 @@ public enum MetricName: String, Codable, CaseIterable {
     case convertedUsersRate = "converted_users_rate"
     case addToCartUsersRate = "add_to_cart_users_rate"
     case purchaseUsersRate = "purchase_users_rate"
+    case usersWithNoResultsRate = "users_with_no_results_rate"
     case avgClickThroughRatePerUser = "avg_click_through_rate_per_user"
     case avgConversionRatePerUser = "avg_conversion_rate_per_user"
     case avgPurchaseRatePerUser = "avg_purchase_rate_per_user"

@@ -15,15 +15,22 @@ public struct MetricMetadata: Codable, JSONEncodable {
     public var winsorizedValue: Double?
     /// Mean value for this metric.
     public var mean: Double?
+    /// Only present for `winsorized_revenue_per_user`. Number of tracked users in this variant with a tracked purchase
+    /// in the metric's currency (`dimension`), plus tracked users with no tracked purchase in any currency. Users who
+    /// purchased only in other currencies are excluded. It's the sample size behind the mean, p-value, and intervals,
+    /// and differs from the overall `user_count` metric. Omitted when the variant has no record for that currency.
+    public var userCount: Int64?
 
-    public init(winsorizedValue: Double? = nil, mean: Double? = nil) {
+    public init(winsorizedValue: Double? = nil, mean: Double? = nil, userCount: Int64? = nil) {
         self.winsorizedValue = winsorizedValue
         self.mean = mean
+        self.userCount = userCount
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case winsorizedValue
         case mean
+        case userCount
     }
 
     // Encodable protocol methods
@@ -32,6 +39,7 @@ public struct MetricMetadata: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.winsorizedValue, forKey: .winsorizedValue)
         try container.encodeIfPresent(self.mean, forKey: .mean)
+        try container.encodeIfPresent(self.userCount, forKey: .userCount)
     }
 }
 
@@ -41,5 +49,6 @@ extension MetricMetadata: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.winsorizedValue?.hashValue)
         hasher.combine(self.mean?.hashValue)
+        hasher.combine(self.userCount?.hashValue)
     }
 }

@@ -10,8 +10,9 @@ import Foundation
 /// defaults to `bayesian`, the default primary metric is `conversion_rate`, or the first metric in `metrics` that
 /// supports Bayesian analysis if `metrics` doesn't include conversion rate. If the request includes a non-empty
 /// `metrics` list, this metric must be in that list. User-level rates (`*_users_rate`) are the share of tracked users
-/// with at least one such search. Add-to-cart rates, purchase rates, and revenue per search require access to revenue
-/// analytics.
+/// with at least one such search. For `users_with_no_results_rate`, this is the share of tracked users with at least
+/// one search returning no results. Lower values are better. Add-to-cart rates, purchase rates, and revenue per search
+/// require access to revenue analytics.
 public enum PrimaryMetric: String, Codable, CaseIterable {
     case addToCartRate = "add_to_cart_rate"
     case clickThroughRate = "click_through_rate"
@@ -22,6 +23,7 @@ public enum PrimaryMetric: String, Codable, CaseIterable {
     case clickedUsersRate = "clicked_users_rate"
     case convertedUsersRate = "converted_users_rate"
     case purchaseUsersRate = "purchase_users_rate"
+    case usersWithNoResultsRate = "users_with_no_results_rate"
 }
 
 extension PrimaryMetric: Hashable {}
