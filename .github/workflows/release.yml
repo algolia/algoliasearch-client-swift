@@ -41,4 +41,5 @@ jobs:
 
       - name: Warn when the CocoaPods publish failed
         if: steps.cocoapods.outcome == 'failure'
-        run: echo "::warning title=release-warning: CocoaPods publish failed::AlgoliaSearchClient was not pushed to CocoaPods trunk; the release itself is unaffected (SwiftPM is the primary distribution)."
+        run: |
+          echo "::warning title=release-warning: CocoaPods publish failed::AlgoliaSearchClient was not pushed to CocoaPods trunk; the release itself is unaffected (SwiftPM is the primary distribution)."
