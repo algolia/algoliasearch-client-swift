@@ -1,3 +1,8 @@
+## [9.54.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.53.0...9.54.0)
+
+- [2d8e1605b3](https://github.com/algolia/api-clients-automation/commit/2d8e1605b3) feat(specs): expose abtesting-v3 user populations and no-results rate ([#7305](https://github.com/algolia/api-clients-automation/pull/7305)) by [@stevenMevans](https://github.com/stevenMevans/)
+- [32131b43c5](https://github.com/algolia/api-clients-automation/commit/32131b43c5) fix(swift): quote CocoaPods warning step so release.yml parses ([#7308](https://github.com/algolia/api-clients-automation/pull/7308)) by [@Fluf22](https://github.com/Fluf22/)
+
 ## [9.53.0](https://github.com/algolia/algoliasearch-client-swift/compare/9.52.0...9.53.0)
 
 - [e6933da012](https://github.com/algolia/api-clients-automation/commit/e6933da012) fix(specs): clarify maxHitsPerQuery is a per-page limit ([#7210](https://github.com/algolia/api-clients-automation/pull/7210)) by [@kai687](https://github.com/kai687/)
