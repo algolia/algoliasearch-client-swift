@@ -6,6 +6,7 @@ import Foundation
     import AlgoliaCore
 #endif
 
+/// Information about the compositions processed by the run request. Only present when `getRankingInfo` is `true`.
 public struct CompositionsSearchResponse: Codable, JSONEncodable {
     public var run: [CompositionRunSearchResponse]
 
