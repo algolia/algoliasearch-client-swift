@@ -9,20 +9,28 @@ import Foundation
 /// Boolean filter applied to the A/B test population. Each filter targets a boolean metric and decides whether to
 /// include (true) or exclude (false) matching records.
 public struct MetricsFilter: Codable, JSONEncodable {
-    /// Metric domain (for example `abtesting`, `personalization`).
+    /// Metric domain (for example `abtesting`, `core`, `personalization`).
     public var domain: String
     /// Public metric name.
     public var name: String
-    /// Whether the experiment should record the effects of this filter.
+    /// Whether the experiment should record the effects of this filter. Not supported by `core.hasExactCategoryFilter`.
     public var trackEffects: Bool?
-    /// If true, keep items that match the filter; if false, exclude them.
+    /// If true, keep items that match the filter; if false, exclude them. Defaults to false.
     public var includes: Bool?
+    public var parameters: MetricsFilterParameters?
 
-    public init(domain: String, name: String, trackEffects: Bool? = nil, includes: Bool? = nil) {
+    public init(
+        domain: String,
+        name: String,
+        trackEffects: Bool? = nil,
+        includes: Bool? = nil,
+        parameters: MetricsFilterParameters? = nil
+    ) {
         self.domain = domain
         self.name = name
         self.trackEffects = trackEffects
         self.includes = includes
+        self.parameters = parameters
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -30,6 +38,7 @@ public struct MetricsFilter: Codable, JSONEncodable {
         case name
         case trackEffects
         case includes
+        case parameters
     }
 
     // Encodable protocol methods
@@ -40,6 +49,7 @@ public struct MetricsFilter: Codable, JSONEncodable {
         try container.encode(self.name, forKey: .name)
         try container.encodeIfPresent(self.trackEffects, forKey: .trackEffects)
         try container.encodeIfPresent(self.includes, forKey: .includes)
+        try container.encodeIfPresent(self.parameters, forKey: .parameters)
     }
 }
 
@@ -51,5 +61,6 @@ extension MetricsFilter: Hashable {
         hasher.combine(self.name.hashValue)
         hasher.combine(self.trackEffects?.hashValue)
         hasher.combine(self.includes?.hashValue)
+        hasher.combine(self.parameters?.hashValue)
     }
 }
