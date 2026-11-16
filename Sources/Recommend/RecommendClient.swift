@@ -63,7 +63,7 @@ open class RecommendClient {
     // which case the batch will atomically replace all the existing Recommend Rules.  Recommend Rules are similar to
     // Search Rules, except that the conditions and consequences apply to a [source
     // item](/doc/guides/algolia-recommend/overview/#recommend-models) instead of a query. The main differences are the
-    // following: - Conditions `pattern` and `anchoring` are unavailable. - Condition `filters` triggers if the source item matches the specified filters. - Condition `filters` accepts numeric filters. - Consequence `params` only covers filtering parameters. - Consequence `automaticFacetFilters` doesn't require a facet value placeholder (it tries to match the data source item's attributes instead).
+    // following: - Conditions `pattern` and `anchoring` are unavailable. - Condition `filters` triggers if the source item matches the specified filters. - Condition `filters` accepts numeric filters. - Consequence `params` only covers filtering parameters. - Consequence `automaticFacetFilters` doesn't require a facet value placeholder (it tries to match the data source item's attributes instead).  Trending Items requests have no source item, so rules for the `trending-items` model differ: - Condition `filters` and consequence `automaticFacetFilters` are unavailable. - Condition `requestScope` applies the rule to requests without a facet, or to requests for a specific facet.
     // Required API Key ACLs:
     //  - editSettings
     //

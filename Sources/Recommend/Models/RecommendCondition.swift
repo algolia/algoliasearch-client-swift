@@ -26,15 +26,18 @@ public struct RecommendCondition: Codable, JSONEncodable {
     /// parameter. For example, if `context: mobile`, the rule is only triggered when the search request has a matching
     /// `ruleContexts: mobile`. A rule context must only contain alphanumeric characters.
     public var context: String?
+    public var requestScope: RequestScope?
 
-    public init(filters: String? = nil, context: String? = nil) {
+    public init(filters: String? = nil, context: String? = nil, requestScope: RequestScope? = nil) {
         self.filters = filters
         self.context = context
+        self.requestScope = requestScope
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case filters
         case context
+        case requestScope
     }
 
     // Encodable protocol methods
@@ -43,6 +46,7 @@ public struct RecommendCondition: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.filters, forKey: .filters)
         try container.encodeIfPresent(self.context, forKey: .context)
+        try container.encodeIfPresent(self.requestScope, forKey: .requestScope)
     }
 }
 
@@ -52,5 +56,6 @@ extension RecommendCondition: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.filters?.hashValue)
         hasher.combine(self.context?.hashValue)
+        hasher.combine(self.requestScope?.hashValue)
     }
 }
