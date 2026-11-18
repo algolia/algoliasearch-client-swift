@@ -63,7 +63,17 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/algolia/algoliasearch-client-swift", from: "9.0.0")
     ],
-    // ...
+    targets: [
+        .target(
+            // ...
+            dependencies: [
+                // One product per API: AlgoliaSearch, AlgoliaRecommend, AlgoliaIngestion, ...
+                .product(name: "AlgoliaSearch", package: "algoliasearch-client-swift"),
+                // Shared types such as AnyCodable and RequestOptions
+                .product(name: "AlgoliaCore", package: "algoliasearch-client-swift")
+            ]
+        )
+    ]
 )
 ```
 
