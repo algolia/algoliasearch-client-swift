@@ -10,10 +10,13 @@ public enum ProviderName: String, Codable, CaseIterable {
     case openai
     case azureOpenai = "azure_openai"
     case googleGenai = "google_genai"
+    case googleVertexai = "google_vertexai"
     case deepseek
     case openaiCompatible = "openai_compatible"
+    case algoliaManagedLlm = "algolia_managed_llm"
     case xai
     case anthropic
+    case mistralai
 }
 
 extension ProviderName: Hashable {}

@@ -1490,7 +1490,7 @@ open class AgentStudioClient {
 
     // Retrieve details of the specified agent.
     // Required API Key ACLs:
-    //  - settings
+    //  - editSettings
     //
     // - parameter agentId: (path) The agentId.
     // - returns: RequestBuilder<AgentWithVersionResponse>
@@ -1555,7 +1555,7 @@ open class AgentStudioClient {
 
     // Get a single allowed domain by id.
     // Required API Key ACLs:
-    //  - settings
+    //  - editSettings
     //
     // - parameter domainId: (path) The domainId.
     //
@@ -1787,7 +1787,7 @@ open class AgentStudioClient {
 
     // Get Provider.
     // Required API Key ACLs:
-    //  - settings
+    //  - editSettings
     //
     // - parameter providerId: (path) The providerId.
     // - returns: RequestBuilder<ProviderAuthenticationResponse>
@@ -2034,7 +2034,7 @@ open class AgentStudioClient {
 
     // List all allowed domain patterns for this agent.
     // Required API Key ACLs:
-    //  - settings
+    //  - editSettings
     //
     // - parameter agentId: (path) The agentId.
     // - returns: RequestBuilder<AllowedDomainListResponse>
@@ -2245,7 +2245,7 @@ open class AgentStudioClient {
 
     // List all agents with pagination and filtering.
     // Required API Key ACLs:
-    //  - settings
+    //  - editSettings
     //
     // - parameter page: (query) Page number. (optional, default to 1)
     //
@@ -2339,7 +2339,7 @@ open class AgentStudioClient {
 
     // Get available models for a specific provider.
     // Required API Key ACLs:
-    //  - settings
+    //  - editSettings
     //
     // - parameter providerId: (path) The providerId.
     // - returns: RequestBuilder<[String]>
@@ -2404,7 +2404,7 @@ open class AgentStudioClient {
 
     // List Providers.
     // Required API Key ACLs:
-    //  - settings
+    //  - editSettings
     //
     // - parameter page: (query) Page number. (optional, default to 1)
     //

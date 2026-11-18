@@ -7,22 +7,27 @@ import Foundation
 #endif
 
 public enum InputUnion: Codable, JSONEncodable, AbstractEncodable {
-    case azureOpenAIProviderInput(AzureOpenAIProviderInput)
     case openAICompatibleProviderInput(OpenAICompatibleProviderInput)
+    case azureOpenAIProviderCreateInput(AzureOpenAIProviderCreateInput)
     case openAIProviderInput(OpenAIProviderInput)
+    case azureOpenAIProviderInput(AzureOpenAIProviderInput)
     case baseProviderInput(BaseProviderInput)
     case anthropicProviderInput(AnthropicProviderInput)
     case xAIProviderInput(XAIProviderInput)
-    case managedProviderResponseInput(ManagedProviderResponseInput)
+    case mistralProviderInput(MistralProviderInput)
+    case vertexAIProviderInput(VertexAIProviderInput)
+    case algoliaManagedLLMCreateInput(AlgoliaManagedLLMCreateInput)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .azureOpenAIProviderInput(value):
-            try container.encode(value)
         case let .openAICompatibleProviderInput(value):
             try container.encode(value)
+        case let .azureOpenAIProviderCreateInput(value):
+            try container.encode(value)
         case let .openAIProviderInput(value):
+            try container.encode(value)
+        case let .azureOpenAIProviderInput(value):
             try container.encode(value)
         case let .baseProviderInput(value):
             try container.encode(value)
@@ -30,27 +35,37 @@ public enum InputUnion: Codable, JSONEncodable, AbstractEncodable {
             try container.encode(value)
         case let .xAIProviderInput(value):
             try container.encode(value)
-        case let .managedProviderResponseInput(value):
+        case let .mistralProviderInput(value):
+            try container.encode(value)
+        case let .vertexAIProviderInput(value):
+            try container.encode(value)
+        case let .algoliaManagedLLMCreateInput(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(AzureOpenAIProviderInput.self) {
-            self = .azureOpenAIProviderInput(value)
-        } else if let value = try? container.decode(OpenAICompatibleProviderInput.self) {
+        if let value = try? container.decode(OpenAICompatibleProviderInput.self) {
             self = .openAICompatibleProviderInput(value)
+        } else if let value = try? container.decode(AzureOpenAIProviderCreateInput.self) {
+            self = .azureOpenAIProviderCreateInput(value)
         } else if let value = try? container.decode(OpenAIProviderInput.self) {
             self = .openAIProviderInput(value)
+        } else if let value = try? container.decode(AzureOpenAIProviderInput.self) {
+            self = .azureOpenAIProviderInput(value)
         } else if let value = try? container.decode(BaseProviderInput.self) {
             self = .baseProviderInput(value)
         } else if let value = try? container.decode(AnthropicProviderInput.self) {
             self = .anthropicProviderInput(value)
         } else if let value = try? container.decode(XAIProviderInput.self) {
             self = .xAIProviderInput(value)
-        } else if let value = try? container.decode(ManagedProviderResponseInput.self) {
-            self = .managedProviderResponseInput(value)
+        } else if let value = try? container.decode(MistralProviderInput.self) {
+            self = .mistralProviderInput(value)
+        } else if let value = try? container.decode(VertexAIProviderInput.self) {
+            self = .vertexAIProviderInput(value)
+        } else if let value = try? container.decode(AlgoliaManagedLLMCreateInput.self) {
+            self = .algoliaManagedLLMCreateInput(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -61,20 +76,26 @@ public enum InputUnion: Codable, JSONEncodable, AbstractEncodable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .azureOpenAIProviderInput(value):
-            value as AzureOpenAIProviderInput
         case let .openAICompatibleProviderInput(value):
             value as OpenAICompatibleProviderInput
+        case let .azureOpenAIProviderCreateInput(value):
+            value as AzureOpenAIProviderCreateInput
         case let .openAIProviderInput(value):
             value as OpenAIProviderInput
+        case let .azureOpenAIProviderInput(value):
+            value as AzureOpenAIProviderInput
         case let .baseProviderInput(value):
             value as BaseProviderInput
         case let .anthropicProviderInput(value):
             value as AnthropicProviderInput
         case let .xAIProviderInput(value):
             value as XAIProviderInput
-        case let .managedProviderResponseInput(value):
-            value as ManagedProviderResponseInput
+        case let .mistralProviderInput(value):
+            value as MistralProviderInput
+        case let .vertexAIProviderInput(value):
+            value as VertexAIProviderInput
+        case let .algoliaManagedLLMCreateInput(value):
+            value as AlgoliaManagedLLMCreateInput
         }
     }
 }

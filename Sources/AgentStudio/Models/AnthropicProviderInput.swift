@@ -10,15 +10,20 @@ import Foundation
 public struct AnthropicProviderInput: Codable, JSONEncodable {
     public var apiKey: String
     public var baseUrl: String?
+    /// Required for API keys not scoped to a single workspace (sk-ant-usr-...). Sent as the anthropic-workspace-id
+    /// header on every request.
+    public var workspaceId: String?
 
-    public init(apiKey: String, baseUrl: String? = nil) {
+    public init(apiKey: String, baseUrl: String? = nil, workspaceId: String? = nil) {
         self.apiKey = apiKey
         self.baseUrl = baseUrl
+        self.workspaceId = workspaceId
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case apiKey
         case baseUrl
+        case workspaceId
     }
 
     // Encodable protocol methods
@@ -27,6 +32,7 @@ public struct AnthropicProviderInput: Codable, JSONEncodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.apiKey, forKey: .apiKey)
         try container.encodeIfPresent(self.baseUrl, forKey: .baseUrl)
+        try container.encodeIfPresent(self.workspaceId, forKey: .workspaceId)
     }
 }
 
@@ -36,5 +42,6 @@ extension AnthropicProviderInput: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.apiKey.hashValue)
         hasher.combine(self.baseUrl?.hashValue)
+        hasher.combine(self.workspaceId?.hashValue)
     }
 }

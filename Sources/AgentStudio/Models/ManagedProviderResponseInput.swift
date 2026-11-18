@@ -8,9 +8,9 @@ import Foundation
 
 /// Response input for the Algolia-hosted provider. Limited by design.
 public struct ManagedProviderResponseInput: Codable, JSONEncodable {
-    public var defaultModel: String?
+    public var defaultModel: String
 
-    public init(defaultModel: String? = nil) {
+    public init(defaultModel: String) {
         self.defaultModel = defaultModel
     }
 
@@ -22,7 +22,7 @@ public struct ManagedProviderResponseInput: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.defaultModel, forKey: .defaultModel)
+        try container.encode(self.defaultModel, forKey: .defaultModel)
     }
 }
 
@@ -30,6 +30,6 @@ extension ManagedProviderResponseInput: Equatable {}
 
 extension ManagedProviderResponseInput: Hashable {
     public func hash(into hasher: inout Hasher) {
-        hasher.combine(self.defaultModel?.hashValue)
+        hasher.combine(self.defaultModel.hashValue)
     }
 }

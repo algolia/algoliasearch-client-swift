@@ -9,9 +9,9 @@ import Foundation
 public struct ProviderAuthenticationCreate: Codable, JSONEncodable {
     public var name: String
     public var providerName: ProviderName
-    public var input: ProviderInput
+    public var input: InputUnion
 
-    public init(name: String, providerName: ProviderName, input: ProviderInput) {
+    public init(name: String, providerName: ProviderName, input: InputUnion) {
         self.name = name
         self.providerName = providerName
         self.input = input

@@ -6,13 +6,16 @@ import Foundation
     import AlgoliaCore
 #endif
 
-public enum ProviderInput: Codable, JSONEncodable, AbstractEncodable {
+public enum InputUnionProviderAuthenticationResponse: Codable, JSONEncodable, AbstractEncodable {
     case azureOpenAIProviderInput(AzureOpenAIProviderInput)
     case openAICompatibleProviderInput(OpenAICompatibleProviderInput)
     case openAIProviderInput(OpenAIProviderInput)
     case baseProviderInput(BaseProviderInput)
     case anthropicProviderInput(AnthropicProviderInput)
     case xAIProviderInput(XAIProviderInput)
+    case mistralProviderInput(MistralProviderInput)
+    case vertexAIProviderInput(VertexAIProviderInput)
+    case managedProviderResponseInput(ManagedProviderResponseInput)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -28,6 +31,12 @@ public enum ProviderInput: Codable, JSONEncodable, AbstractEncodable {
         case let .anthropicProviderInput(value):
             try container.encode(value)
         case let .xAIProviderInput(value):
+            try container.encode(value)
+        case let .mistralProviderInput(value):
+            try container.encode(value)
+        case let .vertexAIProviderInput(value):
+            try container.encode(value)
+        case let .managedProviderResponseInput(value):
             try container.encode(value)
         }
     }
@@ -46,10 +55,19 @@ public enum ProviderInput: Codable, JSONEncodable, AbstractEncodable {
             self = .anthropicProviderInput(value)
         } else if let value = try? container.decode(XAIProviderInput.self) {
             self = .xAIProviderInput(value)
+        } else if let value = try? container.decode(MistralProviderInput.self) {
+            self = .mistralProviderInput(value)
+        } else if let value = try? container.decode(VertexAIProviderInput.self) {
+            self = .vertexAIProviderInput(value)
+        } else if let value = try? container.decode(ManagedProviderResponseInput.self) {
+            self = .managedProviderResponseInput(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
-                .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of ProviderInput")
+                .init(
+                    codingPath: decoder.codingPath,
+                    debugDescription: "Unable to decode instance of InputUnionProviderAuthenticationResponse"
+                )
             )
         }
     }
@@ -68,9 +86,15 @@ public enum ProviderInput: Codable, JSONEncodable, AbstractEncodable {
             value as AnthropicProviderInput
         case let .xAIProviderInput(value):
             value as XAIProviderInput
+        case let .mistralProviderInput(value):
+            value as MistralProviderInput
+        case let .vertexAIProviderInput(value):
+            value as VertexAIProviderInput
+        case let .managedProviderResponseInput(value):
+            value as ManagedProviderResponseInput
         }
     }
 }
 
-extension ProviderInput: Equatable {}
-extension ProviderInput: Hashable {}
+extension InputUnionProviderAuthenticationResponse: Equatable {}
+extension InputUnionProviderAuthenticationResponse: Hashable {}

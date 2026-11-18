@@ -12,12 +12,20 @@ public struct AzureOpenAIProviderInput: Codable, JSONEncodable {
     public var azureEndpoint: String
     /// Azure model deployment name.
     public var azureDeployment: String
+    public var apiMode: ApiModeEnum?
     public var apiVersion: String?
 
-    public init(apiKey: String, azureEndpoint: String, azureDeployment: String, apiVersion: String? = nil) {
+    public init(
+        apiKey: String,
+        azureEndpoint: String,
+        azureDeployment: String,
+        apiMode: ApiModeEnum? = nil,
+        apiVersion: String? = nil
+    ) {
         self.apiKey = apiKey
         self.azureEndpoint = azureEndpoint
         self.azureDeployment = azureDeployment
+        self.apiMode = apiMode
         self.apiVersion = apiVersion
     }
 
@@ -25,6 +33,7 @@ public struct AzureOpenAIProviderInput: Codable, JSONEncodable {
         case apiKey
         case azureEndpoint
         case azureDeployment
+        case apiMode
         case apiVersion
     }
 
@@ -35,6 +44,7 @@ public struct AzureOpenAIProviderInput: Codable, JSONEncodable {
         try container.encode(self.apiKey, forKey: .apiKey)
         try container.encode(self.azureEndpoint, forKey: .azureEndpoint)
         try container.encode(self.azureDeployment, forKey: .azureDeployment)
+        try container.encodeIfPresent(self.apiMode, forKey: .apiMode)
         try container.encodeIfPresent(self.apiVersion, forKey: .apiVersion)
     }
 }
@@ -46,6 +56,7 @@ extension AzureOpenAIProviderInput: Hashable {
         hasher.combine(self.apiKey.hashValue)
         hasher.combine(self.azureEndpoint.hashValue)
         hasher.combine(self.azureDeployment.hashValue)
+        hasher.combine(self.apiMode?.hashValue)
         hasher.combine(self.apiVersion?.hashValue)
     }
 }
