@@ -248,6 +248,10 @@ public struct SearchConsequenceParams: Codable, JSONEncodable {
     public var query: SearchConsequenceQuery?
     public var automaticFacetFilters: SearchAutomaticFacetFilters?
     public var automaticOptionalFacetFilters: SearchAutomaticFacetFilters?
+    /// Whether [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking) runs concurrently with
+    /// Personalization.  Dynamic Re-Ranking isn't applied when `distinct` > 1, even if
+    /// `allowReRankingOnPersonalization` is `true`.
+    public var allowReRankingOnPersonalization: Bool?
 
     public init(
         similarQuery: String? = nil,
@@ -325,7 +329,8 @@ public struct SearchConsequenceParams: Codable, JSONEncodable {
         reRankingApplyFilter: SearchReRankingApplyFilter? = nil,
         query: SearchConsequenceQuery? = nil,
         automaticFacetFilters: SearchAutomaticFacetFilters? = nil,
-        automaticOptionalFacetFilters: SearchAutomaticFacetFilters? = nil
+        automaticOptionalFacetFilters: SearchAutomaticFacetFilters? = nil,
+        allowReRankingOnPersonalization: Bool? = nil
     ) {
         self.similarQuery = similarQuery
         self.filters = filters
@@ -403,6 +408,7 @@ public struct SearchConsequenceParams: Codable, JSONEncodable {
         self.query = query
         self.automaticFacetFilters = automaticFacetFilters
         self.automaticOptionalFacetFilters = automaticOptionalFacetFilters
+        self.allowReRankingOnPersonalization = allowReRankingOnPersonalization
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -482,6 +488,7 @@ public struct SearchConsequenceParams: Codable, JSONEncodable {
         case query
         case automaticFacetFilters
         case automaticOptionalFacetFilters
+        case allowReRankingOnPersonalization
     }
 
     // Encodable protocol methods
@@ -570,6 +577,7 @@ public struct SearchConsequenceParams: Codable, JSONEncodable {
         try container.encodeIfPresent(self.query, forKey: .query)
         try container.encodeIfPresent(self.automaticFacetFilters, forKey: .automaticFacetFilters)
         try container.encodeIfPresent(self.automaticOptionalFacetFilters, forKey: .automaticOptionalFacetFilters)
+        try container.encodeIfPresent(self.allowReRankingOnPersonalization, forKey: .allowReRankingOnPersonalization)
     }
 }
 
@@ -653,5 +661,6 @@ extension SearchConsequenceParams: Hashable {
         hasher.combine(self.query?.hashValue)
         hasher.combine(self.automaticFacetFilters?.hashValue)
         hasher.combine(self.automaticOptionalFacetFilters?.hashValue)
+        hasher.combine(self.allowReRankingOnPersonalization?.hashValue)
     }
 }

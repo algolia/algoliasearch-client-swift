@@ -88,9 +88,11 @@ public extension SearchForHits {
         self.maxValuesPerFacet = searchParamsObject.maxValuesPerFacet
         self.sortFacetValuesBy = searchParamsObject.sortFacetValuesBy
         self.attributeCriteriaComputedByMinProximity = searchParamsObject.attributeCriteriaComputedByMinProximity
+        self.attributeCriteriaComputedBy = searchParamsObject.attributeCriteriaComputedBy
         self.renderingContent = searchParamsObject.renderingContent
         self.enableReRanking = searchParamsObject.enableReRanking
         self.reRankingApplyFilter = searchParamsObject.reRankingApplyFilter
+        self.allowReRankingOnPersonalization = searchParamsObject.allowReRankingOnPersonalization
         self.indexName = indexName
         self.type = .default
     }
@@ -173,9 +175,11 @@ public extension SearchForFacets {
         self.maxValuesPerFacet = searchParamsObject.maxValuesPerFacet
         self.sortFacetValuesBy = searchParamsObject.sortFacetValuesBy
         self.attributeCriteriaComputedByMinProximity = searchParamsObject.attributeCriteriaComputedByMinProximity
+        self.attributeCriteriaComputedBy = searchParamsObject.attributeCriteriaComputedBy
         self.renderingContent = searchParamsObject.renderingContent
         self.enableReRanking = searchParamsObject.enableReRanking
         self.reRankingApplyFilter = searchParamsObject.reRankingApplyFilter
+        self.allowReRankingOnPersonalization = searchParamsObject.allowReRankingOnPersonalization
         self.facet = options.facet
         self.indexName = options.indexName
         self.facetQuery = options.facetQuery

@@ -249,6 +249,10 @@ public struct SearchForFacets: Codable, JSONEncodable {
     /// This setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
     public var reRankingApplyFilter: SearchReRankingApplyFilter?
+    /// Whether [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking) runs concurrently with
+    /// Personalization.  Dynamic Re-Ranking isn't applied when `distinct` > 1, even if
+    /// `allowReRankingOnPersonalization` is `true`.
+    public var allowReRankingOnPersonalization: Bool?
     /// Facet name.
     public var facet: String
     /// Index name (case-sensitive).
@@ -336,6 +340,7 @@ public struct SearchForFacets: Codable, JSONEncodable {
         renderingContent: SearchRenderingContent? = nil,
         enableReRanking: Bool? = nil,
         reRankingApplyFilter: SearchReRankingApplyFilter? = nil,
+        allowReRankingOnPersonalization: Bool? = nil,
         facet: String,
         indexName: String,
         facetQuery: String? = nil,
@@ -417,6 +422,7 @@ public struct SearchForFacets: Codable, JSONEncodable {
         self.renderingContent = renderingContent
         self.enableReRanking = enableReRanking
         self.reRankingApplyFilter = reRankingApplyFilter
+        self.allowReRankingOnPersonalization = allowReRankingOnPersonalization
         self.facet = facet
         self.indexName = indexName
         self.facetQuery = facetQuery
@@ -500,6 +506,7 @@ public struct SearchForFacets: Codable, JSONEncodable {
         case renderingContent
         case enableReRanking
         case reRankingApplyFilter
+        case allowReRankingOnPersonalization
         case facet
         case indexName
         case facetQuery
@@ -592,6 +599,7 @@ public struct SearchForFacets: Codable, JSONEncodable {
         try container.encodeIfPresent(self.renderingContent, forKey: .renderingContent)
         try container.encodeIfPresent(self.enableReRanking, forKey: .enableReRanking)
         try container.encodeIfPresent(self.reRankingApplyFilter, forKey: .reRankingApplyFilter)
+        try container.encodeIfPresent(self.allowReRankingOnPersonalization, forKey: .allowReRankingOnPersonalization)
         try container.encode(self.facet, forKey: .facet)
         try container.encode(self.indexName, forKey: .indexName)
         try container.encodeIfPresent(self.facetQuery, forKey: .facetQuery)
@@ -679,6 +687,7 @@ extension SearchForFacets: Hashable {
         hasher.combine(self.renderingContent?.hashValue)
         hasher.combine(self.enableReRanking?.hashValue)
         hasher.combine(self.reRankingApplyFilter?.hashValue)
+        hasher.combine(self.allowReRankingOnPersonalization?.hashValue)
         hasher.combine(self.facet.hashValue)
         hasher.combine(self.indexName.hashValue)
         hasher.combine(self.facetQuery?.hashValue)

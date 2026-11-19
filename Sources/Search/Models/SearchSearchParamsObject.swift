@@ -248,6 +248,10 @@ public struct SearchSearchParamsObject: Codable, JSONEncodable {
     /// This setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
     public var reRankingApplyFilter: SearchReRankingApplyFilter?
+    /// Whether [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking) runs concurrently with
+    /// Personalization.  Dynamic Re-Ranking isn't applied when `distinct` > 1, even if
+    /// `allowReRankingOnPersonalization` is `true`.
+    public var allowReRankingOnPersonalization: Bool?
 
     public init(
         query: String? = nil,
@@ -323,7 +327,8 @@ public struct SearchSearchParamsObject: Codable, JSONEncodable {
         attributeCriteriaComputedBy: SearchAttributeCriteriaComputedBy? = nil,
         renderingContent: SearchRenderingContent? = nil,
         enableReRanking: Bool? = nil,
-        reRankingApplyFilter: SearchReRankingApplyFilter? = nil
+        reRankingApplyFilter: SearchReRankingApplyFilter? = nil,
+        allowReRankingOnPersonalization: Bool? = nil
     ) {
         self.query = query
         self.similarQuery = similarQuery
@@ -399,6 +404,7 @@ public struct SearchSearchParamsObject: Codable, JSONEncodable {
         self.renderingContent = renderingContent
         self.enableReRanking = enableReRanking
         self.reRankingApplyFilter = reRankingApplyFilter
+        self.allowReRankingOnPersonalization = allowReRankingOnPersonalization
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -476,6 +482,7 @@ public struct SearchSearchParamsObject: Codable, JSONEncodable {
         case renderingContent
         case enableReRanking
         case reRankingApplyFilter
+        case allowReRankingOnPersonalization
     }
 
     // Encodable protocol methods
@@ -562,6 +569,7 @@ public struct SearchSearchParamsObject: Codable, JSONEncodable {
         try container.encodeIfPresent(self.renderingContent, forKey: .renderingContent)
         try container.encodeIfPresent(self.enableReRanking, forKey: .enableReRanking)
         try container.encodeIfPresent(self.reRankingApplyFilter, forKey: .reRankingApplyFilter)
+        try container.encodeIfPresent(self.allowReRankingOnPersonalization, forKey: .allowReRankingOnPersonalization)
     }
 }
 
@@ -643,5 +651,6 @@ extension SearchSearchParamsObject: Hashable {
         hasher.combine(self.renderingContent?.hashValue)
         hasher.combine(self.enableReRanking?.hashValue)
         hasher.combine(self.reRankingApplyFilter?.hashValue)
+        hasher.combine(self.allowReRankingOnPersonalization?.hashValue)
     }
 }

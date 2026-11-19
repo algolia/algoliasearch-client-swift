@@ -249,6 +249,10 @@ public struct SearchForHits: Codable, JSONEncodable {
     /// This setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
     public var reRankingApplyFilter: SearchReRankingApplyFilter?
+    /// Whether [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking) runs concurrently with
+    /// Personalization.  Dynamic Re-Ranking isn't applied when `distinct` > 1, even if
+    /// `allowReRankingOnPersonalization` is `true`.
+    public var allowReRankingOnPersonalization: Bool?
     /// Index name (case-sensitive).
     public var indexName: String
     public var type: SearchTypeDefault?
@@ -330,6 +334,7 @@ public struct SearchForHits: Codable, JSONEncodable {
         renderingContent: SearchRenderingContent? = nil,
         enableReRanking: Bool? = nil,
         reRankingApplyFilter: SearchReRankingApplyFilter? = nil,
+        allowReRankingOnPersonalization: Bool? = nil,
         indexName: String,
         type: SearchTypeDefault? = nil,
         extensions: SearchExtensions? = nil
@@ -409,6 +414,7 @@ public struct SearchForHits: Codable, JSONEncodable {
         self.renderingContent = renderingContent
         self.enableReRanking = enableReRanking
         self.reRankingApplyFilter = reRankingApplyFilter
+        self.allowReRankingOnPersonalization = allowReRankingOnPersonalization
         self.indexName = indexName
         self.type = type
         self.extensions = extensions
@@ -490,6 +496,7 @@ public struct SearchForHits: Codable, JSONEncodable {
         case renderingContent
         case enableReRanking
         case reRankingApplyFilter
+        case allowReRankingOnPersonalization
         case indexName
         case type
         case extensions
@@ -580,6 +587,7 @@ public struct SearchForHits: Codable, JSONEncodable {
         try container.encodeIfPresent(self.renderingContent, forKey: .renderingContent)
         try container.encodeIfPresent(self.enableReRanking, forKey: .enableReRanking)
         try container.encodeIfPresent(self.reRankingApplyFilter, forKey: .reRankingApplyFilter)
+        try container.encodeIfPresent(self.allowReRankingOnPersonalization, forKey: .allowReRankingOnPersonalization)
         try container.encode(self.indexName, forKey: .indexName)
         try container.encodeIfPresent(self.type, forKey: .type)
         try container.encodeIfPresent(self.extensions, forKey: .extensions)
@@ -665,6 +673,7 @@ extension SearchForHits: Hashable {
         hasher.combine(self.renderingContent?.hashValue)
         hasher.combine(self.enableReRanking?.hashValue)
         hasher.combine(self.reRankingApplyFilter?.hashValue)
+        hasher.combine(self.allowReRankingOnPersonalization?.hashValue)
         hasher.combine(self.indexName.hashValue)
         hasher.combine(self.type?.hashValue)
         hasher.combine(self.extensions?.hashValue)
