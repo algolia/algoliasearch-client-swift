@@ -13,6 +13,7 @@ public enum ItemsUnion: Codable, JSONEncodable, AbstractEncodable {
     case algoliaRecommendToolConfig(AlgoliaRecommendToolConfig)
     case algoliaGroupedResultsToolConfig(AlgoliaGroupedResultsToolConfig)
     case algoliaGroupedResultsCompatToolConfig(AlgoliaGroupedResultsCompatToolConfig)
+    case algoliaCompareProductsToolConfig(AlgoliaCompareProductsToolConfig)
     case unknownToolConfig(UnknownToolConfig)
 
     public func encode(to encoder: Encoder) throws {
@@ -30,6 +31,8 @@ public enum ItemsUnion: Codable, JSONEncodable, AbstractEncodable {
             try container.encode(value)
         case let .algoliaGroupedResultsCompatToolConfig(value):
             try container.encode(value)
+        case let .algoliaCompareProductsToolConfig(value):
+            try container.encode(value)
         case let .unknownToolConfig(value):
             try container.encode(value)
         }
@@ -40,6 +43,9 @@ public enum ItemsUnion: Codable, JSONEncodable, AbstractEncodable {
         if let jsonObject = try? container.decode([String: AnyCodable].self),
            let discriminatorValue = jsonObject["type"]?.value as? String {
             switch discriminatorValue {
+            case "algolia_compare_products":
+                self = try .algoliaCompareProductsToolConfig(container.decode(AlgoliaCompareProductsToolConfig.self))
+                return
             case "algolia_display_results":
                 self = try .algoliaGroupedResultsCompatToolConfig(container
                     .decode(AlgoliaGroupedResultsCompatToolConfig.self))
@@ -78,6 +84,8 @@ public enum ItemsUnion: Codable, JSONEncodable, AbstractEncodable {
             self = .algoliaGroupedResultsToolConfig(value)
         } else if let value = try? container.decode(AlgoliaGroupedResultsCompatToolConfig.self) {
             self = .algoliaGroupedResultsCompatToolConfig(value)
+        } else if let value = try? container.decode(AlgoliaCompareProductsToolConfig.self) {
+            self = .algoliaCompareProductsToolConfig(value)
         } else if let value = try? container.decode(UnknownToolConfig.self) {
             self = .unknownToolConfig(value)
         } else {
@@ -102,6 +110,8 @@ public enum ItemsUnion: Codable, JSONEncodable, AbstractEncodable {
             value as AlgoliaGroupedResultsToolConfig
         case let .algoliaGroupedResultsCompatToolConfig(value):
             value as AlgoliaGroupedResultsCompatToolConfig
+        case let .algoliaCompareProductsToolConfig(value):
+            value as AlgoliaCompareProductsToolConfig
         case let .unknownToolConfig(value):
             value as UnknownToolConfig
         }

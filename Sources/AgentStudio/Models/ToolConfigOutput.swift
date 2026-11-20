@@ -11,6 +11,7 @@ public enum ToolConfigOutput: Codable, JSONEncodable, AbstractEncodable {
     case mcpServerToolConfig(McpServerToolConfig)
     case algoliaSearchToolConfig(AlgoliaSearchToolConfig)
     case algoliaRecommendToolConfig(AlgoliaRecommendToolConfig)
+    case algoliaCompareProductsToolConfig(AlgoliaCompareProductsToolConfig)
     case unknownToolConfig(UnknownToolConfig)
 
     public func encode(to encoder: Encoder) throws {
@@ -24,6 +25,8 @@ public enum ToolConfigOutput: Codable, JSONEncodable, AbstractEncodable {
             try container.encode(value)
         case let .algoliaRecommendToolConfig(value):
             try container.encode(value)
+        case let .algoliaCompareProductsToolConfig(value):
+            try container.encode(value)
         case let .unknownToolConfig(value):
             try container.encode(value)
         }
@@ -34,6 +37,9 @@ public enum ToolConfigOutput: Codable, JSONEncodable, AbstractEncodable {
         if let jsonObject = try? container.decode([String: AnyCodable].self),
            let discriminatorValue = jsonObject["type"]?.value as? String {
             switch discriminatorValue {
+            case "algolia_compare_products":
+                self = try .algoliaCompareProductsToolConfig(container.decode(AlgoliaCompareProductsToolConfig.self))
+                return
             case "algolia_recommend":
                 self = try .algoliaRecommendToolConfig(container.decode(AlgoliaRecommendToolConfig.self))
                 return
@@ -61,6 +67,8 @@ public enum ToolConfigOutput: Codable, JSONEncodable, AbstractEncodable {
             self = .algoliaSearchToolConfig(value)
         } else if let value = try? container.decode(AlgoliaRecommendToolConfig.self) {
             self = .algoliaRecommendToolConfig(value)
+        } else if let value = try? container.decode(AlgoliaCompareProductsToolConfig.self) {
+            self = .algoliaCompareProductsToolConfig(value)
         } else if let value = try? container.decode(UnknownToolConfig.self) {
             self = .unknownToolConfig(value)
         } else {
@@ -81,6 +89,8 @@ public enum ToolConfigOutput: Codable, JSONEncodable, AbstractEncodable {
             value as AlgoliaSearchToolConfig
         case let .algoliaRecommendToolConfig(value):
             value as AlgoliaRecommendToolConfig
+        case let .algoliaCompareProductsToolConfig(value):
+            value as AlgoliaCompareProductsToolConfig
         case let .unknownToolConfig(value):
             value as UnknownToolConfig
         }

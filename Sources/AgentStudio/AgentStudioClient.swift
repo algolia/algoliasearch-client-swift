@@ -349,6 +349,9 @@ open class AgentStudioClient {
     /// Agent Studio BigQuery analytics, Algolia search analytics, click analytics, and query-suggestions training.
     /// Useful for offline-eval workflows. (optional, default to true)
     /// - parameter xAlgoliaSecureUserToken: (header) The X-Algolia-Secure-User-Token. (optional)
+    /// - parameter ephemeral: (query) Set to true to not retain the conversation: it is processed and analyzed like any
+    /// other, but removed by the next cleanup run instead of being kept in the history. Overrides the agent's
+    /// ephemeralConversations setting; omit to use it. (optional)
     /// - returns: [String: AnyCodable]
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func createAgentCompletion(
@@ -360,6 +363,7 @@ open class AgentStudioClient {
         memory: Bool? = nil,
         analytics: Bool? = nil,
         xAlgoliaSecureUserToken: String? = nil,
+        ephemeral: Bool? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws -> [String: AnyCodable] {
         let response: Response<[String: AnyCodable]> = try await createAgentCompletionWithHTTPInfo(
@@ -371,6 +375,7 @@ open class AgentStudioClient {
             memory: memory,
             analytics: analytics,
             xAlgoliaSecureUserToken: xAlgoliaSecureUserToken,
+            ephemeral: ephemeral,
             requestOptions: requestOptions
         )
 
@@ -403,6 +408,10 @@ open class AgentStudioClient {
     // offline-eval workflows. (optional, default to true)
     //
     // - parameter xAlgoliaSecureUserToken: (header) The X-Algolia-Secure-User-Token. (optional)
+    //
+    // - parameter ephemeral: (query) Set to true to not retain the conversation: it is processed and analyzed like any
+    // other, but removed by the next cleanup run instead of being kept in the history. Overrides the agent's
+    // ephemeralConversations setting; omit to use it. (optional)
     // - returns: RequestBuilder<[String: AnyCodable]>
 
     open func createAgentCompletionWithHTTPInfo(
@@ -414,6 +423,7 @@ open class AgentStudioClient {
         memory: Bool? = nil,
         analytics: Bool? = nil,
         xAlgoliaSecureUserToken: String? = nil,
+        ephemeral: Bool? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<[String: AnyCodable]> {
         guard !agentId.isEmpty else {
@@ -437,6 +447,7 @@ open class AgentStudioClient {
             "cache": cache?.encodeToJSON(),
             "memory": memory?.encodeToJSON(),
             "analytics": analytics?.encodeToJSON(),
+            "ephemeral": ephemeral?.encodeToJSON(),
         ]
 
         let nillableHeaders: [String: Any?]? = [
@@ -1024,18 +1035,22 @@ open class AgentStudioClient {
     /// - parameter agentId: (path) The agentId.
     /// - parameter startDate: (query) Filter conversations created after this date (format: YYYY-MM-DD). (optional)
     /// - parameter endDate: (query) Filter conversations created before this date (format: YYYY-MM-DD). (optional)
+    /// - parameter ephemeral: (query) Filter by ephemeral (not retained) conversations; omit to include both.
+    /// (optional)
     /// - returns: Void
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteAgentConversations(
         agentId: String,
         startDate: String? = nil,
         endDate: String? = nil,
+        ephemeral: Bool? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws {
         try await self.deleteAgentConversationsWithHTTPInfo(
             agentId: agentId,
             startDate: startDate,
             endDate: endDate,
+            ephemeral: ephemeral,
             requestOptions: requestOptions
         )
     }
@@ -1049,12 +1064,16 @@ open class AgentStudioClient {
     /// - parameter startDate: (query) Filter conversations created after this date (format: YYYY-MM-DD). (optional)
     ///
     /// - parameter endDate: (query) Filter conversations created before this date (format: YYYY-MM-DD). (optional)
+    ///
+    /// - parameter ephemeral: (query) Filter by ephemeral (not retained) conversations; omit to include both.
+    /// (optional)
     /// - returns: RequestBuilder<Void>
     @discardableResult
     open func deleteAgentConversationsWithHTTPInfo(
         agentId: String,
         startDate: String? = nil,
         endDate: String? = nil,
+        ephemeral: Bool? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<AnyCodable> {
         guard !agentId.isEmpty else {
@@ -1075,6 +1094,7 @@ open class AgentStudioClient {
         let queryParameters: [String: Any?] = [
             "startDate": startDate?.encodeToJSON(),
             "endDate": endDate?.encodeToJSON(),
+            "ephemeral": ephemeral?.encodeToJSON(),
         ]
 
         let nillableHeaders: [String: Any?]? = nil
@@ -1395,18 +1415,22 @@ open class AgentStudioClient {
     /// - parameter agentId: (path) The agentId.
     /// - parameter startDate: (query) Filter conversations created after this date (format: YYYY-MM-DD). (optional)
     /// - parameter endDate: (query) Filter conversations created before this date (format: YYYY-MM-DD). (optional)
+    /// - parameter ephemeral: (query) Filter by ephemeral (not retained) conversations; omit to include both.
+    /// (optional)
     /// - returns: [ConversationFullResponse]
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func exportConversations(
         agentId: String,
         startDate: String? = nil,
         endDate: String? = nil,
+        ephemeral: Bool? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws -> [ConversationFullResponse] {
         let response: Response<[ConversationFullResponse]> = try await exportConversationsWithHTTPInfo(
             agentId: agentId,
             startDate: startDate,
             endDate: endDate,
+            ephemeral: ephemeral,
             requestOptions: requestOptions
         )
 
@@ -1426,12 +1450,15 @@ open class AgentStudioClient {
     // - parameter startDate: (query) Filter conversations created after this date (format: YYYY-MM-DD). (optional)
     //
     // - parameter endDate: (query) Filter conversations created before this date (format: YYYY-MM-DD). (optional)
+    //
+    // - parameter ephemeral: (query) Filter by ephemeral (not retained) conversations; omit to include both. (optional)
     // - returns: RequestBuilder<[ConversationFullResponse]>
 
     open func exportConversationsWithHTTPInfo(
         agentId: String,
         startDate: String? = nil,
         endDate: String? = nil,
+        ephemeral: Bool? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<[ConversationFullResponse]> {
         guard !agentId.isEmpty else {
@@ -1452,6 +1479,7 @@ open class AgentStudioClient {
         let queryParameters: [String: Any?] = [
             "startDate": startDate?.encodeToJSON(),
             "endDate": endDate?.encodeToJSON(),
+            "ephemeral": ephemeral?.encodeToJSON(),
         ]
 
         let nillableHeaders: [String: Any?]? = nil
@@ -2088,6 +2116,8 @@ open class AgentStudioClient {
     /// - parameter converted: (query) Filter by conversations with at least one conversion. (optional)
     /// - parameter hasAlgoliaSearch: (query) Filter by conversations where the search tool was used. (optional)
     /// - parameter xAlgoliaSecureUserToken: (header) The X-Algolia-Secure-User-Token. (optional)
+    /// - parameter ephemeral: (query) Filter by ephemeral (not retained) conversations; omit to include both.
+    /// (optional)
     /// - returns: PaginatedConversationsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func listAgentConversations(
@@ -2103,6 +2133,7 @@ open class AgentStudioClient {
         converted: Bool? = nil,
         hasAlgoliaSearch: Bool? = nil,
         xAlgoliaSecureUserToken: String? = nil,
+        ephemeral: Bool? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws -> PaginatedConversationsResponse {
         let response: Response<PaginatedConversationsResponse> = try await listAgentConversationsWithHTTPInfo(
@@ -2118,6 +2149,7 @@ open class AgentStudioClient {
             converted: converted,
             hasAlgoliaSearch: hasAlgoliaSearch,
             xAlgoliaSecureUserToken: xAlgoliaSecureUserToken,
+            ephemeral: ephemeral,
             requestOptions: requestOptions
         )
 
@@ -2156,6 +2188,8 @@ open class AgentStudioClient {
     // - parameter hasAlgoliaSearch: (query) Filter by conversations where the search tool was used. (optional)
     //
     // - parameter xAlgoliaSecureUserToken: (header) The X-Algolia-Secure-User-Token. (optional)
+    //
+    // - parameter ephemeral: (query) Filter by ephemeral (not retained) conversations; omit to include both. (optional)
     // - returns: RequestBuilder<PaginatedConversationsResponse>
 
     open func listAgentConversationsWithHTTPInfo(
@@ -2171,6 +2205,7 @@ open class AgentStudioClient {
         converted: Bool? = nil,
         hasAlgoliaSearch: Bool? = nil,
         xAlgoliaSecureUserToken: String? = nil,
+        ephemeral: Bool? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<PaginatedConversationsResponse> {
         guard !agentId.isEmpty else {
@@ -2199,6 +2234,7 @@ open class AgentStudioClient {
             "clicked": clicked?.encodeToJSON(),
             "converted": converted?.encodeToJSON(),
             "hasAlgoliaSearch": hasAlgoliaSearch?.encodeToJSON(),
+            "ephemeral": ephemeral?.encodeToJSON(),
         ]
 
         let nillableHeaders: [String: Any?]? = [
@@ -2267,6 +2303,45 @@ open class AgentStudioClient {
             "limit": limit?.encodeToJSON(),
             "providerId": providerId?.encodeToJSON(),
         ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(
+                headers: headers,
+                queryParameters: queryParameters
+            ) + userRequestOptions
+        )
+    }
+
+    /// - returns: ConversationUsageResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func listConversationUsage(requestOptions: RequestOptions? = nil) async throws -> ConversationUsageResponse {
+        let response: Response<ConversationUsageResponse> =
+            try await listConversationUsageWithHTTPInfo(requestOptions: requestOptions)
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Live conversations counted against the per-application limit.
+    // Required API Key ACLs:
+    //  - logs
+    //     - returns: RequestBuilder<ConversationUsageResponse>
+
+    open func listConversationUsageWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil) async throws
+    -> Response<ConversationUsageResponse> {
+        let resourcePath = "/agent-studio/1/configuration/conversation-usage"
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?]? = nil
 
         let nillableHeaders: [String: Any?]? = nil
 

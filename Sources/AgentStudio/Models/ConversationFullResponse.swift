@@ -25,6 +25,7 @@ public struct ConversationFullResponse: Codable, JSONEncodable {
     public var impactAnalytics: ImpactAnalytics?
     public var messages: [MessageResponse]
     public var analyticsDegraded: Bool?
+    public var isEphemeral: Bool?
 
     public init(
         id: String,
@@ -43,7 +44,8 @@ public struct ConversationFullResponse: Codable, JSONEncodable {
         feedback: [FeedbackResponse]? = nil,
         impactAnalytics: ImpactAnalytics? = nil,
         messages: [MessageResponse],
-        analyticsDegraded: Bool? = nil
+        analyticsDegraded: Bool? = nil,
+        isEphemeral: Bool? = nil
     ) {
         self.id = id
         self.agentId = agentId
@@ -62,6 +64,7 @@ public struct ConversationFullResponse: Codable, JSONEncodable {
         self.impactAnalytics = impactAnalytics
         self.messages = messages
         self.analyticsDegraded = analyticsDegraded
+        self.isEphemeral = isEphemeral
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -82,6 +85,7 @@ public struct ConversationFullResponse: Codable, JSONEncodable {
         case impactAnalytics
         case messages
         case analyticsDegraded
+        case isEphemeral
     }
 
     // Encodable protocol methods
@@ -105,6 +109,7 @@ public struct ConversationFullResponse: Codable, JSONEncodable {
         try container.encodeIfPresent(self.impactAnalytics, forKey: .impactAnalytics)
         try container.encode(self.messages, forKey: .messages)
         try container.encodeIfPresent(self.analyticsDegraded, forKey: .analyticsDegraded)
+        try container.encodeIfPresent(self.isEphemeral, forKey: .isEphemeral)
     }
 }
 
@@ -129,5 +134,6 @@ extension ConversationFullResponse: Hashable {
         hasher.combine(self.impactAnalytics?.hashValue)
         hasher.combine(self.messages.hashValue)
         hasher.combine(self.analyticsDegraded?.hashValue)
+        hasher.combine(self.isEphemeral?.hashValue)
     }
 }
