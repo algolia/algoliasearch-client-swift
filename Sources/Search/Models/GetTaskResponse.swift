@@ -8,13 +8,18 @@ import Foundation
 
 public struct GetTaskResponse: Codable, JSONEncodable {
     public var status: SearchTaskStatus
+    /// Indicates whether the index has pending tasks. This value is deprecated and always `false`. Don't use it.
+    @available(*, deprecated, message: "This property is deprecated.")
+    public var pendingTask: Bool?
 
-    public init(status: SearchTaskStatus) {
+    public init(status: SearchTaskStatus, pendingTask: Bool? = nil) {
         self.status = status
+        self.pendingTask = pendingTask
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case status
+        case pendingTask
     }
 
     // Encodable protocol methods
@@ -22,6 +27,7 @@ public struct GetTaskResponse: Codable, JSONEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.status, forKey: .status)
+        try container.encodeIfPresent(self.pendingTask, forKey: .pendingTask)
     }
 }
 
@@ -30,5 +36,6 @@ extension GetTaskResponse: Equatable {}
 extension GetTaskResponse: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.status.hashValue)
+        hasher.combine(self.pendingTask?.hashValue)
     }
 }
