@@ -106,9 +106,14 @@ public extension SearchClient {
 
         if waitForTasks {
             for response in responses {
-                guard let eventID = response.eventID else { continue }
+                guard let eventID = response.eventID else {
+                    throw AlgoliaError.runtimeError(
+                        "received unexpected response from the push endpoint, eventID must not be undefined"
+                    )
+                }
                 try await waitForIngestionEvent(
                     ingestionClient: ingestionClient,
+                    indexName: indexName,
                     runID: response.runID,
                     eventID: eventID,
                     maxRetries: chunkedOptions.maxRetries,
@@ -306,6 +311,7 @@ public extension SearchClient {
 
 private func waitForIngestionEvent(
     ingestionClient: IngestionClient,
+    indexName: String,
     runID: String,
     eventID: String,
     maxRetries: Int = ChunkedHelperOptions.defaultMaxRetries,
@@ -314,9 +320,10 @@ private func waitForIngestionEvent(
     var retryCount = 0
 
     _ = try await createIterable(
-        execute: { _ in
+        execute: { (_: IngestionEvent??) -> IngestionEvent? in
+            let event: IngestionEvent
             do {
-                return try await ingestionClient.getEvent(
+                event = try await ingestionClient.getEvent(
                     runID: runID,
                     eventID: eventID,
                     requestOptions: requestOptions
@@ -324,9 +331,31 @@ private func waitForIngestionEvent(
             } catch let AlgoliaError.httpError(error) where error.statusCode == 404 {
                 return nil
             }
+
+            switch event.status {
+            case .none, .created, .started, .retried, .succeeded:
+                return event
+            case let .some(status):
+                var reason = ""
+                if let message = event.data?["message"]?.value as? String, !message.isEmpty {
+                    reason = ": \(message)"
+                }
+                throw AlgoliaError.runtimeError(
+                    "ingestion push to index \(indexName) did not succeed: event \(eventID) of run \(runID) has status \(status.rawValue)\(reason)"
+                )
+            }
         },
         validate: { response in
-            response != nil
+            guard let response else {
+                return false
+            }
+
+            switch response.status {
+            case .none, .succeeded:
+                return true
+            default:
+                return false
+            }
         },
         aggregator: { _ in
             retryCount += 1
