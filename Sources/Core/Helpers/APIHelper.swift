@@ -88,20 +88,18 @@ public enum APIHelper {
                             )
                         )
                     }
-                } else if let value = item.value {
-                    if let encodedKey = item.key.addingPercentEncoding(
-                        withAllowedCharacters: .urlPathAlgoliaAllowed
-                    ) {
-                        result.append(
-                            URLQueryItem(
-                                name: encodedKey,
-                                value: self.convertAnyToString(value)?
-                                    .addingPercentEncoding(
-                                        withAllowedCharacters: .urlPathAlgoliaAllowed
-                                    )
-                            )
+                } else if let value = item.value, let encodedKey = item.key.addingPercentEncoding(
+                    withAllowedCharacters: .urlPathAlgoliaAllowed
+                ) {
+                    result.append(
+                        URLQueryItem(
+                            name: encodedKey,
+                            value: self.convertAnyToString(value)?
+                                .addingPercentEncoding(
+                                    withAllowedCharacters: .urlPathAlgoliaAllowed
+                                )
                         )
-                    }
+                    )
                 }
             }
 

@@ -35,21 +35,21 @@ struct DecodingErrorPrettyPrinter: CustomStringConvertible, CustomDebugStringCon
     private func additionalComponents(for _: DecodingError) -> [String] {
         switch self.decodingError {
         case let .valueNotFound(_, context):
-            return [self.codingPathDescription(context.codingPath), context.debugDescription]
+            [self.codingPathDescription(context.codingPath), context.debugDescription]
 
         case let .keyNotFound(key, context):
-            return [
+            [
                 self.codingPathDescription(context.codingPath), "Key not found: \(self.codingKeyDescription(key))",
             ]
 
         case let .typeMismatch(type, context):
-            return [self.codingPathDescription(context.codingPath), "Type mismatch. Expected: \(type)"]
+            [self.codingPathDescription(context.codingPath), "Type mismatch. Expected: \(type)"]
 
         case let .dataCorrupted(context):
-            return [self.codingPathDescription(context.codingPath), context.debugDescription]
+            [self.codingPathDescription(context.codingPath), context.debugDescription]
 
         @unknown default:
-            return [self.decodingError.localizedDescription]
+            [self.decodingError.localizedDescription]
         }
     }
 }

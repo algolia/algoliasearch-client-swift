@@ -7,9 +7,9 @@ import Foundation
 #endif
 
 public struct HTTPValidationError: Codable, JSONEncodable {
-    public var detail: [ValidationError]?
+    public var detail: [ModelValidationError]?
 
-    public init(detail: [ValidationError]? = nil) {
+    public init(detail: [ModelValidationError]? = nil) {
         self.detail = detail
     }
 

@@ -6,7 +6,7 @@ import Foundation
     import AlgoliaCore
 #endif
 
-public struct ValidationError: Codable, JSONEncodable {
+public struct ModelValidationError: Codable, JSONEncodable {
     public var loc: [LocationItemUnion]
     public var msg: String
     public var type: String
@@ -33,9 +33,9 @@ public struct ValidationError: Codable, JSONEncodable {
     }
 }
 
-extension ValidationError: Equatable {}
+extension ModelValidationError: Equatable {}
 
-extension ValidationError: Hashable {
+extension ModelValidationError: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.loc.hashValue)
         hasher.combine(self.msg.hashValue)

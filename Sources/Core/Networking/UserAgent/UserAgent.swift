@@ -63,17 +63,17 @@ extension UserAgent {
 
     private static var osName: String? {
         #if os(iOS)
-            return "iOS"
+            "iOS"
         #elseif os(OSX)
-            return "macOS"
+            "macOS"
         #elseif os(tvOS)
-            return "tvOS"
+            "tvOS"
         #elseif os(watchOS)
-            return "watchOS"
+            "watchOS"
         #elseif os(Linux)
-            return "Linux"
+            "Linux"
         #else
-            return nil
+            nil
         #endif
     }
 }
